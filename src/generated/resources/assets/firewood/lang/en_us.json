@@ -1,0 +1,18 @@
+{
+  "block.firewood.spiritual_fire_block": "Spiritual Fire",
+  "config.firewood.fired_flesh": "Settings for the Fired Flesh",
+  "config.firewood.fired_flesh.damage": "Fired Flesh Damage in each level",
+  "config.firewood.fired_flesh.interval": "Fired Flesh damage interval (tick)",
+  "config.firewood.fired_spirit": "Settings for the Fired Spirit",
+  "config.firewood.fired_spirit.damage": "Fired Spirit Damage in each level",
+  "config.firewood.fired_spirit.interval": "Fired Spirit damage interval (tick)",
+  "death.attack.fleshyFire": "%s's flesh is burned to ashes.",
+  "death.attack.fleshyFire.player": "%1$s's flesh is burned to ashes by %2$s's conspiracy.",
+  "death.attack.spiritualFire": "%s's spirit is burned to ashes.",
+  "death.attack.spiritualFire.player": "%1$s's spirit is burned to ashes by %2$s's conspiracy.",
+  "item.firewood.tinder_item": "Tinder",
+  "itemGroup.firewood": "Firewood",
+  "tooltip.firewood.tinder_item.major_effect": "\u00A7lMajor Effect: ",
+  "tooltip.firewood.tinder_item.major_effect.potion": "Potion: %s",
+  "tooltip.firewood.tinder_item.minor_effect": "\u00A7lMinor Effect: "
+}

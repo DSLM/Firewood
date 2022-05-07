@@ -1,0 +1,103 @@
+package com.dslm.firewood.datagen;
+
+import com.dslm.firewood.Firewood;
+import com.dslm.firewood.Register;
+import net.minecraft.data.DataGenerator;
+import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.level.block.Block;
+
+import java.util.HashMap;
+
+public class LanguageUtil
+{
+    public static HashMap<String, String> StringKey_en = new HashMap<>();
+    public static HashMap<String, String> StringKey_zh = new HashMap<>();
+    
+    public static HashMap<Item, String> ItemKey_en = new HashMap<>();
+    public static HashMap<Item, String> ItemKey_zh = new HashMap<>();
+    
+    public static HashMap<Block, String> BlockKey_en = new HashMap<>();
+    public static HashMap<Block, String> BlockKey_zh = new HashMap<>();
+    
+    public static HashMap<MobEffect, String> MobEffectKey_en = new HashMap<>();
+    public static HashMap<MobEffect, String> MobEffectKey_zh = new HashMap<>();
+    
+    public static void buildLanguage(DataGenerator generator)
+    {
+        //group
+        add("itemGroup." + Firewood.MOD_ID, "Firewood", "薪火");
+        
+        //block
+        add(Register.SPIRITUAL_FIRE_BLOCK.get(), "Spiritual Fire", "灵性之火");
+        
+        //item
+        add(Register.TINDER_ITEM.get(), "Tinder", "火种");
+        
+        //mob effect
+//        add(Register.FIRED_SPIRIT.get(), "Fired Spirit", "燃烧之魂");
+//        add(Register.FIRED_FLESH.get(), "Fired Flesh", "燃烧之躯");
+        
+        //death
+        add("death.attack.spiritualFire",
+                "%s\'s spirit is burned to ashes.", "%s的灵魂被烧成了灰烬。");
+        add("death.attack.spiritualFire.player",
+                "%1$s\'s spirit is burned to ashes by %2$s\'s conspiracy.", "%2$s的阴谋将%1$s的灵魂烧成了灰烬。");
+        add("death.attack.fleshyFire",
+                "%s\'s flesh is burned to ashes.", "%s的躯体被烧成了灰烬。");
+        add("death.attack.fleshyFire.player",
+                "%1$s\'s flesh is burned to ashes by %2$s\'s conspiracy.", "%2$s的阴谋将%1$s的躯体烧成了灰烬。");
+        
+        //config
+//        add("config.firewood.fired_spirit", "Settings for the Fired Spirit", "燃烧之魂设置");
+//        add("config.firewood.fired_spirit.damage", "Fired Spirit Damage in each level", "每级燃烧之魂伤害");
+//        add("config.firewood.fired_spirit.interval", "Fired Spirit damage interval (tick)", "燃烧之魂伤害间隔（刻）");
+//        add("config.firewood.fired_flesh", "Settings for the Fired Flesh", "燃烧之躯设置");
+//        add("config.firewood.fired_flesh.damage", "Fired Flesh Damage in each level", "每级燃烧之躯伤害");
+//        add("config.firewood.fired_flesh.interval", "Fired Flesh damage interval (tick)", "燃烧之躯伤害间隔（刻）");
+        add("config.firewood.spiritual_fire_block_effects",
+                "Settings for the Spiritual Fire Block Effects", "灵性之火效果设置");
+        add("config.firewood.spiritual_fire_block_effects.major",
+                "Settings for the Major Effects", "主要效果设置");
+        add("config.firewood.spiritual_fire_block_effects.major.potion",
+                "Settings for the Potion Effects", "药水效果设置");
+        add("config.firewood.spiritual_fire_block_effects.major.potion.base_damage",
+                "the base damage for trigger a potion effect", "触发一个药水效果时造成的基础伤害");
+        
+        //tooltip
+        add("tooltip." + Firewood.MOD_ID + "." + Register.TINDER_ITEM.get() + ".major_effect",
+                "§lMajor Effect: ", "§l主要效果：");
+        add("tooltip." + Firewood.MOD_ID + "." + Register.TINDER_ITEM.get() + ".major_effect.potion",
+                "Potion: %s", "药水：%s");
+        add("tooltip." + Firewood.MOD_ID + "." + Register.TINDER_ITEM.get() + ".minor_effect",
+                "§lMinor Effect: ", "§l次要效果：");
+        
+        //start generation
+        generator.addProvider(new LanguageProvider(generator, "en_us"));
+        generator.addProvider(new LanguageZhProvider(generator, "zh_cn"));
+    }
+    
+    public static void add(String key, String en, String zh)
+    {
+        StringKey_en.put(key, en);
+        StringKey_zh.put(key, zh);
+    }
+    
+    public static void add(Item key, String en, String zh)
+    {
+        ItemKey_en.put(key, en);
+        ItemKey_zh.put(key, zh);
+    }
+    
+    public static void add(Block key, String en, String zh)
+    {
+        BlockKey_en.put(key, en);
+        BlockKey_zh.put(key, zh);
+    }
+    
+    public static void add(MobEffect key, String en, String zh)
+    {
+        MobEffectKey_en.put(key, en);
+        MobEffectKey_zh.put(key, zh);
+    }
+}

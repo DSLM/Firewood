@@ -1,0 +1,34 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "minecraft:tinder_item"
+    ]
+  },
+  "criteria": {
+    "has_bush": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "minecraft:dead_bush"
+            ]
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "minecraft:tinder_item"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_bush",
+      "has_the_recipe"
+    ]
+  ]
+}
