@@ -24,6 +24,10 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider
                 .campfireCooking(Ingredient.of(Items.DEAD_BUSH), Register.TINDER_ITEM.get(), 0, 100 * 20)
                 .unlockedBy("has_bush", has(Items.DEAD_BUSH))
                 .save(consumer, "tinder_item");
-        
+        SimpleCookingRecipeBuilder
+                .blasting(Ingredient.of(Items.DEAD_BUSH), Register.DYING_EMBER_ITEM.get(), 0, 100 * 20)
+                .unlockedBy("has_bush", has(Items.DEAD_BUSH))
+                .save(consumer, "dying_ember_item");
+    
     }
 }

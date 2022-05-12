@@ -1,5 +1,8 @@
 {
   "type": "firewood:crafting_potion_tinder",
   "potion": "minecraft:potion",
-  "tinder": "firewood:tinder_item"
+  "tinder": "firewood:tinder_item",
+  "others": [
+    "minecraft:string"
+  ]
 }

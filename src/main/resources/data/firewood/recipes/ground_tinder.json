@@ -1,0 +1,7 @@
+{
+  "type": "firewood:crafting_ground_tinder",
+  "tinder": "firewood:tinder_item",
+  "others": [
+    "minecraft:stick"
+  ]
+}

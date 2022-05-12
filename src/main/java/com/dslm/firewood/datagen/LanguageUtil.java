@@ -33,6 +33,7 @@ public class LanguageUtil
         
         //item
         add(Register.TINDER_ITEM.get(), "Tinder", "火种");
+        add(Register.DYING_EMBER_ITEM.get(), "Dying Ember", "余烬");
         
         //mob effect
 //        add(Register.FIRED_SPIRIT.get(), "Fired Spirit", "燃烧之魂");
@@ -63,15 +64,19 @@ public class LanguageUtil
                 "Settings for the Potion Effects", "药水效果设置");
         add("config.firewood.spiritual_fire_block_effects.major.potion.base_damage",
                 "the base damage for trigger a potion effect", "触发一个药水效果时造成的基础伤害");
-        
+    
         //tooltip
+        add(String.format("tooltip.%s.%s.%s", Firewood.MOD_ID, Register.DYING_EMBER_ITEM.get(), "1"),
+                "A relic of the past...... ", "过去残存之事物……");
         add("tooltip." + Firewood.MOD_ID + "." + Register.TINDER_ITEM.get() + ".major_effect",
                 "§lMajor Effect: ", "§l主要效果：");
         add("tooltip." + Firewood.MOD_ID + "." + Register.TINDER_ITEM.get() + ".major_effect.potion",
                 "Potion: %s", "药水：%s");
         add("tooltip." + Firewood.MOD_ID + "." + Register.TINDER_ITEM.get() + ".minor_effect",
                 "§lMinor Effect: ", "§l次要效果：");
-        
+        add("tooltip." + Firewood.MOD_ID + "." + Register.TINDER_ITEM.get() + ".minor_effect.ground",
+                "Ground: %s", "基底：%s");
+    
         //start generation
         generator.addProvider(new LanguageProvider(generator, "en_us"));
         generator.addProvider(new LanguageZhProvider(generator, "zh_cn"));

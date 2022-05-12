@@ -1,19 +1,17 @@
 package com.dslm.firewood.block;
 
-import com.dslm.firewood.Register;
 import com.dslm.firewood.blockEntity.SpiritualFireBlockEntity;
-import com.dslm.firewood.fireEffectHelper.FireEffectHelperBase;
-import com.dslm.firewood.fireEffectHelper.FireEffectHelpers;
+import com.dslm.firewood.fireEffectHelper.GroundFireEffectHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BaseFireBlock;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -37,34 +35,28 @@ public class SpiritualFireBlock extends BaseFireBlock implements EntityBlock
         return true;
     }
     
-    public BlockState getStateForPlacement(Level level, BlockPos pPos)
+    public static boolean canBePlacedOn(Level level, BlockPos pos, Block validGround)
     {
-        return this.defaultBlockState();
+        BlockState blockstate = level.getBlockState(pos.below());
+        return blockstate.getBlock() == validGround;
     }
     
-    public static boolean canBePlacedAt(Level pLevel, BlockPos pPos, Direction pDirection)
+    public static boolean canBePlacedAt(Level pLevel, BlockPos pos)
     {
-        // TODO: 2022/5/9 判断火焰基底 
-        BlockState blockstate = pLevel.getBlockState(pPos);
-        if(!blockstate.isAir())
-        {
-            return false;
-        } else
-        {
-            return true;
-        }
+        BlockState blockstate = pLevel.getBlockState(pos);
+        return blockstate.isAir();
     }
     
     @Override
-    public RenderShape getRenderShape(BlockState pState)
+    public RenderShape getRenderShape(BlockState state)
     {
         return RenderShape.MODEL;
     }
     
-    public InteractionResult use(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand, BlockHitResult pHit)
+    public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit)
     {
         
-        return super.use(pState, pLevel, pPos, pPlayer, pHand, pHit);
+        return super.use(state, level, pos, player, hand, hit);
     }
     
     @Nullable

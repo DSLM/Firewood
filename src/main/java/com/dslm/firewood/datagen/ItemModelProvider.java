@@ -18,5 +18,8 @@ public class ItemModelProvider extends net.minecraftforge.client.model.generator
         singleTexture(Register.TINDER_ITEM.get().getRegistryName().getPath(),
                 mcLoc("item/generated"),
                 "layer0", modLoc("item/tinder_item"));
+        singleTexture(Register.DYING_EMBER_ITEM.get().getRegistryName().getPath(),
+                mcLoc("item/generated"),
+                "layer0", modLoc("item/dying_ember_item"));
     }
 }

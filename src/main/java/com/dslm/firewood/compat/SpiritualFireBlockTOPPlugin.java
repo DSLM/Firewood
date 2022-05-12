@@ -5,7 +5,6 @@ import mcjty.theoneprobe.api.IProbeHitData;
 import mcjty.theoneprobe.api.IProbeInfo;
 import mcjty.theoneprobe.api.ProbeMode;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -13,7 +12,6 @@ import net.minecraft.world.level.block.state.BlockState;
 
 import java.util.ArrayList;
 
-import static com.dslm.firewood.Firewood.LOGGER;
 import static com.dslm.firewood.fireEffectHelper.FireEffectHelpers.fireTooltips;
 
 

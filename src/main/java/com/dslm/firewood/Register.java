@@ -3,12 +3,12 @@ package com.dslm.firewood;
 import com.dslm.firewood.block.SpiritualFireBlock;
 import com.dslm.firewood.blockEntity.SpiritualFireBlockEntity;
 import com.dslm.firewood.compat.SpiritualFireBlockTOPPlugin;
+import com.dslm.firewood.item.DyingEmberItem;
 import com.dslm.firewood.item.TinderItem;
+import com.dslm.firewood.recipe.GroundTinderRecipe;
 import com.dslm.firewood.recipe.PotionTinderRecipe;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffect;
-import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -38,6 +38,8 @@ public class Register
     
     public static final RegistryObject<RecipeSerializer<PotionTinderRecipe>> POTION_TINDER_RECIPE_SERIALIZER =
             RECIPE_SERIALIZERS.register("crafting_potion_tinder", PotionTinderRecipe.Serializer::new);
+    public static final RegistryObject<RecipeSerializer<GroundTinderRecipe>> GROUND_TINDER_RECIPE_SERIALIZER =
+            RECIPE_SERIALIZERS.register("crafting_ground_tinder", GroundTinderRecipe.Serializer::new);
     
     public static CreativeModeTab CREATIVE_MODE_TAB = new CreativeModeTab(Firewood.MOD_ID)
     {
@@ -53,15 +55,21 @@ public class Register
     public static final DamageSource FLESHY_FIRE_DAMAGE = (new DamageSource("fleshyFire")).bypassArmor().bypassMagic().setMagic();
     
     public static final RegistryObject<Block> SPIRITUAL_FIRE_BLOCK = BLOCKS.register("spiritual_fire_block",
-            () -> new SpiritualFireBlock(BlockBehaviour.Properties.of(Material.FIRE).noCollission().instabreak().lightLevel((s) -> {
+            () -> new SpiritualFireBlock(BlockBehaviour.Properties.of(Material.FIRE).noCollission().strength(-1f).explosionResistance(3600000f).lightLevel((s) -> {
                 return 15;
             }).sound(SoundType.WOOL)));
+    
     public static final RegistryObject<Item> TINDER_ITEM = ITEMS.register("tinder_item",
             () -> new TinderItem(new Item.Properties().tab(CREATIVE_MODE_TAB)));
-    //    public static final RegistryObject<MobEffect> FIRED_SPIRIT = MOB_EFFECTS.register("fired_spirit",
+    
+    public static final RegistryObject<Item> DYING_EMBER_ITEM = ITEMS.register("dying_ember_item",
+            () -> new DyingEmberItem(new Item.Properties().tab(CREATIVE_MODE_TAB)));
+    
+//        public static final RegistryObject<MobEffect> FIRED_SPIRIT = MOB_EFFECTS.register("fired_spirit",
 //            () -> new FiredSpirit(MobEffectCategory.BENEFICIAL, 0xf47025));
 //    public static final RegistryObject<MobEffect> FIRED_FLESH = MOB_EFFECTS.register("fired_flesh",
 //            () -> new FiredFlesh(MobEffectCategory.BENEFICIAL, 0xf47025));
+    
     public static final RegistryObject<BlockEntityType<SpiritualFireBlockEntity>> SPIRITUAL_FIRE_BLOCK_ENTITY =
             BLOCK_ENTITIES.register("spiritual_fire_block_entity", () ->
                     BlockEntityType.Builder.of(SpiritualFireBlockEntity::new, SPIRITUAL_FIRE_BLOCK.get()).build(null));

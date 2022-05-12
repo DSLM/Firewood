@@ -1,27 +1,32 @@
 package com.dslm.firewood.item;
 
 import com.dslm.firewood.block.SpiritualFireBlock;
-import com.dslm.firewood.blockEntity.SpiritualFireBlockEntity;
+import com.dslm.firewood.fireEffectHelper.FireEffectHelpers;
+import com.dslm.firewood.fireEffectHelper.GroundFireEffectHelper;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.NonNullList;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.*;
+import net.minecraft.world.item.alchemy.Potion;
+import net.minecraft.world.item.alchemy.Potions;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
+import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nonnull;
+import java.util.HashMap;
 import java.util.List;
 
-import static com.dslm.firewood.Firewood.LOGGER;
 import static com.dslm.firewood.Register.SPIRITUAL_FIRE_BLOCK;
 import static com.dslm.firewood.fireEffectHelper.FireEffectHelpers.fireTooltips;
 
@@ -47,36 +52,59 @@ public class TinderItem extends Item
         Player player = pContext.getPlayer();
         Level level = pContext.getLevel();
         BlockPos blockpos = pContext.getClickedPos();
-        if(true)
+        BlockPos blockpos1 = blockpos.relative(pContext.getClickedFace());
+        ItemStack itemstack = pContext.getItemInHand();
+        if(!itemstack.hasTag())
         {
-            BlockPos blockpos1 = blockpos.relative(pContext.getClickedFace());
-            if(SpiritualFireBlock.canBePlacedAt(level, blockpos1, pContext.getHorizontalDirection()))
+            return InteractionResult.FAIL;
+        }
+    
+        Block validGround = GroundFireEffectHelper.getBlockByNBTs(itemstack.getTag());
+        if(SpiritualFireBlock.canBePlacedAt(level, blockpos1)
+                && SpiritualFireBlock.canBePlacedOn(level, blockpos1, validGround))
+        {
+            level.playSound(player, blockpos1, SoundEvents.FLINTANDSTEEL_USE, SoundSource.BLOCKS, 1.0F, level.getRandom().nextFloat() * 0.4F + 0.8F);
+            BlockState blockstate1 = SPIRITUAL_FIRE_BLOCK.get().defaultBlockState();
+            level.setBlock(blockpos1, blockstate1, 11);
+            level.gameEvent(player, GameEvent.BLOCK_PLACE, blockpos);
+        
+            level.getBlockEntity(blockpos1).load(itemstack.getOrCreateTag());
+            if(player instanceof ServerPlayer)
             {
-                level.playSound(player, blockpos1, SoundEvents.FLINTANDSTEEL_USE, SoundSource.BLOCKS, 1.0F, level.getRandom().nextFloat() * 0.4F + 0.8F);
-                BlockState blockstate1 = ((SpiritualFireBlock) SPIRITUAL_FIRE_BLOCK.get()).getStateForPlacement(level, blockpos1);
-                level.setBlock(blockpos1, blockstate1, 11);
-                level.gameEvent(player, GameEvent.BLOCK_PLACE, blockpos);
-            
-                ItemStack itemstack = pContext.getItemInHand();
-            
-                level.getBlockEntity(blockpos1).load(itemstack.getOrCreateTag());
-            
-                if(player instanceof ServerPlayer)
+                CriteriaTriggers.PLACED_BLOCK.trigger((ServerPlayer) player, blockpos1, itemstack);
+                if(!player.getAbilities().instabuild)
                 {
-                    // TODO: 2022/5/10 实现物品减少 
-                    CriteriaTriggers.PLACED_BLOCK.trigger((ServerPlayer) player, blockpos1, itemstack);
-                    if(!player.getAbilities().instabuild)
-                    {
-                        itemstack.shrink(1);
-                    }
+                    itemstack.shrink(1);
                 }
+            }
+        
+            return InteractionResult.sidedSuccess(level.isClientSide());
+        } else
+        {
+            return InteractionResult.FAIL;
+        }
+    }
+    
+    @Override
+    public void fillItemCategory(@Nonnull CreativeModeTab group, @Nonnull NonNullList<ItemStack> items)
+    {
+        if(allowdedIn(group))
+        {
+            items.add(new ItemStack(this));
             
-                return InteractionResult.sidedSuccess(level.isClientSide());
-            } else
+            for(Potion potion : ForgeRegistries.POTIONS)
             {
-                return InteractionResult.FAIL;
+                if(potion == Potions.EMPTY) continue;
+                
+                String potionId = potion.getRegistryName().toString();
+                ItemStack stack = FireEffectHelpers.addMajorEffect(new ItemStack(this), "potion", new HashMap<>()
+                {{
+                    put("potion", potionId);
+                }});
+                
+                if(!stack.isEmpty())
+                    items.add(stack);
             }
         }
-        return InteractionResult.sidedSuccess(level.isClientSide());
     }
 }

@@ -2,8 +2,6 @@ package com.dslm.firewood.config;
 
 import net.minecraftforge.common.ForgeConfigSpec;
 
-import java.util.ArrayList;
-
 public class SpiritualFireBlockEffectConfig
 {
     public static ForgeConfigSpec.DoubleValue POTION_BASE_DAMAGE;
