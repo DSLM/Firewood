@@ -1,6 +1,7 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "firewood:item/tinder_item"
+    "layer0": "firewood:item/tinder_item_base",
+    "layer1": "firewood:item/tinder_item_fire"
   }
 }

@@ -1,5 +1,6 @@
 package com.dslm.firewood.fireEffectHelper;
 
+import com.dslm.firewood.tooltip.MiddleComponent;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -17,7 +18,7 @@ import java.util.HashMap;
 import java.util.Set;
 import java.util.function.Function;
 
-import static com.dslm.firewood.config.SpiritualFireBlockEffectConfig.Teleport_BASE_DAMAGE;
+import static com.dslm.firewood.config.SpiritualFireBlockEffectConfig.TELEPORT_BASE_DAMAGE;
 import static com.dslm.firewood.fireEffectHelper.FireEffectHelpers.colorfulText;
 
 public class TeleportFireEffectHelper extends FireEffectHelperBase
@@ -73,17 +74,24 @@ public class TeleportFireEffectHelper extends FireEffectHelperBase
     @Override
     public float getDamage()
     {
-        return Teleport_BASE_DAMAGE.get().floatValue();
+        return TELEPORT_BASE_DAMAGE.get().floatValue();
     }
     
     @Override
-    public ArrayList<Component> getToolTips(HashMap<String, String> data, boolean extend)
+    public ArrayList<Component> getToolTips(HashMap<String, String> data, boolean extended)
     {
         ArrayList<Component> lines = new ArrayList<>();
-        lines.add(colorfulText(
-                new TranslatableComponent("tooltip.firewood.tinder_item.major_effect." + data.get("type"),
-                        data.get("dim"), data.get("posX"), data.get("posY"), data.get("posZ")),
-                color));
+        MiddleComponent mainLine = (MiddleComponent) colorfulText(
+                new MiddleComponent("tooltip.firewood.tinder_item.major_effect." + data.get("type")), color);
+        lines.add(mainLine);
+        if(extended)
+        {
+            lines.add(colorfulText(
+                    new TranslatableComponent("tooltip.firewood.tinder_item.major_effect." + data.get("type") + ".extend.1",
+                            data.get("dim"), data.get("posX"), data.get("posY"), data.get("posZ")),
+                    color));
+        }
+        mainLine.setDamage(getDamage());
         return lines;
     }
     

@@ -4,6 +4,9 @@
   "config.firewood.spiritual_fire_block_effects.major": "\u4E3B\u8981\u6548\u679C\u8BBE\u7F6E",
   "config.firewood.spiritual_fire_block_effects.major.potion": "\u836F\u6C34\u6548\u679C\u8BBE\u7F6E",
   "config.firewood.spiritual_fire_block_effects.major.potion.base_damage": "\u89E6\u53D1\u4E00\u4E2A\u836F\u6C34\u6548\u679C\u65F6\u9020\u6210\u7684\u57FA\u7840\u4F24\u5BB3",
+  "config.firewood.spiritual_fire_block_effects.major.teleport": "\u4F20\u9001\u6548\u679C\u8BBE\u7F6E",
+  "config.firewood.spiritual_fire_block_effects.major.teleport.base_damage": "\u89E6\u53D1\u4E00\u4E2A\u4F20\u9001\u6548\u679C\u65F6\u9020\u6210\u7684\u57FA\u7840\u4F24\u5BB3",
+  "config.firewood.spiritual_fire_block_effects.minor": "\u6B21\u8981\u6548\u679C\u8BBE\u7F6E",
   "death.attack.fleshyFire": "%s\u7684\u8EAF\u4F53\u88AB\u70E7\u6210\u4E86\u7070\u70EC\u3002",
   "death.attack.fleshyFire.player": "%2$s\u7684\u9634\u8C0B\u5C06%1$s\u7684\u8EAF\u4F53\u70E7\u6210\u4E86\u7070\u70EC\u3002",
   "death.attack.spiritualFire": "%s\u7684\u7075\u9B42\u88AB\u70E7\u6210\u4E86\u7070\u70EC\u3002",
@@ -12,9 +15,11 @@
   "item.firewood.tinder_item": "\u706B\u79CD",
   "itemGroup.firewood": "\u85AA\u706B",
   "tooltip.firewood.dying_ember_item.1": "\u8FC7\u53BB\u6B8B\u5B58\u4E4B\u4E8B\u7269\u2026\u2026",
+  "tooltip.firewood.dying_ember_item.2": "\u5750\u6807\uFF1A%1$s\uFF08%2$s\uFF0C%3$s\uFF0C%4$s\uFF09",
   "tooltip.firewood.tinder_item.major_effect": "\u00A7l\u4E3B\u8981\u6548\u679C\uFF1A",
   "tooltip.firewood.tinder_item.major_effect.potion": "\u836F\u6C34\uFF1A%s",
-  "tooltip.firewood.tinder_item.major_effect.teleport": "\u4F20\u9001\uFF1A%1$s\uFF08%2$s\uFF0C%3$s\uFF0C%4$s\uFF09",
+  "tooltip.firewood.tinder_item.major_effect.teleport": "\u4F20\u9001",
+  "tooltip.firewood.tinder_item.major_effect.teleport.extend.1": "\u4F20\u9001\u5230\uFF1A%1$s\uFF08%2$s\uFF0C%3$s\uFF0C%4$s\uFF09",
   "tooltip.firewood.tinder_item.minor_effect": "\u00A7l\u6B21\u8981\u6548\u679C\uFF1A",
   "tooltip.firewood.tinder_item.minor_effect.ground": "\u57FA\u5E95\uFF1A%s"
 }

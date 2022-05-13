@@ -3,6 +3,7 @@ package com.dslm.firewood;
 import com.dslm.firewood.block.SpiritualFireBlock;
 import com.dslm.firewood.blockEntity.SpiritualFireBlockEntity;
 import com.dslm.firewood.compat.SpiritualFireBlockTOPPlugin;
+import com.dslm.firewood.event.ForgeBusClientHandler;
 import com.dslm.firewood.item.DyingEmberItem;
 import com.dslm.firewood.item.TinderItem;
 import com.dslm.firewood.recipe.GroundTinderRecipe;
@@ -19,7 +20,9 @@ import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.material.Material;
+import net.minecraftforge.client.MinecraftForgeClient;
 import net.minecraftforge.client.event.ColorHandlerEvent;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -98,5 +101,6 @@ public class Register
         BLOCK_ENTITIES.register(bus);
         RECIPE_SERIALIZERS.register(bus);
         SpiritualFireBlockTOPPlugin.register();
+        ForgeBusClientHandler.register();
     }
 }

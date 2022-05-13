@@ -51,7 +51,6 @@ public class TinderItem extends Item
             extended = Screen.hasShiftDown();
         }
         super.appendHoverText(stack, level, tooltip, flag);
-        // TODO: 2022/5/10 实现拓展信息
         tooltip.addAll(fireTooltips(stack.getOrCreateTag(), extended));
     }
     

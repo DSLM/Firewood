@@ -1,7 +1,7 @@
 {
   "type": "minecraft:campfire_cooking",
   "ingredient": {
-    "item": "minecraft:dead_bush"
+    "item": "minecraft:stick"
   },
   "result": "firewood:tinder_item",
   "experience": 0.0,

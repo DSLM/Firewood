@@ -6,13 +6,13 @@
     ]
   },
   "criteria": {
-    "has_bush": {
+    "has_stick": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
             "items": [
-              "minecraft:dead_bush"
+              "minecraft:stick"
             ]
           }
         ]
@@ -27,7 +27,7 @@
   },
   "requirements": [
     [
-      "has_bush",
+      "has_stick",
       "has_the_recipe"
     ]
   ]

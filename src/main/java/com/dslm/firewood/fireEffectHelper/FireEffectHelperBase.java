@@ -25,7 +25,7 @@ abstract public class FireEffectHelperBase
     
     abstract public float getDamage();
     
-    abstract public ArrayList<Component> getToolTips(HashMap<String, String> data, boolean extend);
+    abstract public ArrayList<Component> getToolTips(HashMap<String, String> data, boolean extended);
     
     public CompoundTag getDefaultNBT()
     {

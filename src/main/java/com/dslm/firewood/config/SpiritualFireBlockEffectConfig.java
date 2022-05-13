@@ -5,7 +5,7 @@ import net.minecraftforge.common.ForgeConfigSpec;
 public class SpiritualFireBlockEffectConfig
 {
     public static ForgeConfigSpec.DoubleValue POTION_BASE_DAMAGE;
-    public static ForgeConfigSpec.DoubleValue Teleport_BASE_DAMAGE;
+    public static ForgeConfigSpec.DoubleValue TELEPORT_BASE_DAMAGE;
     
     public static void registerServerConfig(ForgeConfigSpec.Builder SERVER_BUILDER)
     {
@@ -35,7 +35,7 @@ public class SpiritualFireBlockEffectConfig
                 .comment("Settings for Teleport Effects")
                 //.translation("config.firewood.spiritual_fire_block_effects.major.teleport")
                 .push("spiritualFireMajorTeleport");
-        Teleport_BASE_DAMAGE = SERVER_BUILDER
+        TELEPORT_BASE_DAMAGE = SERVER_BUILDER
                 .comment("the base damage for trigger a teleport effect")
                 .translation("config.firewood.spiritual_fire_block_effects.major.teleport.base_damage")
                 .defineInRange("damage", 1.0, 0, Integer.MAX_VALUE);

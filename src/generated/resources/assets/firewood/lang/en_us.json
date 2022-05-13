@@ -4,6 +4,9 @@
   "config.firewood.spiritual_fire_block_effects.major": "Settings for the Major Effects",
   "config.firewood.spiritual_fire_block_effects.major.potion": "Settings for the Potion Effects",
   "config.firewood.spiritual_fire_block_effects.major.potion.base_damage": "the base damage for trigger a potion effect",
+  "config.firewood.spiritual_fire_block_effects.major.teleport": "Settings for the Teleport Effects",
+  "config.firewood.spiritual_fire_block_effects.major.teleport.base_damage": "the base damage for trigger a teleport effect",
+  "config.firewood.spiritual_fire_block_effects.minor": "Settings for the Minor Effects",
   "death.attack.fleshyFire": "%s's flesh is burned to ashes.",
   "death.attack.fleshyFire.player": "%1$s's flesh is burned to ashes by %2$s's conspiracy.",
   "death.attack.spiritualFire": "%s's spirit is burned to ashes.",
@@ -12,9 +15,11 @@
   "item.firewood.tinder_item": "Tinder",
   "itemGroup.firewood": "Firewood",
   "tooltip.firewood.dying_ember_item.1": "A relic of the past...... ",
+  "tooltip.firewood.dying_ember_item.2": "Coordinate: %1$s (%2$s, %3$s, %4$s)",
   "tooltip.firewood.tinder_item.major_effect": "\u00A7lMajor Effect: ",
   "tooltip.firewood.tinder_item.major_effect.potion": "Potion: %s",
-  "tooltip.firewood.tinder_item.major_effect.teleport": "Teleport: %1$s (%2$s, %3$s, %4$s)",
+  "tooltip.firewood.tinder_item.major_effect.teleport": "Teleport",
+  "tooltip.firewood.tinder_item.major_effect.teleport.extend.1": "Teleport to: %1$s (%2$s, %3$s, %4$s)",
   "tooltip.firewood.tinder_item.minor_effect": "\u00A7lMinor Effect: ",
   "tooltip.firewood.tinder_item.minor_effect.ground": "Ground: %s"
 }

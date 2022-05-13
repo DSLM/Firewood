@@ -64,16 +64,26 @@ public class LanguageUtil
                 "Settings for the Potion Effects", "药水效果设置");
         add("config.firewood.spiritual_fire_block_effects.major.potion.base_damage",
                 "the base damage for trigger a potion effect", "触发一个药水效果时造成的基础伤害");
+        add("config.firewood.spiritual_fire_block_effects.major.teleport",
+                "Settings for the Teleport Effects", "传送效果设置");
+        add("config.firewood.spiritual_fire_block_effects.major.teleport.base_damage",
+                "the base damage for trigger a teleport effect", "触发一个传送效果时造成的基础伤害");
+        add("config.firewood.spiritual_fire_block_effects.minor",
+                "Settings for the Minor Effects", "次要效果设置");
     
         //tooltip
         add(String.format("tooltip.%s.%s.%s", Firewood.MOD_ID, Register.DYING_EMBER_ITEM.get(), "1"),
                 "A relic of the past...... ", "过去残存之事物……");
+        add(String.format("tooltip.%s.%s.%s", Firewood.MOD_ID, Register.DYING_EMBER_ITEM.get(), "2"),
+                "Coordinate: %1$s (%2$s, %3$s, %4$s)", "坐标：%1$s（%2$s，%3$s，%4$s）");
         add("tooltip." + Firewood.MOD_ID + "." + Register.TINDER_ITEM.get() + ".major_effect",
                 "§lMajor Effect: ", "§l主要效果：");
         add("tooltip." + Firewood.MOD_ID + "." + Register.TINDER_ITEM.get() + ".major_effect.potion",
                 "Potion: %s", "药水：%s");
         add("tooltip." + Firewood.MOD_ID + "." + Register.TINDER_ITEM.get() + ".major_effect.teleport",
-                "Teleport: %1$s (%2$s, %3$s, %4$s)", "传送：%1$s（%2$s，%3$s，%4$s）");
+                "Teleport", "传送");
+        add("tooltip." + Firewood.MOD_ID + "." + Register.TINDER_ITEM.get() + ".major_effect.teleport.extend.1",
+                "Teleport to: %1$s (%2$s, %3$s, %4$s)", "传送到：%1$s（%2$s，%3$s，%4$s）");
         add("tooltip." + Firewood.MOD_ID + "." + Register.TINDER_ITEM.get() + ".minor_effect",
                 "§lMinor Effect: ", "§l次要效果：");
         add("tooltip." + Firewood.MOD_ID + "." + Register.TINDER_ITEM.get() + ".minor_effect.ground",

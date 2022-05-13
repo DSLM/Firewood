@@ -1,9 +1,11 @@
 package com.dslm.firewood.fireEffectHelper;
 
+import com.dslm.firewood.tooltip.MiddleComponent;
 import com.google.common.collect.Lists;
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.ChatFormatting;
 import net.minecraft.Util;
+import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -23,6 +25,7 @@ import net.minecraft.world.item.alchemy.Potion;
 import net.minecraft.world.item.alchemy.PotionUtils;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraftforge.client.gui.ForgeIngameGui;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.ArrayList;
@@ -68,17 +71,19 @@ public class PotionFireEffectHelper extends FireEffectHelperBase
     }
     
     @Override
-    public ArrayList<Component> getToolTips(HashMap<String, String> data, boolean extend)
+    public ArrayList<Component> getToolTips(HashMap<String, String> data, boolean extended)
     {
         ArrayList<Component> lines = new ArrayList<>();
         var name = new TranslatableComponent(
                 getPotion(data.get("potion")).getName(
                         Util.makeDescriptionId("item", Items.POTION.getRegistryName()) + ".effect."));
-        lines.add(colorfulText(
-                new TranslatableComponent("tooltip.firewood.tinder_item.major_effect." + data.get("type"),
+        MiddleComponent mainLine = (MiddleComponent) colorfulText(
+                new MiddleComponent("tooltip.firewood.tinder_item.major_effect." + data.get("type"),
                         name),
-                getPotionColor(data.get("potion"))));
-        if(extend)
+                getPotionColor(data.get("potion")));
+        mainLine.setDamage(getDamage());
+        lines.add(mainLine);
+        if(extended)
         {
             // TODO: 2022/5/13 实现药水削弱
             float pDurationFactor = 1f;

@@ -6,7 +6,9 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -33,7 +35,7 @@ public class DyingEmberItem extends Item
         tooltip.add(new TranslatableComponent("tooltip.firewood.dying_ember_item.1").withStyle(ChatFormatting.DARK_PURPLE).withStyle(ChatFormatting.ITALIC));
         if(stack.hasTag())
         {
-            tooltip.add(colorfulText(new TranslatableComponent("tooltip.firewood.dying_ember_item.1",
+            tooltip.add(colorfulText(new TranslatableComponent("tooltip.firewood.dying_ember_item.2",
                             stack.getTag().get("dim"),
                             stack.getTag().get("posX"),
                             stack.getTag().get("posY"),
@@ -43,20 +45,15 @@ public class DyingEmberItem extends Item
     }
     
     @Override
-    public InteractionResult useOn(UseOnContext pContext)
+    public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand pUsedHand)
     {
-        Player player = pContext.getPlayer();
-        Level level = pContext.getLevel();
-        if(player != null)
-        {
-            BlockPos blockpos = player.getOnPos();
-            ItemStack itemStack = pContext.getItemInHand();
-            CompoundTag component = itemStack.getOrCreateTag();
-            component.putString("dim", level.dimension().location().getPath());
-            component.putString("posX", String.valueOf(blockpos.getX()));
-            component.putString("posY", String.valueOf(blockpos.getY()));
-            component.putString("posZ", String.valueOf(blockpos.getZ()));
-        }
-        return InteractionResult.sidedSuccess(level.isClientSide());
+        BlockPos blockpos = new BlockPos(player.getPosition(0));
+        ItemStack itemStack = player.getItemInHand(pUsedHand);
+        CompoundTag component = itemStack.getOrCreateTag();
+        component.putString("dim", level.dimension().location().getPath());
+        component.putString("posX", String.valueOf(blockpos.getX()));
+        component.putString("posY", String.valueOf(blockpos.getY()));
+        component.putString("posZ", String.valueOf(blockpos.getZ()));
+        return InteractionResultHolder.success(player.getItemInHand(pUsedHand));
     }
 }

@@ -1,5 +1,6 @@
 package com.dslm.firewood.fireEffectHelper;
 
+import com.dslm.firewood.tooltip.MiddleComponent;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
@@ -86,14 +87,14 @@ public class GroundFireEffectHelper extends FireEffectHelperBase
     }
     
     @Override
-    public ArrayList<Component> getToolTips(HashMap<String, String> data, boolean extend)
+    public ArrayList<Component> getToolTips(HashMap<String, String> data, boolean extended)
     {
         ArrayList<Component> lines = new ArrayList<>();
         var name = getBlock(data.get("block")).getName();
-        lines.add(colorfulText(
-                new TranslatableComponent("tooltip.firewood.tinder_item.minor_effect." + data.get("type"),
-                        name),
-                color));
+        MiddleComponent mainLine = (MiddleComponent) colorfulText(
+                new MiddleComponent("tooltip.firewood.tinder_item.minor_effect." + data.get("type"), name), color);
+        lines.add(mainLine);
+        mainLine.setDamage(getDamage());
         return lines;
     }
     
