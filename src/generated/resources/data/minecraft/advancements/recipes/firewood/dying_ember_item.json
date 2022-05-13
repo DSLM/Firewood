@@ -1,0 +1,34 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "minecraft:dying_ember_item"
+    ]
+  },
+  "criteria": {
+    "has_bush": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "minecraft:dead_bush"
+            ]
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "minecraft:dying_ember_item"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_bush",
+      "has_the_recipe"
+    ]
+  ]
+}

@@ -27,6 +27,7 @@ public class FireEffectHelpers
     public static final ArrayList<String> majorEffectList = new ArrayList<>()
     {{
         add("potion");
+        add("teleport");
     }};
     public static final ArrayList<String> minorEffectList = new ArrayList<>()
     {{
@@ -37,6 +38,7 @@ public class FireEffectHelpers
     {{
         //major
         put("potion", new PotionFireEffectHelper());
+        put("teleport", new TeleportFireEffectHelper());
         
         //minor
         put("ground", new GroundFireEffectHelper());
@@ -113,7 +115,7 @@ public class FireEffectHelpers
             lines.add(colorfulText(new TranslatableComponent("tooltip.firewood.tinder_item.major_effect"), majorEffectColor));
             for(HashMap<String, String> data : tempMajorEffect)
             {
-                ArrayList<Component> list = getHelperByType(data.get("type")).getToolTips(data, false);
+                ArrayList<Component> list = getHelperByType(data.get("type")).getToolTips(data, extended);
                 lines.addAll(list);
             }
         }
@@ -125,7 +127,7 @@ public class FireEffectHelpers
             lines.add(colorfulText(new TranslatableComponent("tooltip.firewood.tinder_item.minor_effect"), minorEffectColor));
             for(HashMap<String, String> data : tempMinorEffect)
             {
-                ArrayList<Component> list = getHelperByType(data.get("type")).getToolTips(data, false);
+                ArrayList<Component> list = getHelperByType(data.get("type")).getToolTips(data, extended);
                 lines.addAll(list);
             }
         }
@@ -201,7 +203,6 @@ public class FireEffectHelpers
         ListTag tags = (ListTag) allNBT.get("majorEffects");
         
         CompoundTag newEffect = saveToNBT(type, data);
-        
         //clean old same effect
         if(tags != null)
         {

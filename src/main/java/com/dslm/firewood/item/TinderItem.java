@@ -4,6 +4,7 @@ import com.dslm.firewood.block.SpiritualFireBlock;
 import com.dslm.firewood.fireEffectHelper.FireEffectHelpers;
 import com.dslm.firewood.fireEffectHelper.GroundFireEffectHelper;
 import net.minecraft.advancements.CriteriaTriggers;
+import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
 import net.minecraft.network.chat.Component;
@@ -12,13 +13,15 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.*;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.alchemy.Potion;
 import net.minecraft.world.item.alchemy.Potions;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -39,11 +42,17 @@ public class TinderItem extends Item
     }
     
     @Override
-    public void appendHoverText(@Nonnull ItemStack stack, Level world, @Nonnull List<Component> tooltip, @Nonnull TooltipFlag flag)
+    public void appendHoverText(@Nonnull ItemStack stack, Level level, @Nonnull List<Component> tooltip, @Nonnull TooltipFlag flag)
     {
-        super.appendHoverText(stack, world, tooltip, flag);
+        
+        boolean extended = false;
+        if(level != null)
+        {
+            extended = Screen.hasShiftDown();
+        }
+        super.appendHoverText(stack, level, tooltip, flag);
         // TODO: 2022/5/10 实现拓展信息
-        tooltip.addAll(fireTooltips(stack.getOrCreateTag(), false));
+        tooltip.addAll(fireTooltips(stack.getOrCreateTag(), extended));
     }
     
     @Override
@@ -53,13 +62,13 @@ public class TinderItem extends Item
         Level level = pContext.getLevel();
         BlockPos blockpos = pContext.getClickedPos();
         BlockPos blockpos1 = blockpos.relative(pContext.getClickedFace());
-        ItemStack itemstack = pContext.getItemInHand();
-        if(!itemstack.hasTag())
+        ItemStack itemStack = pContext.getItemInHand();
+        if(!itemStack.hasTag())
         {
-            return InteractionResult.FAIL;
+            return InteractionResult.sidedSuccess(level.isClientSide());
         }
     
-        Block validGround = GroundFireEffectHelper.getBlockByNBTs(itemstack.getTag());
+        Block validGround = GroundFireEffectHelper.getBlockByNBTs(itemStack.getTag());
         if(SpiritualFireBlock.canBePlacedAt(level, blockpos1)
                 && SpiritualFireBlock.canBePlacedOn(level, blockpos1, validGround))
         {
@@ -68,20 +77,20 @@ public class TinderItem extends Item
             level.setBlock(blockpos1, blockstate1, 11);
             level.gameEvent(player, GameEvent.BLOCK_PLACE, blockpos);
         
-            level.getBlockEntity(blockpos1).load(itemstack.getOrCreateTag());
+            level.getBlockEntity(blockpos1).load(itemStack.getOrCreateTag());
             if(player instanceof ServerPlayer)
             {
-                CriteriaTriggers.PLACED_BLOCK.trigger((ServerPlayer) player, blockpos1, itemstack);
+                CriteriaTriggers.PLACED_BLOCK.trigger((ServerPlayer) player, blockpos1, itemStack);
                 if(!player.getAbilities().instabuild)
                 {
-                    itemstack.shrink(1);
+                    itemStack.shrink(1);
                 }
             }
         
             return InteractionResult.sidedSuccess(level.isClientSide());
         } else
         {
-            return InteractionResult.FAIL;
+            return InteractionResult.sidedSuccess(level.isClientSide());
         }
     }
     

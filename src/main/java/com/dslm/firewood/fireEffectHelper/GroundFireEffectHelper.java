@@ -1,6 +1,5 @@
 package com.dslm.firewood.fireEffectHelper;
 
-import com.dslm.firewood.block.SpiritualFireBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
@@ -9,11 +8,9 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.material.MaterialColor;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.ArrayList;
@@ -23,10 +20,14 @@ import static com.dslm.firewood.fireEffectHelper.FireEffectHelpers.colorfulText;
 
 public class GroundFireEffectHelper extends FireEffectHelperBase
 {
-    @Override
-    public int getColor(HashMap<String, String> data)
+    public static final int color = 0xa78e44;
+    
+    public GroundFireEffectHelper()
     {
-        return getBlockColor(data.get("block"));
+        super(new HashMap<>()
+        {{
+            put("block", "minecraft:netherrack");
+        }});
     }
     
     @Override
@@ -39,27 +40,6 @@ public class GroundFireEffectHelper extends FireEffectHelperBase
     public float getDamage()
     {
         return 0;
-    }
-    
-    @Override
-    public ArrayList<Component> getToolTips(HashMap<String, String> data, boolean extend)
-    {
-        ArrayList<Component> lines = new ArrayList<>();
-        var name = getBlock(data.get("block")).getName();
-        lines.add(colorfulText(
-                new TranslatableComponent("tooltip.firewood.tinder_item.minor_effect." + data.get("type"),
-                        name),
-                getBlockColor(data.get("block"))));
-        return lines;
-    }
-    
-    @Override
-    public CompoundTag getDefaultNBT()
-    {
-        return saveToNBT(new HashMap<>()
-        {{
-            put("block", "minecraft:netherrack");
-        }});
     }
     
     public static Block getBlockByNBTs(CompoundTag compoundTag)
@@ -82,6 +62,12 @@ public class GroundFireEffectHelper extends FireEffectHelperBase
     }
     
     @Override
+    public int getColor(HashMap<String, String> data)
+    {
+        return color;
+    }
+    
+    @Override
     public CompoundTag saveToNBT(HashMap<String, String> data)
     {
         CompoundTag tags = new CompoundTag();
@@ -99,9 +85,16 @@ public class GroundFireEffectHelper extends FireEffectHelperBase
         return data;
     }
     
-    public static int getBlockColor(String block)
+    @Override
+    public ArrayList<Component> getToolTips(HashMap<String, String> data, boolean extend)
     {
-        return 0xa78e44;
+        ArrayList<Component> lines = new ArrayList<>();
+        var name = getBlock(data.get("block")).getName();
+        lines.add(colorfulText(
+                new TranslatableComponent("tooltip.firewood.tinder_item.minor_effect." + data.get("type"),
+                        name),
+                color));
+        return lines;
     }
     
     public static Block getBlock(String block)

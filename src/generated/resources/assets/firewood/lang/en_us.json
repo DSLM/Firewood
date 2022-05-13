@@ -14,6 +14,7 @@
   "tooltip.firewood.dying_ember_item.1": "A relic of the past...... ",
   "tooltip.firewood.tinder_item.major_effect": "\u00A7lMajor Effect: ",
   "tooltip.firewood.tinder_item.major_effect.potion": "Potion: %s",
+  "tooltip.firewood.tinder_item.major_effect.teleport": "Teleport: %1$s (%2$s, %3$s, %4$s)",
   "tooltip.firewood.tinder_item.minor_effect": "\u00A7lMinor Effect: ",
   "tooltip.firewood.tinder_item.minor_effect.ground": "Ground: %s"
 }

@@ -1,6 +1,8 @@
-7a625dbcc6056db57a1113e7f5c59bd3a59e03bc assets/firewood/lang/en_us.json
-fb616e337509c5c012e2aa2f143e779361eab186 assets/firewood/lang/zh_cn.json
+0bb042fafde3cc7d8738edf00f72845c77c36063 assets/firewood/lang/en_us.json
+fc477aa02e1aa6da4688729f63d72ceac13b4620 assets/firewood/lang/zh_cn.json
 2ef5502025ded72701b222cbbdb2d486495463ae assets/firewood/models/item/dying_ember_item.json
 be727100737808f41016d1becd1215326fcd8a11 assets/firewood/models/item/tinder_item.json
+8567108a8baa167f4a2715b0b2d5bff3895ba5bb data/minecraft/advancements/recipes/firewood/dying_ember_item.json
 25748d7dfb828a344ac9fe5aa8591ac9943466ad data/minecraft/advancements/recipes/firewood/tinder_item.json
+c6f6e39b1767ccb5f14194b35d2c9a2a68c2846d data/minecraft/recipes/dying_ember_item.json
 bf866ff3ade804365e06ed92722bf07635edec8f data/minecraft/recipes/tinder_item.json

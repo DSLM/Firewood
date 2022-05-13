@@ -1,9 +1,7 @@
 package com.dslm.firewood.block;
 
 import com.dslm.firewood.blockEntity.SpiritualFireBlockEntity;
-import com.dslm.firewood.fireEffectHelper.GroundFireEffectHelper;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;

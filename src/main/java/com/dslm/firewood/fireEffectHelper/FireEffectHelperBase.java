@@ -12,9 +12,11 @@ import java.util.HashMap;
 
 abstract public class FireEffectHelperBase
 {
-    public FireEffectHelperBase()
-    {
+    public final HashMap<String, String> defaultData;
     
+    public FireEffectHelperBase(HashMap<String, String> defaultData)
+    {
+        this.defaultData = defaultData;
     }
     
     abstract public int getColor(HashMap<String, String> data);
@@ -25,7 +27,10 @@ abstract public class FireEffectHelperBase
     
     abstract public ArrayList<Component> getToolTips(HashMap<String, String> data, boolean extend);
     
-    abstract public CompoundTag getDefaultNBT();
+    public CompoundTag getDefaultNBT()
+    {
+        return saveToNBT(defaultData);
+    }
     
     abstract public boolean isSameNBT(CompoundTag first, CompoundTag second);
     

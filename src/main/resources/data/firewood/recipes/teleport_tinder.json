@@ -1,0 +1,8 @@
+{
+  "type": "firewood:crafting_teleport_tinder",
+  "ember": "firewood:dying_ember_item",
+  "tinder": "firewood:tinder_item",
+  "others": [
+    "minecraft:ender_eye"
+  ]
+}

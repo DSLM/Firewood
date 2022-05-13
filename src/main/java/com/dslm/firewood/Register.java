@@ -7,6 +7,7 @@ import com.dslm.firewood.item.DyingEmberItem;
 import com.dslm.firewood.item.TinderItem;
 import com.dslm.firewood.recipe.GroundTinderRecipe;
 import com.dslm.firewood.recipe.PotionTinderRecipe;
+import com.dslm.firewood.recipe.TeleportTinderRecipe;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.item.CreativeModeTab;
@@ -38,6 +39,9 @@ public class Register
     
     public static final RegistryObject<RecipeSerializer<PotionTinderRecipe>> POTION_TINDER_RECIPE_SERIALIZER =
             RECIPE_SERIALIZERS.register("crafting_potion_tinder", PotionTinderRecipe.Serializer::new);
+    public static final RegistryObject<RecipeSerializer<TeleportTinderRecipe>> TELEPORT_TINDER_RECIPE_SERIALIZER =
+            RECIPE_SERIALIZERS.register("crafting_teleport_tinder", TeleportTinderRecipe.Serializer::new);
+    
     public static final RegistryObject<RecipeSerializer<GroundTinderRecipe>> GROUND_TINDER_RECIPE_SERIALIZER =
             RECIPE_SERIALIZERS.register("crafting_ground_tinder", GroundTinderRecipe.Serializer::new);
     

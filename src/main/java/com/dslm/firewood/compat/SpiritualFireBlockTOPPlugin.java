@@ -29,7 +29,7 @@ public class SpiritualFireBlockTOPPlugin implements TOPCompat.Provider
         if(blockEntity instanceof SpiritualFireBlockEntity)
         {
             // TODO: 2022/5/10 实现拓展信息
-            ArrayList<Component> lines = fireTooltips(((SpiritualFireBlockEntity) blockEntity).getUpdateTag(), false);
+            ArrayList<Component> lines = fireTooltips(((SpiritualFireBlockEntity) blockEntity).getUpdateTag(), mode != ProbeMode.NORMAL || player.isShiftKeyDown());
             for(Component line : lines)
             {
                 info.mcText(line);

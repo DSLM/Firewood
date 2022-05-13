@@ -72,6 +72,8 @@ public class LanguageUtil
                 "§lMajor Effect: ", "§l主要效果：");
         add("tooltip." + Firewood.MOD_ID + "." + Register.TINDER_ITEM.get() + ".major_effect.potion",
                 "Potion: %s", "药水：%s");
+        add("tooltip." + Firewood.MOD_ID + "." + Register.TINDER_ITEM.get() + ".major_effect.teleport",
+                "Teleport: %1$s (%2$s, %3$s, %4$s)", "传送：%1$s（%2$s，%3$s，%4$s）");
         add("tooltip." + Firewood.MOD_ID + "." + Register.TINDER_ITEM.get() + ".minor_effect",
                 "§lMinor Effect: ", "§l次要效果：");
         add("tooltip." + Firewood.MOD_ID + "." + Register.TINDER_ITEM.get() + ".minor_effect.ground",
