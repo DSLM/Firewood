@@ -5,7 +5,6 @@ import com.google.common.collect.Lists;
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.ChatFormatting;
 import net.minecraft.Util;
-import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -25,7 +24,6 @@ import net.minecraft.world.item.alchemy.Potion;
 import net.minecraft.world.item.alchemy.PotionUtils;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.client.gui.ForgeIngameGui;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.ArrayList;
@@ -87,9 +85,9 @@ public class PotionFireEffectHelper extends FireEffectHelperBase
         {
             // TODO: 2022/5/13 实现药水削弱
             float pDurationFactor = 1f;
-        
+    
             List<Pair<Attribute, AttributeModifier>> list1 = Lists.newArrayList();
-        
+    
             for(MobEffectInstance effectInstance : getPotion(data.get("potion")).getEffects())
             {
                 MutableComponent mutablecomponent = new TranslatableComponent(effectInstance.getDescriptionId());
@@ -104,24 +102,24 @@ public class PotionFireEffectHelper extends FireEffectHelperBase
                         list1.add(new Pair<>(entry.getKey(), attributemodifier1));
                     }
                 }
-            
+    
                 if(effectInstance.getAmplifier() > 0)
                 {
                     mutablecomponent = new TranslatableComponent("potion.withAmplifier", mutablecomponent, new TranslatableComponent("potion.potency." + effectInstance.getAmplifier()));
                 }
-            
+    
                 if(effectInstance.getDuration() > 20)
                 {
                     mutablecomponent = new TranslatableComponent("potion.withDuration", mutablecomponent, MobEffectUtil.formatDuration(effectInstance, pDurationFactor));
                 }
-            
+    
                 lines.add(mutablecomponent.withStyle(mobeffect.getCategory().getTooltipFormatting()));
             }
-        
+    
             if(!list1.isEmpty())
             {
                 MutableComponent longLine = (new TranslatableComponent("potion.whenDrank")).withStyle(ChatFormatting.DARK_PURPLE);
-            
+    
                 for(Pair<Attribute, AttributeModifier> pair : list1)
                 {
                     AttributeModifier attributemodifier2 = pair.getSecond();
@@ -130,16 +128,18 @@ public class PotionFireEffectHelper extends FireEffectHelperBase
                     if(attributemodifier2.getOperation() != AttributeModifier.Operation.MULTIPLY_BASE && attributemodifier2.getOperation() != AttributeModifier.Operation.MULTIPLY_TOTAL)
                     {
                         d1 = attributemodifier2.getAmount();
-                    } else
+                    }
+                    else
                     {
                         d1 = attributemodifier2.getAmount() * 100.0D;
                     }
-                
+    
                     if(d0 > 0.0D)
                     {
                         longLine.append(new TextComponent("|"));
                         longLine.append((new TranslatableComponent("attribute.modifier.plus." + attributemodifier2.getOperation().toValue(), ItemStack.ATTRIBUTE_MODIFIER_FORMAT.format(d1), new TranslatableComponent(pair.getFirst().getDescriptionId()))).withStyle(ChatFormatting.BLUE));
-                    } else if(d0 < 0.0D)
+                    }
+                    else if(d0 < 0.0D)
                     {
                         d1 *= -1.0D;
                         longLine.append(new TextComponent("|"));

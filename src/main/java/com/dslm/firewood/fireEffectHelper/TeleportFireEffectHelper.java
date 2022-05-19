@@ -58,7 +58,7 @@ public class TeleportFireEffectHelper extends FireEffectHelperBase
                         public Entity placeEntity(Entity entity, ServerLevel currentWorld, ServerLevel destWorld, float yaw, Function<Boolean, Entity> repositionEntity)
                         {
                             entity = repositionEntity.apply(false);
-                            entity.teleportTo(Integer.parseInt(data.get("posX")), Integer.parseInt(data.get("posY")), Integer.parseInt(data.get("posZ")));
+                            entity.teleportTo(Integer.parseInt(data.get("posX")) + 0.5, Integer.parseInt(data.get("posY")), Integer.parseInt(data.get("posZ")) + 0.5);
                             return entity;
                         }
                     });

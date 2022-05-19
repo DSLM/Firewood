@@ -73,18 +73,18 @@ public class ForgeBusClientHandler
             RenderSystem.setShader(GameRenderer::getPositionTexShader);
             pose.pushPose();
             pose.translate(0, 0, 500);
-
+    
             float strLen = Minecraft.getInstance().font.width(middle.getVisualOrderText());
             GuiComponent.drawString(pose, Minecraft.getInstance().font, middle,
                     tooltipX, tooltipY, middle.getStyle().getColor().getValue());
             
             //61, 0: heath icon position
-            //9, 9: heath icon size
+            //4, 9: heath icon size
             RenderSystem.setShaderTexture(0, ForgeIngameGui.GUI_ICONS_LOCATION);
-            GuiComponent.blit(pose, tooltipX + (int) strLen, tooltipY, 61, 0, 9, 9, 256, 256);
-
+            GuiComponent.blit(pose, tooltipX + (int) strLen, tooltipY, 61, 0, 4, 9, 256, 256);
+    
             GuiComponent.drawString(pose, Minecraft.getInstance().font, String.format(" x%.00f", middle.getDamage()),
-                    tooltipX + (int) strLen + 9 - 4, tooltipY, middle.getStyle().getColor().getValue());
+                    tooltipX + (int) strLen + 4, tooltipY, middle.getStyle().getColor().getValue());
             pose.popPose();
         }
         

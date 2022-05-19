@@ -57,10 +57,12 @@ public class TeleportTinderRecipe extends CustomRecipe
             if(is.getItem() == this.emberIng && !ember && is.hasTag())
             {
                 ember = true;
-            } else if(is.getItem() == this.tinderIng.asItem() && !tinder)
+            }
+            else if(is.getItem() == this.tinderIng.asItem() && !tinder)
             {
                 tinder = true;
-            } else
+            }
+            else
             {
                 for(int j = 0; j < othersIng.size(); j++)
                 {

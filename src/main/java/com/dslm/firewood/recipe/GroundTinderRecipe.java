@@ -56,7 +56,8 @@ public class GroundTinderRecipe extends CustomRecipe
             if(is.getItem() == this.tinderIng.asItem() && !tinder)
             {
                 tinder = true;
-            } else
+            }
+            else
             {
                 for(int j = 0; j < othersIng.size(); j++)
                 {
@@ -99,7 +100,8 @@ public class GroundTinderRecipe extends CustomRecipe
             if(tinder == null && is.getItem() == this.tinderIng)
             {
                 tinder = is;
-            } else
+            }
+            else
             {
                 for(int j = 0; j < othersIng.size(); j++)
                 {

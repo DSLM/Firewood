@@ -75,7 +75,7 @@ public class TinderItem extends Item
             BlockState blockstate1 = SPIRITUAL_FIRE_BLOCK.get().defaultBlockState();
             level.setBlock(blockpos1, blockstate1, 11);
             level.gameEvent(player, GameEvent.BLOCK_PLACE, blockpos);
-        
+    
             level.getBlockEntity(blockpos1).load(itemStack.getOrCreateTag());
             if(player instanceof ServerPlayer)
             {
@@ -85,9 +85,10 @@ public class TinderItem extends Item
                     itemStack.shrink(1);
                 }
             }
-        
+    
             return InteractionResult.sidedSuccess(level.isClientSide());
-        } else
+        }
+        else
         {
             return InteractionResult.sidedSuccess(level.isClientSide());
         }

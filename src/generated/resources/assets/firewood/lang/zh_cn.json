@@ -1,4 +1,5 @@
 {
+  "block.firewood.spiritual_campfire_block": "\u7075\u6027\u8425\u706B",
   "block.firewood.spiritual_fire_block": "\u7075\u6027\u4E4B\u706B",
   "config.firewood.spiritual_fire_block_effects": "\u7075\u6027\u4E4B\u706B\u6548\u679C\u8BBE\u7F6E",
   "config.firewood.spiritual_fire_block_effects.major": "\u4E3B\u8981\u6548\u679C\u8BBE\u7F6E",

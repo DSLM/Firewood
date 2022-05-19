@@ -216,7 +216,8 @@ public class FireEffectHelpers
                     }
                 }
             }
-        } else
+        }
+        else
         {
             tags = new ListTag();
         }

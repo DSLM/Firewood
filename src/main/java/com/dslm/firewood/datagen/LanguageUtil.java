@@ -30,6 +30,7 @@ public class LanguageUtil
         
         //block
         add(Register.SPIRITUAL_FIRE_BLOCK.get(), "Spiritual Fire", "灵性之火");
+        add(Register.SPIRITUAL_CAMPFIRE_BLOCK.get(), "Spiritual Campfire", "灵性营火");
         
         //item
         add(Register.TINDER_ITEM.get(), "Tinder", "火种");

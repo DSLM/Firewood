@@ -1,4 +1,5 @@
 {
+  "block.firewood.spiritual_campfire_block": "Spiritual Campfire",
   "block.firewood.spiritual_fire_block": "Spiritual Fire",
   "config.firewood.spiritual_fire_block_effects": "Settings for the Spiritual Fire Block Effects",
   "config.firewood.spiritual_fire_block_effects.major": "Settings for the Major Effects",

@@ -19,11 +19,11 @@ import java.util.ArrayList;
 import static com.dslm.firewood.fireEffectHelper.FireEffectHelpers.fireTooltips;
 
 
-public class SpiritualFireBlockTOPPlugin implements TOPCompat.Provider
+public class TOPPlugin implements TOPCompat.Provider
 {
     public static void register()
     {
-        TOPCompat.registerProvider(new SpiritualFireBlockTOPPlugin());
+        TOPCompat.registerProvider(new TOPPlugin());
     }
     
     @Override
@@ -42,13 +42,14 @@ public class SpiritualFireBlockTOPPlugin implements TOPCompat.Provider
                         && middle.getDamage() > 0)
                 {
                     IconStyle tempIconStyle = new IconStyle();
-                    tempIconStyle.width(5).height(9);
-            
+                    tempIconStyle.width(4).height(9);
+    
                     info.horizontal()
                             .mcText(line)
-                            .icon(ForgeIngameGui.GUI_ICONS_LOCATION, 61, 0, 5, 9, tempIconStyle)
+                            .icon(ForgeIngameGui.GUI_ICONS_LOCATION, 61, 0, 4, 9, tempIconStyle)
                             .mcText(new TextComponent(String.format(" x%.00f", middle.getDamage())).withStyle(middle.getStyle()));
-                } else
+                }
+                else
                 {
                     info.mcText(line);
                 }

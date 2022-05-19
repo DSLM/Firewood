@@ -59,10 +59,12 @@ public class PotionTinderRecipe extends CustomRecipe
             if(is.getItem() == this.potionIng && !potion)
             {
                 potion = true;
-            } else if(is.getItem() == this.tinderIng.asItem() && !tinder)
+            }
+            else if(is.getItem() == this.tinderIng.asItem() && !tinder)
             {
                 tinder = true;
-            } else
+            }
+            else
             {
                 for(int j = 0; j < othersIng.size(); j++)
                 {

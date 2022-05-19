@@ -89,7 +89,8 @@ public class SpiritualFireBlockEntity extends BlockEntity
         if(!SpiritualFireBlock.canBePlacedOn(level, pos, validGround))
         {
             level.setBlock(pos, Blocks.AIR.defaultBlockState(), 11);
-        } else
+        }
+        else
         {
             e.syncTick();
         }
