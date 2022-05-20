@@ -83,7 +83,7 @@ public class ForgeBusClientHandler
             RenderSystem.setShaderTexture(0, ForgeIngameGui.GUI_ICONS_LOCATION);
             GuiComponent.blit(pose, tooltipX + (int) strLen, tooltipY, 61, 0, 4, 9, 256, 256);
     
-            GuiComponent.drawString(pose, Minecraft.getInstance().font, String.format(" x%.00f", middle.getDamage()),
+            GuiComponent.drawString(pose, Minecraft.getInstance().font, String.format(" x%.2f", middle.getDamage()),
                     tooltipX + (int) strLen + 4, tooltipY, middle.getStyle().getColor().getValue());
             pose.popPose();
         }

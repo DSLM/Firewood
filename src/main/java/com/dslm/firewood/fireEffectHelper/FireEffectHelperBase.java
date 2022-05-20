@@ -1,40 +1,42 @@
 package com.dslm.firewood.fireEffectHelper;
 
-import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.chat.Component;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.state.BlockState;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
-abstract public class FireEffectHelperBase
+abstract public class FireEffectHelperBase implements FireEffectHelperInterface
 {
-    public final HashMap<String, String> defaultData;
+    protected final HashMap<String, String> defaultData;
+    protected final String id;
     
-    public FireEffectHelperBase(HashMap<String, String> defaultData)
+    public FireEffectHelperBase(HashMap<String, String> defaultData, String id)
     {
         this.defaultData = defaultData;
+        this.id = id;
     }
     
-    abstract public int getColor(HashMap<String, String> data);
-    
-    abstract public void triggerEffect(HashMap<String, String> data, BlockState state, Level level, BlockPos pos, LivingEntity entity);
-    
-    abstract public float getDamage();
-    
-    abstract public ArrayList<Component> getToolTips(HashMap<String, String> data, boolean extended);
-    
+    @Override
     public CompoundTag getDefaultNBT()
     {
         return saveToNBT(defaultData);
     }
     
-    abstract public boolean isSameNBT(CompoundTag first, CompoundTag second);
+    @Override
+    public HashMap<String, String> getDefaultData()
+    {
+        return defaultData;
+    }
     
-    abstract public CompoundTag saveToNBT(HashMap<String, String> data);
+    @Override
+    public String getId()
+    {
+        return id;
+    }
     
-    abstract public HashMap<String, String> readFromNBT(CompoundTag tags);
+    @Override
+    public String getJEIString(HashMap<String, String> data)
+    {
+        return data.get("type");
+    }
 }
+

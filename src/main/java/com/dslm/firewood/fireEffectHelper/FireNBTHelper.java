@@ -1,6 +1,5 @@
-package com.dslm.firewood;
+package com.dslm.firewood.fireEffectHelper;
 
-import com.dslm.firewood.fireEffectHelper.FireEffectHelpers;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
@@ -8,7 +7,7 @@ import net.minecraft.nbt.Tag;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class NBTUtils
+public class FireNBTHelper
 {
     
     public static ArrayList<HashMap<String, String>> loadMajorFireData(CompoundTag pTag)

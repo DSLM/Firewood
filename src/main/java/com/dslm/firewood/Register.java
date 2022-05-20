@@ -2,18 +2,22 @@ package com.dslm.firewood;
 
 import com.dslm.firewood.block.SpiritualCampfireBlock;
 import com.dslm.firewood.block.SpiritualFireBlock;
-import com.dslm.firewood.blockEntity.SpiritualCampfireBlockEntity;
-import com.dslm.firewood.blockEntity.SpiritualFireBlockEntity;
-import com.dslm.firewood.compat.TOPPlugin;
-import com.dslm.firewood.container.SpiritualCampfireBlockContainer;
+import com.dslm.firewood.block.entity.SpiritualCampfireBlockEntity;
+import com.dslm.firewood.block.entity.SpiritualFireBlockEntity;
+import com.dslm.firewood.compat.top.TOPPlugin;
 import com.dslm.firewood.event.ForgeBusClientHandler;
 import com.dslm.firewood.item.DyingEmberItem;
 import com.dslm.firewood.item.TinderItem;
+import com.dslm.firewood.menu.SpiritualCampfireBlockMenu;
+import com.dslm.firewood.mobEffect.FiredFlesh;
+import com.dslm.firewood.mobEffect.FiredSpirit;
 import com.dslm.firewood.recipe.GroundTinderRecipe;
 import com.dslm.firewood.recipe.PotionTinderRecipe;
 import com.dslm.firewood.recipe.TeleportTinderRecipe;
+import com.dslm.firewood.recipe.TinderRecipe;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTab;
@@ -38,7 +42,7 @@ import net.minecraftforge.registries.RegistryObject;
 
 
 public class Register
-{
+{// TODO: 2022/5/23 生命不够是否触发效果与增加营火？方块-方块，方块-物品，方块-实体，实体-物品
     private static final DeferredRegister<Block> BLOCKS =
             DeferredRegister.create(ForgeRegistries.BLOCKS, Firewood.MOD_ID);
     private static final DeferredRegister<Item> ITEMS =
@@ -90,22 +94,24 @@ public class Register
     public static final RegistryObject<Item> SPIRITUAL_CAMPFIRE_ITEM =
             ITEMS.register("spiritual_campfire_item",
                     () -> new BlockItem(SPIRITUAL_CAMPFIRE_BLOCK.get(), new Item.Properties().tab(CREATIVE_MODE_TAB)));
-
-//        public static final RegistryObject<MobEffect> FIRED_SPIRIT = MOB_EFFECTS.register("fired_spirit",
-//            () -> new FiredSpirit(MobEffectCategory.BENEFICIAL, 0xf47025));
-//    public static final RegistryObject<MobEffect> FIRED_FLESH = MOB_EFFECTS.register("fired_flesh",
-//            () -> new FiredFlesh(MobEffectCategory.BENEFICIAL, 0xf47025));
     
-    public static final RegistryObject<RecipeSerializer<PotionTinderRecipe>> POTION_TINDER_RECIPE_SERIALIZER =
+    public static final RegistryObject<MobEffect> FIRED_SPIRIT = MOB_EFFECTS.register("fired_spirit",
+            () -> new FiredSpirit(MobEffectCategory.BENEFICIAL, 0xf47025));
+    public static final RegistryObject<MobEffect> FIRED_FLESH = MOB_EFFECTS.register("fired_flesh",
+            () -> new FiredFlesh(MobEffectCategory.BENEFICIAL, 0xf47025));
+    
+    public static final RegistryObject<RecipeSerializer<TinderRecipe>> TINDER_RECIPE_SERIALIZER =
+            RECIPE_SERIALIZERS.register(TinderRecipe.Type.ID, TinderRecipe.Serializer::new);
+    public static final RegistryObject<RecipeSerializer<TinderRecipe>> TELEPORT_TINDER_RECIPE_SERIALIZER =
+            RECIPE_SERIALIZERS.register(TeleportTinderRecipe.Type.ID, TeleportTinderRecipe.Serializer::new);
+    public static final RegistryObject<RecipeSerializer<TinderRecipe>> POTION_TINDER_RECIPE_SERIALIZER =
             RECIPE_SERIALIZERS.register("crafting_potion_tinder", PotionTinderRecipe.Serializer::new);
-    public static final RegistryObject<RecipeSerializer<TeleportTinderRecipe>> TELEPORT_TINDER_RECIPE_SERIALIZER =
-            RECIPE_SERIALIZERS.register("crafting_teleport_tinder", TeleportTinderRecipe.Serializer::new);
-    public static final RegistryObject<RecipeSerializer<GroundTinderRecipe>> GROUND_TINDER_RECIPE_SERIALIZER =
+    public static final RegistryObject<RecipeSerializer<TinderRecipe>> GROUND_TINDER_RECIPE_SERIALIZER =
             RECIPE_SERIALIZERS.register("crafting_ground_tinder", GroundTinderRecipe.Serializer::new);
     
-    public static final RegistryObject<MenuType<SpiritualCampfireBlockContainer>> SPIRITUAL_CAMPFIRE_BLOCK_CONTAINER =
+    public static final RegistryObject<MenuType<SpiritualCampfireBlockMenu>> SPIRITUAL_CAMPFIRE_BLOCK_CONTAINER =
             CONTAINERS.register("spiritual_campfire_block_container", () ->
-                    IForgeMenuType.create((windowId, inv, data) -> new SpiritualCampfireBlockContainer(windowId, data.readBlockPos(), inv, inv.player)));
+                    IForgeMenuType.create((windowId, inv, data) -> new SpiritualCampfireBlockMenu(windowId, data.readBlockPos(), inv, inv.player)));
     
     @SubscribeEvent
     public static void onRegistryInit(RegistryEvent.Register<?> event)

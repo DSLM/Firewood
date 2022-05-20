@@ -7,7 +7,7 @@ import net.minecraftforge.fml.config.ModConfig;
 public class Config
 {
     // TODO: 2022/5/10 药水效果削弱乘数，参考滞留
-    // TODO: 2022/5/10 维度映射
+    // TODO: 2022/5/10 维度黑白名单？
     // TODO: 2022/5/10 方块基底黑白名单？
     
     public static void register()
@@ -34,8 +34,9 @@ public class Config
     private static void registerServerConfigs()
     {
         ForgeConfigSpec.Builder SERVER_BUILDER = new ForgeConfigSpec.Builder();
-        //MobEffectConfig.registerServerConfig(SERVER_BUILDER);
+        MobEffectConfig.registerServerConfig(SERVER_BUILDER);
         SpiritualFireBlockEffectConfig.registerServerConfig(SERVER_BUILDER);
+        //SpiritualCampfireBlockConfig.registerServerConfig(SERVER_BUILDER);
         ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, SERVER_BUILDER.build());
     }
 }

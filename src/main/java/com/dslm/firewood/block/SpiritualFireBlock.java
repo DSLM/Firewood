@@ -1,22 +1,18 @@
 package com.dslm.firewood.block;
 
-import com.dslm.firewood.blockEntity.SpiritualFireBlockEntity;
+import com.dslm.firewood.Register;
+import com.dslm.firewood.block.entity.SpiritualFireBlockEntity;
 import net.minecraft.core.BlockPos;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BaseFireBlock;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.phys.BlockHitResult;
 import org.jetbrains.annotations.Nullable;
 
 
@@ -31,12 +27,6 @@ public class SpiritualFireBlock extends BaseFireBlock implements EntityBlock
     protected boolean canBurn(BlockState pState)
     {
         return true;
-    }
-    
-    public static boolean canBePlacedOn(Level level, BlockPos pos, Block validGround)
-    {
-        BlockState blockstate = level.getBlockState(pos.below());
-        return blockstate.getBlock() == validGround;
     }
     
     public static boolean canBePlacedAt(Level pLevel, BlockPos pos)
@@ -77,23 +67,14 @@ public class SpiritualFireBlock extends BaseFireBlock implements EntityBlock
         return new SpiritualFireBlockEntity(pPos, pState);
     }
     
-    public void entityInside(BlockState pState, Level pLevel, BlockPos pPos, Entity pEntity)
+    @Override
+    public void entityInside(BlockState state, Level level, BlockPos pos, Entity entity)
     {
-        if(pEntity instanceof LivingEntity livingEntity && pLevel.getBlockEntity(pPos) instanceof SpiritualFireBlockEntity tile)
+        if(entity instanceof LivingEntity livingEntity && level.getBlockEntity(pos) instanceof SpiritualFireBlockEntity tile)
         {
-            // TODO: 2022/5/10 伤害间隔
-            if(pLevel.getGameTime() % (10) == 0)
+            if(!livingEntity.hasEffect(Register.FIRED_FLESH.get()))
             {
-//               ((LivingEntity) pEntity).addEffect(new MobEffectInstance(Register.FIRED_FLESH.get(), MobEffectConfig.FIRED_FLESH_INTERVAL.get() + 1, 1));
-                tile.triggerMajorEffects(pState, pLevel, pPos, livingEntity);
-                
-                
-                // TODO: 2022/5/9 自行实现火焰遮挡视线
-//                pEntity.setRemainingFireTicks(pEntity.getRemainingFireTicks() + 1);
-//                if(pEntity.getRemainingFireTicks() == 0)
-//                {
-//                    pEntity.setSecondsOnFire(8);
-//                }
+                tile.triggerMajorEffects(state, level, pos, livingEntity);
             }
         }
     }

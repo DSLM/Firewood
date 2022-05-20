@@ -1,12 +1,16 @@
 package com.dslm.firewood.fireEffectHelper;
 
 import com.dslm.firewood.Register;
+import com.dslm.firewood.capProvider.PlayerSpiritualDamageProvider;
+import com.dslm.firewood.config.SpiritualFireBlockEffectConfig;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextColor;
 import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -15,9 +19,10 @@ import net.minecraft.world.level.block.state.BlockState;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
-import static com.dslm.firewood.NBTUtils.loadMajorFireData;
-import static com.dslm.firewood.NBTUtils.loadMinorFireData;
+import static com.dslm.firewood.fireEffectHelper.FireNBTHelper.loadMajorFireData;
+import static com.dslm.firewood.fireEffectHelper.FireNBTHelper.loadMinorFireData;
 
 public class FireEffectHelpers
 {
@@ -34,36 +39,40 @@ public class FireEffectHelpers
         add("ground");
     }};
     
-    private static HashMap<String, FireEffectHelperBase> fireEffectHelpers = new HashMap<>()
+    public static ExceptionCatchHelper exceptionCatchHelper = new ExceptionCatchHelper();
+    
+    private static HashMap<String, FireEffectHelperInterface> fireEffectHelpers = new HashMap<>()
     {{
         //major
-        put("potion", new PotionFireEffectHelper());
-        put("teleport", new TeleportFireEffectHelper());
+        put("potion", new PotionFireEffectHelper("potion"));
+        put("teleport", new TeleportFireEffectHelper("teleport"));
         
         //minor
-        put("ground", new GroundFireEffectHelper());
+        put("ground", new GroundFireEffectHelper("ground"));
     }};
     
-    public static void addHelper(String type, FireEffectHelperBase helper)
+    public static void addHelper(String type, FireEffectHelperInterface helper)
     {
         fireEffectHelpers.put(type, helper);
     }
     
-    public static void addMajorHelper(String type, FireEffectHelperBase helper)
+    public static void addMajorHelper(String type, FireEffectHelperInterface helper)
     {
         majorEffectList.add(type);
         addHelper(type, helper);
     }
     
-    public static void addMinorHelper(String type, FireEffectHelperBase helper)
+    public static void addMinorHelper(String type, FireEffectHelperInterface helper)
     {
         minorEffectList.add(type);
         addHelper(type, helper);
     }
     
-    public static FireEffectHelperBase getHelperByType(String type)
+    public static FireEffectHelperInterface getHelperByType(String type)
     {
-        return fireEffectHelpers.get(type);
+        if(fireEffectHelpers.containsKey(type))
+            return fireEffectHelpers.get(type);
+        return exceptionCatchHelper;
     }
     
     public static int getColorByType(HashMap<String, String> data)
@@ -73,7 +82,6 @@ public class FireEffectHelpers
     
     public static void triggerMajorEffects(ArrayList<HashMap<String, String>> majorEffects, BlockState state, Level level, BlockPos pos, LivingEntity entity)
     {
-        // TODO: 2022/5/11 考虑继续用debuff，持续即是冷却，类似凤凰新生？再说吧
         float damage = 0f;
         for(HashMap<String, String> data : majorEffects)
         {
@@ -97,10 +105,30 @@ public class FireEffectHelpers
         }
     }
     
+    
     public static void damageEntity(LivingEntity entity, float amount)
     {
-        if(amount > 0)
-            entity.hurt(Register.SPIRITUAL_FIRE_DAMAGE, amount);
+        damageEntity(entity, amount, SpiritualFireBlockEffectConfig.FIRED_FLESH_TIME.get());
+    }
+    
+    public static void damageEntity(LivingEntity entity, float amount, int cooldown)
+    {
+        if(amount == 0)
+            return;
+        
+        entity.getCapability(PlayerSpiritualDamageProvider.PLAYER_SPIRITUAL_DAMAGE).ifPresent(playerSpiritualDamage -> {
+            playerSpiritualDamage.addFleshDamage(amount);
+        });
+        
+        entity.addEffect(new MobEffectInstance(Register.FIRED_FLESH.get(), cooldown, 99));
+        
+        // TODO: 2022/5/9 自行实现火焰遮挡视线
+
+//                entity.setRemainingFireTicks(entity.getRemainingFireTicks() + 1);
+//                if(entity.getRemainingFireTicks() == 0)
+//                {
+//                    entity.setSecondsOnFire(8);
+//                }
     }
     
     
@@ -247,9 +275,50 @@ public class FireEffectHelpers
                 }
             }
         }
-        
+    
         allNBT.put("minorEffects", tags);
         itemStack.setTag(allNBT);
         return itemStack;
+    }
+    
+    public static ItemStack addMajorEffects(ItemStack itemStack, List<HashMap<String, String>> data)
+    {
+        for(HashMap<String, String> one : data)
+        {
+            addMajorEffect(itemStack, one.get("type"), one);
+        }
+        return itemStack;
+    }
+    
+    public static ItemStack addMinorEffects(ItemStack itemStack, List<HashMap<String, String>> data)
+    {
+        for(HashMap<String, String> one : data)
+        {
+            addMinorEffect(itemStack, one.get("type"), one);
+        }
+        return itemStack;
+    }
+    
+    public static String getJEIType(ItemStack itemStack)
+    {
+        StringBuilder stringBuilder = new StringBuilder("");
+        ArrayList<HashMap<String, String>> majorEffects = loadMajorFireData(itemStack.getOrCreateTag());
+        ArrayList<HashMap<String, String>> minorEffects = loadMinorFireData(itemStack.getOrCreateTag());
+        
+        for(HashMap<String, String> one : majorEffects)
+        {
+            stringBuilder.append(getHelperByType(one.get("type")).getJEIString(one)).append(";");
+        }
+        for(HashMap<String, String> one : minorEffects)
+        {
+            stringBuilder.append(getHelperByType(one.get("type")).getJEIString(one)).append(";");
+        }
+        
+        return stringBuilder.toString();
+    }
+    
+    public static void fillItemCategory(NonNullList<ItemStack> items, ItemStack item)
+    {
+        fireEffectHelpers.forEach((s, helper) -> helper.fillItemCategory(items, item));
     }
 }

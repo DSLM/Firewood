@@ -1,9 +1,7 @@
-package com.dslm.firewood.blockEntity;
+package com.dslm.firewood.block.entity;
 
 import com.dslm.firewood.Register;
-import com.dslm.firewood.block.SpiritualFireBlock;
 import com.dslm.firewood.fireEffectHelper.FireEffectHelpers;
-import com.dslm.firewood.fireEffectHelper.GroundFireEffectHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
@@ -11,16 +9,14 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import static com.dslm.firewood.NBTUtils.*;
 import static com.dslm.firewood.fireEffectHelper.FireEffectHelpers.getMixedColor;
+import static com.dslm.firewood.fireEffectHelper.FireNBTHelper.*;
 
 public class SpiritualFireBlockEntity extends BlockEntity
 {
@@ -52,6 +48,7 @@ public class SpiritualFireBlockEntity extends BlockEntity
             ClientboundBlockEntityDataPacket p = ClientboundBlockEntityDataPacket.create(this);
             ((ServerLevel) this.level).getChunkSource().chunkMap.getPlayers(new ChunkPos(getBlockPos()), false)
                     .forEach(k -> k.connection.send(p));
+            setChanged();
         }
     }
     
@@ -85,15 +82,9 @@ public class SpiritualFireBlockEntity extends BlockEntity
     
     public static void serverTick(Level level, BlockPos pos, BlockState state, SpiritualFireBlockEntity e)
     {
-        Block validGround = GroundFireEffectHelper.getBlockByMinorList(e.minorEffects);
-        if(!SpiritualFireBlock.canBePlacedOn(level, pos, validGround))
-        {
-            level.setBlock(pos, Blocks.AIR.defaultBlockState(), 11);
-        }
-        else
-        {
-            e.syncTick();
-        }
+    
+        FireEffectHelpers.triggerMinorEffects(e.minorEffects, state, level, pos, null);
+        e.syncTick();
     }
     
     boolean needSync;

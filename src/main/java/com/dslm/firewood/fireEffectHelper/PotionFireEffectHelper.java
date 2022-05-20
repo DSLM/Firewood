@@ -6,6 +6,7 @@ import com.mojang.datafixers.util.Pair;
 import net.minecraft.ChatFormatting;
 import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
@@ -22,6 +23,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.alchemy.Potion;
 import net.minecraft.world.item.alchemy.PotionUtils;
+import net.minecraft.world.item.alchemy.Potions;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -36,24 +38,29 @@ import static com.dslm.firewood.fireEffectHelper.FireEffectHelpers.colorfulText;
 
 public class PotionFireEffectHelper extends FireEffectHelperBase
 {
-    public PotionFireEffectHelper()
+    private static final ArrayList<FireEffectHelperInterface> instanceList = new ArrayList<>();
+    
+    public static final String potionTagId = "potion";
+    
+    public PotionFireEffectHelper(String id)
     {
         super(new HashMap<>()
         {{
-            put("potion", "minecraft:water");
-        }});
+            put(potionTagId, "minecraft:water");
+        }}, id);
+        instanceList.add(this);
     }
     
     @Override
     public int getColor(HashMap<String, String> data)
     {
-        return getPotionColor(data.get("potion"));
+        return getPotionColor(data.get(potionTagId));
     }
     
     @Override
     public void triggerEffect(HashMap<String, String> data, BlockState state, Level level, BlockPos pos, LivingEntity entity)
     {
-        Potion potion = getPotion(data.get("potion"));
+        Potion potion = getPotion(data.get(potionTagId));
         List<MobEffectInstance> effects = potion.getEffects();
         // TODO: 2022/5/10 实现效果打折？
         for(MobEffectInstance effect : effects)
@@ -73,12 +80,12 @@ public class PotionFireEffectHelper extends FireEffectHelperBase
     {
         ArrayList<Component> lines = new ArrayList<>();
         var name = new TranslatableComponent(
-                getPotion(data.get("potion")).getName(
+                getPotion(data.get(potionTagId)).getName(
                         Util.makeDescriptionId("item", Items.POTION.getRegistryName()) + ".effect."));
         MiddleComponent mainLine = (MiddleComponent) colorfulText(
                 new MiddleComponent("tooltip.firewood.tinder_item.major_effect." + data.get("type"),
                         name),
-                getPotionColor(data.get("potion")));
+                getPotionColor(data.get(potionTagId)));
         mainLine.setDamage(getDamage());
         lines.add(mainLine);
         if(extended)
@@ -88,7 +95,7 @@ public class PotionFireEffectHelper extends FireEffectHelperBase
     
             List<Pair<Attribute, AttributeModifier>> list1 = Lists.newArrayList();
     
-            for(MobEffectInstance effectInstance : getPotion(data.get("potion")).getEffects())
+            for(MobEffectInstance effectInstance : getPotion(data.get(potionTagId)).getEffects())
             {
                 MutableComponent mutablecomponent = new TranslatableComponent(effectInstance.getDescriptionId());
                 MobEffect mobeffect = effectInstance.getEffect();
@@ -155,16 +162,16 @@ public class PotionFireEffectHelper extends FireEffectHelperBase
     @Override
     public boolean isSameNBT(CompoundTag first, CompoundTag second)
     {
-        return first.getString("type").equals(second.getString("type")) &&
-                first.getString("potion").equals(second.getString("potion"));
+        return super.isSameNBT(first, second) &&
+                first.getString(potionTagId).equals(second.getString(potionTagId));
     }
     
     @Override
     public CompoundTag saveToNBT(HashMap<String, String> data)
     {
         CompoundTag tags = new CompoundTag();
-        tags.putString("type", "potion");
-        tags.putString("potion", data.get("potion"));
+        tags.putString("type", id);
+        tags.putString(potionTagId, data.get(potionTagId));
         return tags;
     }
     
@@ -172,8 +179,8 @@ public class PotionFireEffectHelper extends FireEffectHelperBase
     public HashMap<String, String> readFromNBT(CompoundTag tags)
     {
         HashMap<String, String> data = new HashMap<>();
-        data.put("type", "potion");
-        data.put("potion", tags.getString("potion"));
+        data.put("type", id);
+        data.put(potionTagId, tags.getString(potionTagId));
         return data;
     }
     
@@ -185,5 +192,34 @@ public class PotionFireEffectHelper extends FireEffectHelperBase
     public static Potion getPotion(String potion)
     {
         return ForgeRegistries.POTIONS.getValue(new ResourceLocation(potion));
+    }
+    
+    @Override
+    public String getJEIString(HashMap<String, String> data)
+    {
+        return data.get("type") + "-" + data.get(potionTagId);
+    }
+    
+    @Override
+    public void fillItemCategory(NonNullList<ItemStack> items, ItemStack item)
+    {
+        for(Potion potion : ForgeRegistries.POTIONS)
+        {
+            if(potion == Potions.EMPTY) continue;
+            
+            String potionId = potion.getRegistryName().toString();
+            ItemStack stack = FireEffectHelpers.addMajorEffect(item.copy(), id, new HashMap<>()
+            {{
+                put(potionTagId, potionId);
+            }});
+            
+            if(!stack.isEmpty())
+                items.add(stack);
+        }
+    }
+    
+    public static List<FireEffectHelperInterface> getInstanceList()
+    {
+        return instanceList;
     }
 }

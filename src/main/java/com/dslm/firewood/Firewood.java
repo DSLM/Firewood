@@ -1,6 +1,6 @@
 package com.dslm.firewood;
 
-import com.dslm.firewood.compat.TOPCompat;
+import com.dslm.firewood.compat.top.TOPCompat;
 import com.dslm.firewood.config.Config;
 import com.dslm.firewood.render.SpiritualCampfireRenderer;
 import com.mojang.logging.LogUtils;

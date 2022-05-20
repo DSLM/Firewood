@@ -17,17 +17,13 @@ import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
-import net.minecraft.world.item.alchemy.Potion;
-import net.minecraft.world.item.alchemy.Potions;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
-import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nonnull;
-import java.util.HashMap;
 import java.util.List;
 
 import static com.dslm.firewood.Register.SPIRITUAL_FIRE_BLOCK;
@@ -69,7 +65,7 @@ public class TinderItem extends Item
     
         Block validGround = GroundFireEffectHelper.getBlockByNBTs(itemStack.getTag());
         if(SpiritualFireBlock.canBePlacedAt(level, blockpos1)
-                && SpiritualFireBlock.canBePlacedOn(level, blockpos1, validGround))
+                && GroundFireEffectHelper.canBePlacedOn(level, blockpos1, validGround))
         {
             level.playSound(player, blockpos1, SoundEvents.FLINTANDSTEEL_USE, SoundSource.BLOCKS, 1.0F, level.getRandom().nextFloat() * 0.4F + 0.8F);
             BlockState blockstate1 = SPIRITUAL_FIRE_BLOCK.get().defaultBlockState();
@@ -97,23 +93,14 @@ public class TinderItem extends Item
     @Override
     public void fillItemCategory(@Nonnull CreativeModeTab group, @Nonnull NonNullList<ItemStack> items)
     {
-        if(allowdedIn(group))
+        if(!allowdedIn(group))
         {
-            items.add(new ItemStack(this));
-            
-            for(Potion potion : ForgeRegistries.POTIONS)
-            {
-                if(potion == Potions.EMPTY) continue;
-                
-                String potionId = potion.getRegistryName().toString();
-                ItemStack stack = FireEffectHelpers.addMajorEffect(new ItemStack(this), "potion", new HashMap<>()
-                {{
-                    put("potion", potionId);
-                }});
-                
-                if(!stack.isEmpty())
-                    items.add(stack);
-            }
+            return;
         }
+    
+        //vanilla
+        items.add(new ItemStack(this));
+    
+        FireEffectHelpers.fillItemCategory(items, new ItemStack(this));
     }
 }

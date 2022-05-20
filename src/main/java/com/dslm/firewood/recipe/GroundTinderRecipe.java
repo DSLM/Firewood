@@ -1,205 +1,176 @@
 package com.dslm.firewood.recipe;
 
-import com.dslm.firewood.Register;
+import com.dslm.firewood.Firewood;
+import com.dslm.firewood.block.entity.SpiritualCampfireBlockEntity;
 import com.dslm.firewood.fireEffectHelper.FireEffectHelpers;
-import com.dslm.firewood.item.TinderItem;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.google.gson.JsonParseException;
+import com.mojang.datafixers.util.Either;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.inventory.CraftingContainer;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.CustomRecipe;
-import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Block;
+import net.minecraftforge.common.util.RecipeMatcher;
 import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.ForgeRegistryEntry;
 
-import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Objects;
+import java.util.List;
+import java.util.stream.Stream;
 
-public class GroundTinderRecipe extends CustomRecipe
+import static com.dslm.firewood.fireEffectHelper.GroundFireEffectHelper.blockTagId;
+
+public class GroundTinderRecipe extends TinderRecipe
 {
-    @Nonnull
-    private final TinderItem tinderIng;
-    private final ArrayList<Item> othersIng;
+    protected final Ingredient block;
     
-    public GroundTinderRecipe(ResourceLocation id, @Nonnull TinderItem tinderIng, ArrayList<Item> othersIng)
+    public GroundTinderRecipe(TinderRecipe recipe)
     {
-        super(id);
-        this.tinderIng = tinderIng;
-        this.othersIng = othersIng;
+        super(recipe);
+        this.block = new BlockItemIngredient();
     }
     
     @Override
-    public boolean matches(CraftingContainer inv, @Nonnull Level world)
+    public boolean matches(SpiritualCampfireBlockEntity container, Level level)
     {
-        boolean block = false;
-        boolean tinder = false;
-        ArrayList<Boolean> others = new ArrayList<>();
-        for(Item item : othersIng)
-        {
-            others.add(false);
-        }
-        ingCheck:
-        for(int i = 0; i < inv.getContainerSize(); i++)
-        {
-            ItemStack is = inv.getItem(i);
-            if(is.isEmpty()) continue;
-            if(is.getItem() == this.tinderIng.asItem() && !tinder)
-            {
-                tinder = true;
-            }
-            else
-            {
-                for(int j = 0; j < othersIng.size(); j++)
-                {
-                    if(is.getItem() == this.othersIng.get(j).asItem() && !others.get(j))
-                    {
-                        others.set(j, true);
-                        continue ingCheck;
-                    }
-                }
-                if(is.getItem() instanceof BlockItem && !block)
-                {
-                    block = true;
-                    continue;
-                }
-                if(!is.isEmpty()) return false;
-            }
-        }
-        for(Boolean other : others)
-        {
-            if(!other) return false;
-        }
-        return block && tinder;
+        ArrayList<ItemStack> inputs = new ArrayList<>(container.getIngredients());
+        inputs.removeIf((i) -> i == null || i.isEmpty());
+        int[] recipe = RecipeMatcher.findMatches(inputs, new ArrayList<>(recipeItems)
+        {{
+            add(block);
+        }});
+        return recipe != null && tinder.test(container.getTinder());
     }
     
-    @Nonnull
     @Override
-    public ItemStack assemble(CraftingContainer inv)
+    public ItemStack assemble(SpiritualCampfireBlockEntity container)
     {
-        Block block = null;
-        ItemStack tinder = null;
-        ArrayList<Boolean> others = new ArrayList<>();
-        for(Item item : othersIng)
-        {
-            others.add(false);
-        }
-        ingCheck:
-        for(int i = 0; i < inv.getContainerSize(); i++)
-        {
-            ItemStack is = inv.getItem(i);
-            if(tinder == null && is.getItem() == this.tinderIng)
+        ArrayList<ItemStack> inputs = new ArrayList<>(container.getIngredients());
+        inputs.removeIf((i) -> i == null || i.isEmpty());
+        int[] recipe = RecipeMatcher.findMatches(inputs, new ArrayList<>(recipeItems)
+        {{
+            add(block);
+        }});
+        container.getIngredients().forEach((i) -> {
+            if(inputs.get(recipe[recipe.length - 1]) == i)
             {
-                tinder = is;
+                addNBT.addMinorEffect(new HashMap<>()
+                {{
+                    put("type", "ground");
+                    put(blockTagId, ((BlockItem) i.getItem()).getBlock().getRegistryName().toString());
+                }});
             }
-            else
-            {
-                for(int j = 0; j < othersIng.size(); j++)
-                {
-                    if(is.getItem() == this.othersIng.get(j).asItem() && !others.get(j))
-                    {
-                        others.set(j, true);
-                        continue ingCheck;
-                    }
-                }
-                if(block == null && is.getItem() instanceof BlockItem)
-                {
-                    block = ((BlockItem) is.getItem()).getBlock();
-                }
-            }
-        }
-        if(block != null && tinder != null)
+        });
+        return super.assemble(container);
+    }
+    
+    @Override
+    public ResourceLocation getId()
+    {
+        return id;
+    }
+    
+    public Ingredient getBlock()
+    {
+        return block;
+    }
+    
+    public class BlockItemIngredient extends Ingredient
+    {
+        
+        public BlockItemIngredient()
         {
-            //output
-            String blockId = block.getRegistryName().toString();
-            ItemStack output = FireEffectHelpers.addMinorEffect(tinder.copy(), "ground", new HashMap<>()
-            {{
-                put("block", blockId);
-            }});
-            output.setCount(1);
-            return output;
+            super(Stream.of(new ItemValue(ItemStack.EMPTY)));
         }
         
-        return ItemStack.EMPTY;
-    }
-    
-    @Override
-    public boolean canCraftInDimensions(int width, int height)
-    {
-        return width * height > 2 + othersIng.size();
-    }
-    
-    @Nonnull
-    @Override
-    public RecipeSerializer<?> getSerializer()
-    {
-        return Register.GROUND_TINDER_RECIPE_SERIALIZER.get();
-    }
-    
-    public TinderItem getTinderItem()
-    {
-        return this.tinderIng;
-    }
-    
-    public ArrayList<Item> getOthersIng()
-    {
-        return this.othersIng;
-    }
-    
-    public static class Serializer extends ForgeRegistryEntry<RecipeSerializer<?>> implements RecipeSerializer<GroundTinderRecipe>
-    {
-        @Nonnull
         @Override
-        public GroundTinderRecipe fromJson(@Nonnull ResourceLocation rl, @Nonnull JsonObject json)
+        public boolean test(@Nullable ItemStack itemStack)
         {
-            if(json.get("others").getAsJsonArray() == null)
-                throw new JsonParseException("Tried using an invalid items as other items for recipe " + rl);
-            ArrayList<Item> others = new ArrayList<>();
-            for(JsonElement i : json.get("others").getAsJsonArray())
+            return itemStack != null && itemStack.getItem() instanceof BlockItem;
+        }
+    }
+    
+    public static class Type extends TinderRecipe.Type
+    {
+        public static final String ID = "ground_tinder_recipe";
+    }
+    
+    public static class Serializer extends TinderRecipe.Serializer
+    {
+        public static final ResourceLocation ID =
+                new ResourceLocation(Firewood.MOD_ID, Type.ID);
+        
+        @Override
+        public GroundTinderRecipe fromJson(ResourceLocation id, JsonObject json)
+        {
+            return new GroundTinderRecipe(super.fromJson(id, json));
+        }
+        
+        @Override
+        public GroundTinderRecipe fromNetwork(ResourceLocation id, FriendlyByteBuf buf)
+        {
+            
+            return new GroundTinderRecipe(super.fromNetwork(id, buf));
+        }
+        
+        @Override
+        public void toNetwork(FriendlyByteBuf buf, TinderRecipe recipe)
+        {
+            if(recipe instanceof GroundTinderRecipe tele)
             {
-                others.add(ForgeRegistries.ITEMS.getValue(ResourceLocation.tryParse(i.getAsString())));
+                super.toNetwork(buf, recipe);
             }
-            Item tinder = ForgeRegistries.ITEMS.getValue(ResourceLocation.tryParse(json.get("tinder").getAsString()));
-            if(tinder == null)
-                throw new JsonParseException("Tried using an invalid item as ground tinder item for recipe " + rl);
-            if(tinder instanceof TinderItem tinder1)
-                return new GroundTinderRecipe(rl, tinder1, others);
-            else
-                throw new JsonParseException("The defined GroundTinder is not an instance of TinderItem in recipe " + rl);
         }
         
         @Nullable
         @Override
-        public GroundTinderRecipe fromNetwork(@Nonnull ResourceLocation rl, @Nonnull FriendlyByteBuf buf)
+        public ResourceLocation getRegistryName()
         {
-            Item tinder = ForgeRegistries.ITEMS.getValue(buf.readResourceLocation());
-            ArrayList<Item> others = new ArrayList<>();
-            int num = buf.readInt();
-            for(int i = 0; i < num; i++)
-            {
-                others.add(ForgeRegistries.ITEMS.getValue(buf.readResourceLocation()));
-            }
-            return new GroundTinderRecipe(rl, (TinderItem) tinder, others);
+            return ID;
         }
+    }
+    
+    public List<Either<List<ItemStack>, Ingredient>> getJEIInputs()
+    {
+        ArrayList<Either<List<ItemStack>, Ingredient>> list = new ArrayList<>();
+        list.add(Either.right(tinder));
         
-        @Override
-        public void toNetwork(@Nonnull FriendlyByteBuf buf, @Nonnull GroundTinderRecipe recipe)
+        List<ItemStack> groundInput = new ArrayList<>();
+        for(Item item : ForgeRegistries.ITEMS)
         {
-            buf.writeResourceLocation(Objects.requireNonNull(ForgeRegistries.ITEMS.getKey(recipe.tinderIng)));
-            buf.writeInt(recipe.othersIng.size());
-            for(Item i : recipe.othersIng)
+            if(item instanceof BlockItem)
             {
-                buf.writeResourceLocation(Objects.requireNonNull(ForgeRegistries.ITEMS.getKey(i)));
+                groundInput.add(new ItemStack(item));
+            }
+            
+        }
+        list.add(Either.left(groundInput));
+        
+        recipeItems.forEach(item -> list.add(Either.right(item)));
+        return list;
+    }
+    
+    public List<ItemStack> getJEIResult()
+    {
+        List<ItemStack> groundInput = new ArrayList<>();
+        for(ItemStack i : tinder.getItems())
+        {
+            for(Item item : ForgeRegistries.ITEMS)
+            {
+                if(item instanceof BlockItem blockItem)
+                {
+                    ItemStack stack = FireEffectHelpers.addMinorEffect(i.copy(), "ground", new HashMap<>()
+                    {{
+                        put(blockTagId, blockItem.getBlock().getRegistryName().toString());
+                    }});
+                    groundInput.add(stack);
+                }
+                
             }
         }
+        return groundInput;
     }
 }

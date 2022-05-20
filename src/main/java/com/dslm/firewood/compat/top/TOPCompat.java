@@ -1,4 +1,4 @@
-package com.dslm.firewood.compat;
+package com.dslm.firewood.compat.top;
 
 import com.dslm.firewood.Firewood;
 import mcjty.theoneprobe.api.*;

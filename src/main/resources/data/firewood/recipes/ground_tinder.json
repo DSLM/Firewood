@@ -1,7 +1,17 @@
 {
-  "type": "firewood:crafting_ground_tinder",
-  "tinder": "firewood:tinder_item",
-  "others": [
-    "minecraft:stick"
-  ]
+  "type": "firewood:ground_tinder_recipe",
+  "ingredients": [
+    {
+      "item": "minecraft:stick"
+    }
+  ],
+  "tinder": {
+    "item": "firewood:tinder_item"
+  },
+  "addNBT": {
+  },
+  "process": 2,
+  "chance": 100.0,
+  "damage": 0.5,
+  "cooldown": 100
 }

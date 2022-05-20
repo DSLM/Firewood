@@ -1,6 +1,7 @@
-package com.dslm.firewood.container;
+package com.dslm.firewood.menu;
 
 import com.dslm.firewood.Register;
+import com.dslm.firewood.block.entity.SpiritualCampfireBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -13,39 +14,50 @@ import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.SlotItemHandler;
 import net.minecraftforge.items.wrapper.InvWrapper;
+import org.apache.commons.lang3.tuple.Pair;
 import org.jetbrains.annotations.NotNull;
 
-public class SpiritualCampfireBlockContainer extends AbstractContainerMenu
+import java.util.ArrayList;
+
+public class SpiritualCampfireBlockMenu extends AbstractContainerMenu
 {
     
     private BlockEntity blockEntity;
     private Player playerEntity;
     private IItemHandler playerInventory;
+    public final static ArrayList<Pair<Integer, Integer>> slotsPos = new ArrayList<Pair<Integer, Integer>>()
+    {{
+        add(Pair.of(54, 54));
+        add(Pair.of(36 * 0, 36 * 0));
+        add(Pair.of(36 * 1, 36 * 0));
+        add(Pair.of(36 * 2, 36 * 0));
+        add(Pair.of(36 * 3, 36 * 0));
+        add(Pair.of(36 * 3, 36 * 1));
+        add(Pair.of(36 * 3, 36 * 2));
+        add(Pair.of(36 * 3, 36 * 3));
+        add(Pair.of(36 * 2, 36 * 3));
+        add(Pair.of(36 * 1, 36 * 3));
+        add(Pair.of(36 * 0, 36 * 3));
+        add(Pair.of(36 * 0, 36 * 2));
+        add(Pair.of(36 * 0, 36 * 1));
+    }};
     
-    public SpiritualCampfireBlockContainer(int windowId, BlockPos pos, Inventory playerInventory, Player player)
+    public SpiritualCampfireBlockMenu(int windowId, BlockPos pos, Inventory playerInventory, Player player)
     {
         super(Register.SPIRITUAL_CAMPFIRE_BLOCK_CONTAINER.get(), windowId);
-        blockEntity = player.getCommandSenderWorld().getBlockEntity(pos);
+        this.blockEntity = player.getCommandSenderWorld().getBlockEntity(pos);
         this.playerEntity = player;
         this.playerInventory = new InvWrapper(playerInventory);
         
         if(blockEntity != null)
         {
             blockEntity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(h -> {
-                addSlot(new SlotItemHandler(h, 0, 80, 77));
-    
-                addSlot(new SlotItemHandler(h, 1, 26 + 36 * 0, 23 + 36 * 0));
-                addSlot(new SlotItemHandler(h, 2, 26 + 36 * 1, 23 + 36 * 0));
-                addSlot(new SlotItemHandler(h, 3, 26 + 36 * 2, 23 + 36 * 0));
-                addSlot(new SlotItemHandler(h, 4, 26 + 36 * 3, 23 + 36 * 0));
-                addSlot(new SlotItemHandler(h, 5, 26 + 36 * 3, 23 + 36 * 1));
-                addSlot(new SlotItemHandler(h, 6, 26 + 36 * 3, 23 + 36 * 2));
-                addSlot(new SlotItemHandler(h, 7, 26 + 36 * 3, 23 + 36 * 3));
-                addSlot(new SlotItemHandler(h, 8, 26 + 36 * 2, 23 + 36 * 3));
-                addSlot(new SlotItemHandler(h, 9, 26 + 36 * 1, 23 + 36 * 3));
-                addSlot(new SlotItemHandler(h, 10, 26 + 36 * 0, 23 + 36 * 3));
-                addSlot(new SlotItemHandler(h, 11, 26 + 36 * 0, 23 + 36 * 2));
-                addSlot(new SlotItemHandler(h, 12, 26 + 36 * 0, 23 + 36 * 1));
+                for(int i = 0; i < SpiritualCampfireBlockEntity.NUM_SLOTS; i++)
+                {
+                    addSlot(new SlotItemHandler(h, i,
+                            26 + slotsPos.get(i).getLeft(),
+                            23 + slotsPos.get(i).getRight()));
+                }
             });
         }
         layoutPlayerInventorySlots(8, 167);
@@ -62,39 +74,37 @@ public class SpiritualCampfireBlockContainer extends AbstractContainerMenu
     public ItemStack quickMoveStack(Player playerIn, int index)
     {
         ItemStack itemstack = ItemStack.EMPTY;
-        Slot slot = this.slots.get(index);
+        Slot slot = slots.get(index);
         if(slot != null && slot.hasItem())
         {
             ItemStack stack = slot.getItem();
             itemstack = stack.copy();
             if(index <= 12)
             {
-                //move other material to inventory
-                if(!this.moveItemStackTo(stack, 13, 49, true))
+                if(!moveItemStackTo(stack, 13, 49, true))
                 {
                     return ItemStack.EMPTY;
                 }
-                slot.onQuickCraft(stack, itemstack);
             }
             else
             {
                 if(stack.getItem() == Register.TINDER_ITEM.get())
                 {
-                    if(!this.moveItemStackTo(stack, 0, 1, false))
+                    if(!moveItemStackTo(stack, 0, 1, false))
                     {
                         return ItemStack.EMPTY;
                     }
                 }
-                else if(!this.moveItemStackTo(stack, 1, 13, false))
+                else if(!moveItemStackTo(stack, 1, 13, false))
                 {
                     if(index < 40)
                     {
-                        if(!this.moveItemStackTo(stack, 40, 49, false))
+                        if(!moveItemStackTo(stack, 40, 49, false))
                         {
                             return ItemStack.EMPTY;
                         }
                     }
-                    else if(index < 49 && !this.moveItemStackTo(stack, 13, 40, false))
+                    else if(index < 49 && !moveItemStackTo(stack, 13, 40, false))
                     {
                         return ItemStack.EMPTY;
                     }

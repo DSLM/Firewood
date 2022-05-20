@@ -1,8 +1,20 @@
 {
-  "type": "firewood:crafting_potion_tinder",
-  "potion": "minecraft:potion",
-  "tinder": "firewood:tinder_item",
-  "others": [
-    "minecraft:string"
-  ]
+  "type": "firewood:potion_tinder_recipe",
+  "ingredients": [
+    {
+      "item": "minecraft:string"
+    }
+  ],
+  "tinder": {
+    "item": "firewood:tinder_item"
+  },
+  "addNBT": {
+  },
+  "process": 2,
+  "chance": 100.0,
+  "damage": 1.0,
+  "cooldown": 100,
+  "potion": {
+    "item": "minecraft:potion"
+  }
 }

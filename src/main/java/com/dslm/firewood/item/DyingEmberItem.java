@@ -7,13 +7,11 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
-import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 
 import javax.annotation.Nonnull;
@@ -36,24 +34,29 @@ public class DyingEmberItem extends Item
         if(stack.hasTag())
         {
             tooltip.add(colorfulText(new TranslatableComponent("tooltip.firewood.dying_ember_item.2",
-                            stack.getTag().get("dim"),
-                            stack.getTag().get("posX"),
-                            stack.getTag().get("posY"),
-                            stack.getTag().get("posZ")),
-                    TeleportFireEffectHelper.color));
+                            stack.getTag().get("dim").getAsString(),
+                            stack.getTag().get("posX").getAsString(),
+                            stack.getTag().get("posY").getAsString(),
+                            stack.getTag().get("posZ").getAsString()),
+                    TeleportFireEffectHelper.getColor()));
         }
     }
     
     @Override
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand pUsedHand)
     {
-        BlockPos blockpos = new BlockPos(player.getPosition(0));
+        BlockPos pos = new BlockPos(player.getPosition(0));
         ItemStack itemStack = player.getItemInHand(pUsedHand);
-        CompoundTag component = itemStack.getOrCreateTag();
-        component.putString("dim", level.dimension().location().getPath());
-        component.putString("posX", String.valueOf(blockpos.getX()));
-        component.putString("posY", String.valueOf(blockpos.getY()));
-        component.putString("posZ", String.valueOf(blockpos.getZ()));
+        addPosition(level.dimension().location().getPath(), pos, itemStack);
         return InteractionResultHolder.success(player.getItemInHand(pUsedHand));
+    }
+    
+    public static void addPosition(String level, BlockPos pos, ItemStack itemStack)
+    {
+        CompoundTag component = itemStack.getOrCreateTag();
+        component.putString("dim", level);
+        component.putString("posX", String.valueOf(pos.getX()));
+        component.putString("posY", String.valueOf(pos.getY()));
+        component.putString("posZ", String.valueOf(pos.getZ()));
     }
 }

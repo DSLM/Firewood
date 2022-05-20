@@ -1,7 +1,8 @@
 package com.dslm.firewood.block;
 
-import com.dslm.firewood.blockEntity.SpiritualCampfireBlockEntity;
-import com.dslm.firewood.container.SpiritualCampfireBlockContainer;
+import com.dslm.firewood.Register;
+import com.dslm.firewood.block.entity.SpiritualCampfireBlockEntity;
+import com.dslm.firewood.menu.SpiritualCampfireBlockMenu;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
@@ -14,6 +15,8 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.MenuProvider;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -53,6 +56,18 @@ public class SpiritualCampfireBlock extends BaseEntityBlock
         this.registerDefaultState(this.stateDefinition.any().setValue(LIT, Boolean.TRUE).setValue(FACING, Direction.NORTH));
     }
     
+    @Override
+    public void entityInside(BlockState state, Level level, BlockPos pos, Entity entity)
+    {
+        if(!level.isClientSide
+                && entity instanceof LivingEntity livingEntity
+                && !livingEntity.hasEffect(Register.FIRED_FLESH.get())
+                && level.getBlockEntity(pos) instanceof SpiritualCampfireBlockEntity tile)
+        {
+            tile.addProcess(state, level, pos, livingEntity);
+        }
+    }
+    
     public static void makeParticles(Level pLevel, BlockPos pPos, boolean pSpawnExtraSmoke)
     {
         Random random = pLevel.getRandom();
@@ -73,12 +88,12 @@ public class SpiritualCampfireBlock extends BaseEntityBlock
     
     @Nullable
     @Override
-    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level pLevel, BlockState pState, BlockEntityType<T> pBlockEntityType)
+    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> blockEntityType)
     {
         return (lvl, pos, blockState, t) -> {
             if(t instanceof SpiritualCampfireBlockEntity tile)
             {
-                if(pLevel.isClientSide) tile.clientTick(lvl, pos, blockState, tile);
+                if(level.isClientSide) tile.clientTick(lvl, pos, blockState, tile);
                 else tile.serverTick(lvl, pos, blockState, tile);
             }
         };
@@ -145,7 +160,7 @@ public class SpiritualCampfireBlock extends BaseEntityBlock
                     @Override
                     public AbstractContainerMenu createMenu(int windowId, Inventory playerInventory, Player playerEntity)
                     {
-                        return new SpiritualCampfireBlockContainer(windowId, pos, playerInventory, playerEntity);
+                        return new SpiritualCampfireBlockMenu(windowId, pos, playerInventory, playerEntity);
                     }
                 };
                 NetworkHooks.openGui((ServerPlayer) player, containerProvider, be.getBlockPos());

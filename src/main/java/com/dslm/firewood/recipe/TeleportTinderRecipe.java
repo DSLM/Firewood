@@ -1,201 +1,162 @@
 package com.dslm.firewood.recipe;
 
-import com.dslm.firewood.Register;
-import com.dslm.firewood.fireEffectHelper.FireEffectHelpers;
-import com.dslm.firewood.item.TinderItem;
-import com.google.gson.JsonElement;
+import com.dslm.firewood.Firewood;
+import com.dslm.firewood.block.entity.SpiritualCampfireBlockEntity;
+import com.dslm.firewood.fireEffectHelper.TeleportFireEffectHelper;
+import com.dslm.firewood.item.DyingEmberItem;
 import com.google.gson.JsonObject;
-import com.google.gson.JsonParseException;
+import com.mojang.datafixers.util.Either;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.NonNullList;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.inventory.CraftingContainer;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.CustomRecipe;
-import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.ForgeRegistryEntry;
+import net.minecraftforge.common.util.RecipeMatcher;
 
-import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Objects;
+import java.util.List;
 
-public class TeleportTinderRecipe extends CustomRecipe
+import static com.dslm.firewood.fireEffectHelper.TeleportFireEffectHelper.*;
+
+public class TeleportTinderRecipe extends TinderRecipe
 {
-    @Nonnull
-    private final Item emberIng;
-    @Nonnull
-    private final TinderItem tinderIng;
-    private final ArrayList<Item> othersIng;
+    protected final Ingredient ember;
     
-    public TeleportTinderRecipe(ResourceLocation id, @Nonnull Item emberIng, @Nonnull TinderItem tinderIng, ArrayList<Item> othersIng)
+    public TeleportTinderRecipe(TinderRecipe recipe, Ingredient ember)
     {
-        super(id);
-        this.emberIng = emberIng;
-        this.tinderIng = tinderIng;
-        this.othersIng = othersIng;
+        super(recipe);
+        this.ember = ember;
     }
     
     @Override
-    public boolean matches(CraftingContainer inv, @Nonnull Level world)
+    public boolean matches(SpiritualCampfireBlockEntity container, Level level)
     {
-        boolean ember = false;
-        boolean tinder = false;
-        ArrayList<Boolean> others = new ArrayList<>();
-        for(Item item : othersIng)
-        {
-            others.add(false);
-        }
-        ingCheck:
-        for(int i = 0; i < inv.getContainerSize(); i++)
-        {
-            ItemStack is = inv.getItem(i);
-            if(is.isEmpty()) continue;
-            if(is.getItem() == this.emberIng && !ember && is.hasTag())
-            {
-                ember = true;
-            }
-            else if(is.getItem() == this.tinderIng.asItem() && !tinder)
-            {
-                tinder = true;
-            }
-            else
-            {
-                for(int j = 0; j < othersIng.size(); j++)
-                {
-                    if(is.getItem() == this.othersIng.get(j).asItem() && !others.get(j))
-                    {
-                        others.set(j, true);
-                        continue ingCheck;
-                    }
-                }
-                if(!is.isEmpty()) return false;
-            }
-        }
-        for(Boolean other : others)
-        {
-            if(!other) return false;
-        }
-        return ember && tinder;
+        ArrayList<ItemStack> inputs = new ArrayList<>(container.getIngredients());
+        inputs.removeIf((i) -> i == null || i.isEmpty());
+        int[] recipe = RecipeMatcher.findMatches(inputs, new ArrayList<>(recipeItems)
+        {{
+            add(ember);
+        }});
+    
+        return recipe != null && matchEmber(inputs.get(recipe[recipe.length - 1]))
+                && tinder.test(container.getTinder());
     }
     
-    @Nonnull
-    @Override
-    public ItemStack assemble(CraftingContainer inv)
+    public boolean matchEmber(ItemStack itemStack)
     {
-        ItemStack ember = null;
-        ItemStack tinder = null;
-        for(int i = 0; i < inv.getContainerSize(); i++)
-        {
-            ItemStack is = inv.getItem(i);
-            if(ember == null && is.getItem() == this.emberIng)
+        return itemStack.hasTag()
+                && itemStack.getTag().contains("dim")
+                && itemStack.getTag().contains("posX")
+                && itemStack.getTag().contains("posY")
+                && itemStack.getTag().contains("posZ");
+    }
+    
+    @Override
+    public ItemStack assemble(SpiritualCampfireBlockEntity container)
+    {
+        ArrayList<ItemStack> inputs = new ArrayList<>(container.getIngredients());
+        inputs.removeIf((i) -> i == null || i.isEmpty());
+        int[] recipe = RecipeMatcher.findMatches(inputs, new ArrayList<>(recipeItems)
+        {{
+            add(ember);
+        }});
+        container.getIngredients().forEach((i) -> {
+            if(inputs.get(recipe[recipe.length - 1]) == i && matchEmber(i))
             {
-                ember = is;
+                addNBT.addMajorEffect(new HashMap<>()
+                {{
+                    put("type", "teleport");
+                    put(dimTagId, i.getTag().getString(dimTagId));
+                    put(xTagId, i.getTag().getString(xTagId));
+                    put(yTagId, i.getTag().getString(yTagId));
+                    put(zTagId, i.getTag().getString(zTagId));
+                }});
             }
-            if(tinder == null && is.getItem() == this.tinderIng) tinder = is;
-        }
-        if(ember != null && tinder != null && ember.hasTag())
-        {
-            //output
-            String dim = ember.getTag().getString("dim");
-            String posX = ember.getTag().getString("posX");
-            String posY = ember.getTag().getString("posY");
-            String posZ = ember.getTag().getString("posZ");
-            ItemStack output = FireEffectHelpers.addMajorEffect(tinder.copy(), "teleport", new HashMap<>()
-            {{
-                put("dim", dim);
-                put("posX", posX);
-                put("posY", posY);
-                put("posZ", posZ);
-            }});
-            output.setCount(1);
-            return output;
-        }
+        });
+        return super.assemble(container);
+    }
+    
+    @Override
+    public ResourceLocation getId()
+    {
+        return id;
+    }
+    
+    public Ingredient getEmber()
+    {
+        return ember;
+    }
+    
+    public static class Type extends TinderRecipe.Type
+    {
+        public static final String ID = "teleport_tinder_recipe";
+    }
+    
+    public static class Serializer extends TinderRecipe.Serializer
+    {
+        public static final ResourceLocation ID =
+                new ResourceLocation(Firewood.MOD_ID, Type.ID);
         
-        return ItemStack.EMPTY;
-    }
-    
-    @Override
-    public boolean canCraftInDimensions(int width, int height)
-    {
-        return width * height > 2 + othersIng.size();
-    }
-    
-    @Nonnull
-    @Override
-    public RecipeSerializer<?> getSerializer()
-    {
-        return Register.TELEPORT_TINDER_RECIPE_SERIALIZER.get();
-    }
-    
-    public TinderItem getTinderItem()
-    {
-        return this.tinderIng;
-    }
-    
-    public Item getEmberItem()
-    {
-        return this.emberIng;
-    }
-    
-    public ArrayList<Item> getOthersIng()
-    {
-        return this.othersIng;
-    }
-    
-    public static class Serializer extends ForgeRegistryEntry<RecipeSerializer<?>> implements RecipeSerializer<TeleportTinderRecipe>
-    {
-        @Nonnull
         @Override
-        public TeleportTinderRecipe fromJson(@Nonnull ResourceLocation rl, @Nonnull JsonObject json)
+        public TeleportTinderRecipe fromJson(ResourceLocation id, JsonObject json)
         {
-            if(json.get("others").getAsJsonArray() == null)
-                throw new JsonParseException("Tried using an invalid items as other items for recipe " + rl);
-            ArrayList<Item> others = new ArrayList<>();
-            for(JsonElement i : json.get("others").getAsJsonArray())
-            {
-                others.add(ForgeRegistries.ITEMS.getValue(ResourceLocation.tryParse(i.getAsString())));
-            }
-            Item ember = ForgeRegistries.ITEMS.getValue(ResourceLocation.tryParse(json.get("ember").getAsString()));
-            if(ember == null)
-                throw new JsonParseException("Tried using an invalid item as ember item for recipe " + rl);
-            Item tinder = ForgeRegistries.ITEMS.getValue(ResourceLocation.tryParse(json.get("tinder").getAsString()));
-            if(tinder == null)
-                throw new JsonParseException("Tried using an invalid item as ember tinder item for recipe " + rl);
-            if(tinder instanceof TinderItem tinder1)
-                return new TeleportTinderRecipe(rl, ember, tinder1, others);
-            else
-                throw new JsonParseException("The defined GroundTinder is not an instance of TinderItem in recipe " + rl);
+            Ingredient ember = Ingredient.fromJson(json.getAsJsonObject("ember"));
+            
+            return new TeleportTinderRecipe(super.fromJson(id, json), ember);
         }
         
+        @Override
+        public TeleportTinderRecipe fromNetwork(ResourceLocation id, FriendlyByteBuf buf)
+        {
+            Ingredient ember = Ingredient.fromNetwork(buf);
+            
+            return new TeleportTinderRecipe(super.fromNetwork(id, buf), ember);
+        }
+        
+        @Override
+        public void toNetwork(FriendlyByteBuf buf, TinderRecipe recipe)
+        {
+            if(recipe instanceof TeleportTinderRecipe tele)
+            {
+                super.toNetwork(buf, recipe);
+                tele.getEmber().toNetwork(buf);
+            }
+        }
+    
         @Nullable
         @Override
-        public TeleportTinderRecipe fromNetwork(@Nonnull ResourceLocation rl, @Nonnull FriendlyByteBuf buf)
+        public ResourceLocation getRegistryName()
         {
-            Item ember = ForgeRegistries.ITEMS.getValue(buf.readResourceLocation());
-            Item tinder = ForgeRegistries.ITEMS.getValue(buf.readResourceLocation());
-            ArrayList<Item> others = new ArrayList<>();
-            int num = buf.readInt();
-            for(int i = 0; i < num; i++)
-            {
-                others.add(ForgeRegistries.ITEMS.getValue(buf.readResourceLocation()));
-            }
-            return new TeleportTinderRecipe(rl, ember, (TinderItem) tinder, others);
+            return ID;
         }
-        
-        @Override
-        public void toNetwork(@Nonnull FriendlyByteBuf buf, @Nonnull TeleportTinderRecipe recipe)
+    }
+    
+    public List<Either<List<ItemStack>, Ingredient>> getJEIInputs()
+    {
+        ArrayList<Either<List<ItemStack>, Ingredient>> list = new ArrayList<>();
+        list.add(Either.right(tinder));
+        if(ember.getItems().length > 0)
         {
-            buf.writeResourceLocation(Objects.requireNonNull(ForgeRegistries.ITEMS.getKey(recipe.emberIng)));
-            buf.writeResourceLocation(Objects.requireNonNull(ForgeRegistries.ITEMS.getKey(recipe.tinderIng)));
-            buf.writeInt(recipe.othersIng.size());
-            for(Item i : recipe.othersIng)
-            {
-                buf.writeResourceLocation(Objects.requireNonNull(ForgeRegistries.ITEMS.getKey(i)));
-            }
+            List<ItemStack> emberInput = new ArrayList<>(Arrays.asList(ember.getItems()));
+            emberInput.forEach(ember -> DyingEmberItem.addPosition("overworld", new BlockPos(0, 256, 0), ember.copy()));
+            list.add(Either.left(emberInput));
         }
+        recipeItems.forEach(item -> list.add(Either.right(item)));
+        return list;
+    }
+    
+    public List<ItemStack> getJEIResult()
+    {
+        NonNullList<ItemStack> list = NonNullList.create();
+        for(ItemStack i : tinder.getItems())
+        {
+            TeleportFireEffectHelper.getInstanceList().get(0).fillItemCategory(list, i.copy());
+        }
+        return list;
     }
 }

@@ -2,6 +2,7 @@ package com.dslm.firewood.fireEffectHelper;
 
 import com.dslm.firewood.tooltip.MiddleComponent;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TranslatableComponent;
@@ -9,12 +10,14 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.util.ITeleporter;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Set;
 import java.util.function.Function;
 
@@ -23,21 +26,33 @@ import static com.dslm.firewood.fireEffectHelper.FireEffectHelpers.colorfulText;
 
 public class TeleportFireEffectHelper extends FireEffectHelperBase
 {
-    public static final int color = 0x336666;
+    private static final ArrayList<FireEffectHelperInterface> instanceList = new ArrayList<>();
     
-    public TeleportFireEffectHelper()
+    private static final int color = 0x336666;
+    public static final String dimTagId = "dim";
+    public static final String xTagId = "posX";
+    public static final String yTagId = "posY";
+    public static final String zTagId = "posZ";
+    
+    public TeleportFireEffectHelper(String id)
     {
         super(new HashMap<>()
         {{
-            put("dim", "");
-            put("posX", "0");
-            put("posY", "256");
-            put("posZ", "0");
-        }});
+            put(dimTagId, "overworld");
+            put(xTagId, "0");
+            put(yTagId, "256");
+            put(zTagId, "0");
+        }}, id);
+        instanceList.add(this);
     }
     
     @Override
     public int getColor(HashMap<String, String> data)
+    {
+        return color;
+    }
+    
+    public static int getColor()
     {
         return color;
     }
@@ -50,7 +65,7 @@ public class TeleportFireEffectHelper extends FireEffectHelperBase
             Set<ResourceKey<Level>> levelList = level.getServer().levelKeys();
             for(ResourceKey<Level> levelKey : levelList)
             {
-                if(entity.getServer().getLevel(levelKey).dimension().location().getPath().equals(data.get("dim")))
+                if(entity.getServer().getLevel(levelKey).dimension().location().getPath().equals(data.get(dimTagId)))
                 {
                     entity.changeDimension(entity.getServer().getLevel(levelKey), new ITeleporter()
                     {
@@ -58,7 +73,7 @@ public class TeleportFireEffectHelper extends FireEffectHelperBase
                         public Entity placeEntity(Entity entity, ServerLevel currentWorld, ServerLevel destWorld, float yaw, Function<Boolean, Entity> repositionEntity)
                         {
                             entity = repositionEntity.apply(false);
-                            entity.teleportTo(Integer.parseInt(data.get("posX")) + 0.5, Integer.parseInt(data.get("posY")), Integer.parseInt(data.get("posZ")) + 0.5);
+                            entity.teleportTo(Integer.parseInt(data.get(xTagId)) + 0.5, Integer.parseInt(data.get(yTagId)), Integer.parseInt(data.get(zTagId)) + 0.5);
                             return entity;
                         }
                     });
@@ -88,7 +103,7 @@ public class TeleportFireEffectHelper extends FireEffectHelperBase
         {
             lines.add(colorfulText(
                     new TranslatableComponent("tooltip.firewood.tinder_item.major_effect." + data.get("type") + ".extend.1",
-                            data.get("dim"), data.get("posX"), data.get("posY"), data.get("posZ")),
+                            data.get(dimTagId), Integer.parseInt(data.get(xTagId)), Integer.parseInt(data.get(yTagId)), Integer.parseInt(data.get(zTagId))),
                     color));
         }
         mainLine.setDamage(getDamage());
@@ -96,20 +111,14 @@ public class TeleportFireEffectHelper extends FireEffectHelperBase
     }
     
     @Override
-    public boolean isSameNBT(CompoundTag first, CompoundTag second)
-    {
-        return first.getString("type").equals(second.getString("type"));
-    }
-    
-    @Override
     public CompoundTag saveToNBT(HashMap<String, String> data)
     {
         CompoundTag tags = new CompoundTag();
-        tags.putString("type", "teleport");
-        tags.putString("dim", data.get("dim"));
-        tags.putString("posX", data.get("posX"));
-        tags.putString("posY", data.get("posY"));
-        tags.putString("posZ", data.get("posZ"));
+        tags.putString("type", id);
+        tags.putString(dimTagId, data.get(dimTagId));
+        tags.putString(xTagId, data.get(xTagId));
+        tags.putString(yTagId, data.get(yTagId));
+        tags.putString(zTagId, data.get(zTagId));
         return tags;
     }
     
@@ -117,11 +126,22 @@ public class TeleportFireEffectHelper extends FireEffectHelperBase
     public HashMap<String, String> readFromNBT(CompoundTag tags)
     {
         HashMap<String, String> data = new HashMap<>();
-        data.put("type", "teleport");
-        data.put("dim", tags.getString("dim"));
-        data.put("posX", tags.getString("posX"));
-        data.put("posY", tags.getString("posY"));
-        data.put("posZ", tags.getString("posZ"));
+        data.put("type", id);
+        data.put(dimTagId, tags.getString(dimTagId));
+        data.put(xTagId, tags.getString(xTagId));
+        data.put(yTagId, tags.getString(yTagId));
+        data.put(zTagId, tags.getString(zTagId));
         return data;
+    }
+    
+    @Override
+    public void fillItemCategory(NonNullList<ItemStack> items, ItemStack item)
+    {
+        items.add(FireEffectHelpers.addMajorEffect(item.copy(), id, defaultData));
+    }
+    
+    public static List<FireEffectHelperInterface> getInstanceList()
+    {
+        return instanceList;
     }
 }

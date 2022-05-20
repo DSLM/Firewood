@@ -27,19 +27,19 @@ public class LanguageUtil
     {
         //group
         add("itemGroup." + Firewood.MOD_ID, "Firewood", "薪火");
-        
+    
         //block
         add(Register.SPIRITUAL_FIRE_BLOCK.get(), "Spiritual Fire", "灵性之火");
         add(Register.SPIRITUAL_CAMPFIRE_BLOCK.get(), "Spiritual Campfire", "灵性营火");
-        
+    
         //item
         add(Register.TINDER_ITEM.get(), "Tinder", "火种");
         add(Register.DYING_EMBER_ITEM.get(), "Dying Ember", "余烬");
-        
+    
         //mob effect
-//        add(Register.FIRED_SPIRIT.get(), "Fired Spirit", "燃烧之魂");
-//        add(Register.FIRED_FLESH.get(), "Fired Flesh", "燃烧之躯");
-        
+        add(Register.FIRED_SPIRIT.get(), "Fired Spirit", "燃烧之魂");
+        add(Register.FIRED_FLESH.get(), "Fired Flesh", "燃烧之躯");
+    
         //death
         add("death.attack.spiritualFire",
                 "%s\'s spirit is burned to ashes.", "%s的灵魂被烧成了灰烬。");
@@ -49,16 +49,18 @@ public class LanguageUtil
                 "%s\'s flesh is burned to ashes.", "%s的躯体被烧成了灰烬。");
         add("death.attack.fleshyFire.player",
                 "%1$s\'s flesh is burned to ashes by %2$s\'s conspiracy.", "%2$s的阴谋将%1$s的躯体烧成了灰烬。");
-        
+    
         //config
-//        add("config.firewood.fired_spirit", "Settings for the Fired Spirit", "燃烧之魂设置");
+        add("config.firewood.fired_spirit", "Settings for the Fired Spirit", "燃烧之魂设置");
 //        add("config.firewood.fired_spirit.damage", "Fired Spirit Damage in each level", "每级燃烧之魂伤害");
-//        add("config.firewood.fired_spirit.interval", "Fired Spirit damage interval (tick)", "燃烧之魂伤害间隔（刻）");
-//        add("config.firewood.fired_flesh", "Settings for the Fired Flesh", "燃烧之躯设置");
+        add("config.firewood.fired_spirit.interval", "Fired Spirit damage interval (tick)", "燃烧之魂伤害间隔（刻）");
+        add("config.firewood.fired_flesh", "Settings for the Fired Flesh", "燃烧之躯设置");
 //        add("config.firewood.fired_flesh.damage", "Fired Flesh Damage in each level", "每级燃烧之躯伤害");
-//        add("config.firewood.fired_flesh.interval", "Fired Flesh damage interval (tick)", "燃烧之躯伤害间隔（刻）");
+        add("config.firewood.fired_flesh.interval", "Fired Flesh damage interval (tick)", "燃烧之躯伤害间隔（刻）");
+    
         add("config.firewood.spiritual_fire_block_effects",
                 "Settings for the Spiritual Fire Block Effects", "灵性之火效果设置");
+    
         add("config.firewood.spiritual_fire_block_effects.major",
                 "Settings for the Major Effects", "主要效果设置");
         add("config.firewood.spiritual_fire_block_effects.major.potion",
@@ -69,8 +71,27 @@ public class LanguageUtil
                 "Settings for the Teleport Effects", "传送效果设置");
         add("config.firewood.spiritual_fire_block_effects.major.teleport.base_damage",
                 "the base damage for trigger a teleport effect", "触发一个传送效果时造成的基础伤害");
+    
         add("config.firewood.spiritual_fire_block_effects.minor",
                 "Settings for the Minor Effects", "次要效果设置");
+    
+        add("config.firewood.spiritual_fire_block_effects.others", "Settings for Others", "其他设置");
+        add("config.firewood.spiritual_fire_block_effects.others.fired_flesh_interval",
+                "Fired Flesh effect time (tick); it is also a cooldown time of triggering spiritual fire effects",
+                "燃烧之躯效果时长（刻）；这个时间也代表着灵性之火效果触发的冷却时间");
+
+
+//        add("config.firewood.spiritual_campfire_block",
+//                "Settings for the Spiritual Campfire Block", "灵性营火效果设置");
+//        add("config.firewood.spiritual_campfire_block.process_damage",
+//                "the base damage for each time offering the campfire process",
+//                "增加营火进度时造成的基础伤害");
+//        add("config.firewood.spiritual_campfire_block.process_chance",
+//                "the success rate of offering the campfire process (%)",
+//                "增加营火进度的成功率（%）");
+//        add("config.firewood.spiritual_campfire_block.fired_flesh_interval",
+//                "Fired Flesh effect time (tick); it is also a cooldown time of offering the campfire process from one entity",
+//                "燃烧之躯效果时长（刻）；这个时间也代表着每个实体增加营火进度的冷却时间");
     
         //tooltip
         add(String.format("tooltip.%s.%s.%s", Firewood.MOD_ID, Register.DYING_EMBER_ITEM.get(), "1"),
@@ -89,6 +110,19 @@ public class LanguageUtil
                 "§lMinor Effect: ", "§l次要效果：");
         add("tooltip." + Firewood.MOD_ID + "." + Register.TINDER_ITEM.get() + ".minor_effect.ground",
                 "Ground: %s", "基底：%s");
+    
+        add("tooltip." + Firewood.MOD_ID + "." + Register.TINDER_ITEM.get() + ".exception_effect",
+                "Unexpected Data", "错误数据");
+    
+        //recipe tooltip
+        add("tooltip." + Firewood.MOD_ID + ".recipe.progress",
+                "Requested Firewood: %s", "薪火需求：%s");
+        add("tooltip." + Firewood.MOD_ID + ".recipe.chance",
+                "Burning Firewood Success Rate: %s%%", "添薪成功率：%s%%");
+        add("tooltip." + Firewood.MOD_ID + ".recipe.damage",
+                "Burning Firewood Damage: %s", "添薪伤害：%s");
+        add("tooltip." + Firewood.MOD_ID + ".recipe.cooldown",
+                "Burning Firewood Cooldown: %1$sS (%2$s ticks)", "添薪冷却：%1$s秒（%2$s刻）");
     
         //start generation
         generator.addProvider(new LanguageProvider(generator, "en_us"));
