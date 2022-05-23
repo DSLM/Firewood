@@ -2,7 +2,7 @@ package com.dslm.firewood.item;
 
 import com.dslm.firewood.block.SpiritualFireBlock;
 import com.dslm.firewood.fireEffectHelper.FireEffectHelpers;
-import com.dslm.firewood.fireEffectHelper.GroundFireEffectHelper;
+import com.dslm.firewood.fireEffectHelper.block.GroundFireEffectHelper;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.BlockPos;

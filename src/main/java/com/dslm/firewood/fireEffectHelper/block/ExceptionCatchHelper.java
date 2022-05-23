@@ -1,4 +1,4 @@
-package com.dslm.firewood.fireEffectHelper;
+package com.dslm.firewood.fireEffectHelper.block;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -11,7 +11,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class ExceptionCatchHelper extends FireEffectHelperBase
+public class ExceptionCatchHelper extends FireEffectHelperBase implements MajorFireEffectHelperInterface, MinorFireEffectHelperInterface
 {
     public ExceptionCatchHelper()
     {
@@ -26,6 +26,12 @@ public class ExceptionCatchHelper extends FireEffectHelperBase
     
     @Override
     public void triggerEffect(HashMap<String, String> data, BlockState state, Level level, BlockPos pos, LivingEntity entity)
+    {
+    
+    }
+    
+    @Override
+    public void triggerEffect(HashMap<String, String> data, BlockState state, Level level, BlockPos pos)
     {
     
     }

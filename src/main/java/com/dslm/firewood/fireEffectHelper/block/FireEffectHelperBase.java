@@ -1,4 +1,4 @@
-package com.dslm.firewood.fireEffectHelper;
+package com.dslm.firewood.fireEffectHelper.block;
 
 import net.minecraft.nbt.CompoundTag;
 

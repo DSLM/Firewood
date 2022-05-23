@@ -1,5 +1,6 @@
-package com.dslm.firewood.fireEffectHelper;
+package com.dslm.firewood.fireEffectHelper.block;
 
+import com.dslm.firewood.fireEffectHelper.FireEffectHelpers;
 import com.dslm.firewood.tooltip.MiddleComponent;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
@@ -24,7 +25,7 @@ import java.util.function.Function;
 import static com.dslm.firewood.config.SpiritualFireBlockEffectConfig.TELEPORT_BASE_DAMAGE;
 import static com.dslm.firewood.fireEffectHelper.FireEffectHelpers.colorfulText;
 
-public class TeleportFireEffectHelper extends FireEffectHelperBase
+public class TeleportFireEffectHelper extends MajorFireEffectHelperBase
 {
     private static final ArrayList<FireEffectHelperInterface> instanceList = new ArrayList<>();
     

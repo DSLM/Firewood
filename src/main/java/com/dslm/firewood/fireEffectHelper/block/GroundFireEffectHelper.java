@@ -1,4 +1,4 @@
-package com.dslm.firewood.fireEffectHelper;
+package com.dslm.firewood.fireEffectHelper.block;
 
 import com.dslm.firewood.tooltip.MiddleComponent;
 import net.minecraft.core.BlockPos;
@@ -7,7 +7,6 @@ import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -20,7 +19,7 @@ import java.util.List;
 
 import static com.dslm.firewood.fireEffectHelper.FireEffectHelpers.colorfulText;
 
-public class GroundFireEffectHelper extends FireEffectHelperBase
+public class GroundFireEffectHelper extends MinorFireEffectHelperBase
 {
     private static final ArrayList<FireEffectHelperInterface> instanceList = new ArrayList<>();
     
@@ -43,18 +42,12 @@ public class GroundFireEffectHelper extends FireEffectHelperBase
     }
     
     @Override
-    public void triggerEffect(HashMap<String, String> data, BlockState state, Level level, BlockPos pos, LivingEntity entity)
+    public void triggerEffect(HashMap<String, String> data, BlockState state, Level level, BlockPos pos)
     {
         if(!canBePlacedOn(level, pos, getBlock(data.get(blockTagId))))
         {
             level.setBlock(pos, Blocks.AIR.defaultBlockState(), Block.UPDATE_ALL_IMMEDIATE);
         }
-    }
-    
-    @Override
-    public float getDamage()
-    {
-        return 0;
     }
     
     public static Block getBlockByNBTs(CompoundTag compoundTag)
@@ -108,7 +101,6 @@ public class GroundFireEffectHelper extends FireEffectHelperBase
         MiddleComponent mainLine = (MiddleComponent) colorfulText(
                 new MiddleComponent("tooltip.firewood.tinder_item.minor_effect." + data.get("type"), name), color);
         lines.add(mainLine);
-        mainLine.setDamage(getDamage());
         return lines;
     }
     

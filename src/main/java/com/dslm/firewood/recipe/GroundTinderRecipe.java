@@ -21,7 +21,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Stream;
 
-import static com.dslm.firewood.fireEffectHelper.GroundFireEffectHelper.blockTagId;
+import static com.dslm.firewood.fireEffectHelper.block.GroundFireEffectHelper.blockTagId;
 
 public class GroundTinderRecipe extends TinderRecipe
 {

@@ -33,7 +33,7 @@ public class SpiritualCampfireBlockScreen extends AbstractContainerScreen<Spirit
     protected void renderLabels(PoseStack matrixStack, int mouseX, int mouseY)
     {
         TranslatableComponent line = new TranslatableComponent("block.firewood.spiritual_campfire_block");
-        drawString(matrixStack, Minecraft.getInstance().font, line, 5, 5, line.getStyle().getColor().getValue());
+        drawString(matrixStack, Minecraft.getInstance().font, line, 5, 5, 0x0);
     }
     
     @Override

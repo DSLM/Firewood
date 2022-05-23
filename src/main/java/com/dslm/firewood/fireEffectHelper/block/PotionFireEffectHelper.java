@@ -1,5 +1,6 @@
-package com.dslm.firewood.fireEffectHelper;
+package com.dslm.firewood.fireEffectHelper.block;
 
+import com.dslm.firewood.fireEffectHelper.FireEffectHelpers;
 import com.dslm.firewood.tooltip.MiddleComponent;
 import com.google.common.collect.Lists;
 import com.mojang.datafixers.util.Pair;
@@ -36,7 +37,7 @@ import java.util.Map;
 import static com.dslm.firewood.config.SpiritualFireBlockEffectConfig.POTION_BASE_DAMAGE;
 import static com.dslm.firewood.fireEffectHelper.FireEffectHelpers.colorfulText;
 
-public class PotionFireEffectHelper extends FireEffectHelperBase
+public class PotionFireEffectHelper extends MajorFireEffectHelperBase
 {
     private static final ArrayList<FireEffectHelperInterface> instanceList = new ArrayList<>();
     

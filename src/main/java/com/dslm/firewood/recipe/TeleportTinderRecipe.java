@@ -2,7 +2,7 @@ package com.dslm.firewood.recipe;
 
 import com.dslm.firewood.Firewood;
 import com.dslm.firewood.block.entity.SpiritualCampfireBlockEntity;
-import com.dslm.firewood.fireEffectHelper.TeleportFireEffectHelper;
+import com.dslm.firewood.fireEffectHelper.block.TeleportFireEffectHelper;
 import com.dslm.firewood.item.DyingEmberItem;
 import com.google.gson.JsonObject;
 import com.mojang.datafixers.util.Either;
@@ -21,7 +21,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
-import static com.dslm.firewood.fireEffectHelper.TeleportFireEffectHelper.*;
+import static com.dslm.firewood.fireEffectHelper.block.TeleportFireEffectHelper.*;
 
 public class TeleportTinderRecipe extends TinderRecipe
 {

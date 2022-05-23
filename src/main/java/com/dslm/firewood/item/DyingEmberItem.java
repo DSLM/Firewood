@@ -1,6 +1,6 @@
 package com.dslm.firewood.item;
 
-import com.dslm.firewood.fireEffectHelper.TeleportFireEffectHelper;
+import com.dslm.firewood.fireEffectHelper.block.TeleportFireEffectHelper;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;

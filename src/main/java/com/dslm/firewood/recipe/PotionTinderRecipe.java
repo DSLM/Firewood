@@ -2,7 +2,7 @@ package com.dslm.firewood.recipe;
 
 import com.dslm.firewood.Firewood;
 import com.dslm.firewood.block.entity.SpiritualCampfireBlockEntity;
-import com.dslm.firewood.fireEffectHelper.PotionFireEffectHelper;
+import com.dslm.firewood.fireEffectHelper.block.PotionFireEffectHelper;
 import com.google.gson.JsonObject;
 import com.mojang.datafixers.util.Either;
 import net.minecraft.core.NonNullList;
@@ -22,7 +22,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import static com.dslm.firewood.fireEffectHelper.PotionFireEffectHelper.potionTagId;
+import static com.dslm.firewood.fireEffectHelper.block.PotionFireEffectHelper.potionTagId;
 
 public class PotionTinderRecipe extends TinderRecipe
 {

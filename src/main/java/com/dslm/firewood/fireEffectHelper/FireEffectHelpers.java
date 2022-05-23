@@ -3,6 +3,7 @@ package com.dslm.firewood.fireEffectHelper;
 import com.dslm.firewood.Register;
 import com.dslm.firewood.capProvider.PlayerSpiritualDamageProvider;
 import com.dslm.firewood.config.SpiritualFireBlockEffectConfig;
+import com.dslm.firewood.fireEffectHelper.block.*;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
@@ -21,63 +22,72 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import static com.dslm.firewood.fireEffectHelper.FireNBTHelper.loadMajorFireData;
-import static com.dslm.firewood.fireEffectHelper.FireNBTHelper.loadMinorFireData;
+import static com.dslm.firewood.fireEffectHelper.block.FireNBTHelper.loadMajorFireData;
+import static com.dslm.firewood.fireEffectHelper.block.FireNBTHelper.loadMinorFireData;
 
 public class FireEffectHelpers
 {
+    public static final String major = "majorEffects";
+    public static final String minor = "minorEffects";
+    
     public static final int majorEffectColor = 0x48c774;
     public static final int minorEffectColor = 0x48c774;
     
-    public static final ArrayList<String> majorEffectList = new ArrayList<>()
-    {{
-        add("potion");
-        add("teleport");
-    }};
-    public static final ArrayList<String> minorEffectList = new ArrayList<>()
-    {{
-        add("ground");
-    }};
-    
     public static ExceptionCatchHelper exceptionCatchHelper = new ExceptionCatchHelper();
     
-    private static HashMap<String, FireEffectHelperInterface> fireEffectHelpers = new HashMap<>()
-    {{
-        //major
-        put("potion", new PotionFireEffectHelper("potion"));
-        put("teleport", new TeleportFireEffectHelper("teleport"));
+    public static final FireEffectKindHelper<MajorFireEffectHelperInterface> majorEffects = new FireEffectKindHelper(major);
+    public static final FireEffectKindHelper<MinorFireEffectHelperInterface> minorEffects = new FireEffectKindHelper(minor);
+    
+    static
+    {
+        majorEffects.helpers.put("potion", new PotionFireEffectHelper("potion"));
+        majorEffects.helpers.put("teleport", new TeleportFireEffectHelper("teleport"));
         
-        //minor
-        put("ground", new GroundFireEffectHelper("ground"));
-    }};
-    
-    public static void addHelper(String type, FireEffectHelperInterface helper)
-    {
-        fireEffectHelpers.put(type, helper);
+        
+        minorEffects.helpers.put("ground", new GroundFireEffectHelper("ground"));
     }
     
-    public static void addMajorHelper(String type, FireEffectHelperInterface helper)
+    
+    public static void addHelper(String kind, String type, MajorFireEffectHelperInterface helper)
     {
-        majorEffectList.add(type);
-        addHelper(type, helper);
+        if(major.equals(kind)) addMajorHelper(type, helper);
+        if(minor.equals(kind)) addMajorHelper(type, helper);
     }
     
-    public static void addMinorHelper(String type, FireEffectHelperInterface helper)
+    public static void addMajorHelper(String type, MajorFireEffectHelperInterface helper)
     {
-        minorEffectList.add(type);
-        addHelper(type, helper);
+        majorEffects.addHelper(type, helper);
     }
     
-    public static FireEffectHelperInterface getHelperByType(String type)
+    public static void addMinorHelper(String type, MinorFireEffectHelperInterface helper)
     {
-        if(fireEffectHelpers.containsKey(type))
-            return fireEffectHelpers.get(type);
+        minorEffects.addHelper(type, helper);
+    }
+    
+    public static FireEffectHelperInterface getHelperByType(String kind, String type)
+    {
+        if(major.equals(kind)) return getMajorHelperByType(type);
+        if(minor.equals(kind)) return getMinorHelperByType(type);
         return exceptionCatchHelper;
     }
     
-    public static int getColorByType(HashMap<String, String> data)
+    public static MajorFireEffectHelperInterface getMajorHelperByType(String type)
     {
-        return getHelperByType(data.get("type")).getColor(data);
+        if(majorEffects.helpers.containsKey(type))
+            return majorEffects.helpers.get(type);
+        return exceptionCatchHelper;
+    }
+    
+    public static MinorFireEffectHelperInterface getMinorHelperByType(String type)
+    {
+        if(minorEffects.helpers.containsKey(type))
+            return minorEffects.helpers.get(type);
+        return exceptionCatchHelper;
+    }
+    
+    public static int getColorByType(String kind, HashMap<String, String> data)
+    {
+        return getHelperByType(kind, data.get("type")).getColor(data);
     }
     
     public static void triggerMajorEffects(ArrayList<HashMap<String, String>> majorEffects, BlockState state, Level level, BlockPos pos, LivingEntity entity)
@@ -85,23 +95,23 @@ public class FireEffectHelpers
         float damage = 0f;
         for(HashMap<String, String> data : majorEffects)
         {
-            var helper = getHelperByType(data.get("type"));
+            var helper = getMajorHelperByType(data.get("type"));
             damage += helper.getDamage();
         }
         damageEntity(entity, damage);
         for(HashMap<String, String> data : majorEffects)
         {
-            var helper = getHelperByType(data.get("type"));
+            var helper = getMajorHelperByType(data.get("type"));
             helper.triggerEffect(data, state, level, pos, entity);
         }
     }
     
-    public static void triggerMinorEffects(ArrayList<HashMap<String, String>> minorEffects, BlockState state, Level level, BlockPos pos, LivingEntity entity)
+    public static void triggerMinorEffects(ArrayList<HashMap<String, String>> minorEffects, BlockState state, Level level, BlockPos pos)
     {
         for(HashMap<String, String> data : minorEffects)
         {
-            var helper = getHelperByType(data.get("type"));
-            helper.triggerEffect(data, state, level, pos, entity);
+            var helper = getMinorHelperByType(data.get("type"));
+            helper.triggerEffect(data, state, level, pos);
         }
     }
     
@@ -117,7 +127,7 @@ public class FireEffectHelpers
             return;
         
         entity.getCapability(PlayerSpiritualDamageProvider.PLAYER_SPIRITUAL_DAMAGE).ifPresent(playerSpiritualDamage -> {
-            playerSpiritualDamage.addFleshDamage(amount);
+            playerSpiritualDamage.setFleshDamage(amount);
         });
         
         entity.addEffect(new MobEffectInstance(Register.FIRED_FLESH.get(), cooldown, 99));
@@ -143,7 +153,7 @@ public class FireEffectHelpers
             lines.add(colorfulText(new TranslatableComponent("tooltip.firewood.tinder_item.major_effect"), majorEffectColor));
             for(HashMap<String, String> data : tempMajorEffect)
             {
-                ArrayList<Component> list = getHelperByType(data.get("type")).getToolTips(data, extended);
+                ArrayList<Component> list = getMajorHelperByType(data.get("type")).getToolTips(data, extended);
                 lines.addAll(list);
             }
         }
@@ -155,7 +165,7 @@ public class FireEffectHelpers
             lines.add(colorfulText(new TranslatableComponent("tooltip.firewood.tinder_item.minor_effect"), minorEffectColor));
             for(HashMap<String, String> data : tempMinorEffect)
             {
-                ArrayList<Component> list = getHelperByType(data.get("type")).getToolTips(data, extended);
+                ArrayList<Component> list = getMinorHelperByType(data.get("type")).getToolTips(data, extended);
                 lines.addAll(list);
             }
         }
@@ -178,7 +188,7 @@ public class FireEffectHelpers
         //mainEffect
         for(HashMap<String, String> i : majorEffects)
         {
-            tempColor = new Color(getColorByType(i));
+            tempColor = new Color(getColorByType(major, i));
             color[0] += tempColor.getRed();
             color[1] += tempColor.getGreen();
             color[2] += tempColor.getBlue();
@@ -191,36 +201,36 @@ public class FireEffectHelpers
         return finalColor.getRGB();
     }
     
-    public static boolean isSameNBT(String type, CompoundTag first, CompoundTag second)
+    public static boolean isSameNBT(String kind, String type, CompoundTag first, CompoundTag second)
     {
-        return getHelperByType(type).isSameNBT(first, second);
+        return getHelperByType(kind, type).isSameNBT(first, second);
     }
     
-    public static CompoundTag saveToNBT(String type, HashMap<String, String> data)
+    public static CompoundTag saveToNBT(String kind, String type, HashMap<String, String> data)
     {
-        return getHelperByType(type).saveToNBT(data);
+        return getHelperByType(kind, type).saveToNBT(data);
     }
     
-    public static HashMap<String, String> readFromNBT(String type, CompoundTag tags)
+    public static HashMap<String, String> readFromNBT(String kind, String type, CompoundTag tags)
     {
-        return getHelperByType(type).readFromNBT(tags);
+        return getHelperByType(kind, type).readFromNBT(tags);
     }
     
     public static CompoundTag getDefaultMinorNBTs(CompoundTag allNBT)
     {
-        if(allNBT.contains("minorEffects"))
+        if(allNBT.contains(minor))
         {
             return allNBT;
         }
         
         ListTag minorTags = new ListTag();
-        
-        for(String type : minorEffectList)
+    
+        for(String type : minorEffects.helpers.keySet())
         {
-            minorTags.add(getHelperByType(type).getDefaultNBT());
+            minorTags.add(getMinorHelperByType(type).getDefaultNBT());
         }
-        
-        allNBT.put("minorEffects", minorTags);
+    
+        allNBT.put(minor, minorTags);
         
         return allNBT;
     }
@@ -228,9 +238,9 @@ public class FireEffectHelpers
     public static ItemStack addMajorEffect(ItemStack itemStack, String type, HashMap<String, String> data)
     {
         CompoundTag allNBT = getDefaultMinorNBTs(itemStack.getOrCreateTag());
-        ListTag tags = (ListTag) allNBT.get("majorEffects");
-        
-        CompoundTag newEffect = saveToNBT(type, data);
+        ListTag tags = (ListTag) allNBT.get(major);
+    
+        CompoundTag newEffect = saveToNBT(major, type, data);
         //clean old same effect
         if(tags != null)
         {
@@ -238,7 +248,7 @@ public class FireEffectHelpers
             {
                 if(tags.get(i) instanceof CompoundTag compoundTag)
                 {
-                    if(isSameNBT(type, newEffect, compoundTag))
+                    if(isSameNBT(major, type, newEffect, compoundTag))
                     {
                         tags.remove(i);
                     }
@@ -249,9 +259,9 @@ public class FireEffectHelpers
         {
             tags = new ListTag();
         }
-        
+    
         tags.add(newEffect);
-        allNBT.put("majorEffects", tags);
+        allNBT.put(major, tags);
         itemStack.setTag(allNBT);
         return itemStack;
     }
@@ -259,16 +269,16 @@ public class FireEffectHelpers
     public static ItemStack addMinorEffect(ItemStack itemStack, String type, HashMap<String, String> data)
     {
         CompoundTag allNBT = getDefaultMinorNBTs(itemStack.getOrCreateTag());
-        ListTag tags = (ListTag) allNBT.get("minorEffects");
-        
-        CompoundTag newEffect = saveToNBT(type, data);
+        ListTag tags = (ListTag) allNBT.get(minor);
+    
+        CompoundTag newEffect = saveToNBT(minor, type, data);
         
         //clean old same effect
         for(int i = 0; i < tags.size(); i++)
         {
             if(tags.get(i) instanceof CompoundTag compoundTag)
             {
-                if(isSameNBT(type, newEffect, compoundTag))
+                if(isSameNBT(minor, type, newEffect, compoundTag))
                 {
                     tags.setTag(i, newEffect);
                     break;
@@ -276,7 +286,7 @@ public class FireEffectHelpers
             }
         }
     
-        allNBT.put("minorEffects", tags);
+        allNBT.put(minor, tags);
         itemStack.setTag(allNBT);
         return itemStack;
     }
@@ -307,11 +317,11 @@ public class FireEffectHelpers
         
         for(HashMap<String, String> one : majorEffects)
         {
-            stringBuilder.append(getHelperByType(one.get("type")).getJEIString(one)).append(";");
+            stringBuilder.append(getMajorHelperByType(one.get("type")).getJEIString(one)).append(";");
         }
         for(HashMap<String, String> one : minorEffects)
         {
-            stringBuilder.append(getHelperByType(one.get("type")).getJEIString(one)).append(";");
+            stringBuilder.append(getMinorHelperByType(one.get("type")).getJEIString(one)).append(";");
         }
         
         return stringBuilder.toString();
@@ -319,6 +329,7 @@ public class FireEffectHelpers
     
     public static void fillItemCategory(NonNullList<ItemStack> items, ItemStack item)
     {
-        fireEffectHelpers.forEach((s, helper) -> helper.fillItemCategory(items, item));
+        majorEffects.helpers.forEach((s, helper) -> helper.fillItemCategory(items, item));
+        minorEffects.helpers.forEach((s, helper) -> helper.fillItemCategory(items, item));
     }
 }
