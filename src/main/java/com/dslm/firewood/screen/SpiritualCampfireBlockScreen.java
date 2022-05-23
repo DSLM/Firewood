@@ -14,6 +14,7 @@ import net.minecraft.world.entity.player.Inventory;
 public class SpiritualCampfireBlockScreen extends AbstractContainerScreen<SpiritualCampfireBlockMenu>
 {
     private final ResourceLocation GUI = new ResourceLocation(Firewood.MOD_ID, "textures/gui/spiritual_campfire_block_gui.png");
+    private final TranslatableComponent title = new TranslatableComponent("block.firewood.spiritual_campfire_block");
     
     public SpiritualCampfireBlockScreen(SpiritualCampfireBlockMenu container, Inventory inv, Component name)
     {
@@ -32,8 +33,7 @@ public class SpiritualCampfireBlockScreen extends AbstractContainerScreen<Spirit
     @Override
     protected void renderLabels(PoseStack matrixStack, int mouseX, int mouseY)
     {
-        TranslatableComponent line = new TranslatableComponent("block.firewood.spiritual_campfire_block");
-        drawString(matrixStack, Minecraft.getInstance().font, line, 5, 5, 0x0);
+        Minecraft.getInstance().font.draw(matrixStack, title, 5, 5, 4210752);
     }
     
     @Override
