@@ -21,7 +21,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Stream;
 
-import static com.dslm.firewood.fireEffectHelper.block.GroundFireEffectHelper.blockTagId;
+import static com.dslm.firewood.fireEffectHelper.block.GroundFireEffectHelper.BLOCK_TAG_ID;
 
 public class GroundTinderRecipe extends TinderRecipe
 {
@@ -60,7 +60,7 @@ public class GroundTinderRecipe extends TinderRecipe
                 addNBT.addMinorEffect(new HashMap<>()
                 {{
                     put("type", "ground");
-                    put(blockTagId, ((BlockItem) i.getItem()).getBlock().getRegistryName().toString());
+                    put(BLOCK_TAG_ID, ((BlockItem) i.getItem()).getBlock().getRegistryName().toString());
                 }});
             }
         });
@@ -164,7 +164,7 @@ public class GroundTinderRecipe extends TinderRecipe
                 {
                     ItemStack stack = FireEffectHelpers.addMinorEffect(i.copy(), "ground", new HashMap<>()
                     {{
-                        put(blockTagId, blockItem.getBlock().getRegistryName().toString());
+                        put(BLOCK_TAG_ID, blockItem.getBlock().getRegistryName().toString());
                     }});
                     groundInput.add(stack);
                 }

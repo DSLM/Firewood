@@ -22,7 +22,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import static com.dslm.firewood.fireEffectHelper.block.PotionFireEffectHelper.potionTagId;
+import static com.dslm.firewood.fireEffectHelper.block.PotionFireEffectHelper.POTION_TAG_ID;
 
 public class PotionTinderRecipe extends TinderRecipe
 {
@@ -61,7 +61,7 @@ public class PotionTinderRecipe extends TinderRecipe
                 addNBT.addMajorEffect(new HashMap<>()
                 {{
                     put("type", "potion");
-                    put(potionTagId, PotionUtils.getPotion(i).getRegistryName().toString());
+                    put(POTION_TAG_ID, PotionUtils.getPotion(i).getRegistryName().toString());
                 }});
             }
         });

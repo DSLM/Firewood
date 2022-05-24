@@ -1,4 +1,4 @@
-package com.dslm.firewood.fireEffectHelper.block;
+package com.dslm.firewood.fireEffectHelper.block.baseClass;
 
 import java.util.HashMap;
 
@@ -7,5 +7,10 @@ abstract public class MinorFireEffectHelperBase extends FireEffectHelperBase imp
     public MinorFireEffectHelperBase(HashMap<String, String> defaultData, String id)
     {
         super(defaultData, id);
+    }
+    
+    public MinorFireEffectHelperBase(String id)
+    {
+        super(id);
     }
 }

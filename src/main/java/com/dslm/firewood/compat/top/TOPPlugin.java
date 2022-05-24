@@ -44,7 +44,7 @@ public class TOPPlugin implements TOPCompat.Provider
     public static void spiritualFireBlockEntityInfo(ProbeMode mode, IProbeInfo info, Player player, Level level, BlockState state, IProbeHitData hitData, SpiritualFireBlockEntity blockEntity)
     {
         ArrayList<Component> lines =
-                fireTooltips(blockEntity.getUpdateTag(),
+                fireTooltips(blockEntity.majorEffects, blockEntity.minorEffects,
                         mode != ProbeMode.NORMAL || player.isShiftKeyDown());
         for(Component line : lines)
         {

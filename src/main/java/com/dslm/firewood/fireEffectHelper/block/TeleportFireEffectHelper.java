@@ -1,6 +1,9 @@
 package com.dslm.firewood.fireEffectHelper.block;
 
+import com.dslm.firewood.Firewood;
 import com.dslm.firewood.fireEffectHelper.FireEffectHelpers;
+import com.dslm.firewood.fireEffectHelper.block.baseClass.FireEffectHelperInterface;
+import com.dslm.firewood.fireEffectHelper.block.baseClass.MajorFireEffectHelperBase;
 import com.dslm.firewood.tooltip.MiddleComponent;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
@@ -29,20 +32,20 @@ public class TeleportFireEffectHelper extends MajorFireEffectHelperBase
 {
     private static final ArrayList<FireEffectHelperInterface> instanceList = new ArrayList<>();
     
-    private static final int color = 0x336666;
-    public static final String dimTagId = "dim";
-    public static final String xTagId = "posX";
-    public static final String yTagId = "posY";
-    public static final String zTagId = "posZ";
+    private static final int COLOR = 0x336666;
+    public static final String DIM_TAG_ID = "dim";
+    public static final String X_TAG_ID = "posX";
+    public static final String Y_TAG_ID = "posY";
+    public static final String Z_TAG_ID = "posZ";
     
     public TeleportFireEffectHelper(String id)
     {
         super(new HashMap<>()
         {{
-            put(dimTagId, "overworld");
-            put(xTagId, "0");
-            put(yTagId, "256");
-            put(zTagId, "0");
+            put(DIM_TAG_ID, "overworld");
+            put(X_TAG_ID, "0");
+            put(Y_TAG_ID, "256");
+            put(Z_TAG_ID, "0");
         }}, id);
         instanceList.add(this);
     }
@@ -50,23 +53,23 @@ public class TeleportFireEffectHelper extends MajorFireEffectHelperBase
     @Override
     public int getColor(HashMap<String, String> data)
     {
-        return color;
+        return COLOR;
     }
     
     public static int getColor()
     {
-        return color;
+        return COLOR;
     }
     
     @Override
-    public void triggerEffect(HashMap<String, String> data, BlockState state, Level level, BlockPos pos, LivingEntity entity)
+    public HashMap<String, String> triggerEffect(HashMap<String, String> data, BlockState state, Level level, BlockPos pos, LivingEntity entity)
     {
         try
         {
             Set<ResourceKey<Level>> levelList = level.getServer().levelKeys();
             for(ResourceKey<Level> levelKey : levelList)
             {
-                if(entity.getServer().getLevel(levelKey).dimension().location().getPath().equals(data.get(dimTagId)))
+                if(entity.getServer().getLevel(levelKey).dimension().location().getPath().equals(data.get(DIM_TAG_ID)))
                 {
                     entity.changeDimension(entity.getServer().getLevel(levelKey), new ITeleporter()
                     {
@@ -74,21 +77,22 @@ public class TeleportFireEffectHelper extends MajorFireEffectHelperBase
                         public Entity placeEntity(Entity entity, ServerLevel currentWorld, ServerLevel destWorld, float yaw, Function<Boolean, Entity> repositionEntity)
                         {
                             entity = repositionEntity.apply(false);
-                            entity.teleportTo(Integer.parseInt(data.get(xTagId)) + 0.5, Integer.parseInt(data.get(yTagId)), Integer.parseInt(data.get(zTagId)) + 0.5);
+                            entity.teleportTo(Integer.parseInt(data.get(X_TAG_ID)) + 0.5, Integer.parseInt(data.get(Y_TAG_ID)), Integer.parseInt(data.get(Z_TAG_ID)) + 0.5);
                             return entity;
                         }
                     });
-                    return;
+                    return data;
                 }
             }
         } catch(Exception e)
         {
-            //LOGGER.error(e.toString());
+            Firewood.LOGGER.error("TeleportFireEffectHelper.triggerEffect Exception: ", e);
         }
+        return data;
     }
     
     @Override
-    public float getDamage()
+    public float getDamage(HashMap<String, String> data)
     {
         return TELEPORT_BASE_DAMAGE.get().floatValue();
     }
@@ -98,16 +102,16 @@ public class TeleportFireEffectHelper extends MajorFireEffectHelperBase
     {
         ArrayList<Component> lines = new ArrayList<>();
         MiddleComponent mainLine = (MiddleComponent) colorfulText(
-                new MiddleComponent("tooltip.firewood.tinder_item.major_effect." + data.get("type")), color);
+                new MiddleComponent("tooltip.firewood.tinder_item.major_effect." + data.get("type")), COLOR);
         lines.add(mainLine);
         if(extended)
         {
             lines.add(colorfulText(
                     new TranslatableComponent("tooltip.firewood.tinder_item.major_effect." + data.get("type") + ".extend.1",
-                            data.get(dimTagId), Integer.parseInt(data.get(xTagId)), Integer.parseInt(data.get(yTagId)), Integer.parseInt(data.get(zTagId))),
-                    color));
+                            data.get(DIM_TAG_ID), Integer.parseInt(data.get(X_TAG_ID)), Integer.parseInt(data.get(Y_TAG_ID)), Integer.parseInt(data.get(Z_TAG_ID))),
+                    COLOR));
         }
-        mainLine.setDamage(getDamage());
+        mainLine.setDamage(getDamage(data));
         return lines;
     }
     
@@ -115,11 +119,11 @@ public class TeleportFireEffectHelper extends MajorFireEffectHelperBase
     public CompoundTag saveToNBT(HashMap<String, String> data)
     {
         CompoundTag tags = new CompoundTag();
-        tags.putString("type", id);
-        tags.putString(dimTagId, data.get(dimTagId));
-        tags.putString(xTagId, data.get(xTagId));
-        tags.putString(yTagId, data.get(yTagId));
-        tags.putString(zTagId, data.get(zTagId));
+        tags.putString("type", ID);
+        tags.putString(DIM_TAG_ID, data.get(DIM_TAG_ID));
+        tags.putString(X_TAG_ID, data.get(X_TAG_ID));
+        tags.putString(Y_TAG_ID, data.get(Y_TAG_ID));
+        tags.putString(Z_TAG_ID, data.get(Z_TAG_ID));
         return tags;
     }
     
@@ -127,18 +131,18 @@ public class TeleportFireEffectHelper extends MajorFireEffectHelperBase
     public HashMap<String, String> readFromNBT(CompoundTag tags)
     {
         HashMap<String, String> data = new HashMap<>();
-        data.put("type", id);
-        data.put(dimTagId, tags.getString(dimTagId));
-        data.put(xTagId, tags.getString(xTagId));
-        data.put(yTagId, tags.getString(yTagId));
-        data.put(zTagId, tags.getString(zTagId));
+        data.put("type", ID);
+        data.put(DIM_TAG_ID, tags.getString(DIM_TAG_ID));
+        data.put(X_TAG_ID, tags.getString(X_TAG_ID));
+        data.put(Y_TAG_ID, tags.getString(Y_TAG_ID));
+        data.put(Z_TAG_ID, tags.getString(Z_TAG_ID));
         return data;
     }
     
     @Override
     public void fillItemCategory(NonNullList<ItemStack> items, ItemStack item)
     {
-        items.add(FireEffectHelpers.addMajorEffect(item.copy(), id, defaultData));
+        items.add(FireEffectHelpers.addMajorEffect(item.copy(), ID, DEFAULT_DATA));
     }
     
     public static List<FireEffectHelperInterface> getInstanceList()

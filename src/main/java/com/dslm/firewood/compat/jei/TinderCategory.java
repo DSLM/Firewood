@@ -116,7 +116,8 @@ public class TinderCategory implements IRecipeCategory<TinderRecipe>
             return Arrays.asList(new TranslatableComponent("tooltip.firewood.recipe.progress", recipe.getProcess()),
                     new TranslatableComponent("tooltip.firewood.recipe.chance", recipe.getChance()),
                     new TranslatableComponent("tooltip.firewood.recipe.damage", recipe.getDamage()),
-                    new TranslatableComponent("tooltip.firewood.recipe.cooldown", recipe.getCooldown() / 20, recipe.getCooldown()));
+                    new TranslatableComponent("tooltip.firewood.recipe.cooldown", recipe.getCooldown() / 20, recipe.getCooldown()),
+                    new TranslatableComponent("tooltip.firewood.recipe.minhealth", recipe.getMinHealth()));
         }
         return IRecipeCategory.super.getTooltipStrings(recipe, recipeSlotsView, mouseX, mouseY);
     }
@@ -139,6 +140,7 @@ public class TinderCategory implements IRecipeCategory<TinderRecipe>
         return recipe.getId();
     }
     
+    @SuppressWarnings("removal")
     @Override
     public ResourceLocation getUid()
     {
@@ -147,6 +149,7 @@ public class TinderCategory implements IRecipeCategory<TinderRecipe>
                 Register.TINDER_RECIPE_SERIALIZER.getId().getPath());
     }
     
+    @SuppressWarnings("removal")
     @Override
     public Class<? extends TinderRecipe> getRecipeClass()
     {

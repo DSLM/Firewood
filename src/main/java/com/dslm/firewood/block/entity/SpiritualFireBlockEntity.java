@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import static com.dslm.firewood.fireEffectHelper.FireEffectHelpers.getMixedColor;
-import static com.dslm.firewood.fireEffectHelper.block.FireNBTHelper.*;
+import static com.dslm.firewood.fireEffectHelper.block.baseClass.FireNBTHelper.*;
 
 public class SpiritualFireBlockEntity extends BlockEntity
 {
@@ -83,7 +83,7 @@ public class SpiritualFireBlockEntity extends BlockEntity
     public static void serverTick(Level level, BlockPos pos, BlockState state, SpiritualFireBlockEntity e)
     {
     
-        FireEffectHelpers.triggerMinorEffects(e.minorEffects, state, level, pos);
+        e.minorEffects = FireEffectHelpers.triggerMinorEffects(e.majorEffects, e.minorEffects, state, level, pos);
         e.syncTick();
     }
     
@@ -112,6 +112,6 @@ public class SpiritualFireBlockEntity extends BlockEntity
     
     public void triggerMajorEffects(BlockState state, Level level, BlockPos pos, LivingEntity entity)
     {
-        FireEffectHelpers.triggerMajorEffects(majorEffects, state, level, pos, entity);
+        majorEffects = FireEffectHelpers.triggerMajorEffects(majorEffects, minorEffects, state, level, pos, entity);
     }
 }

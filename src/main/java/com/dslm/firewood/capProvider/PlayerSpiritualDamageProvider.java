@@ -67,13 +67,21 @@ public class PlayerSpiritualDamageProvider implements ICapabilityProvider, INBTS
     public class PlayerSpiritualDamage
     {
         private float fleshDamage;
+        private int fleshColor;
         private float spiritDamage;
-        
+        private int spiritColor;
+    
+        public PlayerSpiritualDamage()
+        {
+            cleanFlesh();
+            cleanSpirit();
+        }
+    
         public float getFleshDamage()
         {
             return fleshDamage;
         }
-        
+    
         public void setFleshDamage(float fleshDamage)
         {
             this.fleshDamage = fleshDamage;
@@ -88,34 +96,72 @@ public class PlayerSpiritualDamageProvider implements ICapabilityProvider, INBTS
         {
             return spiritDamage;
         }
-        
+    
         public void setSpiritDamage(float spiritDamage)
         {
             this.spiritDamage = spiritDamage;
         }
-        
+    
         public void addSpiritDamage(float spiritDamage)
         {
             this.spiritDamage += spiritDamage;
         }
-        
+    
+        public int getFleshColor()
+        {
+            return fleshColor;
+        }
+    
+        public void setFleshColor(int fleshColor)
+        {
+            this.fleshColor = fleshColor;
+        }
+    
+        public int getSpiritColor()
+        {
+            return spiritColor;
+        }
+    
+        public void setSpiritColor(int spiritColor)
+        {
+            this.spiritColor = spiritColor;
+        }
+    
+        public void cleanFlesh()
+        {
+            fleshDamage = 0;
+            fleshColor = 0;
+        }
+    
+        public void cleanSpirit()
+        {
+            spiritDamage = 0;
+            spiritColor = 0;
+        }
+    
         public void copyFrom(PlayerSpiritualDamage source)
         {
             fleshDamage = source.fleshDamage;
             spiritDamage = source.spiritDamage;
+            fleshColor = source.fleshColor;
+            spiritColor = source.spiritColor;
         }
-        
-        
+    
+    
         public void saveNBTData(CompoundTag compound)
         {
             compound.putFloat("fleshDamage", fleshDamage);
             compound.putFloat("spiritDamage", spiritDamage);
+            compound.putInt("fleshColor", fleshColor);
+            compound.putInt("spiritColor", spiritColor);
         }
         
         public void loadNBTData(CompoundTag compound)
         {
             fleshDamage = compound.getFloat("fleshDamage");
             spiritDamage = compound.getFloat("spiritDamage");
+            fleshColor = compound.getInt("fleshColor");
+            spiritColor = compound.getInt("spiritColor");
         }
     }
 }

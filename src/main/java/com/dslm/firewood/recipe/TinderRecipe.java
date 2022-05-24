@@ -32,9 +32,10 @@ public class TinderRecipe implements Recipe<SpiritualCampfireBlockEntity>
     protected final double chance;
     protected final double damage;
     protected final int cooldown;
+    protected final double minHealth;
     
     public TinderRecipe(ResourceLocation id, NonNullList<Ingredient> recipeItems, Ingredient tinder, TinderRecipeNBT addNBT,
-                        int process, double chance, double damage, int cooldown)
+                        int process, double chance, double damage, int cooldown, double minHealth)
     {
         this.id = id;
         this.recipeItems = recipeItems;
@@ -44,6 +45,7 @@ public class TinderRecipe implements Recipe<SpiritualCampfireBlockEntity>
         this.chance = chance;
         this.damage = damage;
         this.cooldown = cooldown;
+        this.minHealth = minHealth;
     }
     
     public TinderRecipe(TinderRecipe copy)
@@ -56,6 +58,7 @@ public class TinderRecipe implements Recipe<SpiritualCampfireBlockEntity>
         this.chance = copy.chance;
         this.damage = copy.damage;
         this.cooldown = copy.cooldown;
+        this.minHealth = copy.minHealth;
     }
     
     @Override
@@ -133,6 +136,11 @@ public class TinderRecipe implements Recipe<SpiritualCampfireBlockEntity>
         return cooldown;
     }
     
+    public double getMinHealth()
+    {
+        return minHealth;
+    }
+    
     public static class Type implements RecipeType<TinderRecipe>
     {
         protected Type()
@@ -171,7 +179,9 @@ public class TinderRecipe implements Recipe<SpiritualCampfireBlockEntity>
     
             int cooldown = json.get("cooldown").getAsInt();
     
-            return new TinderRecipe(id, inputs, tinder, addNBT, process, chance, damage, cooldown);
+            double minHealth = json.get("minHealth").getAsDouble();
+    
+            return new TinderRecipe(id, inputs, tinder, addNBT, process, chance, damage, cooldown, minHealth);
         }
         
         @Override
@@ -195,7 +205,9 @@ public class TinderRecipe implements Recipe<SpiritualCampfireBlockEntity>
     
             int cooldown = buf.readInt();
     
-            return new TinderRecipe(id, inputs, tinder, addNBT, process, chance, damage, cooldown);
+            double minHealth = buf.readDouble();
+    
+            return new TinderRecipe(id, inputs, tinder, addNBT, process, chance, damage, cooldown, minHealth);
         }
         
         @Override
@@ -218,6 +230,8 @@ public class TinderRecipe implements Recipe<SpiritualCampfireBlockEntity>
             buf.writeDouble(recipe.getDamage());
     
             buf.writeInt(recipe.getCooldown());
+    
+            buf.writeDouble(recipe.getMinHealth());
         }
         
         @Override

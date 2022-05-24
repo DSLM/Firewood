@@ -4,6 +4,9 @@ import com.dslm.firewood.Register;
 import com.dslm.firewood.capProvider.PlayerSpiritualDamageProvider;
 import com.dslm.firewood.config.SpiritualFireBlockEffectConfig;
 import com.dslm.firewood.fireEffectHelper.block.*;
+import com.dslm.firewood.fireEffectHelper.block.baseClass.FireEffectHelperInterface;
+import com.dslm.firewood.fireEffectHelper.block.baseClass.MajorFireEffectHelperInterface;
+import com.dslm.firewood.fireEffectHelper.block.baseClass.MinorFireEffectHelperInterface;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
@@ -22,8 +25,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import static com.dslm.firewood.fireEffectHelper.block.FireNBTHelper.loadMajorFireData;
-import static com.dslm.firewood.fireEffectHelper.block.FireNBTHelper.loadMinorFireData;
+import static com.dslm.firewood.fireEffectHelper.block.baseClass.FireNBTHelper.loadMajorFireData;
+import static com.dslm.firewood.fireEffectHelper.block.baseClass.FireNBTHelper.loadMinorFireData;
 
 public class FireEffectHelpers
 {
@@ -35,16 +38,17 @@ public class FireEffectHelpers
     
     public static ExceptionCatchHelper exceptionCatchHelper = new ExceptionCatchHelper();
     
-    public static final FireEffectKindHelper<MajorFireEffectHelperInterface> majorEffects = new FireEffectKindHelper(major);
-    public static final FireEffectKindHelper<MinorFireEffectHelperInterface> minorEffects = new FireEffectKindHelper(minor);
+    public static final FireEffectKindHelper<MajorFireEffectHelperInterface> majorEffectHelpers = new FireEffectKindHelper(major);
+    public static final FireEffectKindHelper<MinorFireEffectHelperInterface> minorEffectHelpers = new FireEffectKindHelper(minor);
     
     static
     {
-        majorEffects.helpers.put("potion", new PotionFireEffectHelper("potion"));
-        majorEffects.helpers.put("teleport", new TeleportFireEffectHelper("teleport"));
+        majorEffectHelpers.helpers.put("potion", new PotionFireEffectHelper("potion"));
+        majorEffectHelpers.helpers.put("teleport", new TeleportFireEffectHelper("teleport"));
+        majorEffectHelpers.helpers.put("smelter", new SmelterFireEffectHelper("smelter"));
         
         
-        minorEffects.helpers.put("ground", new GroundFireEffectHelper("ground"));
+        minorEffectHelpers.helpers.put("ground", new GroundFireEffectHelper("ground"));
     }
     
     
@@ -56,12 +60,12 @@ public class FireEffectHelpers
     
     public static void addMajorHelper(String type, MajorFireEffectHelperInterface helper)
     {
-        majorEffects.addHelper(type, helper);
+        majorEffectHelpers.addHelper(type, helper);
     }
     
     public static void addMinorHelper(String type, MinorFireEffectHelperInterface helper)
     {
-        minorEffects.addHelper(type, helper);
+        minorEffectHelpers.addHelper(type, helper);
     }
     
     public static FireEffectHelperInterface getHelperByType(String kind, String type)
@@ -73,15 +77,15 @@ public class FireEffectHelpers
     
     public static MajorFireEffectHelperInterface getMajorHelperByType(String type)
     {
-        if(majorEffects.helpers.containsKey(type))
-            return majorEffects.helpers.get(type);
+        if(majorEffectHelpers.helpers.containsKey(type))
+            return majorEffectHelpers.helpers.get(type);
         return exceptionCatchHelper;
     }
     
     public static MinorFireEffectHelperInterface getMinorHelperByType(String type)
     {
-        if(minorEffects.helpers.containsKey(type))
-            return minorEffects.helpers.get(type);
+        if(minorEffectHelpers.helpers.containsKey(type))
+            return minorEffectHelpers.helpers.get(type);
         return exceptionCatchHelper;
     }
     
@@ -90,29 +94,46 @@ public class FireEffectHelpers
         return getHelperByType(kind, data.get("type")).getColor(data);
     }
     
-    public static void triggerMajorEffects(ArrayList<HashMap<String, String>> majorEffects, BlockState state, Level level, BlockPos pos, LivingEntity entity)
+    public static ArrayList<HashMap<String, String>> triggerMajorEffects(ArrayList<HashMap<String, String>> majorEffects,
+                                                                         ArrayList<HashMap<String, String>> minorEffects,
+                                                                         BlockState state, Level level, BlockPos pos, LivingEntity entity)
     {
         float damage = 0f;
+        float minHealth = 0f;
         for(HashMap<String, String> data : majorEffects)
         {
             var helper = getMajorHelperByType(data.get("type"));
-            damage += helper.getDamage();
+            damage += helper.getDamage(data);
+            minHealth += helper.getMinHealth(data);
         }
+        float nowHealth = entity.getHealth();
         damageEntity(entity, damage);
-        for(HashMap<String, String> data : majorEffects)
+        if(nowHealth < minHealth)
         {
-            var helper = getMajorHelperByType(data.get("type"));
-            helper.triggerEffect(data, state, level, pos, entity);
+            return majorEffects;
         }
+        for(int i = 0; i < majorEffects.size(); i++)
+        {
+            HashMap<String, String> data = majorEffects.get(i);
+            var helper = getMajorHelperByType(data.get("type"));
+            data = helper.triggerEffect(data, state, level, pos, entity, majorEffects, minorEffects);
+            majorEffects.set(i, data);
+        }
+        return majorEffects;
     }
     
-    public static void triggerMinorEffects(ArrayList<HashMap<String, String>> minorEffects, BlockState state, Level level, BlockPos pos)
+    public static ArrayList<HashMap<String, String>> triggerMinorEffects(ArrayList<HashMap<String, String>> majorEffects,
+                                                                         ArrayList<HashMap<String, String>> minorEffects,
+                                                                         BlockState state, Level level, BlockPos pos)
     {
-        for(HashMap<String, String> data : minorEffects)
+        for(int i = 0; i < minorEffects.size(); i++)
         {
+            HashMap<String, String> data = minorEffects.get(i);
             var helper = getMinorHelperByType(data.get("type"));
-            helper.triggerEffect(data, state, level, pos);
+            data = helper.triggerEffect(data, state, level, pos, majorEffects, minorEffects);
+            minorEffects.set(i, data);
         }
+        return minorEffects;
     }
     
     
@@ -125,13 +146,12 @@ public class FireEffectHelpers
     {
         if(amount == 0)
             return;
-        
-        entity.getCapability(PlayerSpiritualDamageProvider.PLAYER_SPIRITUAL_DAMAGE).ifPresent(playerSpiritualDamage -> {
-            playerSpiritualDamage.setFleshDamage(amount);
-        });
-        
+    
+        entity.getCapability(PlayerSpiritualDamageProvider.PLAYER_SPIRITUAL_DAMAGE).ifPresent(
+                playerSpiritualDamage -> playerSpiritualDamage.setFleshDamage(amount));
+    
         entity.addEffect(new MobEffectInstance(Register.FIRED_FLESH.get(), cooldown, 99));
-        
+    
         // TODO: 2022/5/9 自行实现火焰遮挡视线
 
 //                entity.setRemainingFireTicks(entity.getRemainingFireTicks() + 1);
@@ -141,17 +161,16 @@ public class FireEffectHelpers
 //                }
     }
     
-    
-    public static ArrayList<Component> fireTooltips(CompoundTag compoundTag, boolean extended)
+    public static ArrayList<Component> fireTooltips(ArrayList<HashMap<String, String>> majorEffects,
+                                                    ArrayList<HashMap<String, String>> minorEffects, boolean extended)
     {
         ArrayList<Component> lines = new ArrayList<>();
         
         //majorEffects
-        ArrayList<HashMap<String, String>> tempMajorEffect = loadMajorFireData(compoundTag);
-        if(tempMajorEffect.size() > 0)
+        if(majorEffects.size() > 0)
         {
             lines.add(colorfulText(new TranslatableComponent("tooltip.firewood.tinder_item.major_effect"), majorEffectColor));
-            for(HashMap<String, String> data : tempMajorEffect)
+            for(HashMap<String, String> data : majorEffects)
             {
                 ArrayList<Component> list = getMajorHelperByType(data.get("type")).getToolTips(data, extended);
                 lines.addAll(list);
@@ -159,11 +178,10 @@ public class FireEffectHelpers
         }
         
         //minorEffects
-        ArrayList<HashMap<String, String>> tempMinorEffect = loadMinorFireData(compoundTag);
-        if(tempMinorEffect.size() > 0)
+        if(minorEffects.size() > 0)
         {
             lines.add(colorfulText(new TranslatableComponent("tooltip.firewood.tinder_item.minor_effect"), minorEffectColor));
-            for(HashMap<String, String> data : tempMinorEffect)
+            for(HashMap<String, String> data : minorEffects)
             {
                 ArrayList<Component> list = getMinorHelperByType(data.get("type")).getToolTips(data, extended);
                 lines.addAll(list);
@@ -171,6 +189,13 @@ public class FireEffectHelpers
         }
         
         return lines;
+    }
+    
+    public static ArrayList<Component> fireTooltips(CompoundTag compoundTag, boolean extended)
+    {
+        ArrayList<HashMap<String, String>> majorEffects = loadMajorFireData(compoundTag);
+        ArrayList<HashMap<String, String>> minorEffects = loadMinorFireData(compoundTag);
+        return fireTooltips(majorEffects, minorEffects, extended);
     }
     
     
@@ -225,7 +250,7 @@ public class FireEffectHelpers
         
         ListTag minorTags = new ListTag();
     
-        for(String type : minorEffects.helpers.keySet())
+        for(String type : minorEffectHelpers.helpers.keySet())
         {
             minorTags.add(getMinorHelperByType(type).getDefaultNBT());
         }
@@ -323,13 +348,28 @@ public class FireEffectHelpers
         {
             stringBuilder.append(getMinorHelperByType(one.get("type")).getJEIString(one)).append(";");
         }
-        
+    
         return stringBuilder.toString();
     }
     
     public static void fillItemCategory(NonNullList<ItemStack> items, ItemStack item)
     {
-        majorEffects.helpers.forEach((s, helper) -> helper.fillItemCategory(items, item));
-        minorEffects.helpers.forEach((s, helper) -> helper.fillItemCategory(items, item));
+        majorEffectHelpers.helpers.forEach((s, helper) -> helper.fillItemCategory(items, item));
+        minorEffectHelpers.helpers.forEach((s, helper) -> helper.fillItemCategory(items, item));
+    }
+    
+    public static boolean canBePlacedOn(Level level, BlockPos pos, CompoundTag tag)
+    {
+        ArrayList<HashMap<String, String>> minorEffects = loadMinorFireData(tag);
+        
+        for(HashMap<String, String> one : minorEffects)
+        {
+            if(!getMinorHelperByType(one.get("type")).canBePlacedOn(one, level, pos))
+            {
+                return false;
+            }
+        }
+        
+        return true;
     }
 }

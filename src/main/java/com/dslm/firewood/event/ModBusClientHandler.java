@@ -5,7 +5,7 @@ import com.dslm.firewood.Register;
 import com.dslm.firewood.block.entity.SpiritualCampfireBlockEntity;
 import com.dslm.firewood.block.entity.SpiritualFireBlockEntity;
 import com.dslm.firewood.fireEffectHelper.FireEffectHelpers;
-import com.dslm.firewood.fireEffectHelper.block.FireNBTHelper;
+import com.dslm.firewood.fireEffectHelper.block.baseClass.FireNBTHelper;
 import com.dslm.firewood.screen.SpiritualCampfireBlockScreen;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;

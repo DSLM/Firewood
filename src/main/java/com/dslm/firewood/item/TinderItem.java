@@ -2,7 +2,6 @@ package com.dslm.firewood.item;
 
 import com.dslm.firewood.block.SpiritualFireBlock;
 import com.dslm.firewood.fireEffectHelper.FireEffectHelpers;
-import com.dslm.firewood.fireEffectHelper.block.GroundFireEffectHelper;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.BlockPos;
@@ -19,7 +18,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
 
@@ -63,9 +61,8 @@ public class TinderItem extends Item
             return InteractionResult.sidedSuccess(level.isClientSide());
         }
     
-        Block validGround = GroundFireEffectHelper.getBlockByNBTs(itemStack.getTag());
         if(SpiritualFireBlock.canBePlacedAt(level, blockpos1)
-                && GroundFireEffectHelper.canBePlacedOn(level, blockpos1, validGround))
+                && FireEffectHelpers.canBePlacedOn(level, blockpos1, itemStack.getTag()))
         {
             level.playSound(player, blockpos1, SoundEvents.FLINTANDSTEEL_USE, SoundSource.BLOCKS, 1.0F, level.getRandom().nextFloat() * 0.4F + 0.8F);
             BlockState blockstate1 = SPIRITUAL_FIRE_BLOCK.get().defaultBlockState();

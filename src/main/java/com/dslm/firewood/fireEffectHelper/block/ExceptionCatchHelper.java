@@ -1,5 +1,8 @@
 package com.dslm.firewood.fireEffectHelper.block;
 
+import com.dslm.firewood.fireEffectHelper.block.baseClass.FireEffectHelperBase;
+import com.dslm.firewood.fireEffectHelper.block.baseClass.MajorFireEffectHelperInterface;
+import com.dslm.firewood.fireEffectHelper.block.baseClass.MinorFireEffectHelperInterface;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -25,19 +28,25 @@ public class ExceptionCatchHelper extends FireEffectHelperBase implements MajorF
     }
     
     @Override
-    public void triggerEffect(HashMap<String, String> data, BlockState state, Level level, BlockPos pos, LivingEntity entity)
+    public HashMap<String, String> triggerEffect(HashMap<String, String> data, BlockState state, Level level, BlockPos pos, LivingEntity entity)
     {
-    
+        return data;
     }
     
     @Override
-    public void triggerEffect(HashMap<String, String> data, BlockState state, Level level, BlockPos pos)
+    public HashMap<String, String> triggerEffect(HashMap<String, String> data, BlockState state, Level level, BlockPos pos)
     {
-    
+        return data;
     }
     
     @Override
-    public float getDamage()
+    public boolean canBePlacedOn(HashMap<String, String> data, Level level, BlockPos pos)
+    {
+        return true;
+    }
+    
+    @Override
+    public float getDamage(HashMap<String, String> data)
     {
         return 0;
     }

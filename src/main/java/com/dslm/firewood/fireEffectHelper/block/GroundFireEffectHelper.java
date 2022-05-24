@@ -1,5 +1,7 @@
 package com.dslm.firewood.fireEffectHelper.block;
 
+import com.dslm.firewood.fireEffectHelper.block.baseClass.FireEffectHelperInterface;
+import com.dslm.firewood.fireEffectHelper.block.baseClass.MinorFireEffectHelperBase;
 import com.dslm.firewood.tooltip.MiddleComponent;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -21,33 +23,34 @@ import static com.dslm.firewood.fireEffectHelper.FireEffectHelpers.colorfulText;
 
 public class GroundFireEffectHelper extends MinorFireEffectHelperBase
 {
-    private static final ArrayList<FireEffectHelperInterface> instanceList = new ArrayList<>();
+    private static final ArrayList<FireEffectHelperInterface> INSTANCE_LIST = new ArrayList<>();
     
-    private static final int color = 0xa78e44;
-    public static final String id = "ground";
-    public static final String blockTagId = "block";
+    private static final int COLOR = 0xa78e44;
+    public static final String ID = "ground";
+    public static final String BLOCK_TAG_ID = "block";
     
     public GroundFireEffectHelper(String id)
     {
         super(new HashMap<>()
         {{
-            put(blockTagId, "minecraft:netherrack");
+            put(BLOCK_TAG_ID, "minecraft:netherrack");
         }}, id);
-        instanceList.add(this);
+        INSTANCE_LIST.add(this);
     }
     
     public static int getColor()
     {
-        return color;
+        return COLOR;
     }
     
     @Override
-    public void triggerEffect(HashMap<String, String> data, BlockState state, Level level, BlockPos pos)
+    public HashMap<String, String> triggerEffect(HashMap<String, String> data, BlockState state, Level level, BlockPos pos)
     {
-        if(!canBePlacedOn(level, pos, getBlock(data.get(blockTagId))))
+        if(!canBePlacedOn(data, level, pos))
         {
             level.setBlock(pos, Blocks.AIR.defaultBlockState(), Block.UPDATE_ALL_IMMEDIATE);
         }
+        return data;
     }
     
     public static Block getBlockByNBTs(CompoundTag compoundTag)
@@ -58,9 +61,9 @@ public class GroundFireEffectHelper extends MinorFireEffectHelperBase
             for(Tag i : minorList)
             {
                 if(i instanceof CompoundTag tag
-                        && id.equals(tag.get("type").getAsString()))
+                        && ID.equals(tag.get("type").getAsString()))
                 {
-                    return getBlock(tag.get(blockTagId).getAsString());
+                    return getBlock(tag.get(BLOCK_TAG_ID).getAsString());
                 }
             }
         } catch(Exception e)
@@ -72,15 +75,15 @@ public class GroundFireEffectHelper extends MinorFireEffectHelperBase
     @Override
     public int getColor(HashMap<String, String> data)
     {
-        return color;
+        return COLOR;
     }
     
     @Override
     public CompoundTag saveToNBT(HashMap<String, String> data)
     {
         CompoundTag tags = new CompoundTag();
-        tags.putString("type", id);
-        tags.putString(blockTagId, data.get(blockTagId));
+        tags.putString("type", ID);
+        tags.putString(BLOCK_TAG_ID, data.get(BLOCK_TAG_ID));
         return tags;
     }
     
@@ -88,8 +91,8 @@ public class GroundFireEffectHelper extends MinorFireEffectHelperBase
     public HashMap<String, String> readFromNBT(CompoundTag tags)
     {
         HashMap<String, String> data = new HashMap<>();
-        data.put("type", id);
-        data.put(blockTagId, tags.getString(blockTagId));
+        data.put("type", ID);
+        data.put(BLOCK_TAG_ID, tags.getString(BLOCK_TAG_ID));
         return data;
     }
     
@@ -97,9 +100,9 @@ public class GroundFireEffectHelper extends MinorFireEffectHelperBase
     public ArrayList<Component> getToolTips(HashMap<String, String> data, boolean extended)
     {
         ArrayList<Component> lines = new ArrayList<>();
-        var name = getBlock(data.get(blockTagId)).getName();
+        var name = getBlock(data.get(BLOCK_TAG_ID)).getName();
         MiddleComponent mainLine = (MiddleComponent) colorfulText(
-                new MiddleComponent("tooltip.firewood.tinder_item.minor_effect." + data.get("type"), name), color);
+                new MiddleComponent("tooltip.firewood.tinder_item.minor_effect." + data.get("type"), name), COLOR);
         lines.add(mainLine);
         return lines;
     }
@@ -115,9 +118,9 @@ public class GroundFireEffectHelper extends MinorFireEffectHelperBase
         {
             for(HashMap<String, String> i : minorEffects)
             {
-                if(id.equals(i.get("type")))
+                if(ID.equals(i.get("type")))
                 {
-                    return getBlock(i.get(blockTagId));
+                    return getBlock(i.get(BLOCK_TAG_ID));
                 }
             }
         } catch(Exception e)
@@ -126,20 +129,20 @@ public class GroundFireEffectHelper extends MinorFireEffectHelperBase
         return null;
     }
     
-    public static boolean canBePlacedOn(Level level, BlockPos pos, Block validGround)
+    public boolean canBePlacedOn(HashMap<String, String> data, Level level, BlockPos pos)
     {
         BlockState blockstate = level.getBlockState(pos.below());
-        return blockstate.getBlock() == validGround;
+        return blockstate.getBlock() == getBlock(data.get(BLOCK_TAG_ID));
     }
     
     @Override
     public String getJEIString(HashMap<String, String> data)
     {
-        return data.get("type") + "-" + data.get(blockTagId);
+        return data.get("type") + "-" + data.get(BLOCK_TAG_ID);
     }
     
     public static List<FireEffectHelperInterface> getInstanceList()
     {
-        return instanceList;
+        return INSTANCE_LIST;
     }
 }

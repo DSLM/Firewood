@@ -71,10 +71,10 @@ public class TeleportTinderRecipe extends TinderRecipe
                 addNBT.addMajorEffect(new HashMap<>()
                 {{
                     put("type", "teleport");
-                    put(dimTagId, i.getTag().getString(dimTagId));
-                    put(xTagId, i.getTag().getString(xTagId));
-                    put(yTagId, i.getTag().getString(yTagId));
-                    put(zTagId, i.getTag().getString(zTagId));
+                    put(DIM_TAG_ID, i.getTag().getString(DIM_TAG_ID));
+                    put(X_TAG_ID, i.getTag().getString(X_TAG_ID));
+                    put(Y_TAG_ID, i.getTag().getString(Y_TAG_ID));
+                    put(Z_TAG_ID, i.getTag().getString(Z_TAG_ID));
                 }});
             }
         });

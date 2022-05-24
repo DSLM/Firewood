@@ -1,0 +1,25 @@
+{
+  "type": "firewood:tinder_recipe",
+  "ingredients": [
+    {
+      "item": "minecraft:furnace"
+    }
+  ],
+  "tinder": {
+    "item": "firewood:tinder_item"
+  },
+  "addNBT": {
+    "major": [
+      {
+        "type": "smelter",
+        "subType": "smelter",
+        "process": 0
+      }
+    ]
+  },
+  "process": 2,
+  "chance": 100.0,
+  "damage": 1.0,
+  "cooldown": 100,
+  "minHealth": 1.0
+}

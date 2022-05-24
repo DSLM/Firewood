@@ -106,6 +106,11 @@ public class LanguageUtil
                 "Teleport", "传送");
         add("tooltip." + Firewood.MOD_ID + "." + Register.TINDER_ITEM.get() + ".major_effect.teleport.extend.1",
                 "Teleport to: %1$s (%2$s, %3$s, %4$s)", "传送到：%1$s（%2$s，%3$s，%4$s）");
+        add("tooltip." + Firewood.MOD_ID + "." + Register.TINDER_ITEM.get() + ".major_effect.smelter",
+                "Smelter", "熔炉");
+        add("tooltip." + Firewood.MOD_ID + "." + Register.TINDER_ITEM.get() + ".major_effect.smelter.smelter",
+                "Smelter", "熔炉");
+    
         add("tooltip." + Firewood.MOD_ID + "." + Register.TINDER_ITEM.get() + ".minor_effect",
                 "§lMinor Effect: ", "§l次要效果：");
         add("tooltip." + Firewood.MOD_ID + "." + Register.TINDER_ITEM.get() + ".minor_effect.ground",
@@ -114,15 +119,23 @@ public class LanguageUtil
         add("tooltip." + Firewood.MOD_ID + "." + Register.TINDER_ITEM.get() + ".exception_effect",
                 "Unexpected Data", "错误数据");
     
+        add("tooltip." + Firewood.MOD_ID + "." + Register.TINDER_ITEM.get() + ".multi_tooltip_format",
+                "%2$s (%1$s)", "%2$s（%1$s）");
+    
+    
         //recipe tooltip
         add("tooltip." + Firewood.MOD_ID + ".recipe.progress",
-                "Requested Firewood: %s", "薪火需求：%s");
+                "Requested Firewood: %1$s / %2$s", "薪火需求：%1$s / %2$s");
+        add("tooltip." + Firewood.MOD_ID + ".recipe.now_progress",
+                "Current Firewood: %1$s / %2$s", "当前薪火：%1$s / %2$s");
         add("tooltip." + Firewood.MOD_ID + ".recipe.chance",
                 "Burning Firewood Success Rate: %s%%", "添薪成功率：%s%%");
         add("tooltip." + Firewood.MOD_ID + ".recipe.damage",
                 "Burning Firewood Damage: %s", "添薪伤害：%s");
         add("tooltip." + Firewood.MOD_ID + ".recipe.cooldown",
                 "Burning Firewood Cooldown: %1$sS (%2$s ticks)", "添薪冷却：%1$s秒（%2$s刻）");
+        add("tooltip." + Firewood.MOD_ID + ".recipe.minhealth",
+                "Burning Firewood Min Health Required: %s", "添薪最低生命值：%s");
     
         //start generation
         generator.addProvider(new LanguageProvider(generator, "en_us"));

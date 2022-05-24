@@ -31,18 +31,15 @@ import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.material.MaterialColor;
-import net.minecraftforge.client.event.ColorHandlerEvent;
 import net.minecraftforge.common.extensions.IForgeMenuType;
-import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
 
 public class Register
-{// TODO: 2022/5/23 生命不够是否触发效果与增加营火？方块-方块，方块-物品，方块-实体，实体-物品
+{// TODO: 2022/5/23 生命不够是否增加营火？方块-方块，方块-物品，方块-实体，实体-物品
     private static final DeferredRegister<Block> BLOCKS =
             DeferredRegister.create(ForgeRegistries.BLOCKS, Firewood.MOD_ID);
     private static final DeferredRegister<Item> ITEMS =
@@ -113,16 +110,6 @@ public class Register
             CONTAINERS.register("spiritual_campfire_block_container", () ->
                     IForgeMenuType.create((windowId, inv, data) -> new SpiritualCampfireBlockMenu(windowId, data.readBlockPos(), inv, inv.player)));
     
-    @SubscribeEvent
-    public static void onRegistryInit(RegistryEvent.Register<?> event)
-    {
-    
-    }
-    
-    @SubscribeEvent
-    public void registerBlockColors(ColorHandlerEvent.Block event)
-    {
-    }
     
     public static void register(IEventBus bus)
     {
