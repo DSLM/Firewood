@@ -155,13 +155,24 @@ public class PlayerSpiritualDamageProvider implements ICapabilityProvider, INBTS
             compound.putInt("fleshColor", fleshColor);
             compound.putInt("spiritColor", spiritColor);
         }
-        
+    
         public void loadNBTData(CompoundTag compound)
         {
             fleshDamage = compound.getFloat("fleshDamage");
             spiritDamage = compound.getFloat("spiritDamage");
             fleshColor = compound.getInt("fleshColor");
             spiritColor = compound.getInt("spiritColor");
+        }
+    
+        @Override
+        public String toString()
+        {
+            StringBuilder s = new StringBuilder();
+            return s.append("fleshDamage: ").append(fleshDamage).append("\n")
+                    .append("spiritDamage: ").append(spiritDamage).append("\n")
+                    .append("fleshColor: ").append(fleshColor).append("\n")
+                    .append("spiritColor: ").append(spiritColor).append("\n")
+                    .toString();
         }
     }
 }

@@ -1,15 +1,15 @@
-package com.dslm.firewood.fireEffectHelper.block.baseClass;
+package com.dslm.firewood.fireEffectHelper.flesh.base;
 
+import com.dslm.firewood.fireEffectHelper.flesh.data.FireEffectNBTData;
 import net.minecraft.nbt.CompoundTag;
-
-import java.util.HashMap;
 
 abstract public class FireEffectHelperBase implements FireEffectHelperInterface
 {
-    protected final HashMap<String, String> DEFAULT_DATA;
+    protected final FireEffectNBTData DEFAULT_DATA;
     protected final String ID;
+    public static final String TYPE = "type";
     
-    public FireEffectHelperBase(HashMap<String, String> defaultData, String id)
+    public FireEffectHelperBase(FireEffectNBTData defaultData, String id)
     {
         this.DEFAULT_DATA = defaultData;
         this.ID = id;
@@ -17,9 +17,9 @@ abstract public class FireEffectHelperBase implements FireEffectHelperInterface
     
     public FireEffectHelperBase(String id)
     {
-        this(new HashMap<>()
+        this(new FireEffectNBTData()
         {{
-            put("type", id);
+            put(TYPE, id);
         }}, id);
     }
     
@@ -30,7 +30,7 @@ abstract public class FireEffectHelperBase implements FireEffectHelperInterface
     }
     
     @Override
-    public HashMap<String, String> getDefaultData()
+    public FireEffectNBTData getDefaultData()
     {
         return DEFAULT_DATA;
     }
@@ -42,9 +42,9 @@ abstract public class FireEffectHelperBase implements FireEffectHelperInterface
     }
     
     @Override
-    public String getJEIString(HashMap<String, String> data)
+    public String getJEIString(FireEffectNBTData data)
     {
-        return data.get("type");
+        return data.getType();
     }
 }
 

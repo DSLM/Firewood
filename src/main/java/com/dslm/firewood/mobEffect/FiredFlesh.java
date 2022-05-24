@@ -15,10 +15,9 @@ public class FiredFlesh extends MobEffect
         super(category, color);
     }
     
-    public boolean isDurationEffectTick(int pDuration, int pAmplifier)
+    public boolean isDurationEffectTick(int duration, int amplifier)
     {
-        if(MobEffectConfig.FIRED_FLESH_INTERVAL == null) return false;
-        return pDuration % MobEffectConfig.FIRED_FLESH_INTERVAL.get() == 0;
+        return duration % MobEffectConfig.FIRED_FLESH_INTERVAL.get() == 0;
     }
     
     @Override

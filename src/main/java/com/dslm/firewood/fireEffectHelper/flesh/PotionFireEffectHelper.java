@@ -1,8 +1,8 @@
-package com.dslm.firewood.fireEffectHelper.block;
+package com.dslm.firewood.fireEffectHelper.flesh;
 
-import com.dslm.firewood.fireEffectHelper.FireEffectHelpers;
-import com.dslm.firewood.fireEffectHelper.block.baseClass.FireEffectHelperInterface;
-import com.dslm.firewood.fireEffectHelper.block.baseClass.MajorFireEffectHelperBase;
+import com.dslm.firewood.fireEffectHelper.flesh.base.FireEffectHelperInterface;
+import com.dslm.firewood.fireEffectHelper.flesh.base.MajorFireEffectHelperBase;
+import com.dslm.firewood.fireEffectHelper.flesh.data.FireEffectNBTData;
 import com.dslm.firewood.tooltip.MiddleComponent;
 import com.google.common.collect.Lists;
 import com.mojang.datafixers.util.Pair;
@@ -32,12 +32,11 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import static com.dslm.firewood.config.SpiritualFireBlockEffectConfig.POTION_BASE_DAMAGE;
-import static com.dslm.firewood.fireEffectHelper.FireEffectHelpers.colorfulText;
+import static com.dslm.firewood.fireEffectHelper.flesh.FireEffectHelpers.colorfulText;
 
 public class PotionFireEffectHelper extends MajorFireEffectHelperBase
 {
@@ -47,7 +46,7 @@ public class PotionFireEffectHelper extends MajorFireEffectHelperBase
     
     public PotionFireEffectHelper(String id)
     {
-        super(new HashMap<>()
+        super(new FireEffectNBTData()
         {{
             put(POTION_TAG_ID, "minecraft:water");
         }}, id);
@@ -55,13 +54,13 @@ public class PotionFireEffectHelper extends MajorFireEffectHelperBase
     }
     
     @Override
-    public int getColor(HashMap<String, String> data)
+    public int getColor(FireEffectNBTData data)
     {
         return getPotionColor(data.get(POTION_TAG_ID));
     }
     
     @Override
-    public HashMap<String, String> triggerEffect(HashMap<String, String> data, BlockState state, Level level, BlockPos pos, LivingEntity entity)
+    public FireEffectNBTData triggerEffect(FireEffectNBTData data, BlockState state, Level level, BlockPos pos, LivingEntity entity)
     {
         Potion potion = getPotion(data.get(POTION_TAG_ID));
         List<MobEffectInstance> effects = potion.getEffects();
@@ -74,20 +73,20 @@ public class PotionFireEffectHelper extends MajorFireEffectHelperBase
     }
     
     @Override
-    public float getDamage(HashMap<String, String> data)
+    public float getDamage(FireEffectNBTData data)
     {
         return POTION_BASE_DAMAGE.get().floatValue();
     }
     
     @Override
-    public ArrayList<Component> getToolTips(HashMap<String, String> data, boolean extended)
+    public ArrayList<Component> getToolTips(FireEffectNBTData data, boolean extended)
     {
         ArrayList<Component> lines = new ArrayList<>();
         var name = new TranslatableComponent(
                 getPotion(data.get(POTION_TAG_ID)).getName(
                         Util.makeDescriptionId("item", Items.POTION.getRegistryName()) + ".effect."));
         MiddleComponent mainLine = (MiddleComponent) colorfulText(
-                new MiddleComponent("tooltip.firewood.tinder_item.major_effect." + data.get("type"),
+                new MiddleComponent("tooltip.firewood.tinder_item.major_effect." + data.getType(),
                         name),
                 getPotionColor(data.get(POTION_TAG_ID)));
         mainLine.setDamage(getDamage(data));
@@ -171,19 +170,19 @@ public class PotionFireEffectHelper extends MajorFireEffectHelperBase
     }
     
     @Override
-    public CompoundTag saveToNBT(HashMap<String, String> data)
+    public CompoundTag saveToNBT(FireEffectNBTData data)
     {
         CompoundTag tags = new CompoundTag();
-        tags.putString("type", ID);
+        tags.putString(TYPE, ID);
         tags.putString(POTION_TAG_ID, data.get(POTION_TAG_ID));
         return tags;
     }
     
     @Override
-    public HashMap<String, String> readFromNBT(CompoundTag tags)
+    public FireEffectNBTData readFromNBT(CompoundTag tags)
     {
-        HashMap<String, String> data = new HashMap<>();
-        data.put("type", ID);
+        FireEffectNBTData data = new FireEffectNBTData();
+        data.put(TYPE, ID);
         data.put(POTION_TAG_ID, tags.getString(POTION_TAG_ID));
         return data;
     }
@@ -199,9 +198,9 @@ public class PotionFireEffectHelper extends MajorFireEffectHelperBase
     }
     
     @Override
-    public String getJEIString(HashMap<String, String> data)
+    public String getJEIString(FireEffectNBTData data)
     {
-        return data.get("type") + "-" + data.get(POTION_TAG_ID);
+        return data.getType() + "-" + data.get(POTION_TAG_ID);
     }
     
     @Override
@@ -212,7 +211,7 @@ public class PotionFireEffectHelper extends MajorFireEffectHelperBase
             if(potion == Potions.EMPTY) continue;
     
             String potionId = potion.getRegistryName().toString();
-            ItemStack stack = FireEffectHelpers.addMajorEffect(item.copy(), ID, new HashMap<>()
+            ItemStack stack = FireEffectHelpers.addMajorEffect(item.copy(), ID, new FireEffectNBTData()
             {{
                 put(POTION_TAG_ID, potionId);
             }});

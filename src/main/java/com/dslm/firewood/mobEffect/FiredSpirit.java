@@ -1,6 +1,8 @@
 package com.dslm.firewood.mobEffect;
 
 
+import com.dslm.firewood.Register;
+import com.dslm.firewood.capProvider.PlayerSpiritualDamageProvider;
 import com.dslm.firewood.config.MobEffectConfig;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
@@ -15,13 +17,17 @@ public class FiredSpirit extends MobEffect
     
     public boolean isDurationEffectTick(int pDuration, int pAmplifier)
     {
-        if(MobEffectConfig.FIRED_SPIRIT_INTERVAL == null) return false;
         return pDuration % MobEffectConfig.FIRED_SPIRIT_INTERVAL.get() == 0;
     }
     
     @Override
-    public void applyEffectTick(LivingEntity pLivingEntity, int pAmplifier)
+    public void applyEffectTick(LivingEntity livingEntity, int amplifier)
     {
-        //pLivingEntity.hurt(Register.SPIRITUAL_FIRE_DAMAGE, FIRED_SPIRIT_DAMAGE.get().floatValue() * (pAmplifier + 1));
+        if(amplifier == 99)
+        {
+            livingEntity.getCapability(PlayerSpiritualDamageProvider.PLAYER_SPIRITUAL_DAMAGE).ifPresent(playerSpiritualDamage -> {
+                livingEntity.hurt(Register.SPIRITUAL_FIRE_DAMAGE, playerSpiritualDamage.getSpiritDamage());
+            });
+        }
     }
 }

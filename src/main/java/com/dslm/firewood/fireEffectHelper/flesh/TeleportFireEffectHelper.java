@@ -1,9 +1,9 @@
-package com.dslm.firewood.fireEffectHelper.block;
+package com.dslm.firewood.fireEffectHelper.flesh;
 
 import com.dslm.firewood.Firewood;
-import com.dslm.firewood.fireEffectHelper.FireEffectHelpers;
-import com.dslm.firewood.fireEffectHelper.block.baseClass.FireEffectHelperInterface;
-import com.dslm.firewood.fireEffectHelper.block.baseClass.MajorFireEffectHelperBase;
+import com.dslm.firewood.fireEffectHelper.flesh.base.FireEffectHelperInterface;
+import com.dslm.firewood.fireEffectHelper.flesh.base.MajorFireEffectHelperBase;
+import com.dslm.firewood.fireEffectHelper.flesh.data.FireEffectNBTData;
 import com.dslm.firewood.tooltip.MiddleComponent;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
@@ -20,13 +20,12 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.util.ITeleporter;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 import java.util.function.Function;
 
 import static com.dslm.firewood.config.SpiritualFireBlockEffectConfig.TELEPORT_BASE_DAMAGE;
-import static com.dslm.firewood.fireEffectHelper.FireEffectHelpers.colorfulText;
+import static com.dslm.firewood.fireEffectHelper.flesh.FireEffectHelpers.colorfulText;
 
 public class TeleportFireEffectHelper extends MajorFireEffectHelperBase
 {
@@ -40,7 +39,7 @@ public class TeleportFireEffectHelper extends MajorFireEffectHelperBase
     
     public TeleportFireEffectHelper(String id)
     {
-        super(new HashMap<>()
+        super(new FireEffectNBTData()
         {{
             put(DIM_TAG_ID, "overworld");
             put(X_TAG_ID, "0");
@@ -51,7 +50,7 @@ public class TeleportFireEffectHelper extends MajorFireEffectHelperBase
     }
     
     @Override
-    public int getColor(HashMap<String, String> data)
+    public int getColor(FireEffectNBTData data)
     {
         return COLOR;
     }
@@ -62,7 +61,7 @@ public class TeleportFireEffectHelper extends MajorFireEffectHelperBase
     }
     
     @Override
-    public HashMap<String, String> triggerEffect(HashMap<String, String> data, BlockState state, Level level, BlockPos pos, LivingEntity entity)
+    public FireEffectNBTData triggerEffect(FireEffectNBTData data, BlockState state, Level level, BlockPos pos, LivingEntity entity)
     {
         try
         {
@@ -92,22 +91,22 @@ public class TeleportFireEffectHelper extends MajorFireEffectHelperBase
     }
     
     @Override
-    public float getDamage(HashMap<String, String> data)
+    public float getDamage(FireEffectNBTData data)
     {
         return TELEPORT_BASE_DAMAGE.get().floatValue();
     }
     
     @Override
-    public ArrayList<Component> getToolTips(HashMap<String, String> data, boolean extended)
+    public ArrayList<Component> getToolTips(FireEffectNBTData data, boolean extended)
     {
         ArrayList<Component> lines = new ArrayList<>();
         MiddleComponent mainLine = (MiddleComponent) colorfulText(
-                new MiddleComponent("tooltip.firewood.tinder_item.major_effect." + data.get("type")), COLOR);
+                new MiddleComponent("tooltip.firewood.tinder_item.major_effect." + data.getType()), COLOR);
         lines.add(mainLine);
         if(extended)
         {
             lines.add(colorfulText(
-                    new TranslatableComponent("tooltip.firewood.tinder_item.major_effect." + data.get("type") + ".extend.1",
+                    new TranslatableComponent("tooltip.firewood.tinder_item.major_effect." + data.getType() + ".extend.1",
                             data.get(DIM_TAG_ID), Integer.parseInt(data.get(X_TAG_ID)), Integer.parseInt(data.get(Y_TAG_ID)), Integer.parseInt(data.get(Z_TAG_ID))),
                     COLOR));
         }
@@ -116,10 +115,10 @@ public class TeleportFireEffectHelper extends MajorFireEffectHelperBase
     }
     
     @Override
-    public CompoundTag saveToNBT(HashMap<String, String> data)
+    public CompoundTag saveToNBT(FireEffectNBTData data)
     {
         CompoundTag tags = new CompoundTag();
-        tags.putString("type", ID);
+        tags.putString(TYPE, ID);
         tags.putString(DIM_TAG_ID, data.get(DIM_TAG_ID));
         tags.putString(X_TAG_ID, data.get(X_TAG_ID));
         tags.putString(Y_TAG_ID, data.get(Y_TAG_ID));
@@ -128,10 +127,10 @@ public class TeleportFireEffectHelper extends MajorFireEffectHelperBase
     }
     
     @Override
-    public HashMap<String, String> readFromNBT(CompoundTag tags)
+    public FireEffectNBTData readFromNBT(CompoundTag tags)
     {
-        HashMap<String, String> data = new HashMap<>();
-        data.put("type", ID);
+        FireEffectNBTData data = new FireEffectNBTData();
+        data.put(TYPE, ID);
         data.put(DIM_TAG_ID, tags.getString(DIM_TAG_ID));
         data.put(X_TAG_ID, tags.getString(X_TAG_ID));
         data.put(Y_TAG_ID, tags.getString(Y_TAG_ID));

@@ -2,7 +2,7 @@ package com.dslm.firewood.block.entity;
 
 import com.dslm.firewood.Register;
 import com.dslm.firewood.block.SpiritualCampfireBlock;
-import com.dslm.firewood.fireEffectHelper.FireEffectHelpers;
+import com.dslm.firewood.fireEffectHelper.flesh.FireEffectHelpers;
 import com.dslm.firewood.recipe.TinderRecipe;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
@@ -351,7 +351,7 @@ public class SpiritualCampfireBlockEntity extends BlockEntity implements Contain
     @Override
     public int getMaxStackSize()
     {
-        return 1;
+        return 64;
     }
     
     @Override

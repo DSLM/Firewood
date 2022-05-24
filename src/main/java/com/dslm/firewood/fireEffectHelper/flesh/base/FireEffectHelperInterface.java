@@ -1,30 +1,32 @@
-package com.dslm.firewood.fireEffectHelper.block.baseClass;
+package com.dslm.firewood.fireEffectHelper.flesh.base;
 
+import com.dslm.firewood.fireEffectHelper.flesh.data.FireEffectNBTData;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
+
+import static com.dslm.firewood.fireEffectHelper.flesh.base.FireEffectHelperBase.TYPE;
 
 public interface FireEffectHelperInterface
 {
     default boolean isSameNBT(CompoundTag first, CompoundTag second)
     {
-        return first.getString("type").equals(second.getString("type"));
+        return first.getString(TYPE).equals(second.getString(TYPE));
     }
     
-    int getColor(HashMap<String, String> data);
+    int getColor(FireEffectNBTData data);
     
-    ArrayList<Component> getToolTips(HashMap<String, String> data, boolean extended);
+    ArrayList<Component> getToolTips(FireEffectNBTData data, boolean extended);
     
-    CompoundTag saveToNBT(HashMap<String, String> data);
+    CompoundTag saveToNBT(FireEffectNBTData data);
     
-    HashMap<String, String> readFromNBT(CompoundTag tags);
+    FireEffectNBTData readFromNBT(CompoundTag tags);
     
-    String getJEIString(HashMap<String, String> data);
+    String getJEIString(FireEffectNBTData data);
     
     
     default void fillItemCategory(NonNullList<ItemStack> items, ItemStack item)
@@ -33,7 +35,7 @@ public interface FireEffectHelperInterface
     
     CompoundTag getDefaultNBT();
     
-    HashMap<String, String> getDefaultData();
+    FireEffectNBTData getDefaultData();
     
     String getId();
     

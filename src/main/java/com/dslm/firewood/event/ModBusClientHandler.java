@@ -4,8 +4,8 @@ import com.dslm.firewood.Firewood;
 import com.dslm.firewood.Register;
 import com.dslm.firewood.block.entity.SpiritualCampfireBlockEntity;
 import com.dslm.firewood.block.entity.SpiritualFireBlockEntity;
-import com.dslm.firewood.fireEffectHelper.FireEffectHelpers;
-import com.dslm.firewood.fireEffectHelper.block.baseClass.FireNBTHelper;
+import com.dslm.firewood.fireEffectHelper.flesh.FireEffectHelpers;
+import com.dslm.firewood.fireEffectHelper.flesh.data.FireEffectNBTHelper;
 import com.dslm.firewood.screen.SpiritualCampfireBlockScreen;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
@@ -45,8 +45,8 @@ public class ModBusClientHandler
                         tintIndex == 1 ?
                                 ((SpiritualCampfireBlockEntity) world.getBlockEntity(pos)).getItem(0).getItem() == Register.TINDER_ITEM.get() ?
                                         FireEffectHelpers.getMixedColor(
-                                                FireNBTHelper.loadMajorFireData(((SpiritualCampfireBlockEntity) world.getBlockEntity(pos)).getItem(0).getOrCreateTag()),
-                                                FireNBTHelper.loadMinorFireData(((SpiritualCampfireBlockEntity) world.getBlockEntity(pos)).getItem(0).getOrCreateTag()))
+                                                FireEffectNBTHelper.loadMajorFireData(((SpiritualCampfireBlockEntity) world.getBlockEntity(pos)).getItem(0).getOrCreateTag()),
+                                                FireEffectNBTHelper.loadMinorFireData(((SpiritualCampfireBlockEntity) world.getBlockEntity(pos)).getItem(0).getOrCreateTag()))
                                         : -1 : -1,
                 Register.SPIRITUAL_CAMPFIRE_BLOCK.get());
     }
@@ -58,8 +58,8 @@ public class ModBusClientHandler
                 (stack, index) ->
                         index == 0 ?
                                 -1 : FireEffectHelpers.getMixedColor(
-                                FireNBTHelper.loadMajorFireData(stack.getOrCreateTag()),
-                                FireNBTHelper.loadMinorFireData(stack.getOrCreateTag())),
+                                FireEffectNBTHelper.loadMajorFireData(stack.getOrCreateTag()),
+                                FireEffectNBTHelper.loadMinorFireData(stack.getOrCreateTag())),
                 Register.TINDER_ITEM.get());
     }
 }

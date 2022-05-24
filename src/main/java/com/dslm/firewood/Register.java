@@ -6,6 +6,7 @@ import com.dslm.firewood.block.entity.SpiritualCampfireBlockEntity;
 import com.dslm.firewood.block.entity.SpiritualFireBlockEntity;
 import com.dslm.firewood.compat.top.TOPPlugin;
 import com.dslm.firewood.event.ForgeBusClientHandler;
+import com.dslm.firewood.item.DebugItem;
 import com.dslm.firewood.item.DyingEmberItem;
 import com.dslm.firewood.item.TinderItem;
 import com.dslm.firewood.menu.SpiritualCampfireBlockMenu;
@@ -84,13 +85,15 @@ public class Register
             BLOCK_ENTITIES.register("spiritual_fire_block_entity", () ->
                     BlockEntityType.Builder.of(SpiritualFireBlockEntity::new, SPIRITUAL_FIRE_BLOCK.get()).build(null));
     
-    public static final RegistryObject<Item> TINDER_ITEM =
-            ITEMS.register("tinder_item", () -> new TinderItem(new Item.Properties().tab(CREATIVE_MODE_TAB)));
-    public static final RegistryObject<Item> DYING_EMBER_ITEM =
-            ITEMS.register("dying_ember_item", () -> new DyingEmberItem(new Item.Properties().tab(CREATIVE_MODE_TAB)));
     public static final RegistryObject<Item> SPIRITUAL_CAMPFIRE_ITEM =
             ITEMS.register("spiritual_campfire_item",
                     () -> new BlockItem(SPIRITUAL_CAMPFIRE_BLOCK.get(), new Item.Properties().tab(CREATIVE_MODE_TAB)));
+    public static final RegistryObject<Item> DYING_EMBER_ITEM =
+            ITEMS.register("dying_ember_item", () -> new DyingEmberItem(new Item.Properties().tab(CREATIVE_MODE_TAB)));
+    public static final RegistryObject<Item> TINDER_ITEM =
+            ITEMS.register("tinder_item", () -> new TinderItem(new Item.Properties().stacksTo(1).tab(CREATIVE_MODE_TAB)));
+    public static final RegistryObject<Item> DEBUG_ITEM =
+            ITEMS.register("debug_item", () -> new DebugItem(new Item.Properties().tab(CREATIVE_MODE_TAB)));
     
     public static final RegistryObject<MobEffect> FIRED_SPIRIT = MOB_EFFECTS.register("fired_spirit",
             () -> new FiredSpirit(MobEffectCategory.BENEFICIAL, 0xf47025));

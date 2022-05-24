@@ -1,6 +1,7 @@
 package com.dslm.firewood.recipe;
 
-import com.dslm.firewood.fireEffectHelper.FireEffectHelpers;
+import com.dslm.firewood.fireEffectHelper.flesh.FireEffectHelpers;
+import com.dslm.firewood.fireEffectHelper.flesh.data.FireEffectNBTData;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -8,12 +9,11 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.item.ItemStack;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class TinderRecipeNBT
 {
-    public ArrayList<HashMap<String, String>> majorEffects;
-    public ArrayList<HashMap<String, String>> minorEffects;
+    public ArrayList<FireEffectNBTData> majorEffects;
+    public ArrayList<FireEffectNBTData> minorEffects;
     
     public ItemStack implementEffects(ItemStack stack)
     {
@@ -25,13 +25,13 @@ public class TinderRecipeNBT
         return new TinderRecipeNBT(arrayFromNetwork(buf), arrayFromNetwork(buf));
     }
     
-    public static ArrayList<HashMap<String, String>> arrayFromNetwork(FriendlyByteBuf buf)
+    public static ArrayList<FireEffectNBTData> arrayFromNetwork(FriendlyByteBuf buf)
     {
-        ArrayList<HashMap<String, String>> effects = new ArrayList<>();
+        ArrayList<FireEffectNBTData> effects = new ArrayList<>();
         int arrSize = buf.readInt();
         for(int i = 0; i < arrSize; i++)
         {
-            HashMap<String, String> tempMap = new HashMap<>();
+            FireEffectNBTData tempMap = new FireEffectNBTData();
             int mapSize = buf.readInt();
             for(int j = 0; j < mapSize; j++)
             {
@@ -48,13 +48,13 @@ public class TinderRecipeNBT
         arrayToNetwork(buf, minorEffects);
     }
     
-    public static void arrayToNetwork(FriendlyByteBuf buf, ArrayList<HashMap<String, String>> effects)
+    public static void arrayToNetwork(FriendlyByteBuf buf, ArrayList<FireEffectNBTData> effects)
     {
         int size = effects == null ? 0 : effects.size();
         buf.writeInt(size);
         for(int i = 0; i < size; i++)
         {
-            HashMap<String, String> tempMap = effects.get(i);
+            FireEffectNBTData tempMap = effects.get(i);
             buf.writeInt(tempMap.size());
             for(String j : tempMap.keySet())
             {
@@ -64,12 +64,12 @@ public class TinderRecipeNBT
         }
     }
     
-    public HashMap<String, String> getMajorEffect(int i)
+    public FireEffectNBTData getMajorEffect(int i)
     {
         return majorEffects.get(i);
     }
     
-    public HashMap<String, String> getMinorEffect(int i)
+    public FireEffectNBTData getMinorEffect(int i)
     {
         return minorEffects.get(i);
     }
@@ -84,15 +84,15 @@ public class TinderRecipeNBT
         return new TinderRecipeNBT(arrayFromJSON(major), arrayFromJSON(minor));
     }
     
-    public static ArrayList<HashMap<String, String>> arrayFromJSON(JsonArray array)
+    public static ArrayList<FireEffectNBTData> arrayFromJSON(JsonArray array)
     {
-        ArrayList<HashMap<String, String>> tempArray = new ArrayList<>();
+        ArrayList<FireEffectNBTData> tempArray = new ArrayList<>();
         if(array != null)
         {
             for(JsonElement i : array)
             {
                 JsonObject tempObj = i.getAsJsonObject();
-                HashMap<String, String> tempMap = new HashMap<String, String>();
+                FireEffectNBTData tempMap = new FireEffectNBTData();
                 for(String j : tempObj.keySet())
                 {
                     tempMap.put(j, tempObj.get(j).getAsString());
@@ -104,38 +104,38 @@ public class TinderRecipeNBT
         return tempArray;
     }
     
-    public TinderRecipeNBT(ArrayList<HashMap<String, String>> majorEffects, ArrayList<HashMap<String, String>> minorEffects)
+    public TinderRecipeNBT(ArrayList<FireEffectNBTData> majorEffects, ArrayList<FireEffectNBTData> minorEffects)
     {
         this.majorEffects = majorEffects;
         this.minorEffects = minorEffects;
     }
     
-    public void addMajorEffect(HashMap<String, String> effect)
+    public void addMajorEffect(FireEffectNBTData effect)
     {
         majorEffects.add(effect);
     }
     
-    public void addMinorEffect(HashMap<String, String> effect)
+    public void addMinorEffect(FireEffectNBTData effect)
     {
         minorEffects.add(effect);
     }
     
-    public ArrayList<HashMap<String, String>> getMajorEffects()
+    public ArrayList<FireEffectNBTData> getMajorEffects()
     {
         return majorEffects;
     }
     
-    public void setMajorEffects(ArrayList<HashMap<String, String>> majorEffects)
+    public void setMajorEffects(ArrayList<FireEffectNBTData> majorEffects)
     {
         this.majorEffects = majorEffects;
     }
     
-    public ArrayList<HashMap<String, String>> getMinorEffects()
+    public ArrayList<FireEffectNBTData> getMinorEffects()
     {
         return minorEffects;
     }
     
-    public void setMinorEffects(ArrayList<HashMap<String, String>> minorEffects)
+    public void setMinorEffects(ArrayList<FireEffectNBTData> minorEffects)
     {
         this.minorEffects = minorEffects;
     }

@@ -1,23 +1,23 @@
-package com.dslm.firewood.fireEffectHelper.block;
+package com.dslm.firewood.fireEffectHelper.flesh;
 
-import com.dslm.firewood.fireEffectHelper.block.baseClass.RangedFireEffectData;
-import com.dslm.firewood.fireEffectHelper.block.baseClass.RangedFireEffectHelperBase;
+import com.dslm.firewood.fireEffectHelper.flesh.base.TransformFireEffectHelperBase;
+import com.dslm.firewood.fireEffectHelper.flesh.data.FireEffectNBTData;
+import com.dslm.firewood.fireEffectHelper.flesh.data.TransformFireEffectType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.BlockItem;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.item.crafting.SmeltingRecipe;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.registries.ForgeRegistries;
 
-import java.util.HashMap;
 import java.util.Random;
 
-public class SmelterFireEffectHelper extends RangedFireEffectHelperBase
+public class SmelterFireEffectHelper extends TransformFireEffectHelperBase
 {
     
     public SmelterFireEffectHelper(String id)
@@ -26,9 +26,9 @@ public class SmelterFireEffectHelper extends RangedFireEffectHelperBase
     }
     
     @Override
-    public HashMap<String, String> triggerEffect(HashMap<String, String> data, BlockState state, Level level, BlockPos pos, LivingEntity entity)
+    public FireEffectNBTData triggerEffect(FireEffectNBTData data, BlockState state, Level level, BlockPos pos, LivingEntity entity)
     {
-        RangedFireEffectData effectData = getSubRealEffect(data);
+        TransformFireEffectType effectData = getSubRealEffect(data);
         int nowProccess = Integer.parseInt(data.get(PROCESS)) + 1;
         if(nowProccess < effectData.getProcess())
         {
@@ -47,10 +47,18 @@ public class SmelterFireEffectHelper extends RangedFireEffectHelperBase
                     ItemStack itemStack = new ItemStack(ForgeRegistries.ITEMS.getValue(blockState.getBlock().getRegistryName()));
                     for(SmeltingRecipe recipe : level.getRecipeManager().getAllRecipesFor(RecipeType.SMELTING))
                     {
-                        Item result = recipe.getResultItem().getItem();
-                        if(recipe.getIngredients().get(0).test(itemStack) && result instanceof BlockItem)
+                        ItemStack result = recipe.getResultItem();
+                        if(recipe.getIngredients().get(0).test(itemStack))
                         {
-                            level.setBlock(blockPos, ((BlockItem) result).getBlock().defaultBlockState(), Block.UPDATE_ALL);
+                            if(result.getItem() instanceof BlockItem)
+                            {
+                                level.setBlock(blockPos, ((BlockItem) result.getItem()).getBlock().defaultBlockState(), Block.UPDATE_ALL);
+                            }
+                            else
+                            {
+                                level.setBlock(blockPos, Blocks.AIR.defaultBlockState(), Block.UPDATE_ALL);
+                                dropItemAt(level, blockPos, result);
+                            }
                             break nextBlock;
                         }
                     }

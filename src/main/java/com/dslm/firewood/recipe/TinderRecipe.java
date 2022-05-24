@@ -27,20 +27,20 @@ public class TinderRecipe implements Recipe<SpiritualCampfireBlockEntity>
     protected final ResourceLocation id;
     protected final NonNullList<Ingredient> recipeItems;
     protected final Ingredient tinder;
-    protected final TinderRecipeNBT addNBT;
+    protected final TinderRecipeNBT addEffects;
     protected final int process;
     protected final double chance;
     protected final double damage;
     protected final int cooldown;
     protected final double minHealth;
     
-    public TinderRecipe(ResourceLocation id, NonNullList<Ingredient> recipeItems, Ingredient tinder, TinderRecipeNBT addNBT,
+    public TinderRecipe(ResourceLocation id, NonNullList<Ingredient> recipeItems, Ingredient tinder, TinderRecipeNBT addEffects,
                         int process, double chance, double damage, int cooldown, double minHealth)
     {
         this.id = id;
         this.recipeItems = recipeItems;
         this.tinder = tinder;
-        this.addNBT = addNBT;
+        this.addEffects = addEffects;
         this.process = process;
         this.chance = chance;
         this.damage = damage;
@@ -53,7 +53,7 @@ public class TinderRecipe implements Recipe<SpiritualCampfireBlockEntity>
         this.id = copy.id;
         this.recipeItems = copy.recipeItems;
         this.tinder = copy.tinder;
-        this.addNBT = copy.addNBT;
+        this.addEffects = copy.addEffects;
         this.process = copy.process;
         this.chance = copy.chance;
         this.damage = copy.damage;
@@ -73,7 +73,7 @@ public class TinderRecipe implements Recipe<SpiritualCampfireBlockEntity>
     @Override
     public ItemStack assemble(SpiritualCampfireBlockEntity container)
     {
-        return addNBT.implementEffects(container.getTinder());
+        return addEffects.implementEffects(container.getTinder());
     }
     
     @Override
@@ -85,7 +85,7 @@ public class TinderRecipe implements Recipe<SpiritualCampfireBlockEntity>
     @Override
     public ItemStack getResultItem()
     {
-        return addNBT.implementEffects(new ItemStack(Register.TINDER_ITEM.get()));
+        return addEffects.implementEffects(new ItemStack(Register.TINDER_ITEM.get()));
     }
     
     @Override
@@ -111,9 +111,9 @@ public class TinderRecipe implements Recipe<SpiritualCampfireBlockEntity>
         return tinder;
     }
     
-    public TinderRecipeNBT getAddNBT()
+    public TinderRecipeNBT getAddEffects()
     {
-        return addNBT;
+        return addEffects;
     }
     
     public int getProcess()
@@ -169,7 +169,7 @@ public class TinderRecipe implements Recipe<SpiritualCampfireBlockEntity>
     
             Ingredient tinder = Ingredient.fromJson(json.getAsJsonObject("tinder"));
     
-            TinderRecipeNBT addNBT = TinderRecipeNBT.fromJSON(json.getAsJsonObject("addNBT"));
+            TinderRecipeNBT addEffects = TinderRecipeNBT.fromJSON(json.getAsJsonObject("addEffects"));
     
             int process = json.get("process").getAsInt();
     
@@ -181,7 +181,7 @@ public class TinderRecipe implements Recipe<SpiritualCampfireBlockEntity>
     
             double minHealth = json.get("minHealth").getAsDouble();
     
-            return new TinderRecipe(id, inputs, tinder, addNBT, process, chance, damage, cooldown, minHealth);
+            return new TinderRecipe(id, inputs, tinder, addEffects, process, chance, damage, cooldown, minHealth);
         }
         
         @Override
@@ -195,7 +195,7 @@ public class TinderRecipe implements Recipe<SpiritualCampfireBlockEntity>
     
             Ingredient tinder = Ingredient.fromNetwork(buf);
     
-            TinderRecipeNBT addNBT = TinderRecipeNBT.fromNetwork(buf);
+            TinderRecipeNBT addEffects = TinderRecipeNBT.fromNetwork(buf);
     
             int process = buf.readInt();
     
@@ -207,7 +207,7 @@ public class TinderRecipe implements Recipe<SpiritualCampfireBlockEntity>
     
             double minHealth = buf.readDouble();
     
-            return new TinderRecipe(id, inputs, tinder, addNBT, process, chance, damage, cooldown, minHealth);
+            return new TinderRecipe(id, inputs, tinder, addEffects, process, chance, damage, cooldown, minHealth);
         }
         
         @Override
@@ -221,7 +221,7 @@ public class TinderRecipe implements Recipe<SpiritualCampfireBlockEntity>
     
             recipe.getTinder().toNetwork(buf);
     
-            recipe.getAddNBT().toNetwork(buf);
+            recipe.getAddEffects().toNetwork(buf);
     
             buf.writeInt(recipe.getProcess());
     
@@ -270,6 +270,6 @@ public class TinderRecipe implements Recipe<SpiritualCampfireBlockEntity>
     
     public List<ItemStack> getJEIResult()
     {
-        return Arrays.stream(tinder.getItems()).map(itemStack -> addNBT.implementEffects(itemStack.copy())).toList();
+        return Arrays.stream(tinder.getItems()).map(itemStack -> addEffects.implementEffects(itemStack.copy())).toList();
     }
 }

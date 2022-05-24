@@ -1,9 +1,11 @@
-package com.dslm.firewood.fireEffectHelper.block.baseClass;
+package com.dslm.firewood.fireEffectHelper.flesh.data;
 
 import com.google.gson.JsonObject;
 import net.minecraft.resources.ResourceLocation;
 
-public class RangedFireEffectData
+import static com.dslm.firewood.fireEffectHelper.flesh.base.FireEffectHelperBase.TYPE;
+
+public class TransformFireEffectType
 {
     public String namespace;
     public String path;
@@ -16,7 +18,7 @@ public class RangedFireEffectData
     public float chance;
     public int range;
     
-    public static String ID = "type";
+    public static String ID = TYPE;
     public static String SUB_ID = "sub_name";
     public static String COLOR = "color";
     public static String DAMAGE = "damage";
@@ -25,7 +27,7 @@ public class RangedFireEffectData
     public static String CHANCE = "chance";
     public static String RANGE = "range";
     
-    public RangedFireEffectData(String namespace, String path, String id, String subId, int color, float damage, float minHealth, int process, float chance, int range)
+    public TransformFireEffectType(String namespace, String path, String id, String subId, int color, float damage, float minHealth, int process, float chance, int range)
     {
         this.namespace = namespace;
         this.path = path;
@@ -39,12 +41,12 @@ public class RangedFireEffectData
         this.range = range;
     }
     
-    public RangedFireEffectData(ResourceLocation resourceLocation, String id, String subId, int color, float damage, float minHealth, int process, float chance, int range)
+    public TransformFireEffectType(ResourceLocation resourceLocation, String id, String subId, int color, float damage, float minHealth, int process, float chance, int range)
     {
         this(resourceLocation.getNamespace(), resourceLocation.getPath(), id, subId, color, damage, minHealth, process, chance, range);
     }
     
-    public RangedFireEffectData(ResourceLocation resourceLocation, JsonObject jsonObject)
+    public TransformFireEffectType(ResourceLocation resourceLocation, JsonObject jsonObject)
     {
         this(resourceLocation,
                 jsonObject.get(ID).getAsString(),

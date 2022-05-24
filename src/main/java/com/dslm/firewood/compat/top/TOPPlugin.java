@@ -17,7 +17,7 @@ import net.minecraftforge.client.gui.ForgeIngameGui;
 
 import java.util.ArrayList;
 
-import static com.dslm.firewood.fireEffectHelper.FireEffectHelpers.fireTooltips;
+import static com.dslm.firewood.fireEffectHelper.flesh.FireEffectHelpers.fireTooltips;
 
 
 public class TOPPlugin implements TOPCompat.Provider

@@ -1,6 +1,6 @@
 package com.dslm.firewood.item;
 
-import com.dslm.firewood.fireEffectHelper.block.TeleportFireEffectHelper;
+import com.dslm.firewood.fireEffectHelper.flesh.TeleportFireEffectHelper;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -17,7 +17,7 @@ import net.minecraft.world.level.Level;
 import javax.annotation.Nonnull;
 import java.util.List;
 
-import static com.dslm.firewood.fireEffectHelper.FireEffectHelpers.colorfulText;
+import static com.dslm.firewood.fireEffectHelper.flesh.FireEffectHelpers.colorfulText;
 
 public class DyingEmberItem extends Item
 {

@@ -1,8 +1,9 @@
-package com.dslm.firewood.fireEffectHelper.block;
+package com.dslm.firewood.fireEffectHelper.flesh;
 
-import com.dslm.firewood.fireEffectHelper.block.baseClass.FireEffectHelperBase;
-import com.dslm.firewood.fireEffectHelper.block.baseClass.MajorFireEffectHelperInterface;
-import com.dslm.firewood.fireEffectHelper.block.baseClass.MinorFireEffectHelperInterface;
+import com.dslm.firewood.fireEffectHelper.flesh.base.FireEffectHelperBase;
+import com.dslm.firewood.fireEffectHelper.flesh.base.MajorFireEffectHelperInterface;
+import com.dslm.firewood.fireEffectHelper.flesh.base.MinorFireEffectHelperInterface;
+import com.dslm.firewood.fireEffectHelper.flesh.data.FireEffectNBTData;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -12,47 +13,46 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class ExceptionCatchHelper extends FireEffectHelperBase implements MajorFireEffectHelperInterface, MinorFireEffectHelperInterface
 {
     public ExceptionCatchHelper()
     {
-        super(new HashMap<>(), "EXCEPTION");
+        super(new FireEffectNBTData(), "EXCEPTION");
     }
     
     @Override
-    public int getColor(HashMap<String, String> data)
+    public int getColor(FireEffectNBTData data)
     {
         return 0;
     }
     
     @Override
-    public HashMap<String, String> triggerEffect(HashMap<String, String> data, BlockState state, Level level, BlockPos pos, LivingEntity entity)
+    public FireEffectNBTData triggerEffect(FireEffectNBTData data, BlockState state, Level level, BlockPos pos, LivingEntity entity)
     {
         return data;
     }
     
     @Override
-    public HashMap<String, String> triggerEffect(HashMap<String, String> data, BlockState state, Level level, BlockPos pos)
+    public FireEffectNBTData triggerEffect(FireEffectNBTData data, BlockState state, Level level, BlockPos pos)
     {
         return data;
     }
     
     @Override
-    public boolean canBePlacedOn(HashMap<String, String> data, Level level, BlockPos pos)
+    public boolean canBePlacedOn(FireEffectNBTData data, Level level, BlockPos pos)
     {
         return true;
     }
     
     @Override
-    public float getDamage(HashMap<String, String> data)
+    public float getDamage(FireEffectNBTData data)
     {
         return 0;
     }
     
     @Override
-    public ArrayList<Component> getToolTips(HashMap<String, String> data, boolean extended)
+    public ArrayList<Component> getToolTips(FireEffectNBTData data, boolean extended)
     {
         ArrayList<Component> lines = new ArrayList<>();
         lines.add(new TranslatableComponent("tooltip.firewood.tinder_item.exception_effect"));
@@ -70,7 +70,7 @@ public class ExceptionCatchHelper extends FireEffectHelperBase implements MajorF
     }
     
     @Override
-    public CompoundTag saveToNBT(HashMap<String, String> data)
+    public CompoundTag saveToNBT(FireEffectNBTData data)
     {
         CompoundTag tags = new CompoundTag();
         for(String i : data.keySet())
@@ -81,9 +81,9 @@ public class ExceptionCatchHelper extends FireEffectHelperBase implements MajorF
     }
     
     @Override
-    public HashMap<String, String> readFromNBT(CompoundTag tags)
+    public FireEffectNBTData readFromNBT(CompoundTag tags)
     {
-        HashMap<String, String> data = new HashMap<>();
+        FireEffectNBTData data = new FireEffectNBTData();
         for(String i : tags.getAllKeys())
         {
             data.put(i, tags.getString(i));

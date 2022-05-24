@@ -1,7 +1,7 @@
 package com.dslm.firewood.item;
 
 import com.dslm.firewood.block.SpiritualFireBlock;
-import com.dslm.firewood.fireEffectHelper.FireEffectHelpers;
+import com.dslm.firewood.fireEffectHelper.flesh.FireEffectHelpers;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.BlockPos;
@@ -25,7 +25,7 @@ import javax.annotation.Nonnull;
 import java.util.List;
 
 import static com.dslm.firewood.Register.SPIRITUAL_FIRE_BLOCK;
-import static com.dslm.firewood.fireEffectHelper.FireEffectHelpers.fireTooltips;
+import static com.dslm.firewood.fireEffectHelper.flesh.FireEffectHelpers.fireTooltips;
 
 public class TinderItem extends Item
 {
@@ -49,13 +49,13 @@ public class TinderItem extends Item
     }
     
     @Override
-    public InteractionResult useOn(UseOnContext pContext)
+    public InteractionResult useOn(UseOnContext context)
     {
-        Player player = pContext.getPlayer();
-        Level level = pContext.getLevel();
-        BlockPos blockpos = pContext.getClickedPos();
-        BlockPos blockpos1 = blockpos.relative(pContext.getClickedFace());
-        ItemStack itemStack = pContext.getItemInHand();
+        Player player = context.getPlayer();
+        Level level = context.getLevel();
+        BlockPos blockpos = context.getClickedPos();
+        BlockPos blockpos1 = blockpos.relative(context.getClickedFace());
+        ItemStack itemStack = context.getItemInHand();
         if(!itemStack.hasTag())
         {
             return InteractionResult.sidedSuccess(level.isClientSide());

@@ -8,16 +8,7 @@
   "tinder": {
     "item": "firewood:tinder_item"
   },
-  "addNBT": {
-    "major": [
-      {
-        "type": "teleport",
-        "dim": "overworld",
-        "posX": "0",
-        "posY": "256",
-        "posZ": "0"
-      }
-    ]
+  "addEffects": {
   },
   "process": 10,
   "chance": 50.0,

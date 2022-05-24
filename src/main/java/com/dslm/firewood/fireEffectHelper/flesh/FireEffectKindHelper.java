@@ -1,4 +1,4 @@
-package com.dslm.firewood.fireEffectHelper;
+package com.dslm.firewood.fireEffectHelper.flesh;
 
 import java.util.HashMap;
 

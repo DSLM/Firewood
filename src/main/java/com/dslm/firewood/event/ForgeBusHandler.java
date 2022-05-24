@@ -48,6 +48,11 @@ public class ForgeBusHandler
             event.getEntityLiving().getCapability(PlayerSpiritualDamageProvider.PLAYER_SPIRITUAL_DAMAGE).ifPresent(
                     PlayerSpiritualDamageProvider.PlayerSpiritualDamage::cleanFlesh);
         }
+        if(event.getPotion() == Register.FIRED_SPIRIT.get())
+        {
+            event.getEntityLiving().getCapability(PlayerSpiritualDamageProvider.PLAYER_SPIRITUAL_DAMAGE).ifPresent(
+                    PlayerSpiritualDamageProvider.PlayerSpiritualDamage::cleanSpirit);
+        }
     }
     
     @SubscribeEvent

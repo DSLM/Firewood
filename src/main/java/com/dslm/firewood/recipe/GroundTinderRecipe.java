@@ -2,7 +2,8 @@ package com.dslm.firewood.recipe;
 
 import com.dslm.firewood.Firewood;
 import com.dslm.firewood.block.entity.SpiritualCampfireBlockEntity;
-import com.dslm.firewood.fireEffectHelper.FireEffectHelpers;
+import com.dslm.firewood.fireEffectHelper.flesh.FireEffectHelpers;
+import com.dslm.firewood.fireEffectHelper.flesh.data.FireEffectNBTData;
 import com.google.gson.JsonObject;
 import com.mojang.datafixers.util.Either;
 import net.minecraft.network.FriendlyByteBuf;
@@ -17,11 +18,11 @@ import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Stream;
 
-import static com.dslm.firewood.fireEffectHelper.block.GroundFireEffectHelper.BLOCK_TAG_ID;
+import static com.dslm.firewood.fireEffectHelper.flesh.GroundFireEffectHelper.BLOCK_TAG_ID;
+import static com.dslm.firewood.fireEffectHelper.flesh.base.FireEffectHelperBase.TYPE;
 
 public class GroundTinderRecipe extends TinderRecipe
 {
@@ -57,9 +58,9 @@ public class GroundTinderRecipe extends TinderRecipe
         container.getIngredients().forEach((i) -> {
             if(inputs.get(recipe[recipe.length - 1]) == i)
             {
-                addNBT.addMinorEffect(new HashMap<>()
+                addEffects.addMinorEffect(new FireEffectNBTData()
                 {{
-                    put("type", "ground");
+                    put(TYPE, "ground");
                     put(BLOCK_TAG_ID, ((BlockItem) i.getItem()).getBlock().getRegistryName().toString());
                 }});
             }
@@ -162,7 +163,7 @@ public class GroundTinderRecipe extends TinderRecipe
             {
                 if(item instanceof BlockItem blockItem)
                 {
-                    ItemStack stack = FireEffectHelpers.addMinorEffect(i.copy(), "ground", new HashMap<>()
+                    ItemStack stack = FireEffectHelpers.addMinorEffect(i.copy(), "ground", new FireEffectNBTData()
                     {{
                         put(BLOCK_TAG_ID, blockItem.getBlock().getRegistryName().toString());
                     }});

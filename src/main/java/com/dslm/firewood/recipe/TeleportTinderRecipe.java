@@ -2,7 +2,8 @@ package com.dslm.firewood.recipe;
 
 import com.dslm.firewood.Firewood;
 import com.dslm.firewood.block.entity.SpiritualCampfireBlockEntity;
-import com.dslm.firewood.fireEffectHelper.block.TeleportFireEffectHelper;
+import com.dslm.firewood.fireEffectHelper.flesh.TeleportFireEffectHelper;
+import com.dslm.firewood.fireEffectHelper.flesh.data.FireEffectNBTData;
 import com.dslm.firewood.item.DyingEmberItem;
 import com.google.gson.JsonObject;
 import com.mojang.datafixers.util.Either;
@@ -18,10 +19,9 @@ import net.minecraftforge.common.util.RecipeMatcher;
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 
-import static com.dslm.firewood.fireEffectHelper.block.TeleportFireEffectHelper.*;
+import static com.dslm.firewood.fireEffectHelper.flesh.TeleportFireEffectHelper.*;
 
 public class TeleportTinderRecipe extends TinderRecipe
 {
@@ -68,9 +68,9 @@ public class TeleportTinderRecipe extends TinderRecipe
         container.getIngredients().forEach((i) -> {
             if(inputs.get(recipe[recipe.length - 1]) == i && matchEmber(i))
             {
-                addNBT.addMajorEffect(new HashMap<>()
+                addEffects.addMajorEffect(new FireEffectNBTData()
                 {{
-                    put("type", "teleport");
+                    put(TYPE, "teleport");
                     put(DIM_TAG_ID, i.getTag().getString(DIM_TAG_ID));
                     put(X_TAG_ID, i.getTag().getString(X_TAG_ID));
                     put(Y_TAG_ID, i.getTag().getString(Y_TAG_ID));

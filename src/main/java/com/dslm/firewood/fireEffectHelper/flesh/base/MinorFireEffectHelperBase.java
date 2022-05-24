@@ -1,10 +1,10 @@
-package com.dslm.firewood.fireEffectHelper.block.baseClass;
+package com.dslm.firewood.fireEffectHelper.flesh.base;
 
-import java.util.HashMap;
+import com.dslm.firewood.fireEffectHelper.flesh.data.FireEffectNBTData;
 
 abstract public class MinorFireEffectHelperBase extends FireEffectHelperBase implements MinorFireEffectHelperInterface
 {
-    public MinorFireEffectHelperBase(HashMap<String, String> defaultData, String id)
+    public MinorFireEffectHelperBase(FireEffectNBTData defaultData, String id)
     {
         super(defaultData, id);
     }
