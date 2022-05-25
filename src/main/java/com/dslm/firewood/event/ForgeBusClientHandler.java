@@ -88,17 +88,35 @@ public class ForgeBusClientHandler
             pose.pushPose();
             pose.translate(0, 0, 500);
     
-            float strLen = Minecraft.getInstance().font.width(middle.getVisualOrderText());
+    
+            int len = tooltipX;
+    
             GuiComponent.drawString(pose, Minecraft.getInstance().font, middle,
-                    tooltipX, tooltipY, middle.getStyle().getColor().getValue());
-            
+                    len, tooltipY, middle.getStyle().getColor().getValue());
+            len += Minecraft.getInstance().font.width(middle.getVisualOrderText());
+    
+    
             //61, 0: heath icon position
             //4, 9: heath icon size
             RenderSystem.setShaderTexture(0, ForgeIngameGui.GUI_ICONS_LOCATION);
-            GuiComponent.blit(pose, tooltipX + (int) strLen, tooltipY, 61, 0, 4, 9, 256, 256);
+    
+            GuiComponent.blit(pose, len, tooltipY, 61, 0, 4, 9, 256, 256);
+            len += 4;
     
             GuiComponent.drawString(pose, Minecraft.getInstance().font, String.format(" x%.2f", middle.getDamage()),
-                    tooltipX + (int) strLen + 4, tooltipY, middle.getStyle().getColor().getValue());
+                    len, tooltipY, middle.getStyle().getColor().getValue());
+            len += Minecraft.getInstance().font.width(String.format(" x%.2f", middle.getDamage()));
+    
+    
+            RenderSystem.setShaderTexture(0, ForgeIngameGui.GUI_ICONS_LOCATION);
+    
+            GuiComponent.blit(pose, len, tooltipY, 25, 0, 4, 9, 256, 256);
+            len += 4;
+    
+            GuiComponent.drawString(pose, Minecraft.getInstance().font, String.format(" x%.2f", middle.getMinHealth()),
+                    len, tooltipY, middle.getStyle().getColor().getValue());
+            len += Minecraft.getInstance().font.width(String.format(" x%.2f", middle.getMinHealth()));
+    
             pose.popPose();
         }
         
@@ -111,7 +129,9 @@ public class ForgeBusClientHandler
         @Override
         public int getWidth(@Nonnull Font font)
         {
-            return Minecraft.getInstance().font.width(middle.getVisualOrderText()) + 30;
+            return Minecraft.getInstance().font.width(middle.getVisualOrderText())
+                    + Minecraft.getInstance().font.width(String.format(" x%.2f", middle.getDamage())) + 4
+                    + Minecraft.getInstance().font.width(String.format(" x%.2f", middle.getMinHealth())) + 4;
         }
     }
 }

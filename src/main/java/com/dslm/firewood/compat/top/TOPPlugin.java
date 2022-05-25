@@ -58,7 +58,9 @@ public class TOPPlugin implements TOPCompat.Provider
                 info.horizontal()
                         .mcText(line)
                         .icon(ForgeIngameGui.GUI_ICONS_LOCATION, 61, 0, 4, 9, tempIconStyle)
-                        .mcText(new TextComponent(String.format(" x%.2f", middle.getDamage())).withStyle(middle.getStyle()));
+                        .mcText(new TextComponent(String.format(" x%.2f", middle.getDamage())).withStyle(middle.getStyle()))
+                        .icon(ForgeIngameGui.GUI_ICONS_LOCATION, 25, 0, 4, 9, tempIconStyle)
+                        .mcText(new TextComponent(String.format(" x%.2f", middle.getMinHealth())).withStyle(middle.getStyle()));
             }
             else
             {

@@ -25,7 +25,7 @@ import net.minecraft.world.item.crafting.Ingredient;
 import org.apache.commons.lang3.tuple.Pair;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 
 public class TinderCategory implements IRecipeCategory<TinderRecipe>
@@ -113,11 +113,18 @@ public class TinderCategory implements IRecipeCategory<TinderRecipe>
     {
         if(isInArrow(mouseX, mouseY))
         {
-            return Arrays.asList(new TranslatableComponent("tooltip.firewood.recipe.progress", recipe.getProcess()),
-                    new TranslatableComponent("tooltip.firewood.recipe.chance", recipe.getChance()),
-                    new TranslatableComponent("tooltip.firewood.recipe.damage", recipe.getDamage()),
-                    new TranslatableComponent("tooltip.firewood.recipe.cooldown", recipe.getCooldown() / 20, recipe.getCooldown()),
-                    new TranslatableComponent("tooltip.firewood.recipe.minhealth", recipe.getMinHealth()));
+            ArrayList<Component> arrayList = new ArrayList<>()
+            {{
+                add(new TranslatableComponent("tooltip.firewood.recipe.progress", recipe.getProcess()));
+                if(recipe.getChance() < 100)
+                {
+                    add(new TranslatableComponent("tooltip.firewood.recipe.chance", recipe.getChance()));
+                }
+                add(new TranslatableComponent("tooltip.firewood.recipe.damage", recipe.getDamage()));
+                add(new TranslatableComponent("tooltip.firewood.recipe.cooldown", recipe.getCooldown() / 20, recipe.getCooldown()));
+                add(new TranslatableComponent("tooltip.firewood.recipe.min_health", recipe.getMinHealth()));
+            }};
+            return arrayList;
         }
         return IRecipeCategory.super.getTooltipStrings(recipe, recipeSlotsView, mouseX, mouseY);
     }

@@ -22,7 +22,7 @@ public class TransformFireEffectType
     public static String SUB_ID = "sub_name";
     public static String COLOR = "color";
     public static String DAMAGE = "damage";
-    public static String MINHEALTH = "minHealth";
+    public static String MIN_HEALTH = "minHealth";
     public static String PROCESS = "process";
     public static String CHANCE = "chance";
     public static String RANGE = "range";
@@ -53,7 +53,7 @@ public class TransformFireEffectType
                 jsonObject.get(SUB_ID).getAsString(),
                 jsonObject.get(COLOR).getAsInt(),
                 jsonObject.get(DAMAGE).getAsFloat(),
-                jsonObject.get(MINHEALTH).getAsFloat(),
+                jsonObject.get(MIN_HEALTH).getAsFloat(),
                 jsonObject.get(PROCESS).getAsInt(),
                 jsonObject.get(CHANCE).getAsFloat(),
                 jsonObject.get(RANGE).getAsInt());

@@ -76,6 +76,7 @@ public abstract class TransformFireEffectHelperBase extends MajorFireEffectHelpe
                         new TranslatableComponent("tooltip.firewood.tinder_item.major_effect.%1$s.%2$s".formatted(data.getType(), data.get(SUB_TAG_ID)))),
                 getColor(data));
         mainLine.setDamage(getDamage(data));
+        mainLine.setMinHealth(getMinHealth(data));
         lines.add(mainLine);
         if(extended)
         {
@@ -87,7 +88,15 @@ public abstract class TransformFireEffectHelperBase extends MajorFireEffectHelpe
     public ArrayList<Component> getExtraToolTips(FireEffectNBTData data)
     {
         ArrayList<Component> lines = new ArrayList<>();
-        lines.add(new TranslatableComponent("tooltip.firewood.recipe.now_progress", getRealProcess(data), getProcess(data)));
+        lines.add(colorfulText(new TranslatableComponent("tooltip.firewood.recipe.now_progress", getRealProcess(data), getProcess(data)),
+                getColor(data)));
+        if(getChance(data) < 100)
+        {
+            lines.add(colorfulText(new TranslatableComponent("tooltip.firewood.recipe.chance", getChance(data)),
+                    getColor(data)));
+        }
+        lines.add(colorfulText(new TranslatableComponent("tooltip.firewood.recipe.range", getRange(data)),
+                getColor(data)));
         return lines;
     }
     

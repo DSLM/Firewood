@@ -19,7 +19,7 @@ public class TransformFireEffectTypeBuilder
                 jsonObject.get(SUB_ID) == null ||
                 jsonObject.get(COLOR) == null ||
                 jsonObject.get(DAMAGE) == null ||
-                jsonObject.get(MINHEALTH) == null ||
+                jsonObject.get(MIN_HEALTH) == null ||
                 jsonObject.get(PROCESS) == null ||
                 jsonObject.get(CHANCE) == null ||
                 jsonObject.get(RANGE) == null ?

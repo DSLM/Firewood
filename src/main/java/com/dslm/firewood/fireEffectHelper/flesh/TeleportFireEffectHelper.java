@@ -111,6 +111,7 @@ public class TeleportFireEffectHelper extends MajorFireEffectHelperBase
                     COLOR));
         }
         mainLine.setDamage(getDamage(data));
+        mainLine.setMinHealth(getMinHealth(data));
         return lines;
     }
     

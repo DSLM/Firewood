@@ -140,8 +140,12 @@ public class LanguageUtil
                 "Burning Firewood Damage: %s", "添薪伤害：%s");
         add("tooltip." + Firewood.MOD_ID + ".recipe.cooldown",
                 "Burning Firewood Cooldown: %1$sS (%2$s ticks)", "添薪冷却：%1$s秒（%2$s刻）");
-        add("tooltip." + Firewood.MOD_ID + ".recipe.minhealth",
+        add("tooltip." + Firewood.MOD_ID + ".recipe.min_health",
                 "Burning Firewood Min Health Required: %s", "添薪最低生命值：%s");
+        add("tooltip." + Firewood.MOD_ID + ".recipe.range",
+                "Effect Range: %s", "效果范围：%s");
+        add("tooltip." + Firewood.MOD_ID + ".recipe.range",
+                "Effect Range: %s", "效果范围：%s");
     
         //start generation
         generator.addProvider(new LanguageProvider(generator, "en_us"));

@@ -90,6 +90,7 @@ public class PotionFireEffectHelper extends MajorFireEffectHelperBase
                         name),
                 getPotionColor(data.get(POTION_TAG_ID)));
         mainLine.setDamage(getDamage(data));
+        mainLine.setMinHealth(getMinHealth(data));
         lines.add(mainLine);
         if(extended)
         {
