@@ -212,11 +212,16 @@ public class FireEffectHelpers
         //mainEffect
         for(FireEffectNBTData i : majorEffects)
         {
-            tempColor = new Color(getColorByType(major, i));
+            int colorInt = getColorByType(major, i);
+            if(colorInt < 0 || colorInt > 0xffffff)
+            {
+                continue;
+            }
+            tempColor = new Color(colorInt);
             color[0] += tempColor.getRed();
             color[1] += tempColor.getGreen();
             color[2] += tempColor.getBlue();
-            
+    
             num++;
         }
         

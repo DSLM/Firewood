@@ -19,13 +19,13 @@ import net.minecraftforge.registries.ForgeRegistries;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.dslm.firewood.config.SpiritualFireBlockEffectConfig.GROUND_DEFAULT_BLOCK;
 import static com.dslm.firewood.fireEffectHelper.flesh.FireEffectHelpers.colorfulText;
 
 public class GroundFireEffectHelper extends MinorFireEffectHelperBase
 {
     private static final ArrayList<FireEffectHelperInterface> INSTANCE_LIST = new ArrayList<>();
     
-    private static final int COLOR = 0xa78e44;
     public static final String ID = "ground";
     public static final String BLOCK_TAG_ID = "block";
     
@@ -33,14 +33,9 @@ public class GroundFireEffectHelper extends MinorFireEffectHelperBase
     {
         super(new FireEffectNBTData()
         {{
-            put(BLOCK_TAG_ID, "minecraft:netherrack");
+            put(BLOCK_TAG_ID, GROUND_DEFAULT_BLOCK.get());
         }}, id);
         INSTANCE_LIST.add(this);
-    }
-    
-    public static int getColor()
-    {
-        return COLOR;
     }
     
     @Override
@@ -75,7 +70,7 @@ public class GroundFireEffectHelper extends MinorFireEffectHelperBase
     @Override
     public int getColor(FireEffectNBTData data)
     {
-        return COLOR;
+        return getBlock(data.get(BLOCK_TAG_ID)).defaultMaterialColor().col;
     }
     
     @Override
@@ -102,7 +97,7 @@ public class GroundFireEffectHelper extends MinorFireEffectHelperBase
         ArrayList<Component> lines = new ArrayList<>();
         var name = getBlock(data.get(BLOCK_TAG_ID)).getName();
         MiddleComponent mainLine = (MiddleComponent) colorfulText(
-                new MiddleComponent("tooltip.firewood.tinder_item.minor_effect." + data.getType(), name), COLOR);
+                new MiddleComponent("tooltip.firewood.tinder_item.minor_effect." + data.getType(), name), getColor(data));
         lines.add(mainLine);
         return lines;
     }

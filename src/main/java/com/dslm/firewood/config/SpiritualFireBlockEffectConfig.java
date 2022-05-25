@@ -7,6 +7,8 @@ public class SpiritualFireBlockEffectConfig
     public static ForgeConfigSpec.DoubleValue POTION_BASE_DAMAGE;
     public static ForgeConfigSpec.DoubleValue TELEPORT_BASE_DAMAGE;
     
+    public static ForgeConfigSpec.ConfigValue<String> GROUND_DEFAULT_BLOCK;
+    
     public static ForgeConfigSpec.IntValue FIRED_FLESH_TIME;
     
     public static void registerServerConfig(ForgeConfigSpec.Builder SERVER_BUILDER)
@@ -42,7 +44,7 @@ public class SpiritualFireBlockEffectConfig
                 .translation("config.firewood.spiritual_fire_block_effects.major.teleport.base_damage")
                 .defineInRange("damage", 0.1, 0, Integer.MAX_VALUE);
         SERVER_BUILDER.pop();
-    
+        
         SERVER_BUILDER.pop();
         
         
@@ -51,6 +53,17 @@ public class SpiritualFireBlockEffectConfig
                 .comment("Settings for Minor Effects")
                 //.translation("config.firewood.spiritual_fire_block_effects.minor")
                 .push("spiritualFireMinor");
+        
+        //ground
+        SERVER_BUILDER
+                .comment("Settings for Ground Effects")
+                //.translation("config.firewood.spiritual_fire_block_effects.minor.ground")
+                .push("spiritualFireMinorGround");
+        GROUND_DEFAULT_BLOCK = SERVER_BUILDER
+                .comment("the default block ID for a ground effect")
+                .translation("config.firewood.spiritual_fire_block_effects.minor.ground.default_block")
+                .define("block", "minecraft:bone_block");
+        SERVER_BUILDER.pop();
         
         
         SERVER_BUILDER.pop();

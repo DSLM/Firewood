@@ -35,6 +35,7 @@ public class LanguageUtil
         //item
         add(Register.TINDER_ITEM.get(), "Tinder", "火种");
         add(Register.DYING_EMBER_ITEM.get(), "Dying Ember", "余烬");
+        add(Register.DEBUG_ITEM.get(), "DEBUG Tool", "测试工具");
     
         //mob effect
         add(Register.FIRED_SPIRIT.get(), "Fired Spirit", "燃烧之魂");
@@ -74,6 +75,11 @@ public class LanguageUtil
     
         add("config.firewood.spiritual_fire_block_effects.minor",
                 "Settings for the Minor Effects", "次要效果设置");
+    
+        add("config.firewood.spiritual_fire_block_effects.minor.ground",
+                "Settings for Ground Effects", "基底效果设置");
+        add("config.firewood.spiritual_fire_block_effects.minor.ground.default_block",
+                "the default block ID for a ground effect", "默认基底方块的ID");
     
         add("config.firewood.spiritual_fire_block_effects.others", "Settings for Others", "其他设置");
         add("config.firewood.spiritual_fire_block_effects.others.fired_flesh_interval",
@@ -125,7 +131,7 @@ public class LanguageUtil
     
         //recipe tooltip
         add("tooltip." + Firewood.MOD_ID + ".recipe.progress",
-                "Requested Firewood: %1$s / %2$s", "薪火需求：%1$s / %2$s");
+                "Requested Firewood: %s", "薪火需求：%s");
         add("tooltip." + Firewood.MOD_ID + ".recipe.now_progress",
                 "Current Firewood: %1$s / %2$s", "当前薪火：%1$s / %2$s");
         add("tooltip." + Firewood.MOD_ID + ".recipe.chance",
