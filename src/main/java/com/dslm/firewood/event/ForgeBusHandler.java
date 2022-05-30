@@ -3,7 +3,7 @@ package com.dslm.firewood.event;
 import com.dslm.firewood.Firewood;
 import com.dslm.firewood.Register;
 import com.dslm.firewood.capProvider.PlayerSpiritualDamageProvider;
-import com.dslm.firewood.recipe.TransformEffectTypeManager;
+import com.dslm.firewood.recipe.FireEffectSubTypeManager;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -58,6 +58,6 @@ public class ForgeBusHandler
     @SubscribeEvent
     public static void onAddReloadListener(AddReloadListenerEvent event)
     {
-        event.addListener(new TransformEffectTypeManager());
+        event.addListener(new FireEffectSubTypeManager());
     }
 }

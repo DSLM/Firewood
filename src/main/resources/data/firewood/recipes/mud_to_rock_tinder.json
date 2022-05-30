@@ -1,0 +1,28 @@
+{
+  "type": "firewood:tinder_recipe",
+  "ingredients": [
+    {
+      "item": "minecraft:stone_shovel"
+    },
+    {
+      "item": "minecraft:flint_and_steel"
+    }
+  ],
+  "tinder": {
+    "item": "firewood:tinder_item"
+  },
+  "addEffects": {
+    "major": [
+      {
+        "type": "block_to_block",
+        "subType": "mud_to_rock",
+        "process": 0
+      }
+    ]
+  },
+  "process": 2,
+  "chance": 100.0,
+  "damage": 1.0,
+  "cooldown": 100,
+  "minHealth": 1.0
+}

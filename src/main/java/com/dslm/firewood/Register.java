@@ -12,10 +12,7 @@ import com.dslm.firewood.item.TinderItem;
 import com.dslm.firewood.menu.SpiritualCampfireBlockMenu;
 import com.dslm.firewood.mobEffect.FiredFlesh;
 import com.dslm.firewood.mobEffect.FiredSpirit;
-import com.dslm.firewood.recipe.GroundTinderRecipe;
-import com.dslm.firewood.recipe.PotionTinderRecipe;
-import com.dslm.firewood.recipe.TeleportTinderRecipe;
-import com.dslm.firewood.recipe.TinderRecipe;
+import com.dslm.firewood.recipe.*;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
@@ -40,7 +37,7 @@ import net.minecraftforge.registries.RegistryObject;
 
 
 public class Register
-{// TODO: 2022/5/23 生命不够是否增加营火？方块-方块，方块-物品，方块-实体，实体-物品
+{// TODO: 2022/5/23 方块-方块，方块-物品，方块-实体，实体-物品
     private static final DeferredRegister<Block> BLOCKS =
             DeferredRegister.create(ForgeRegistries.BLOCKS, Firewood.MOD_ID);
     private static final DeferredRegister<Item> ITEMS =
@@ -108,6 +105,9 @@ public class Register
             RECIPE_SERIALIZERS.register("crafting_potion_tinder", PotionTinderRecipe.Serializer::new);
     public static final RegistryObject<RecipeSerializer<TinderRecipe>> GROUND_TINDER_RECIPE_SERIALIZER =
             RECIPE_SERIALIZERS.register("crafting_ground_tinder", GroundTinderRecipe.Serializer::new);
+    
+    public static final RegistryObject<RecipeSerializer<TransmuteBlockRecipeBase>> BLOCK_TO_BLOCK_RECIPE_SERIALIZER =
+            RECIPE_SERIALIZERS.register("block_to_block", TransmuteBlockToBlockRecipe.Serializer::new);
     
     public static final RegistryObject<MenuType<SpiritualCampfireBlockMenu>> SPIRITUAL_CAMPFIRE_BLOCK_CONTAINER =
             CONTAINERS.register("spiritual_campfire_block_container", () ->

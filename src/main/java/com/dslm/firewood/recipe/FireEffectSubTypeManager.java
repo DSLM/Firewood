@@ -1,8 +1,8 @@
 package com.dslm.firewood.recipe;
 
 import com.dslm.firewood.Firewood;
-import com.dslm.firewood.fireEffectHelper.flesh.data.TransformFireEffectType;
-import com.dslm.firewood.fireEffectHelper.flesh.data.TransformFireEffectTypeBuilder;
+import com.dslm.firewood.fireEffectHelper.flesh.data.FireEffectSubType;
+import com.dslm.firewood.fireEffectHelper.flesh.data.FireEffectSubTypeBuilder;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
@@ -17,21 +17,21 @@ import java.util.Map;
 
 import static com.dslm.firewood.fireEffectHelper.flesh.base.FireEffectHelperBase.TYPE;
 
-public class TransformEffectTypeManager extends SimpleJsonResourceReloadListener
+public class FireEffectSubTypeManager extends SimpleJsonResourceReloadListener
 {
     private static final Gson GSON = (new GsonBuilder()).create();
     
-    public static final TransformFireEffectTypeBuilder defaultTypeBuilder = new TransformFireEffectTypeBuilder();
+    public static final FireEffectSubTypeBuilder defaultTypeBuilder = new FireEffectSubTypeBuilder();
     
-    public static final HashMap<String, TransformFireEffectTypeBuilder> typeBuilders = new HashMap<>()
+    public static final HashMap<String, FireEffectSubTypeBuilder> typeBuilders = new HashMap<>()
     {{
         put("firewood:smelter", defaultTypeBuilder);
-        put("firewood:block_block", defaultTypeBuilder);
+        put("firewood:block_to_block", defaultTypeBuilder);
     }};
     
-    public static final HashMap<String, HashMap<String, TransformFireEffectType>> effectsMap = new HashMap<>();
+    public static final HashMap<String, HashMap<String, FireEffectSubType>> effectsMap = new HashMap<>();
     
-    public TransformEffectTypeManager()
+    public FireEffectSubTypeManager()
     {
         super(GSON, "firewood_fire_effects");
     }
@@ -60,8 +60,8 @@ public class TransformEffectTypeManager extends SimpleJsonResourceReloadListener
         
         for(Map.Entry<ResourceLocation, JsonObject> entry : effects.entrySet())
         {
-            TransformFireEffectTypeBuilder builder = typeBuilders.getOrDefault(entry.getValue().get(TYPE).getAsString(), defaultTypeBuilder);
-            TransformFireEffectType newData = builder.getNewData(entry.getKey(), entry.getValue());
+            FireEffectSubTypeBuilder builder = typeBuilders.getOrDefault(entry.getValue().get(TYPE).getAsString(), defaultTypeBuilder);
+            FireEffectSubType newData = builder.getNewData(entry.getKey(), entry.getValue());
     
             if(newData == null)
             {
@@ -76,12 +76,12 @@ public class TransformEffectTypeManager extends SimpleJsonResourceReloadListener
         }
     }
     
-    public static HashMap<String, TransformFireEffectTypeBuilder> getTypeBuilders()
+    public static HashMap<String, FireEffectSubTypeBuilder> getTypeBuilders()
     {
         return typeBuilders;
     }
     
-    public static HashMap<String, HashMap<String, TransformFireEffectType>> getEffectsMap()
+    public static HashMap<String, HashMap<String, FireEffectSubType>> getEffectsMap()
     {
         return effectsMap;
     }

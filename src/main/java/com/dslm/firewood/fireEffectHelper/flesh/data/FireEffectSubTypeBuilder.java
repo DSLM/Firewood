@@ -4,16 +4,16 @@ package com.dslm.firewood.fireEffectHelper.flesh.data;
 import com.google.gson.JsonObject;
 import net.minecraft.resources.ResourceLocation;
 
-import static com.dslm.firewood.fireEffectHelper.flesh.data.TransformFireEffectType.*;
+import static com.dslm.firewood.fireEffectHelper.flesh.data.FireEffectSubType.*;
 
-public class TransformFireEffectTypeBuilder
+public class FireEffectSubTypeBuilder
 {
-    public TransformFireEffectTypeBuilder()
+    public FireEffectSubTypeBuilder()
     {
     
     }
     
-    public TransformFireEffectType getNewData(ResourceLocation resourceLocation, JsonObject jsonObject)
+    public FireEffectSubType getNewData(ResourceLocation resourceLocation, JsonObject jsonObject)
     {
         return jsonObject.get(ID) == null ||
                 jsonObject.get(SUB_ID) == null ||
@@ -24,6 +24,6 @@ public class TransformFireEffectTypeBuilder
                 jsonObject.get(CHANCE) == null ||
                 jsonObject.get(RANGE) == null ?
                 null :
-                new TransformFireEffectType(resourceLocation, jsonObject);
+                new FireEffectSubType(resourceLocation, jsonObject);
     }
 }

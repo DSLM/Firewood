@@ -113,7 +113,6 @@ public class GroundTinderRecipe extends TinderRecipe
         @Override
         public GroundTinderRecipe fromNetwork(ResourceLocation id, FriendlyByteBuf buf)
         {
-            
             return new GroundTinderRecipe(super.fromNetwork(id, buf));
         }
         

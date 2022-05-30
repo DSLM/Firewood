@@ -3,35 +3,38 @@ package com.dslm.firewood.fireEffectHelper.flesh.base;
 import com.dslm.firewood.Firewood;
 import com.dslm.firewood.fireEffectHelper.flesh.FireEffectHelpers;
 import com.dslm.firewood.fireEffectHelper.flesh.data.FireEffectNBTData;
-import com.dslm.firewood.fireEffectHelper.flesh.data.TransformFireEffectType;
-import com.dslm.firewood.recipe.TransformEffectTypeManager;
+import com.dslm.firewood.fireEffectHelper.flesh.data.FireEffectSubType;
+import com.dslm.firewood.recipe.FireEffectSubTypeManager;
 import com.dslm.firewood.tooltip.MiddleComponent;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Random;
 import java.util.Set;
 
 import static com.dslm.firewood.fireEffectHelper.flesh.FireEffectHelpers.colorfulText;
 
-public abstract class TransformFireEffectHelperBase extends MajorFireEffectHelperBase
+public abstract class TransmuteFireEffectHelperBase extends MajorFireEffectHelperBase
 {
     public static String SUB_TAG_ID = "subType";
     public static String PROCESS = "process";
     
-    public TransformFireEffectHelperBase(FireEffectNBTData defaultData, String id)
+    public TransmuteFireEffectHelperBase(FireEffectNBTData defaultData, String id)
     {
         super(defaultData, id);
     }
     
-    public TransformFireEffectHelperBase(String id)
+    public TransmuteFireEffectHelperBase(String id)
     {
         super(id);
     }
@@ -71,9 +74,12 @@ public abstract class TransformFireEffectHelperBase extends MajorFireEffectHelpe
     {
         ArrayList<Component> lines = new ArrayList<>();
         MiddleComponent mainLine = (MiddleComponent) colorfulText(
-                new MiddleComponent("tooltip.firewood.tinder_item.multi_tooltip_format",
-                        new TranslatableComponent("tooltip.firewood.tinder_item.major_effect.%s".formatted(data.getType())),
-                        new TranslatableComponent("tooltip.firewood.tinder_item.major_effect.%1$s.%2$s".formatted(data.getType(), data.get(SUB_TAG_ID)))),
+                extended ?
+                        new MiddleComponent("tooltip.firewood.tinder_item.multi_tooltip_format",
+                                new TranslatableComponent("tooltip.firewood.tinder_item.major_effect.%s".formatted(data.getType())),
+                                new TranslatableComponent("tooltip.firewood.tinder_item.major_effect.%1$s.%2$s".formatted(data.getType(), data.get(SUB_TAG_ID))))
+                        :
+                        new MiddleComponent("tooltip.firewood.tinder_item.major_effect.%1$s.%2$s".formatted(data.getType(), data.get(SUB_TAG_ID))),
                 getColor(data));
         mainLine.setDamage(getDamage(data));
         mainLine.setMinHealth(getMinHealth(data));
@@ -148,50 +154,50 @@ public abstract class TransformFireEffectHelperBase extends MajorFireEffectHelpe
     @Override
     public float getDamage(FireEffectNBTData data)
     {
-        TransformFireEffectType effectData = getSubRealEffect(data);
+        FireEffectSubType effectData = getSubRealEffect(data);
         return effectData == null ? 0 : effectData.getDamage();
     }
     
     @Override
     public int getColor(FireEffectNBTData data)
     {
-        TransformFireEffectType effectData = getSubRealEffect(data);
+        FireEffectSubType effectData = getSubRealEffect(data);
         return effectData == null ? 0 : effectData.getColor();
     }
     
     public int getRange(FireEffectNBTData data)
     {
-        TransformFireEffectType effectData = getSubRealEffect(data);
+        FireEffectSubType effectData = getSubRealEffect(data);
         return effectData == null ? 0 : effectData.getRange();
     }
     
     public int getProcess(FireEffectNBTData data)
     {
-        TransformFireEffectType effectData = getSubRealEffect(data);
+        FireEffectSubType effectData = getSubRealEffect(data);
         return effectData == null ? 0 : effectData.getProcess();
     }
     
     public float getChance(FireEffectNBTData data)
     {
-        TransformFireEffectType effectData = getSubRealEffect(data);
+        FireEffectSubType effectData = getSubRealEffect(data);
         return effectData == null ? 0 : effectData.getChance();
     }
     
     @Override
     public float getMinHealth(FireEffectNBTData data)
     {
-        TransformFireEffectType effectData = getSubRealEffect(data);
+        FireEffectSubType effectData = getSubRealEffect(data);
         return effectData == null ? 0 : effectData.getMinHealth();
     }
     
-    public TransformFireEffectType getSubRealEffect(FireEffectNBTData data)
+    public FireEffectSubType getSubRealEffect(FireEffectNBTData data)
     {
         return getSubMap().getOrDefault(data.get(SUB_TAG_ID), null);
     }
     
-    public HashMap<String, TransformFireEffectType> getSubMap()
+    public HashMap<String, FireEffectSubType> getSubMap()
     {
-        return TransformEffectTypeManager.getEffectsMap().getOrDefault(getResourceName(), new HashMap<>());
+        return FireEffectSubTypeManager.getEffectsMap().getOrDefault(getResourceName(), new HashMap<>());
     }
     
     public Set<String> getSubIdList()
@@ -203,4 +209,36 @@ public abstract class TransformFireEffectHelperBase extends MajorFireEffectHelpe
     {
         return "%s:%s".formatted(Firewood.MOD_ID, getId());
     }
+    
+    
+    @Override
+    public FireEffectNBTData triggerEffect(FireEffectNBTData data, BlockState state, Level level, BlockPos pos, LivingEntity entity)
+    {
+        return checkBlocks(data, state, level, pos, entity);
+    }
+    
+    
+    public FireEffectNBTData checkBlocks(FireEffectNBTData data, BlockState state, Level level, BlockPos pos, LivingEntity entity)
+    {
+        
+        FireEffectSubType effectData = getSubRealEffect(data);
+        int nowProccess = Integer.parseInt(data.get(PROCESS)) + 1;
+        if(nowProccess < effectData.getProcess())
+        {
+            data.put(PROCESS, String.valueOf(nowProccess));
+            return data;
+        }
+        data.put(PROCESS, "0");
+        Random random = level.random;
+        getBlockPosIterable(pos, effectData.getRange()).forEach(blockPos -> {
+            if(random.nextDouble() * 100 < effectData.getChance())
+            {
+                BlockState blockState = level.getBlockState(blockPos);
+                transmuteBlock(data, blockState, level, blockPos);
+            }
+        });
+        return data;
+    }
+    
+    public abstract void transmuteBlock(FireEffectNBTData data, BlockState blockState, Level level, BlockPos blockPos);
 }

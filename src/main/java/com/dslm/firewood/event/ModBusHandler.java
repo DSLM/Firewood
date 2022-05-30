@@ -2,10 +2,7 @@ package com.dslm.firewood.event;
 
 import com.dslm.firewood.Firewood;
 import com.dslm.firewood.capProvider.PlayerSpiritualDamageProvider;
-import com.dslm.firewood.recipe.GroundTinderRecipe;
-import com.dslm.firewood.recipe.PotionTinderRecipe;
-import com.dslm.firewood.recipe.TeleportTinderRecipe;
-import com.dslm.firewood.recipe.TinderRecipe;
+import com.dslm.firewood.recipe.*;
 import net.minecraft.core.Registry;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
@@ -30,5 +27,6 @@ public class ModBusHandler
         Registry.register(Registry.RECIPE_TYPE, TeleportTinderRecipe.Type.ID, TeleportTinderRecipe.Type.INSTANCE);
         Registry.register(Registry.RECIPE_TYPE, PotionTinderRecipe.Type.ID, PotionTinderRecipe.Type.INSTANCE);
         Registry.register(Registry.RECIPE_TYPE, GroundTinderRecipe.Type.ID, GroundTinderRecipe.Type.INSTANCE);
+        Registry.register(Registry.RECIPE_TYPE, TransmuteBlockToBlockRecipe.Type.ID, TransmuteBlockToBlockRecipe.Type.INSTANCE);
     }
 }

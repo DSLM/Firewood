@@ -5,7 +5,7 @@ import net.minecraft.resources.ResourceLocation;
 
 import static com.dslm.firewood.fireEffectHelper.flesh.base.FireEffectHelperBase.TYPE;
 
-public class TransformFireEffectType
+public class FireEffectSubType
 {
     public String namespace;
     public String path;
@@ -19,7 +19,7 @@ public class TransformFireEffectType
     public int range;
     
     public static String ID = TYPE;
-    public static String SUB_ID = "sub_name";
+    public static String SUB_ID = "subType";
     public static String COLOR = "color";
     public static String DAMAGE = "damage";
     public static String MIN_HEALTH = "minHealth";
@@ -27,7 +27,7 @@ public class TransformFireEffectType
     public static String CHANCE = "chance";
     public static String RANGE = "range";
     
-    public TransformFireEffectType(String namespace, String path, String id, String subId, int color, float damage, float minHealth, int process, float chance, int range)
+    public FireEffectSubType(String namespace, String path, String id, String subId, int color, float damage, float minHealth, int process, float chance, int range)
     {
         this.namespace = namespace;
         this.path = path;
@@ -41,12 +41,12 @@ public class TransformFireEffectType
         this.range = range;
     }
     
-    public TransformFireEffectType(ResourceLocation resourceLocation, String id, String subId, int color, float damage, float minHealth, int process, float chance, int range)
+    public FireEffectSubType(ResourceLocation resourceLocation, String id, String subId, int color, float damage, float minHealth, int process, float chance, int range)
     {
         this(resourceLocation.getNamespace(), resourceLocation.getPath(), id, subId, color, damage, minHealth, process, chance, range);
     }
     
-    public TransformFireEffectType(ResourceLocation resourceLocation, JsonObject jsonObject)
+    public FireEffectSubType(ResourceLocation resourceLocation, JsonObject jsonObject)
     {
         this(resourceLocation,
                 jsonObject.get(ID).getAsString(),

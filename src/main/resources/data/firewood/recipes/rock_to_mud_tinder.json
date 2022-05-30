@@ -1,0 +1,28 @@
+{
+  "type": "firewood:tinder_recipe",
+  "ingredients": [
+    {
+      "item": "minecraft:stone_pickaxe"
+    },
+    {
+      "item": "minecraft:water_bucket"
+    }
+  ],
+  "tinder": {
+    "item": "firewood:tinder_item"
+  },
+  "addEffects": {
+    "major": [
+      {
+        "type": "block_to_block",
+        "subType": "rock_to_mud",
+        "process": 0
+      }
+    ]
+  },
+  "process": 2,
+  "chance": 100.0,
+  "damage": 1.0,
+  "cooldown": 100,
+  "minHealth": 1.0
+}

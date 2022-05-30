@@ -45,6 +45,7 @@ public class FireEffectHelpers
         majorEffectHelpers.helpers.put("potion", new PotionFireEffectHelper("potion"));
         majorEffectHelpers.helpers.put("teleport", new TeleportFireEffectHelper("teleport"));
         majorEffectHelpers.helpers.put("smelter", new SmelterFireEffectHelper("smelter"));
+        majorEffectHelpers.helpers.put("block_to_block", new BlockToBlockFireEffectHelper("block_to_block"));
         
         
         minorEffectHelpers.helpers.put("ground", new GroundFireEffectHelper("ground"));

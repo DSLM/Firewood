@@ -116,6 +116,12 @@ public class LanguageUtil
                 "Smelter", "熔炉");
         add("tooltip." + Firewood.MOD_ID + "." + Register.TINDER_ITEM.get() + ".major_effect.smelter.smelter",
                 "Smelter", "熔炉");
+        add("tooltip." + Firewood.MOD_ID + "." + Register.TINDER_ITEM.get() + ".major_effect.block_to_block",
+                "Block->Block", "方块->方块");
+        add("tooltip." + Firewood.MOD_ID + "." + Register.TINDER_ITEM.get() + ".major_effect.block_to_block.rock_to_mud",
+                "Transmute Rock to Mud", "化石为泥");
+        add("tooltip." + Firewood.MOD_ID + "." + Register.TINDER_ITEM.get() + ".major_effect.block_to_block.mud_to_rock",
+                "Transmute Mud to Rock", "化泥为石");
     
         add("tooltip." + Firewood.MOD_ID + "." + Register.TINDER_ITEM.get() + ".minor_effect",
                 "§lMinor Effect: ", "§l次要效果：");

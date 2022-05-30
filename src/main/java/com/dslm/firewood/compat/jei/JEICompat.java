@@ -26,7 +26,7 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
-import static com.dslm.firewood.fireEffectHelper.flesh.base.TransformFireEffectHelperBase.SUB_TAG_ID;
+import static com.dslm.firewood.fireEffectHelper.flesh.base.TransmuteFireEffectHelperBase.SUB_TAG_ID;
 
 @JeiPlugin
 public class JEICompat implements IModPlugin
