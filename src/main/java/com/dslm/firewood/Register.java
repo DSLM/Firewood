@@ -5,14 +5,22 @@ import com.dslm.firewood.block.SpiritualFireBlock;
 import com.dslm.firewood.block.entity.SpiritualCampfireBlockEntity;
 import com.dslm.firewood.block.entity.SpiritualFireBlockEntity;
 import com.dslm.firewood.compat.top.TOPPlugin;
-import com.dslm.firewood.event.ForgeBusClientHandler;
 import com.dslm.firewood.item.DebugItem;
 import com.dslm.firewood.item.DyingEmberItem;
 import com.dslm.firewood.item.TinderItem;
 import com.dslm.firewood.menu.SpiritualCampfireBlockMenu;
 import com.dslm.firewood.mobEffect.FiredFlesh;
 import com.dslm.firewood.mobEffect.FiredSpirit;
+import com.dslm.firewood.network.NetworkHandler;
 import com.dslm.firewood.recipe.*;
+import com.dslm.firewood.recipe.serializer.BlockToBlockRecipeSerializer;
+import com.dslm.firewood.recipe.serializer.PotionTinderRecipeSerializer;
+import com.dslm.firewood.recipe.serializer.TeleportTinderRecipeSerializer;
+import com.dslm.firewood.recipe.serializer.TinderRecipeSerializer;
+import com.dslm.firewood.recipe.type.TinderRecipeType;
+import com.dslm.firewood.recipe.type.TransmuteBlockRecipeType;
+import com.dslm.firewood.util.StaticValue;
+import net.minecraft.core.Registry;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
@@ -22,6 +30,7 @@ import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -39,19 +48,21 @@ import net.minecraftforge.registries.RegistryObject;
 public class Register
 {// TODO: 2022/5/23 方块-方块，方块-物品，方块-实体，实体-物品
     private static final DeferredRegister<Block> BLOCKS =
-            DeferredRegister.create(ForgeRegistries.BLOCKS, Firewood.MOD_ID);
+            DeferredRegister.create(ForgeRegistries.BLOCKS, StaticValue.MOD_ID);
     private static final DeferredRegister<Item> ITEMS =
-            DeferredRegister.create(ForgeRegistries.ITEMS, Firewood.MOD_ID);
+            DeferredRegister.create(ForgeRegistries.ITEMS, StaticValue.MOD_ID);
     private static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITIES =
-            DeferredRegister.create(ForgeRegistries.BLOCK_ENTITIES, Firewood.MOD_ID);
+            DeferredRegister.create(ForgeRegistries.BLOCK_ENTITIES, StaticValue.MOD_ID);
     private static final DeferredRegister<MobEffect> MOB_EFFECTS =
-            DeferredRegister.create(ForgeRegistries.MOB_EFFECTS, Firewood.MOD_ID);
+            DeferredRegister.create(ForgeRegistries.MOB_EFFECTS, StaticValue.MOD_ID);
+    public static final DeferredRegister<RecipeType<?>> RECIPES =
+            DeferredRegister.create(Registry.RECIPE_TYPE_REGISTRY, StaticValue.MOD_ID);
     private static final DeferredRegister<RecipeSerializer<?>> RECIPE_SERIALIZERS =
-            DeferredRegister.create(ForgeRegistries.RECIPE_SERIALIZERS, Firewood.MOD_ID);
+            DeferredRegister.create(ForgeRegistries.RECIPE_SERIALIZERS, StaticValue.MOD_ID);
     private static final DeferredRegister<MenuType<?>> CONTAINERS =
-            DeferredRegister.create(ForgeRegistries.CONTAINERS, Firewood.MOD_ID);
+            DeferredRegister.create(ForgeRegistries.CONTAINERS, StaticValue.MOD_ID);
     
-    public static CreativeModeTab CREATIVE_MODE_TAB = new CreativeModeTab(Firewood.MOD_ID)
+    public static CreativeModeTab CREATIVE_MODE_TAB = new CreativeModeTab(StaticValue.MOD_ID)
     {
         
         @Override
@@ -61,10 +72,12 @@ public class Register
         }
     };
     
+    
     public static final DamageSource SPIRITUAL_FIRE_DAMAGE =
             (new DamageSource("spiritualFire")).bypassArmor().bypassMagic().setMagic();
     public static final DamageSource FLESHY_FIRE_DAMAGE =
             (new DamageSource("fleshyFire")).bypassArmor().bypassMagic().setMagic();
+    
     
     public static final RegistryObject<Block> SPIRITUAL_FIRE_BLOCK =
             BLOCKS.register("spiritual_fire_block",
@@ -75,12 +88,14 @@ public class Register
                     () -> new SpiritualCampfireBlock(
                             BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.PODZOL).strength(2F).sound(SoundType.WOOD).lightLevel((s) -> s.getValue(BlockStateProperties.LIT) ? 15 : 0).noOcclusion()));
     
+    
     public static final RegistryObject<BlockEntityType<SpiritualCampfireBlockEntity>> SPIRITUAL_CAMPFIRE_BLOCK_ENTITY =
             BLOCK_ENTITIES.register("spiritual_campfire_block_entity", () ->
                     BlockEntityType.Builder.of(SpiritualCampfireBlockEntity::new, SPIRITUAL_CAMPFIRE_BLOCK.get()).build(null));
     public static final RegistryObject<BlockEntityType<SpiritualFireBlockEntity>> SPIRITUAL_FIRE_BLOCK_ENTITY =
             BLOCK_ENTITIES.register("spiritual_fire_block_entity", () ->
                     BlockEntityType.Builder.of(SpiritualFireBlockEntity::new, SPIRITUAL_FIRE_BLOCK.get()).build(null));
+    
     
     public static final RegistryObject<Item> SPIRITUAL_CAMPFIRE_ITEM =
             ITEMS.register("spiritual_campfire_item",
@@ -92,22 +107,38 @@ public class Register
     public static final RegistryObject<Item> DEBUG_ITEM =
             ITEMS.register("debug_item", () -> new DebugItem(new Item.Properties().tab(CREATIVE_MODE_TAB)));
     
+    
     public static final RegistryObject<MobEffect> FIRED_SPIRIT = MOB_EFFECTS.register("fired_spirit",
             () -> new FiredSpirit(MobEffectCategory.BENEFICIAL, 0xf47025));
     public static final RegistryObject<MobEffect> FIRED_FLESH = MOB_EFFECTS.register("fired_flesh",
             () -> new FiredFlesh(MobEffectCategory.BENEFICIAL, 0xf47025));
     
-    public static final RegistryObject<RecipeSerializer<TinderRecipe>> TINDER_RECIPE_SERIALIZER =
-            RECIPE_SERIALIZERS.register(TinderRecipe.Type.ID, TinderRecipe.Serializer::new);
-    public static final RegistryObject<RecipeSerializer<TinderRecipe>> TELEPORT_TINDER_RECIPE_SERIALIZER =
-            RECIPE_SERIALIZERS.register(TeleportTinderRecipe.Type.ID, TeleportTinderRecipe.Serializer::new);
-    public static final RegistryObject<RecipeSerializer<TinderRecipe>> POTION_TINDER_RECIPE_SERIALIZER =
-            RECIPE_SERIALIZERS.register("crafting_potion_tinder", PotionTinderRecipe.Serializer::new);
-    public static final RegistryObject<RecipeSerializer<TinderRecipe>> GROUND_TINDER_RECIPE_SERIALIZER =
-            RECIPE_SERIALIZERS.register("crafting_ground_tinder", GroundTinderRecipe.Serializer::new);
     
-    public static final RegistryObject<RecipeSerializer<TransmuteBlockRecipeBase>> BLOCK_TO_BLOCK_RECIPE_SERIALIZER =
-            RECIPE_SERIALIZERS.register("block_to_block", BlockToBlockRecipe.Serializer::new);
+    public static final RegistryObject<RecipeType<TinderRecipe>> TINDER_RECIPE_TYPE =
+            RECIPES.register("tinder_recipe", TinderRecipeType::new);
+    public static final RegistryObject<RecipeType<TinderRecipe>> TELEPORT_TINDER_RECIPE_TYPE =
+            RECIPES.register("teleport_tinder_recipe", TinderRecipeType::new);
+    public static final RegistryObject<RecipeType<TinderRecipe>> POTION_TINDER_RECIPE_TYPE =
+            RECIPES.register("potion_tinder_recipe", TinderRecipeType::new);
+    public static final RegistryObject<RecipeType<TinderRecipe>> GROUND_TINDER_RECIPE_TYPE =
+            RECIPES.register("ground_tinder_recipe", TinderRecipeType::new);
+    
+    public static final RegistryObject<TinderRecipeSerializer<TinderRecipe>> TINDER_RECIPE_SERIALIZER =
+            RECIPE_SERIALIZERS.register("tinder_recipe", () -> new TinderRecipeSerializer<>(TinderRecipe.class));
+    public static final RegistryObject<RecipeSerializer<TeleportTinderRecipe>> TELEPORT_TINDER_RECIPE_SERIALIZER =
+            RECIPE_SERIALIZERS.register("teleport_tinder_recipe", () -> new TeleportTinderRecipeSerializer(TeleportTinderRecipe.class));
+    public static final RegistryObject<RecipeSerializer<PotionTinderRecipe>> POTION_TINDER_RECIPE_SERIALIZER =
+            RECIPE_SERIALIZERS.register("potion_tinder_recipe", () -> new PotionTinderRecipeSerializer(PotionTinderRecipe.class));
+    public static final RegistryObject<RecipeSerializer<GroundTinderRecipe>> GROUND_TINDER_RECIPE_SERIALIZER =
+            RECIPE_SERIALIZERS.register("ground_tinder_recipe", () -> new TinderRecipeSerializer<>(GroundTinderRecipe.class));
+    
+    
+    public static final RegistryObject<RecipeType<BlockToBlockRecipe>> BLOCK_TO_BLOCK_RECIPE_TYPE =
+            RECIPES.register("block_to_block", TransmuteBlockRecipeType::new);
+    
+    public static final RegistryObject<RecipeSerializer<BlockToBlockRecipe>> BLOCK_TO_BLOCK_RECIPE_SERIALIZER =
+            RECIPE_SERIALIZERS.register("block_to_block", () -> new BlockToBlockRecipeSerializer(BlockToBlockRecipe.class));
+    
     
     public static final RegistryObject<MenuType<SpiritualCampfireBlockMenu>> SPIRITUAL_CAMPFIRE_BLOCK_CONTAINER =
             CONTAINERS.register("spiritual_campfire_block_container", () ->
@@ -118,11 +149,12 @@ public class Register
     {
         BLOCKS.register(bus);
         ITEMS.register(bus);
-        MOB_EFFECTS.register(bus);
         BLOCK_ENTITIES.register(bus);
+        MOB_EFFECTS.register(bus);
+        RECIPES.register(bus);
         RECIPE_SERIALIZERS.register(bus);
         CONTAINERS.register(bus);
         TOPPlugin.register();
-        ForgeBusClientHandler.register();
+        NetworkHandler.init();
     }
 }

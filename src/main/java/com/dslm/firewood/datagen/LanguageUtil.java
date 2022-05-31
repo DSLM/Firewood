@@ -1,7 +1,7 @@
 package com.dslm.firewood.datagen;
 
-import com.dslm.firewood.Firewood;
 import com.dslm.firewood.Register;
+import com.dslm.firewood.util.StaticValue;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.item.Item;
@@ -26,7 +26,7 @@ public class LanguageUtil
     public static void buildLanguage(DataGenerator generator)
     {
         //group
-        add("itemGroup." + Firewood.MOD_ID, "Firewood", "薪火");
+        add("itemGroup." + StaticValue.MOD_ID, "Firewood", "薪火");
     
         //block
         add(Register.SPIRITUAL_FIRE_BLOCK.get(), "Spiritual Fire", "灵性之火");
@@ -100,63 +100,63 @@ public class LanguageUtil
 //                "燃烧之躯效果时长（刻）；这个时间也代表着每个实体增加营火进度的冷却时间");
     
         //tooltip
-        add(String.format("tooltip.%s.%s.%s", Firewood.MOD_ID, Register.DYING_EMBER_ITEM.get(), "1"),
+        add(String.format("tooltip.%s.%s.%s", StaticValue.MOD_ID, Register.DYING_EMBER_ITEM.get(), "1"),
                 "A relic of the past...... ", "过去残存之事物……");
-        add(String.format("tooltip.%s.%s.%s", Firewood.MOD_ID, Register.DYING_EMBER_ITEM.get(), "2"),
+        add(String.format("tooltip.%s.%s.%s", StaticValue.MOD_ID, Register.DYING_EMBER_ITEM.get(), "2"),
                 "Coordinate: %1$s (%2$s, %3$s, %4$s)", "坐标：%1$s（%2$s，%3$s，%4$s）");
-        add("tooltip." + Firewood.MOD_ID + "." + Register.TINDER_ITEM.get() + ".major_effect",
+        add("tooltip." + StaticValue.MOD_ID + "." + Register.TINDER_ITEM.get() + ".major_effect",
                 "§lMajor Effect: ", "§l主要效果：");
-        add("tooltip." + Firewood.MOD_ID + "." + Register.TINDER_ITEM.get() + ".major_effect.potion",
-                "Potion: %s", "药水：%s");
-        add("tooltip." + Firewood.MOD_ID + "." + Register.TINDER_ITEM.get() + ".major_effect.teleport",
+        add("tooltip." + StaticValue.MOD_ID + "." + Register.TINDER_ITEM.get() + ".major_effect.potion",
+                "Potion", "药水");
+        add("tooltip." + StaticValue.MOD_ID + "." + Register.TINDER_ITEM.get() + ".major_effect.teleport",
                 "Teleport", "传送");
-        add("tooltip." + Firewood.MOD_ID + "." + Register.TINDER_ITEM.get() + ".major_effect.teleport.extend.1",
+        add("tooltip." + StaticValue.MOD_ID + "." + Register.TINDER_ITEM.get() + ".major_effect.teleport.extend.1",
                 "Teleport to: %1$s (%2$s, %3$s, %4$s)", "传送到：%1$s（%2$s，%3$s，%4$s）");
-        add("tooltip." + Firewood.MOD_ID + "." + Register.TINDER_ITEM.get() + ".major_effect.smelter",
+        add("tooltip." + StaticValue.MOD_ID + "." + Register.TINDER_ITEM.get() + ".major_effect.smelter",
                 "Smelter", "熔炉");
-        add("tooltip." + Firewood.MOD_ID + "." + Register.TINDER_ITEM.get() + ".major_effect.smelter.smelter",
+        add("tooltip." + StaticValue.MOD_ID + "." + Register.TINDER_ITEM.get() + ".major_effect.smelter.smelter",
                 "Smelter", "熔炉");
-        add("tooltip." + Firewood.MOD_ID + "." + Register.TINDER_ITEM.get() + ".major_effect.block_to_block",
+        add("tooltip." + StaticValue.MOD_ID + "." + Register.TINDER_ITEM.get() + ".major_effect.block_to_block",
                 "Block->Block", "方块->方块");
-        add("tooltip." + Firewood.MOD_ID + "." + Register.TINDER_ITEM.get() + ".major_effect.block_to_block.rock_to_mud",
+        add("tooltip." + StaticValue.MOD_ID + "." + Register.TINDER_ITEM.get() + ".major_effect.block_to_block.rock_to_mud",
                 "Transmute Rock to Mud", "化石为泥");
-        add("tooltip." + Firewood.MOD_ID + "." + Register.TINDER_ITEM.get() + ".major_effect.block_to_block.mud_to_rock",
+        add("tooltip." + StaticValue.MOD_ID + "." + Register.TINDER_ITEM.get() + ".major_effect.block_to_block.mud_to_rock",
                 "Transmute Mud to Rock", "化泥为石");
     
-        add("tooltip." + Firewood.MOD_ID + "." + Register.TINDER_ITEM.get() + ".minor_effect",
+        add("tooltip." + StaticValue.MOD_ID + "." + Register.TINDER_ITEM.get() + ".minor_effect",
                 "§lMinor Effect: ", "§l次要效果：");
-        add("tooltip." + Firewood.MOD_ID + "." + Register.TINDER_ITEM.get() + ".minor_effect.ground",
+        add("tooltip." + StaticValue.MOD_ID + "." + Register.TINDER_ITEM.get() + ".minor_effect.ground",
                 "Ground: %s", "基底：%s");
     
-        add("tooltip." + Firewood.MOD_ID + "." + Register.TINDER_ITEM.get() + ".exception_effect",
+        add("tooltip." + StaticValue.MOD_ID + "." + Register.TINDER_ITEM.get() + ".exception_effect",
                 "Unexpected Data", "错误数据");
     
-        add("tooltip." + Firewood.MOD_ID + "." + Register.TINDER_ITEM.get() + ".multi_tooltip_format",
+        add("tooltip." + StaticValue.MOD_ID + "." + Register.TINDER_ITEM.get() + ".multi_tooltip_format",
                 "%2$s (%1$s)", "%2$s（%1$s）");
     
     
         //recipe tooltip
-        add("tooltip." + Firewood.MOD_ID + ".recipe.progress",
+        add("tooltip." + StaticValue.MOD_ID + ".recipe.progress",
                 "Requested Firewood: %s", "薪火需求：%s");
-        add("tooltip." + Firewood.MOD_ID + ".recipe.now_progress",
+        add("tooltip." + StaticValue.MOD_ID + ".recipe.now_progress",
                 "Current Firewood: %1$s / %2$s", "当前薪火：%1$s / %2$s");
-        add("tooltip." + Firewood.MOD_ID + ".recipe.chance",
+        add("tooltip." + StaticValue.MOD_ID + ".recipe.chance",
                 "Burning Firewood Success Rate: %s%%", "添薪成功率：%s%%");
-        add("tooltip." + Firewood.MOD_ID + ".recipe.damage",
+        add("tooltip." + StaticValue.MOD_ID + ".recipe.damage",
                 "Burning Firewood Damage: %s", "添薪伤害：%s");
-        add("tooltip." + Firewood.MOD_ID + ".recipe.cooldown",
+        add("tooltip." + StaticValue.MOD_ID + ".recipe.cooldown",
                 "Burning Firewood Cooldown: %1$sS (%2$s ticks)", "添薪冷却：%1$s秒（%2$s刻）");
-        add("tooltip." + Firewood.MOD_ID + ".recipe.min_health",
+        add("tooltip." + StaticValue.MOD_ID + ".recipe.min_health",
                 "Burning Firewood Min Health Required: %s", "添薪最低生命值：%s");
-        add("tooltip." + Firewood.MOD_ID + ".recipe.range",
+        add("tooltip." + StaticValue.MOD_ID + ".recipe.range",
                 "Effect Range: %s", "效果范围：%s");
     
-        add("tooltip." + Firewood.MOD_ID + ".recipe.block_state",
+        add("tooltip." + StaticValue.MOD_ID + ".recipe.block_state",
                 "Block State:", "方块状态：");
-        add("tooltip." + Firewood.MOD_ID + ".recipe.block_state_line",
+        add("tooltip." + StaticValue.MOD_ID + ".recipe.block_state_line",
                 "%1$s = %2$s", "%1$s = %2$s");
     
-        add("tooltip." + Firewood.MOD_ID + ".recipe.title.fire_effect_sub",
+        add("tooltip." + StaticValue.MOD_ID + ".recipe.title.fire_effect_sub",
                 "Fire Effect: %2$s (%1$s)", "火焰效果：%2$s（%1$s）");
     
         //start generation

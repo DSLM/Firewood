@@ -12,6 +12,9 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.Property;
 import net.minecraftforge.registries.ForgeRegistries;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class FakeTransmuteBlockState
 {
     private final Block block;
@@ -64,12 +67,19 @@ public class FakeTransmuteBlockState
     public static CompoundTag writeBlockState(FakeTransmuteBlockState state)
     {
         CompoundTag compoundtag = new CompoundTag();
-        compoundtag.putString("Name", ForgeRegistries.BLOCKS.getKey(state.getBlock()).toString());
+        if(state.isTag())
+        {
+            compoundtag.putString("Tag", state.getTagKey().location().toString());
+        }
+        else
+        {
+            compoundtag.putString("Name", ForgeRegistries.BLOCKS.getKey(state.getBlock()).toString());
+        }
         if(state.getProperties().size() > 0)
         {
             compoundtag.put("Properties", state.getProperties());
         }
-        
+    
         return compoundtag;
     }
     
@@ -120,16 +130,36 @@ public class FakeTransmuteBlockState
             return false;
         }
         BlockState fakeState = NbtUtils.readBlockState(FakeTransmuteBlockState.writeBlockState(this));
-        
+    
         for(Property<?> property : realState.getProperties())
         {
             if(getProperties().contains(property.getName()) && !fakeState.getValue(property).equals(realState.getValue(property)))
             {
                 return false;
             }
-            
+        
         }
         return true;
+    }
+    
+    public List<Block> getAllPossibleBlocks()
+    {
+        ArrayList<Block> blocks = new ArrayList<>();
+        if(isTag())
+        {
+            for(var block : ForgeRegistries.BLOCKS)
+            {
+                if(block.builtInRegistryHolder().is(tagKey))
+                {
+                    blocks.add(block);
+                }
+            }
+        }
+        else
+        {
+            blocks.add(block);
+        }
+        return blocks;
     }
     
     public static final FakeTransmuteBlockState AIR = new FakeTransmuteBlockState(Blocks.AIR, new CompoundTag());

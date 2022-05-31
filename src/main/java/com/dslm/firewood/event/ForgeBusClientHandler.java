@@ -1,8 +1,8 @@
 package com.dslm.firewood.event;
 
-import com.dslm.firewood.Firewood;
 import com.dslm.firewood.item.TinderTypeItemBase;
 import com.dslm.firewood.tooltip.MiddleComponent;
+import com.dslm.firewood.util.StaticValue;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.datafixers.util.Either;
@@ -17,18 +17,15 @@ import net.minecraft.network.chat.FormattedText;
 import net.minecraft.world.inventory.tooltip.TooltipComponent;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.client.MinecraftForgeClient;
 import net.minecraftforge.client.event.RenderTooltipEvent;
 import net.minecraftforge.client.gui.ForgeIngameGui;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
-import javax.annotation.Nonnull;
 import java.util.List;
-import java.util.function.Function;
 
 
-@Mod.EventBusSubscriber(value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.FORGE, modid = Firewood.MOD_ID)
+@Mod.EventBusSubscriber(value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.FORGE, modid = StaticValue.MOD_ID)
 public class ForgeBusClientHandler
 {
     @SubscribeEvent
@@ -54,11 +51,6 @@ public class ForgeBusClientHandler
 //        pose.popPose();
 //    }
     
-    public static void register()
-    {
-        MinecraftForgeClient.registerTooltipComponentFactory(IconComponent.class, Function.identity());
-    }
-    
     public static void makeTinderTooltip(RenderTooltipEvent.GatherComponents event)
     {
         ItemStack stack = event.getItemStack();
@@ -81,7 +73,7 @@ public class ForgeBusClientHandler
     {
         
         @Override
-        public void renderImage(@Nonnull Font font, int tooltipX, int tooltipY, @Nonnull PoseStack pose, @Nonnull ItemRenderer itemRenderer, int something)
+        public void renderImage(Font font, int tooltipX, int tooltipY, PoseStack pose, ItemRenderer itemRenderer, int something)
         {
             RenderSystem.setShader(GameRenderer::getPositionTexShader);
             pose.pushPose();
@@ -124,9 +116,9 @@ public class ForgeBusClientHandler
         {
             return height;
         }
-        
+    
         @Override
-        public int getWidth(@Nonnull Font font)
+        public int getWidth(Font font)
         {
             return Minecraft.getInstance().font.width(middle.getVisualOrderText())
                     + Minecraft.getInstance().font.width(String.format(" x%.2f", middle.getDamage())) + 4

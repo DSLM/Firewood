@@ -9,8 +9,6 @@ import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.common.util.LazyOptional;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 
 public class PlayerSpiritualDamageProvider implements ICapabilityProvider, INBTSerializable<CompoundTag>
 {
@@ -22,7 +20,7 @@ public class PlayerSpiritualDamageProvider implements ICapabilityProvider, INBTS
     private PlayerSpiritualDamage playerSpiritualDamage = null;
     private final LazyOptional<PlayerSpiritualDamage> opt = LazyOptional.of(this::createPlayerSpiritualDamage);
     
-    @Nonnull
+    
     private PlayerSpiritualDamage createPlayerSpiritualDamage()
     {
         if(playerSpiritualDamage == null)
@@ -32,9 +30,9 @@ public class PlayerSpiritualDamageProvider implements ICapabilityProvider, INBTS
         return playerSpiritualDamage;
     }
     
-    @Nonnull
+    
     @Override
-    public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap)
+    public <T> LazyOptional<T> getCapability(Capability<T> cap)
     {
         if(cap == PLAYER_SPIRITUAL_DAMAGE)
         {
@@ -43,9 +41,9 @@ public class PlayerSpiritualDamageProvider implements ICapabilityProvider, INBTS
         return LazyOptional.empty();
     }
     
-    @Nonnull
+    
     @Override
-    public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable Direction side)
+    public <T> LazyOptional<T> getCapability(Capability<T> cap, Direction side)
     {
         return getCapability(cap);
     }

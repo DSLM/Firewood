@@ -20,7 +20,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
 
-import javax.annotation.Nonnull;
 import java.util.List;
 
 import static com.dslm.firewood.Register.SPIRITUAL_FIRE_BLOCK;
@@ -34,7 +33,7 @@ public class TinderItem extends Item implements TinderTypeItemBase
     }
     
     @Override
-    public void appendHoverText(@Nonnull ItemStack stack, Level level, @Nonnull List<Component> tooltip, @Nonnull TooltipFlag flag)
+    public void appendHoverText(ItemStack stack, Level level, List<Component> tooltip, TooltipFlag flag)
     {
         super.appendHoverText(stack, level, tooltip, flag);
         appendTinderToolTip(stack, level, tooltip, flag);
@@ -80,16 +79,16 @@ public class TinderItem extends Item implements TinderTypeItemBase
     }
     
     @Override
-    public void fillItemCategory(@Nonnull CreativeModeTab group, @Nonnull NonNullList<ItemStack> items)
+    public void fillItemCategory(CreativeModeTab group, NonNullList<ItemStack> items)
     {
         if(!allowdedIn(group))
         {
             return;
         }
-    
+        
         //vanilla
         items.add(new ItemStack(this));
-    
+        
         FireEffectHelpers.fillItemCategory(items, new ItemStack(this));
     }
 }

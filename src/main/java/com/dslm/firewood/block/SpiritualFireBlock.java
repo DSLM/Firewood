@@ -13,7 +13,6 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import org.jetbrains.annotations.Nullable;
 
 
 public class SpiritualFireBlock extends BaseFireBlock implements EntityBlock
@@ -47,7 +46,6 @@ public class SpiritualFireBlock extends BaseFireBlock implements EntityBlock
 //        return super.use(state, level, pos, player, hand, hit);
 //    }
     
-    @Nullable
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level pLevel, BlockState pState, BlockEntityType<T> pBlockEntityType)
     {
@@ -60,7 +58,6 @@ public class SpiritualFireBlock extends BaseFireBlock implements EntityBlock
         };
     }
     
-    @Nullable
     @Override
     public BlockEntity newBlockEntity(BlockPos pPos, BlockState pState)
     {

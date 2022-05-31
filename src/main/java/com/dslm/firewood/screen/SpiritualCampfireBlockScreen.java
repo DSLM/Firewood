@@ -1,7 +1,7 @@
 package com.dslm.firewood.screen;
 
-import com.dslm.firewood.Firewood;
 import com.dslm.firewood.menu.SpiritualCampfireBlockMenu;
+import com.dslm.firewood.util.StaticValue;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
@@ -13,7 +13,7 @@ import net.minecraft.world.entity.player.Inventory;
 
 public class SpiritualCampfireBlockScreen extends AbstractContainerScreen<SpiritualCampfireBlockMenu>
 {
-    private final ResourceLocation GUI = new ResourceLocation(Firewood.MOD_ID, "textures/gui/spiritual_campfire_block_gui.png");
+    private final ResourceLocation GUI = new ResourceLocation(StaticValue.MOD_ID, "textures/gui/spiritual_campfire_block_gui.png");
     private final TranslatableComponent title = new TranslatableComponent("block.firewood.spiritual_campfire_block");
     
     public SpiritualCampfireBlockScreen(SpiritualCampfireBlockMenu container, Inventory inv, Component name)

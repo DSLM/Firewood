@@ -2,8 +2,8 @@ package com.dslm.firewood.fireEffectHelper.flesh.data;
 
 import java.util.HashMap;
 
-import static com.dslm.firewood.fireEffectHelper.flesh.base.FireEffectHelperBase.TYPE;
-import static com.dslm.firewood.fireEffectHelper.flesh.base.TransmuteFireEffectHelperBase.SUB_TAG_ID;
+import static com.dslm.firewood.util.StaticValue.SUB_TYPE;
+import static com.dslm.firewood.util.StaticValue.TYPE;
 
 public class FireEffectNBTData extends HashMap<String, String>
 {
@@ -14,7 +14,7 @@ public class FireEffectNBTData extends HashMap<String, String>
     
     public String getSubType()
     {
-        return super.get(SUB_TAG_ID);
+        return super.get(SUB_TYPE);
     }
     
     public FireEffectNBTData copy()

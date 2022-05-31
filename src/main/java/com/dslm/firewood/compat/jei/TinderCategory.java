@@ -1,9 +1,9 @@
 package com.dslm.firewood.compat.jei;
 
-import com.dslm.firewood.Firewood;
 import com.dslm.firewood.Register;
 import com.dslm.firewood.menu.SpiritualCampfireBlockMenu;
 import com.dslm.firewood.recipe.TinderRecipe;
+import com.dslm.firewood.util.StaticValue;
 import com.mojang.blaze3d.platform.InputConstants;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.datafixers.util.Either;
@@ -23,7 +23,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import org.apache.commons.lang3.tuple.Pair;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,10 +36,10 @@ public class TinderCategory implements IRecipeCategory<TinderRecipe>
     protected final IDrawable back;
     protected final IDrawable icon;
     protected final Pair<Integer, Integer> startPoint = Pair.of(6, 6);
-    
+
     protected TinderCategory(IGuiHelper guiHelper)
     {
-        ResourceLocation backPic = new ResourceLocation(Firewood.MOD_ID, "textures/gui/spiritual_campfire_block_jei_gui.png");
+        ResourceLocation backPic = new ResourceLocation(StaticValue.MOD_ID, "textures/gui/spiritual_campfire_block_jei_gui.png");
         back = guiHelper.createDrawable(backPic, 0, 0, 178, 136);
         icon = guiHelper.createDrawableIngredient(VanillaTypes.ITEM_STACK, new ItemStack(Register.SPIRITUAL_CAMPFIRE_ITEM.get()));
     }
@@ -87,14 +86,14 @@ public class TinderCategory implements IRecipeCategory<TinderRecipe>
             {
                 slot.addIngredients(inputs.get(i).right().get());
             }
-            
+    
         }
     
         builder.addSlot(RecipeIngredientRole.OUTPUT,
                 startPoint.getLeft() + SpiritualCampfireBlockMenu.slotsPos.get(0).getLeft() + 101,
                 startPoint.getRight() + SpiritualCampfireBlockMenu.slotsPos.get(0).getRight())
                 .addItemStacks(recipe.getJEIResult());
-        
+    
         builder.addInvisibleIngredients(RecipeIngredientRole.INPUT).addIngredients(recipe.getTinder());
     }
     
@@ -143,7 +142,7 @@ public class TinderCategory implements IRecipeCategory<TinderRecipe>
     }
     
     @Override
-    public @Nullable ResourceLocation getRegistryName(TinderRecipe recipe)
+    public ResourceLocation getRegistryName(TinderRecipe recipe)
     {
         return recipe.getId();
     }

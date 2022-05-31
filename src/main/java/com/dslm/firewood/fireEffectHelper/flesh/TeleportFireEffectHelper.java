@@ -5,6 +5,7 @@ import com.dslm.firewood.fireEffectHelper.flesh.base.FireEffectHelperInterface;
 import com.dslm.firewood.fireEffectHelper.flesh.base.MajorFireEffectHelperBase;
 import com.dslm.firewood.fireEffectHelper.flesh.data.FireEffectNBTData;
 import com.dslm.firewood.tooltip.MiddleComponent;
+import com.dslm.firewood.util.StaticValue;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
@@ -119,7 +120,7 @@ public class TeleportFireEffectHelper extends MajorFireEffectHelperBase
     public CompoundTag saveToNBT(FireEffectNBTData data)
     {
         CompoundTag tags = new CompoundTag();
-        tags.putString(TYPE, ID);
+        tags.putString(StaticValue.TYPE, ID);
         tags.putString(DIM_TAG_ID, data.get(DIM_TAG_ID));
         tags.putString(X_TAG_ID, data.get(X_TAG_ID));
         tags.putString(Y_TAG_ID, data.get(Y_TAG_ID));
@@ -131,7 +132,7 @@ public class TeleportFireEffectHelper extends MajorFireEffectHelperBase
     public FireEffectNBTData readFromNBT(CompoundTag tags)
     {
         FireEffectNBTData data = new FireEffectNBTData();
-        data.put(TYPE, ID);
+        data.put(StaticValue.TYPE, ID);
         data.put(DIM_TAG_ID, tags.getString(DIM_TAG_ID));
         data.put(X_TAG_ID, tags.getString(X_TAG_ID));
         data.put(Y_TAG_ID, tags.getString(Y_TAG_ID));

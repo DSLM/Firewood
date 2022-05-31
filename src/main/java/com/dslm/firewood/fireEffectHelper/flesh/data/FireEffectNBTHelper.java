@@ -1,30 +1,29 @@
 package com.dslm.firewood.fireEffectHelper.flesh.data;
 
 import com.dslm.firewood.fireEffectHelper.flesh.FireEffectHelpers;
+import com.dslm.firewood.util.StaticValue;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
 
 import java.util.ArrayList;
 
-import static com.dslm.firewood.fireEffectHelper.flesh.base.FireEffectHelperBase.TYPE;
+import static com.dslm.firewood.util.StaticValue.TYPE;
 
 public class FireEffectNBTHelper
 {
-    public static final String MAJOR = "majorEffects";
-    public static final String MINOR = "minorEffects";
     
     public static ArrayList<FireEffectNBTData> loadMajorFireData(CompoundTag pTag)
     {
         ArrayList<FireEffectNBTData> majorEffects = new ArrayList<>();
-        ListTag tags = (ListTag) pTag.get(MAJOR);
+        ListTag tags = (ListTag) pTag.get(StaticValue.MAJOR);
         if(tags != null)
         {
             for(Tag i : tags.stream().toList())
             {
                 if(i instanceof CompoundTag comTag && comTag.get(TYPE) != null)
                 {
-                    majorEffects.add(FireEffectHelpers.readFromNBT(MAJOR, comTag.getString(TYPE), comTag));
+                    majorEffects.add(FireEffectHelpers.readFromNBT(StaticValue.MAJOR, comTag.getString(TYPE), comTag));
                 }
             }
         }
@@ -34,14 +33,14 @@ public class FireEffectNBTHelper
     public static ArrayList<FireEffectNBTData> loadMinorFireData(CompoundTag pTag)
     {
         ArrayList<FireEffectNBTData> minorEffects = new ArrayList<>();
-        ListTag tags = (ListTag) pTag.get(MINOR);
+        ListTag tags = (ListTag) pTag.get(StaticValue.MINOR);
         if(tags != null)
         {
             for(Tag i : tags.stream().toList())
             {
                 if(i instanceof CompoundTag comTag && comTag.get(TYPE) != null)
                 {
-                    minorEffects.add(FireEffectHelpers.readFromNBT(MINOR, comTag.getString(TYPE), comTag));
+                    minorEffects.add(FireEffectHelpers.readFromNBT(StaticValue.MINOR, comTag.getString(TYPE), comTag));
                 }
             }
         }
@@ -64,10 +63,10 @@ public class FireEffectNBTHelper
         {
             if(i.getType() != null)
             {
-                tags.add(FireEffectHelpers.saveToNBT(MAJOR, i.getType(), i));
+                tags.add(FireEffectHelpers.saveToNBT(StaticValue.MAJOR, i.getType(), i));
             }
         }
-        pTag.put(MAJOR, tags);
+        pTag.put(StaticValue.MAJOR, tags);
         
         return pTag;
     }
@@ -79,10 +78,10 @@ public class FireEffectNBTHelper
         {
             if(i.getType() != null)
             {
-                tags.add(FireEffectHelpers.saveToNBT(MINOR, i.getType(), i));
+                tags.add(FireEffectHelpers.saveToNBT(StaticValue.MINOR, i.getType(), i));
             }
         }
-        pTag.put(MINOR, tags);
+        pTag.put(StaticValue.MINOR, tags);
         
         return pTag;
     }

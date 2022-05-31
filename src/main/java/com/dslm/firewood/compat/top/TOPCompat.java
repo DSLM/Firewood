@@ -1,6 +1,6 @@
 package com.dslm.firewood.compat.top;
 
-import com.dslm.firewood.Firewood;
+import com.dslm.firewood.util.StaticValue;
 import mcjty.theoneprobe.api.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
@@ -33,7 +33,7 @@ public class TOPCompat
                 @Override
                 public ResourceLocation getID()
                 {
-                    return new ResourceLocation(Firewood.MOD_ID, "plugin");
+                    return new ResourceLocation(StaticValue.MOD_ID, "plugin");
                 }
                 
                 @Override

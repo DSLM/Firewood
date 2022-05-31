@@ -1,38 +1,43 @@
 package com.dslm.firewood.recipe;
 
-import com.dslm.firewood.Firewood;
+import com.dslm.firewood.Register;
 import com.dslm.firewood.block.entity.SpiritualCampfireBlockEntity;
 import com.dslm.firewood.fireEffectHelper.flesh.PotionFireEffectHelper;
 import com.dslm.firewood.fireEffectHelper.flesh.data.FireEffectNBTData;
-import com.google.gson.JsonObject;
 import com.mojang.datafixers.util.Either;
 import net.minecraft.core.NonNullList;
-import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.alchemy.Potion;
 import net.minecraft.world.item.alchemy.PotionUtils;
 import net.minecraft.world.item.alchemy.Potions;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.common.util.RecipeMatcher;
 import net.minecraftforge.registries.ForgeRegistries;
 
-import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
 import static com.dslm.firewood.fireEffectHelper.flesh.PotionFireEffectHelper.POTION_TAG_ID;
-import static com.dslm.firewood.fireEffectHelper.flesh.base.FireEffectHelperBase.TYPE;
+import static com.dslm.firewood.util.StaticValue.TYPE;
 
 public class PotionTinderRecipe extends TinderRecipe
 {
-    protected final Ingredient potion;
+    protected Ingredient potion = Ingredient.of(new ItemStack(Items.POTION));
     
     public PotionTinderRecipe(TinderRecipe recipe, Ingredient potion)
     {
         super(recipe);
         this.potion = potion;
+    }
+    
+    public PotionTinderRecipe(TinderRecipe recipe)
+    {
+        super(recipe);
     }
     
     @Override
@@ -80,50 +85,6 @@ public class PotionTinderRecipe extends TinderRecipe
         return potion;
     }
     
-    public static class Type extends TinderRecipe.Type
-    {
-        public static final String ID = "potion_tinder_recipe";
-    }
-    
-    public static class Serializer extends TinderRecipe.Serializer
-    {
-        public static final ResourceLocation ID =
-                new ResourceLocation(Firewood.MOD_ID, Type.ID);
-        
-        @Override
-        public PotionTinderRecipe fromJson(ResourceLocation id, JsonObject json)
-        {
-            Ingredient potion = Ingredient.fromJson(json.getAsJsonObject("potion"));
-            
-            return new PotionTinderRecipe(super.fromJson(id, json), potion);
-        }
-        
-        @Override
-        public PotionTinderRecipe fromNetwork(ResourceLocation id, FriendlyByteBuf buf)
-        {
-            Ingredient potion = Ingredient.fromNetwork(buf);
-            
-            return new PotionTinderRecipe(super.fromNetwork(id, buf), potion);
-        }
-        
-        @Override
-        public void toNetwork(FriendlyByteBuf buf, TinderRecipe recipe)
-        {
-            if(recipe instanceof PotionTinderRecipe tele)
-            {
-                super.toNetwork(buf, recipe);
-                tele.getPotion().toNetwork(buf);
-            }
-        }
-        
-        @Nullable
-        @Override
-        public ResourceLocation getRegistryName()
-        {
-            return ID;
-        }
-    }
-    
     public List<Either<List<ItemStack>, Ingredient>> getJEIInputs()
     {
         ArrayList<Either<List<ItemStack>, Ingredient>> list = new ArrayList<>();
@@ -153,5 +114,17 @@ public class PotionTinderRecipe extends TinderRecipe
             PotionFireEffectHelper.getInstanceList().get(0).fillItemCategory(list, i.copy());
         }
         return list;
+    }
+    
+    @Override
+    public RecipeSerializer<?> getSerializer()
+    {
+        return Register.POTION_TINDER_RECIPE_SERIALIZER.get();
+    }
+    
+    @Override
+    public RecipeType<?> getType()
+    {
+        return Register.POTION_TINDER_RECIPE_TYPE.get();
     }
 }

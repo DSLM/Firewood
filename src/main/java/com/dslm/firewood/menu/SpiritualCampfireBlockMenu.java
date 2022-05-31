@@ -16,7 +16,6 @@ import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.SlotItemHandler;
 import net.minecraftforge.items.wrapper.InvWrapper;
 import org.apache.commons.lang3.tuple.Pair;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 
@@ -70,7 +69,6 @@ public class SpiritualCampfireBlockMenu extends AbstractContainerMenu
         return stillValid(ContainerLevelAccess.create(blockEntity.getLevel(), blockEntity.getBlockPos()), playerEntity, Register.SPIRITUAL_CAMPFIRE_BLOCK.get());
     }
     
-    @NotNull
     @Override
     public ItemStack quickMoveStack(Player playerIn, int index)
     {
@@ -120,15 +118,20 @@ public class SpiritualCampfireBlockMenu extends AbstractContainerMenu
             {
                 slot.setChanged();
             }
-            
+    
             if(stack.getCount() == itemstack.getCount())
             {
                 return ItemStack.EMPTY;
             }
-            
+    
             slot.onTake(playerIn, stack);
         }
-        
+    
+        if(blockEntity instanceof SpiritualCampfireBlockEntity spiritualCampfireBlockEntity)
+        {
+            spiritualCampfireBlockEntity.askForSync();
+        }
+    
         return itemstack;
     }
     

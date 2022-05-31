@@ -1,20 +1,24 @@
 package com.dslm.firewood.event;
 
-import com.dslm.firewood.Firewood;
 import com.dslm.firewood.Register;
 import com.dslm.firewood.capProvider.PlayerSpiritualDamageProvider;
+import com.dslm.firewood.network.FireEffectSubTypeMessage;
+import com.dslm.firewood.network.NetworkHandler;
 import com.dslm.firewood.recipe.FireEffectSubTypeManager;
+import com.dslm.firewood.util.StaticValue;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraftforge.event.AddReloadListenerEvent;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
+import net.minecraftforge.event.OnDatapackSyncEvent;
 import net.minecraftforge.event.entity.living.PotionEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.network.PacketDistributor;
 
-@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.FORGE, modid = Firewood.MOD_ID)
+@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.FORGE, modid = StaticValue.MOD_ID)
 public class ForgeBusHandler
 {
     @SubscribeEvent
@@ -24,7 +28,7 @@ public class ForgeBusHandler
         {
             if(!event.getObject().getCapability(PlayerSpiritualDamageProvider.PLAYER_SPIRITUAL_DAMAGE).isPresent())
             {
-                event.addCapability(new ResourceLocation(Firewood.MOD_ID, "player_spiritual_damage"), new PlayerSpiritualDamageProvider());
+                event.addCapability(new ResourceLocation(StaticValue.MOD_ID, "player_spiritual_damage"), new PlayerSpiritualDamageProvider());
             }
         }
     }
@@ -59,5 +63,16 @@ public class ForgeBusHandler
     public static void onAddReloadListener(AddReloadListenerEvent event)
     {
         event.addListener(new FireEffectSubTypeManager());
+    }
+    
+    @SubscribeEvent
+    public static void onDatapackSync(OnDatapackSyncEvent event)
+    {
+        if(event.getPlayer() == null)
+        {
+            NetworkHandler.CHANNEL.send(PacketDistributor.ALL.noArg(), new FireEffectSubTypeMessage(FireEffectSubTypeManager.getEffectsMap()));
+            return;
+        }
+        NetworkHandler.CHANNEL.send(PacketDistributor.PLAYER.with(event::getPlayer), new FireEffectSubTypeMessage(FireEffectSubTypeManager.getEffectsMap()));
     }
 }

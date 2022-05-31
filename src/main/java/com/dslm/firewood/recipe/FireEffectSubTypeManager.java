@@ -15,7 +15,7 @@ import net.minecraft.util.profiling.ProfilerFiller;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.dslm.firewood.fireEffectHelper.flesh.base.FireEffectHelperBase.TYPE;
+import static com.dslm.firewood.util.StaticValue.TYPE;
 
 public class FireEffectSubTypeManager extends SimpleJsonResourceReloadListener
 {
@@ -55,14 +55,19 @@ public class FireEffectSubTypeManager extends SimpleJsonResourceReloadListener
                 Firewood.LOGGER.error("Couldn't read firewood recipe types from {}", resourcelocation, e);
             }
         }
-        
+    
         effectsMap.clear();
-        
+    
+        for(String key : typeBuilders.keySet())
+        {
+            effectsMap.put(key, new HashMap<>());
+        }
+    
         for(Map.Entry<ResourceLocation, JsonObject> entry : effects.entrySet())
         {
             FireEffectSubTypeBuilder builder = typeBuilders.getOrDefault(entry.getValue().get(TYPE).getAsString(), defaultTypeBuilder);
             FireEffectSubType newData = builder.getNewData(entry.getKey(), entry.getValue());
-    
+        
             if(newData == null)
             {
                 continue;
@@ -84,5 +89,14 @@ public class FireEffectSubTypeManager extends SimpleJsonResourceReloadListener
     public static HashMap<String, HashMap<String, FireEffectSubType>> getEffectsMap()
     {
         return effectsMap;
+    }
+    
+    public static void setEffectsMap(HashMap<String, HashMap<String, FireEffectSubType>> newMap)
+    {
+        effectsMap.clear();
+        for(Map.Entry<String, HashMap<String, FireEffectSubType>> one : newMap.entrySet())
+        {
+            effectsMap.put(one.getKey(), one.getValue());
+        }
     }
 }

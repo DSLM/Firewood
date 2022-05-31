@@ -1,7 +1,7 @@
 {
   "type": "firewood:block_to_block",
   "subType": "mud_to_rock",
-  "color": 11043938,
+  "color": "0xa88462",
   "damage": 0.1,
   "minHealth": 0.1,
   "process": 2,

@@ -1,22 +1,22 @@
 package com.dslm.firewood.recipe;
 
-import com.dslm.firewood.Firewood;
+import com.dslm.firewood.Register;
 import com.dslm.firewood.block.entity.SpiritualCampfireBlockEntity;
 import com.dslm.firewood.fireEffectHelper.flesh.TeleportFireEffectHelper;
 import com.dslm.firewood.fireEffectHelper.flesh.data.FireEffectNBTData;
 import com.dslm.firewood.item.DyingEmberItem;
-import com.google.gson.JsonObject;
+import com.dslm.firewood.util.StaticValue;
 import com.mojang.datafixers.util.Either;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
-import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.common.util.RecipeMatcher;
 
-import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -25,12 +25,17 @@ import static com.dslm.firewood.fireEffectHelper.flesh.TeleportFireEffectHelper.
 
 public class TeleportTinderRecipe extends TinderRecipe
 {
-    protected final Ingredient ember;
+    protected Ingredient ember = Ingredient.of(Register.DYING_EMBER_ITEM.get());
     
     public TeleportTinderRecipe(TinderRecipe recipe, Ingredient ember)
     {
         super(recipe);
         this.ember = ember;
+    }
+    
+    public TeleportTinderRecipe(TinderRecipe recipe)
+    {
+        super(recipe);
     }
     
     @Override
@@ -70,7 +75,7 @@ public class TeleportTinderRecipe extends TinderRecipe
             {
                 addEffects.addMajorEffect(new FireEffectNBTData()
                 {{
-                    put(TYPE, "teleport");
+                    put(StaticValue.TYPE, "teleport");
                     put(DIM_TAG_ID, i.getTag().getString(DIM_TAG_ID));
                     put(X_TAG_ID, i.getTag().getString(X_TAG_ID));
                     put(Y_TAG_ID, i.getTag().getString(Y_TAG_ID));
@@ -90,50 +95,6 @@ public class TeleportTinderRecipe extends TinderRecipe
     public Ingredient getEmber()
     {
         return ember;
-    }
-    
-    public static class Type extends TinderRecipe.Type
-    {
-        public static final String ID = "teleport_tinder_recipe";
-    }
-    
-    public static class Serializer extends TinderRecipe.Serializer
-    {
-        public static final ResourceLocation ID =
-                new ResourceLocation(Firewood.MOD_ID, Type.ID);
-        
-        @Override
-        public TeleportTinderRecipe fromJson(ResourceLocation id, JsonObject json)
-        {
-            Ingredient ember = Ingredient.fromJson(json.getAsJsonObject("ember"));
-            
-            return new TeleportTinderRecipe(super.fromJson(id, json), ember);
-        }
-        
-        @Override
-        public TeleportTinderRecipe fromNetwork(ResourceLocation id, FriendlyByteBuf buf)
-        {
-            Ingredient ember = Ingredient.fromNetwork(buf);
-            
-            return new TeleportTinderRecipe(super.fromNetwork(id, buf), ember);
-        }
-        
-        @Override
-        public void toNetwork(FriendlyByteBuf buf, TinderRecipe recipe)
-        {
-            if(recipe instanceof TeleportTinderRecipe tele)
-            {
-                super.toNetwork(buf, recipe);
-                tele.getEmber().toNetwork(buf);
-            }
-        }
-    
-        @Nullable
-        @Override
-        public ResourceLocation getRegistryName()
-        {
-            return ID;
-        }
     }
     
     public List<Either<List<ItemStack>, Ingredient>> getJEIInputs()
@@ -158,5 +119,17 @@ public class TeleportTinderRecipe extends TinderRecipe
             TeleportFireEffectHelper.getInstanceList().get(0).fillItemCategory(list, i.copy());
         }
         return list;
+    }
+    
+    @Override
+    public RecipeSerializer<?> getSerializer()
+    {
+        return Register.TELEPORT_TINDER_RECIPE_SERIALIZER.get();
+    }
+    
+    @Override
+    public RecipeType<?> getType()
+    {
+        return Register.TELEPORT_TINDER_RECIPE_TYPE.get();
     }
 }

@@ -20,7 +20,7 @@ public class BlockToBlockCategory extends SubEffectCategoryBase<BlockToBlockReci
     protected final IDrawable back;
     static int w = 100;
     static int h = 50;
-    
+
     public BlockToBlockCategory(IGuiHelper guiHelper, String subType)
     {
         super(guiHelper, "block_to_block", subType);
@@ -55,8 +55,8 @@ public class BlockToBlockCategory extends SubEffectCategoryBase<BlockToBlockReci
                 back.getWidth() / 4 - 9,
                 0)
                 .addItemStacks(recipe.getJEIInputs());
-        
-        
+    
+    
         builder.addSlot(RecipeIngredientRole.OUTPUT,
                 back.getWidth() / 4 * 3 - 9,
                 0)
@@ -72,6 +72,10 @@ public class BlockToBlockCategory extends SubEffectCategoryBase<BlockToBlockReci
         {
             drawBlockState(targetNBT.getCompound("Properties"), stack, 18, w + 24 / 2);
         }
+
+//        renderBlock(poseStack, getFarmland(), 30, 30, -10, 20F, 20F);
+//        renderBlock(poseStack, getBlockState(), 30, 12, 10, 20F, 20F);
+//        mcjty.theoneprobe.rendering.RenderHelper.java.renderEntity
     }
     
     @Override

@@ -1,11 +1,11 @@
 package com.dslm.firewood.fireEffectHelper.flesh.base;
 
-import com.dslm.firewood.Firewood;
 import com.dslm.firewood.fireEffectHelper.flesh.FireEffectHelpers;
 import com.dslm.firewood.fireEffectHelper.flesh.data.FireEffectNBTData;
 import com.dslm.firewood.fireEffectHelper.flesh.data.FireEffectSubType;
 import com.dslm.firewood.recipe.FireEffectSubTypeManager;
 import com.dslm.firewood.tooltip.MiddleComponent;
+import com.dslm.firewood.util.StaticValue;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
@@ -26,8 +26,6 @@ import static com.dslm.firewood.fireEffectHelper.flesh.FireEffectHelpers.colorfu
 
 public abstract class TransmuteFireEffectHelperBase extends MajorFireEffectHelperBase
 {
-    public static String SUB_TAG_ID = "subType";
-    public static String PROCESS = "process";
     
     public TransmuteFireEffectHelperBase(FireEffectNBTData defaultData, String id)
     {
@@ -38,9 +36,9 @@ public abstract class TransmuteFireEffectHelperBase extends MajorFireEffectHelpe
     {
         super(new FireEffectNBTData()
         {{
-            put(TYPE, id);
-            put(SUB_TAG_ID, "");
-            put(PROCESS, "0");
+            put(StaticValue.TYPE, id);
+            put(StaticValue.SUB_TYPE, "");
+            put(StaticValue.PROCESS, "0");
         }}, id);
     }
     
@@ -51,16 +49,16 @@ public abstract class TransmuteFireEffectHelperBase extends MajorFireEffectHelpe
     
     public String getRealProcess(FireEffectNBTData data)
     {
-        return data.get(PROCESS);
+        return data.get(StaticValue.PROCESS);
     }
     
     @Override
     public CompoundTag saveToNBT(FireEffectNBTData data)
     {
         CompoundTag tags = new CompoundTag();
-        tags.putString(TYPE, ID);
-        tags.putString(SUB_TAG_ID, data.getSubType());
-        tags.putString(PROCESS, data.get(PROCESS));
+        tags.putString(StaticValue.TYPE, ID);
+        tags.putString(StaticValue.SUB_TYPE, data.getSubType());
+        tags.putString(StaticValue.PROCESS, data.get(StaticValue.PROCESS));
         return tags;
     }
     
@@ -68,9 +66,9 @@ public abstract class TransmuteFireEffectHelperBase extends MajorFireEffectHelpe
     public FireEffectNBTData readFromNBT(CompoundTag tags)
     {
         FireEffectNBTData data = new FireEffectNBTData();
-        data.put(TYPE, ID);
-        data.put(SUB_TAG_ID, tags.getString(SUB_TAG_ID));
-        data.put(PROCESS, String.valueOf(tags.getInt(PROCESS)));
+        data.put(StaticValue.TYPE, ID);
+        data.put(StaticValue.SUB_TYPE, tags.getString(StaticValue.SUB_TYPE));
+        data.put(StaticValue.PROCESS, String.valueOf(tags.getInt(StaticValue.PROCESS)));
         return data;
     }
     
@@ -135,7 +133,7 @@ public abstract class TransmuteFireEffectHelperBase extends MajorFireEffectHelpe
     public boolean isSameNBT(CompoundTag first, CompoundTag second)
     {
         return super.isSameNBT(first, second) &&
-                first.getString(SUB_TAG_ID).equals(second.getString(SUB_TAG_ID));
+                first.getString(StaticValue.SUB_TYPE).equals(second.getString(StaticValue.SUB_TYPE));
     }
     
     @Override
@@ -146,8 +144,8 @@ public abstract class TransmuteFireEffectHelperBase extends MajorFireEffectHelpe
     
             ItemStack stack = FireEffectHelpers.addMajorEffect(item.copy(), ID, new FireEffectNBTData()
             {{
-                put(SUB_TAG_ID, s);
-                put(PROCESS, "0");
+                put(StaticValue.SUB_TYPE, s);
+                put(StaticValue.PROCESS, "0");
             }});
             
             if(!stack.isEmpty())
@@ -212,7 +210,7 @@ public abstract class TransmuteFireEffectHelperBase extends MajorFireEffectHelpe
     
     public String getResourceName()
     {
-        return "%s:%s".formatted(Firewood.MOD_ID, getId());
+        return "%s:%s".formatted(StaticValue.MOD_ID, getId());
     }
     
     
@@ -225,15 +223,15 @@ public abstract class TransmuteFireEffectHelperBase extends MajorFireEffectHelpe
     
     public FireEffectNBTData checkBlocks(FireEffectNBTData data, BlockState state, Level level, BlockPos pos, LivingEntity entity)
     {
-        
+    
         FireEffectSubType effectData = getSubRealEffect(data);
-        int nowProccess = Integer.parseInt(data.get(PROCESS)) + 1;
+        int nowProccess = Integer.parseInt(data.get(StaticValue.PROCESS)) + 1;
         if(nowProccess < effectData.getProcess())
         {
-            data.put(PROCESS, String.valueOf(nowProccess));
+            data.put(StaticValue.PROCESS, String.valueOf(nowProccess));
             return data;
         }
-        data.put(PROCESS, "0");
+        data.put(StaticValue.PROCESS, "0");
         Random random = level.random;
         getBlockPosIterable(pos, effectData.getRange()).forEach(blockPos -> {
             if(random.nextDouble() * 100 < effectData.getChance())

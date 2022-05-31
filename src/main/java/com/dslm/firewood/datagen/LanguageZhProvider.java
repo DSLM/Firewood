@@ -1,6 +1,6 @@
 package com.dslm.firewood.datagen;
 
-import com.dslm.firewood.Firewood;
+import com.dslm.firewood.util.StaticValue;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.item.Item;
@@ -14,7 +14,7 @@ public class LanguageZhProvider extends LanguageProvider
     
     public LanguageZhProvider(DataGenerator gen, String locale)
     {
-        super(gen, Firewood.MOD_ID, locale);
+        super(gen, StaticValue.MOD_ID, locale);
     }
     
     @Override

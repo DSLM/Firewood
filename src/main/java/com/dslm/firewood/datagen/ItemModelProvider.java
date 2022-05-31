@@ -1,7 +1,7 @@
 package com.dslm.firewood.datagen;
 
-import com.dslm.firewood.Firewood;
 import com.dslm.firewood.Register;
+import com.dslm.firewood.util.StaticValue;
 import net.minecraft.data.DataGenerator;
 import net.minecraftforge.common.data.ExistingFileHelper;
 
@@ -9,7 +9,7 @@ public class ItemModelProvider extends net.minecraftforge.client.model.generator
 {
     public ItemModelProvider(DataGenerator generator, ExistingFileHelper existingFileHelper)
     {
-        super(generator, Firewood.MOD_ID, existingFileHelper);
+        super(generator, StaticValue.MOD_ID, existingFileHelper);
     }
     
     @Override

@@ -5,6 +5,7 @@ import com.dslm.firewood.block.SpiritualCampfireBlock;
 import com.dslm.firewood.fireEffectHelper.flesh.FireEffectHelpers;
 import com.dslm.firewood.item.TinderTypeItemBase;
 import com.dslm.firewood.recipe.TinderRecipe;
+import com.dslm.firewood.recipe.type.TinderRecipeType;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -33,10 +34,7 @@ import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.items.wrapper.InvWrapper;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.util.List;
-import java.util.Optional;
 import java.util.Random;
 
 public class SpiritualCampfireBlockEntity extends BlockEntity implements Container
@@ -45,7 +43,7 @@ public class SpiritualCampfireBlockEntity extends BlockEntity implements Contain
     protected final NonNullList<ItemStack> inventory;
     protected final IItemHandlerModifiable itemHandler;
     protected final LazyOptional<IItemHandler> handler;
-    boolean needSync;
+    protected boolean needSync;
     protected int process;
     protected TinderRecipe recipe;
     
@@ -64,11 +62,15 @@ public class SpiritualCampfireBlockEntity extends BlockEntity implements Contain
     
     public TinderRecipe refreshRecipe()
     {
-        
-        Optional<TinderRecipe> match = level.getRecipeManager()
-                .getRecipeFor(TinderRecipe.Type.INSTANCE, this, level);
-        recipe = match.orElse(null);
-        return recipe;
+        for(var recipe1 : level.getRecipeManager().getRecipes().stream()
+                .filter(recipe1 -> recipe1.getType() instanceof TinderRecipeType).toList())
+        {
+            if(recipe1 instanceof TinderRecipe tinderRecipe && tinderRecipe.matches(this, level))
+            {
+                return tinderRecipe;
+            }
+        }
+        return null;
     }
     
     public void addProcess(BlockState state, Level level, BlockPos pos, LivingEntity livingEntity)
@@ -81,7 +83,7 @@ public class SpiritualCampfireBlockEntity extends BlockEntity implements Contain
             {
                 double nowHealth = livingEntity.getHealth();
                 FireEffectHelpers.damageEntity(livingEntity, (float) recipe.getDamage(), recipe.getCooldown());
-                if(!(nowHealth >= recipe.getMinHealth()))
+                if(nowHealth < recipe.getMinHealth())
                 {
                     return;
                 }
@@ -211,9 +213,9 @@ public class SpiritualCampfireBlockEntity extends BlockEntity implements Contain
         }
     }
     
-    @Nonnull
+    
     @Override
-    public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable Direction side)
+    public <T> LazyOptional<T> getCapability(Capability<T> cap, Direction side)
     {
         if(cap == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY)
         {
@@ -387,6 +389,11 @@ public class SpiritualCampfireBlockEntity extends BlockEntity implements Contain
         return inventory.get(0);
     }
     
+    public void askForSync()
+    {
+        needSync = true;
+    }
+    
     public class SpiritualCampfireBlockInvWrapper extends InvWrapper
     {
         public SpiritualCampfireBlockEntity entity;
@@ -396,9 +403,9 @@ public class SpiritualCampfireBlockEntity extends BlockEntity implements Contain
             super(inv);
             entity = inv;
         }
-        
+    
         @Override
-        public ItemStack insertItem(int slot, @Nonnull ItemStack stack, boolean simulate)
+        public ItemStack insertItem(int slot, ItemStack stack, boolean simulate)
         {
             if(isItemValid(slot, stack))
             {
@@ -407,9 +414,9 @@ public class SpiritualCampfireBlockEntity extends BlockEntity implements Contain
             }
             return stack;
         }
-        
+    
         @Override
-        public void setStackInSlot(int slot, @Nonnull ItemStack stack)
+        public void setStackInSlot(int slot, ItemStack stack)
         {
             if(isItemValid(slot, stack))
             {

@@ -1,14 +1,14 @@
 package com.dslm.firewood.compat.jei;
 
-import com.dslm.firewood.Firewood;
 import com.dslm.firewood.Register;
 import com.dslm.firewood.fireEffectHelper.flesh.FireEffectHelpers;
 import com.dslm.firewood.fireEffectHelper.flesh.data.FireEffectNBTData;
 import com.dslm.firewood.fireEffectHelper.flesh.data.FireEffectSubType;
 import com.dslm.firewood.item.TinderTypeItemBase;
-import com.dslm.firewood.recipe.BlockToBlockRecipe;
 import com.dslm.firewood.recipe.FireEffectSubTypeManager;
 import com.dslm.firewood.recipe.TinderRecipe;
+import com.dslm.firewood.recipe.type.TinderRecipeType;
+import com.dslm.firewood.util.StaticValue;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
 import mezz.jei.api.constants.RecipeTypes;
@@ -27,7 +27,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraftforge.registries.ForgeRegistries;
 
-import javax.annotation.Nonnull;
 import java.util.*;
 
 @JeiPlugin
@@ -35,13 +34,13 @@ public class JEICompat implements IModPlugin
 {
     static HashMap<String, HashMap<String, RecipeType>> recipeTypes = new HashMap<>();
     
-    @Nonnull
+    
     @Override
     public ResourceLocation getPluginUid()
     {
-        return new ResourceLocation(Firewood.MOD_ID, Firewood.MOD_ID);
+        return new ResourceLocation(StaticValue.MOD_ID, StaticValue.MOD_ID);
     }
-    
+
     @Override
     public void registerCategories(IRecipeCategoryRegistration registry)
     {
@@ -74,15 +73,19 @@ public class JEICompat implements IModPlugin
         Minecraft minecraft = Objects.requireNonNull(Minecraft.getInstance());
         ClientLevel level = Objects.requireNonNull(minecraft.level);
         RecipeManager recipeManager = level.getRecipeManager();
-        var tinderRecipes = recipeManager.getAllRecipesFor(TinderRecipe.Type.INSTANCE).stream().toList();
+        List<TinderRecipe> tinderRecipes = recipeManager.getRecipes().stream()
+                .filter(recipe -> recipe.getType() instanceof TinderRecipeType)
+                .map(recipe -> (TinderRecipe) recipe)
+                .toList();
         registration.addRecipes(TinderCategory.TYPE, tinderRecipes);
-    
+        
+        if(recipeTypes.containsKey("block_to_block"))
         {
             for(Map.Entry<String, FireEffectSubType> subTypes : FireEffectSubTypeManager.getEffectsMap().get("firewood:block_to_block").entrySet())
             {
-                var recipes = recipeManager.getAllRecipesFor(BlockToBlockRecipe.Type.INSTANCE)
+                var recipes = recipeManager.getAllRecipesFor(Register.BLOCK_TO_BLOCK_RECIPE_TYPE.get())
                         .stream()
-                        .filter(transmuteBlockRecipeBase -> transmuteBlockRecipeBase.getRecipeSubType().equals(subTypes.getKey()))
+                        .filter(blockRecipe -> blockRecipe.getRecipeSubType().equals(subTypes.getKey()))
                         .toList();
                 registration.addRecipes(recipeTypes.get("block_to_block").get(subTypes.getKey()), recipes);
             }

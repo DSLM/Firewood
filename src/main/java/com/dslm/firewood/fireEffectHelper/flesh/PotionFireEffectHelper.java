@@ -4,6 +4,7 @@ import com.dslm.firewood.fireEffectHelper.flesh.base.FireEffectHelperInterface;
 import com.dslm.firewood.fireEffectHelper.flesh.base.MajorFireEffectHelperBase;
 import com.dslm.firewood.fireEffectHelper.flesh.data.FireEffectNBTData;
 import com.dslm.firewood.tooltip.MiddleComponent;
+import com.dslm.firewood.util.StaticValue;
 import com.google.common.collect.Lists;
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.ChatFormatting;
@@ -85,15 +86,16 @@ public class PotionFireEffectHelper extends MajorFireEffectHelperBase
         var name = new TranslatableComponent(
                 getPotion(data.get(POTION_TAG_ID)).getName(
                         Util.makeDescriptionId("item", Items.POTION.getRegistryName()) + ".effect."));
-        MiddleComponent mainLine = (MiddleComponent) colorfulText(
-                new MiddleComponent("tooltip.firewood.tinder_item.major_effect." + data.getType(),
-                        name),
-                getPotionColor(data.get(POTION_TAG_ID)));
-        mainLine.setDamage(getDamage(data));
-        mainLine.setMinHealth(getMinHealth(data));
-        lines.add(mainLine);
         if(extended)
         {
+            MiddleComponent mainLine = (MiddleComponent) colorfulText(
+                    new MiddleComponent("tooltip.firewood.tinder_item.multi_tooltip_format",
+                            new TranslatableComponent("tooltip.firewood.tinder_item.major_effect.potion"), name),
+                    getPotionColor(data.get(POTION_TAG_ID)));
+            mainLine.setDamage(getDamage(data));
+            mainLine.setMinHealth(getMinHealth(data));
+            lines.add(mainLine);
+        
             // TODO: 2022/5/13 实现药水削弱
             float pDurationFactor = 1f;
         
@@ -113,26 +115,27 @@ public class PotionFireEffectHelper extends MajorFireEffectHelperBase
                         list1.add(new Pair<>(entry.getKey(), attributemodifier1));
                     }
                 }
-    
+            
                 if(effectInstance.getAmplifier() > 0)
                 {
                     mutablecomponent = new TranslatableComponent("potion.withAmplifier", mutablecomponent, new TranslatableComponent("potion.potency." + effectInstance.getAmplifier()));
                 }
-    
+            
                 if(effectInstance.getDuration() > 20)
                 {
                     mutablecomponent = new TranslatableComponent("potion.withDuration", mutablecomponent, MobEffectUtil.formatDuration(effectInstance, pDurationFactor));
                 }
-    
+            
                 lines.add(mutablecomponent.withStyle(mobeffect.getCategory().getTooltipFormatting()));
             }
-    
+        
             if(!list1.isEmpty())
             {
                 MutableComponent longLine = (new TranslatableComponent("potion.whenDrank")).withStyle(ChatFormatting.DARK_PURPLE);
     
-                for(Pair<Attribute, AttributeModifier> pair : list1)
+                for(int i = 0; i < list1.size(); i++)
                 {
+                    Pair<Attribute, AttributeModifier> pair = list1.get(i);
                     AttributeModifier attributemodifier2 = pair.getSecond();
                     double d0 = attributemodifier2.getAmount();
                     double d1;
@@ -147,18 +150,28 @@ public class PotionFireEffectHelper extends MajorFireEffectHelperBase
     
                     if(d0 > 0.0D)
                     {
-                        longLine.append(new TextComponent("|"));
+                        if(i > 0)
+                        {
+                            longLine.append(new TextComponent("|"));
+                        }
                         longLine.append((new TranslatableComponent("attribute.modifier.plus." + attributemodifier2.getOperation().toValue(), ItemStack.ATTRIBUTE_MODIFIER_FORMAT.format(d1), new TranslatableComponent(pair.getFirst().getDescriptionId()))).withStyle(ChatFormatting.BLUE));
                     }
                     else if(d0 < 0.0D)
                     {
                         d1 *= -1.0D;
-                        longLine.append(new TextComponent("|"));
+                        if(i > 0)
+                        {
+                            longLine.append(new TextComponent("|"));
+                        }
                         longLine.append((new TranslatableComponent("attribute.modifier.take." + attributemodifier2.getOperation().toValue(), ItemStack.ATTRIBUTE_MODIFIER_FORMAT.format(d1), new TranslatableComponent(pair.getFirst().getDescriptionId()))).withStyle(ChatFormatting.RED));
                     }
                 }
                 lines.add(longLine);
             }
+        }
+        else
+        {
+            lines.add(colorfulText(name, getPotionColor(data.get(POTION_TAG_ID))));
         }
         return lines;
     }
@@ -174,7 +187,7 @@ public class PotionFireEffectHelper extends MajorFireEffectHelperBase
     public CompoundTag saveToNBT(FireEffectNBTData data)
     {
         CompoundTag tags = new CompoundTag();
-        tags.putString(TYPE, ID);
+        tags.putString(StaticValue.TYPE, ID);
         tags.putString(POTION_TAG_ID, data.get(POTION_TAG_ID));
         return tags;
     }
@@ -183,7 +196,7 @@ public class PotionFireEffectHelper extends MajorFireEffectHelperBase
     public FireEffectNBTData readFromNBT(CompoundTag tags)
     {
         FireEffectNBTData data = new FireEffectNBTData();
-        data.put(TYPE, ID);
+        data.put(StaticValue.TYPE, ID);
         data.put(POTION_TAG_ID, tags.getString(POTION_TAG_ID));
         return data;
     }

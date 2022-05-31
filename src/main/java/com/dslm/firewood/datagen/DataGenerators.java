@@ -1,12 +1,12 @@
 package com.dslm.firewood.datagen;
 
-import com.dslm.firewood.Firewood;
+import com.dslm.firewood.util.StaticValue;
 import net.minecraft.data.DataGenerator;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.forge.event.lifecycle.GatherDataEvent;
 
-@Mod.EventBusSubscriber(modid = Firewood.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
+@Mod.EventBusSubscriber(modid = StaticValue.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class DataGenerators
 {
     

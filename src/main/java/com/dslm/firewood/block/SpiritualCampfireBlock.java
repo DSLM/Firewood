@@ -38,7 +38,6 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.network.NetworkHooks;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.Random;
 
@@ -86,7 +85,6 @@ public class SpiritualCampfireBlock extends BaseEntityBlock
         return RenderShape.MODEL;
     }
     
-    @Nullable
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> blockEntityType)
     {
@@ -104,7 +102,6 @@ public class SpiritualCampfireBlock extends BaseEntityBlock
         return new SpiritualCampfireBlockEntity(pPos, pState);
     }
     
-    @Nullable
     public BlockState getStateForPlacement(BlockPlaceContext pContext)
     {
         return this.defaultBlockState().setValue(LIT, Boolean.FALSE).setValue(FACING, pContext.getHorizontalDirection());

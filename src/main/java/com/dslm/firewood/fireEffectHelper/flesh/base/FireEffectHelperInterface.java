@@ -9,7 +9,7 @@ import net.minecraft.world.item.ItemStack;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.dslm.firewood.fireEffectHelper.flesh.base.FireEffectHelperBase.TYPE;
+import static com.dslm.firewood.util.StaticValue.TYPE;
 
 public interface FireEffectHelperInterface
 {

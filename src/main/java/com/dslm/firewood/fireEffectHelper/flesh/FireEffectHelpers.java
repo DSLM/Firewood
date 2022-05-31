@@ -7,6 +7,7 @@ import com.dslm.firewood.fireEffectHelper.flesh.base.FireEffectHelperInterface;
 import com.dslm.firewood.fireEffectHelper.flesh.base.MajorFireEffectHelperInterface;
 import com.dslm.firewood.fireEffectHelper.flesh.base.MinorFireEffectHelperInterface;
 import com.dslm.firewood.fireEffectHelper.flesh.data.FireEffectNBTData;
+import com.dslm.firewood.util.StaticValue;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
@@ -29,16 +30,11 @@ import static com.dslm.firewood.fireEffectHelper.flesh.data.FireEffectNBTHelper.
 
 public class FireEffectHelpers
 {
-    public static final String major = "majorEffects";
-    public static final String minor = "minorEffects";
-    
-    public static final int majorEffectColor = 0x48c774;
-    public static final int minorEffectColor = 0x48c774;
     
     public static ExceptionCatchHelper exceptionCatchHelper = new ExceptionCatchHelper();
     
-    public static final FireEffectKindHelper<MajorFireEffectHelperInterface> majorEffectHelpers = new FireEffectKindHelper(major);
-    public static final FireEffectKindHelper<MinorFireEffectHelperInterface> minorEffectHelpers = new FireEffectKindHelper(minor);
+    public static final FireEffectKindHelper<MajorFireEffectHelperInterface> majorEffectHelpers = new FireEffectKindHelper(StaticValue.MAJOR);
+    public static final FireEffectKindHelper<MinorFireEffectHelperInterface> minorEffectHelpers = new FireEffectKindHelper(StaticValue.MINOR);
     
     static
     {
@@ -54,8 +50,8 @@ public class FireEffectHelpers
     
     public static void addHelper(String kind, String type, MajorFireEffectHelperInterface helper)
     {
-        if(major.equals(kind)) addMajorHelper(type, helper);
-        if(minor.equals(kind)) addMajorHelper(type, helper);
+        if(StaticValue.MAJOR.equals(kind)) addMajorHelper(type, helper);
+        if(StaticValue.MINOR.equals(kind)) addMajorHelper(type, helper);
     }
     
     public static void addMajorHelper(String type, MajorFireEffectHelperInterface helper)
@@ -70,8 +66,8 @@ public class FireEffectHelpers
     
     public static FireEffectHelperInterface getHelperByType(String kind, String type)
     {
-        if(major.equals(kind)) return getMajorHelperByType(type);
-        if(minor.equals(kind)) return getMinorHelperByType(type);
+        if(StaticValue.MAJOR.equals(kind)) return getMajorHelperByType(type);
+        if(StaticValue.MINOR.equals(kind)) return getMinorHelperByType(type);
         return exceptionCatchHelper;
     }
     
@@ -169,7 +165,7 @@ public class FireEffectHelpers
         //majorEffects
         if(majorEffects.size() > 0)
         {
-            lines.add(colorfulText(new TranslatableComponent("tooltip.firewood.tinder_item.major_effect"), majorEffectColor));
+            lines.add(colorfulText(new TranslatableComponent("tooltip.firewood.tinder_item.major_effect"), StaticValue.MAJOR_EFFECT_COLOR));
             for(FireEffectNBTData data : majorEffects)
             {
                 ArrayList<Component> list = getMajorHelperByType(data.getType()).getToolTips(data, extended);
@@ -180,7 +176,7 @@ public class FireEffectHelpers
         //minorEffects
         if(minorEffects.size() > 0)
         {
-            lines.add(colorfulText(new TranslatableComponent("tooltip.firewood.tinder_item.minor_effect"), minorEffectColor));
+            lines.add(colorfulText(new TranslatableComponent("tooltip.firewood.tinder_item.minor_effect"), StaticValue.MINOR_EFFECT_COLOR));
             for(FireEffectNBTData data : minorEffects)
             {
                 ArrayList<Component> list = getMinorHelperByType(data.getType()).getToolTips(data, extended);
@@ -213,7 +209,7 @@ public class FireEffectHelpers
         //mainEffect
         for(FireEffectNBTData i : majorEffects)
         {
-            int colorInt = getColorByType(major, i);
+            int colorInt = getColorByType(StaticValue.MAJOR, i);
             if(colorInt < 0 || colorInt > 0xffffff)
             {
                 continue;
@@ -248,7 +244,7 @@ public class FireEffectHelpers
     
     public static CompoundTag getDefaultMinorNBTs(CompoundTag allNBT)
     {
-        if(allNBT.contains(minor))
+        if(allNBT.contains(StaticValue.MINOR))
         {
             return allNBT;
         }
@@ -260,7 +256,7 @@ public class FireEffectHelpers
             minorTags.add(getMinorHelperByType(type).getDefaultNBT());
         }
     
-        allNBT.put(minor, minorTags);
+        allNBT.put(StaticValue.MINOR, minorTags);
         
         return allNBT;
     }
@@ -268,9 +264,9 @@ public class FireEffectHelpers
     public static ItemStack addMajorEffect(ItemStack itemStack, String type, FireEffectNBTData data)
     {
         CompoundTag allNBT = getDefaultMinorNBTs(itemStack.getOrCreateTag());
-        ListTag tags = (ListTag) allNBT.get(major);
-        
-        CompoundTag newEffect = saveToNBT(major, type, data);
+        ListTag tags = (ListTag) allNBT.get(StaticValue.MAJOR);
+    
+        CompoundTag newEffect = saveToNBT(StaticValue.MAJOR, type, data);
         //clean old same effect
         if(tags != null)
         {
@@ -278,7 +274,7 @@ public class FireEffectHelpers
             {
                 if(tags.get(i) instanceof CompoundTag compoundTag)
                 {
-                    if(isSameNBT(major, type, newEffect, compoundTag))
+                    if(isSameNBT(StaticValue.MAJOR, type, newEffect, compoundTag))
                     {
                         tags.remove(i);
                     }
@@ -289,9 +285,9 @@ public class FireEffectHelpers
         {
             tags = new ListTag();
         }
-        
+    
         tags.add(newEffect);
-        allNBT.put(major, tags);
+        allNBT.put(StaticValue.MAJOR, tags);
         itemStack.setTag(allNBT);
         return itemStack;
     }
@@ -299,24 +295,24 @@ public class FireEffectHelpers
     public static ItemStack addMinorEffect(ItemStack itemStack, String type, FireEffectNBTData data)
     {
         CompoundTag allNBT = getDefaultMinorNBTs(itemStack.getOrCreateTag());
-        ListTag tags = (ListTag) allNBT.get(minor);
-        
-        CompoundTag newEffect = saveToNBT(minor, type, data);
+        ListTag tags = (ListTag) allNBT.get(StaticValue.MINOR);
+    
+        CompoundTag newEffect = saveToNBT(StaticValue.MINOR, type, data);
         
         //clean old same effect
         for(int i = 0; i < tags.size(); i++)
         {
             if(tags.get(i) instanceof CompoundTag compoundTag)
             {
-                if(isSameNBT(minor, type, newEffect, compoundTag))
+                if(isSameNBT(StaticValue.MINOR, type, newEffect, compoundTag))
                 {
                     tags.setTag(i, newEffect);
                     break;
                 }
             }
         }
-        
-        allNBT.put(minor, tags);
+    
+        allNBT.put(StaticValue.MINOR, tags);
         itemStack.setTag(allNBT);
         return itemStack;
     }

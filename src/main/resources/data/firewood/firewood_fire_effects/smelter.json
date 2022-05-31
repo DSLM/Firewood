@@ -1,7 +1,7 @@
 {
   "type": "firewood:smelter",
   "subType": "smelter",
-  "color": 12766416,
+  "color": "0xc2ccd0",
   "damage": 0.5,
   "minHealth": 1.0,
   "process": 8,

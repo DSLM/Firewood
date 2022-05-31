@@ -4,6 +4,7 @@ import com.dslm.firewood.fireEffectHelper.flesh.base.FireEffectHelperInterface;
 import com.dslm.firewood.fireEffectHelper.flesh.base.MinorFireEffectHelperBase;
 import com.dslm.firewood.fireEffectHelper.flesh.data.FireEffectNBTData;
 import com.dslm.firewood.tooltip.MiddleComponent;
+import com.dslm.firewood.util.StaticValue;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
@@ -56,7 +57,7 @@ public class GroundFireEffectHelper extends MinorFireEffectHelperBase
             for(Tag i : minorList)
             {
                 if(i instanceof CompoundTag tag
-                        && ID.equals(tag.get(TYPE).getAsString()))
+                        && ID.equals(tag.get(StaticValue.TYPE).getAsString()))
                 {
                     return getBlock(tag.get(BLOCK_TAG_ID).getAsString());
                 }
@@ -77,7 +78,7 @@ public class GroundFireEffectHelper extends MinorFireEffectHelperBase
     public CompoundTag saveToNBT(FireEffectNBTData data)
     {
         CompoundTag tags = new CompoundTag();
-        tags.putString(TYPE, ID);
+        tags.putString(StaticValue.TYPE, ID);
         tags.putString(BLOCK_TAG_ID, data.get(BLOCK_TAG_ID));
         return tags;
     }
@@ -86,7 +87,7 @@ public class GroundFireEffectHelper extends MinorFireEffectHelperBase
     public FireEffectNBTData readFromNBT(CompoundTag tags)
     {
         FireEffectNBTData data = new FireEffectNBTData();
-        data.put(TYPE, ID);
+        data.put(StaticValue.TYPE, ID);
         data.put(BLOCK_TAG_ID, tags.getString(BLOCK_TAG_ID));
         return data;
     }

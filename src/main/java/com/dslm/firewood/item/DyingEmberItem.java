@@ -14,7 +14,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 
-import javax.annotation.Nonnull;
 import java.util.List;
 
 import static com.dslm.firewood.fireEffectHelper.flesh.FireEffectHelpers.colorfulText;
@@ -27,7 +26,7 @@ public class DyingEmberItem extends Item
     }
     
     @Override
-    public void appendHoverText(@Nonnull ItemStack stack, Level world, @Nonnull List<Component> tooltip, @Nonnull TooltipFlag flag)
+    public void appendHoverText(ItemStack stack, Level world, List<Component> tooltip, TooltipFlag flag)
     {
         super.appendHoverText(stack, world, tooltip, flag);
         tooltip.add(new TranslatableComponent("tooltip.firewood.dying_ember_item.1").withStyle(ChatFormatting.DARK_PURPLE).withStyle(ChatFormatting.ITALIC));

@@ -1,13 +1,9 @@
 package com.dslm.firewood.recipe;
 
-import com.dslm.firewood.Firewood;
 import com.dslm.firewood.Register;
 import com.dslm.firewood.block.entity.SpiritualCampfireBlockEntity;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
 import com.mojang.datafixers.util.Either;
 import net.minecraft.core.NonNullList;
-import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
@@ -17,7 +13,6 @@ import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.common.util.RecipeMatcher;
 
-import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -97,13 +92,13 @@ public class TinderRecipe implements Recipe<SpiritualCampfireBlockEntity>
     @Override
     public RecipeSerializer<?> getSerializer()
     {
-        return Serializer.INSTANCE;
+        return Register.TINDER_RECIPE_SERIALIZER.get();
     }
     
     @Override
     public RecipeType<?> getType()
     {
-        return Type.INSTANCE;
+        return Register.TINDER_RECIPE_TYPE.get();
     }
     
     public Ingredient getTinder()
@@ -141,123 +136,9 @@ public class TinderRecipe implements Recipe<SpiritualCampfireBlockEntity>
         return minHealth;
     }
     
-    public static class Type implements RecipeType<TinderRecipe>
+    public NonNullList<Ingredient> getRecipeItems()
     {
-        protected Type()
-        {
-        }
-        
-        public static final Type INSTANCE = new Type();
-        public static final String ID = "tinder_recipe";
-    }
-    
-    public static class Serializer implements RecipeSerializer<TinderRecipe>
-    {
-        public static final Serializer INSTANCE = new Serializer();
-        public static final ResourceLocation ID =
-                new ResourceLocation(Firewood.MOD_ID, Type.ID);
-        
-        @Override
-        public TinderRecipe fromJson(ResourceLocation id, JsonObject json)
-        {
-            JsonArray ingredients = json.getAsJsonArray("ingredients");
-            NonNullList<Ingredient> inputs = NonNullList.withSize(1, Ingredient.EMPTY);
-            for(int i = 0; i < inputs.size(); i++)
-            {
-                inputs.set(i, Ingredient.fromJson(ingredients.get(i)));
-            }
-    
-            Ingredient tinder = Ingredient.fromJson(json.getAsJsonObject("tinder"));
-    
-            TinderRecipeNBT addEffects = TinderRecipeNBT.fromJSON(json.getAsJsonObject("addEffects"));
-    
-            int process = json.get("process").getAsInt();
-    
-            double chance = json.get("chance").getAsDouble();
-    
-            double damage = json.get("damage").getAsDouble();
-    
-            int cooldown = json.get("cooldown").getAsInt();
-    
-            double minHealth = json.get("minHealth").getAsDouble();
-    
-            return new TinderRecipe(id, inputs, tinder, addEffects, process, chance, damage, cooldown, minHealth);
-        }
-        
-        @Override
-        public TinderRecipe fromNetwork(ResourceLocation id, FriendlyByteBuf buf)
-        {
-            NonNullList<Ingredient> inputs = NonNullList.withSize(buf.readInt(), Ingredient.EMPTY);
-            for(int i = 0; i < inputs.size(); i++)
-            {
-                inputs.set(i, Ingredient.fromNetwork(buf));
-            }
-    
-            Ingredient tinder = Ingredient.fromNetwork(buf);
-    
-            TinderRecipeNBT addEffects = TinderRecipeNBT.fromNetwork(buf);
-    
-            int process = buf.readInt();
-    
-            double chance = buf.readDouble();
-    
-            double damage = buf.readDouble();
-    
-            int cooldown = buf.readInt();
-    
-            double minHealth = buf.readDouble();
-    
-            return new TinderRecipe(id, inputs, tinder, addEffects, process, chance, damage, cooldown, minHealth);
-        }
-        
-        @Override
-        public void toNetwork(FriendlyByteBuf buf, TinderRecipe recipe)
-        {
-            buf.writeInt(recipe.getIngredients().size());
-            for(Ingredient ing : recipe.getIngredients())
-            {
-                ing.toNetwork(buf);
-            }
-    
-            recipe.getTinder().toNetwork(buf);
-    
-            recipe.getAddEffects().toNetwork(buf);
-    
-            buf.writeInt(recipe.getProcess());
-    
-            buf.writeDouble(recipe.getChance());
-    
-            buf.writeDouble(recipe.getDamage());
-    
-            buf.writeInt(recipe.getCooldown());
-    
-            buf.writeDouble(recipe.getMinHealth());
-        }
-        
-        @Override
-        public RecipeSerializer<?> setRegistryName(ResourceLocation name)
-        {
-            return INSTANCE;
-        }
-        
-        @Nullable
-        @Override
-        public ResourceLocation getRegistryName()
-        {
-            return ID;
-        }
-        
-        @Override
-        public Class<RecipeSerializer<?>> getRegistryType()
-        {
-            return Serializer.castClass(RecipeSerializer.class);
-        }
-    
-        @SuppressWarnings("unchecked")
-        private static <G> Class<G> castClass(Class<?> cls)
-        {
-            return (Class<G>) cls;
-        }
+        return recipeItems;
     }
     
     public List<Either<List<ItemStack>, Ingredient>> getJEIInputs()

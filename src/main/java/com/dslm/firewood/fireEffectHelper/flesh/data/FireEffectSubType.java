@@ -1,9 +1,11 @@
 package com.dslm.firewood.fireEffectHelper.flesh.data;
 
+import com.dslm.firewood.util.StaticValue;
 import com.google.gson.JsonObject;
+import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 
-import static com.dslm.firewood.fireEffectHelper.flesh.base.FireEffectHelperBase.TYPE;
+import java.util.HexFormat;
 
 public class FireEffectSubType
 {
@@ -17,15 +19,6 @@ public class FireEffectSubType
     public int process;
     public float chance;
     public int range;
-    
-    public static String ID = TYPE;
-    public static String SUB_ID = "subType";
-    public static String COLOR = "color";
-    public static String DAMAGE = "damage";
-    public static String MIN_HEALTH = "minHealth";
-    public static String PROCESS = "process";
-    public static String CHANCE = "chance";
-    public static String RANGE = "range";
     
     public FireEffectSubType(String namespace, String path, String id, String subId, int color, float damage, float minHealth, int process, float chance, int range)
     {
@@ -49,14 +42,20 @@ public class FireEffectSubType
     public FireEffectSubType(ResourceLocation resourceLocation, JsonObject jsonObject)
     {
         this(resourceLocation,
-                jsonObject.get(ID).getAsString(),
-                jsonObject.get(SUB_ID).getAsString(),
-                jsonObject.get(COLOR).getAsInt(),
-                jsonObject.get(DAMAGE).getAsFloat(),
-                jsonObject.get(MIN_HEALTH).getAsFloat(),
-                jsonObject.get(PROCESS).getAsInt(),
-                jsonObject.get(CHANCE).getAsFloat(),
-                jsonObject.get(RANGE).getAsInt());
+                jsonObject.get(StaticValue.TYPE).getAsString(),
+                jsonObject.get(StaticValue.SUB_TYPE).getAsString(),
+                colorInt(jsonObject.get(StaticValue.COLOR).getAsString()),
+                jsonObject.get(StaticValue.DAMAGE).getAsFloat(),
+                jsonObject.get(StaticValue.MIN_HEALTH).getAsFloat(),
+                jsonObject.get(StaticValue.PROCESS).getAsInt(),
+                jsonObject.get(StaticValue.CHANCE).getAsFloat(),
+                jsonObject.get(StaticValue.RANGE).getAsInt());
+    }
+    
+    public static int colorInt(String s)
+    {
+        var s1 = s.toLowerCase().replace("0x", "");
+        return HexFormat.fromHexDigits(s1);
     }
     
     public String getNamespace()
@@ -157,5 +156,36 @@ public class FireEffectSubType
     public void setRange(int range)
     {
         this.range = range;
+    }
+    
+    
+    public static FireEffectSubType fromNetwork(FriendlyByteBuf buf)
+    {
+        String namespace = buf.readUtf();
+        String path = buf.readUtf();
+        String id = buf.readUtf();
+        String subId = buf.readUtf();
+        int color = buf.readInt();
+        float damage = buf.readFloat();
+        float minHealth = buf.readFloat();
+        int process = buf.readInt();
+        float chance = buf.readFloat();
+        int range = buf.readInt();
+        
+        return new FireEffectSubType(namespace, path, id, subId, color, damage, minHealth, process, chance, range);
+    }
+    
+    public static void toNetwork(FriendlyByteBuf buf, FireEffectSubType recipe)
+    {
+        buf.writeUtf(recipe.namespace);
+        buf.writeUtf(recipe.path);
+        buf.writeUtf(recipe.id);
+        buf.writeUtf(recipe.subId);
+        buf.writeInt(recipe.color);
+        buf.writeFloat(recipe.damage);
+        buf.writeFloat(recipe.minHealth);
+        buf.writeInt(recipe.process);
+        buf.writeFloat(recipe.chance);
+        buf.writeInt(recipe.range);
     }
 }
