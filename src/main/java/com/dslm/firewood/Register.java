@@ -107,7 +107,7 @@ public class Register
             RECIPE_SERIALIZERS.register("crafting_ground_tinder", GroundTinderRecipe.Serializer::new);
     
     public static final RegistryObject<RecipeSerializer<TransmuteBlockRecipeBase>> BLOCK_TO_BLOCK_RECIPE_SERIALIZER =
-            RECIPE_SERIALIZERS.register("block_to_block", TransmuteBlockToBlockRecipe.Serializer::new);
+            RECIPE_SERIALIZERS.register("block_to_block", BlockToBlockRecipe.Serializer::new);
     
     public static final RegistryObject<MenuType<SpiritualCampfireBlockMenu>> SPIRITUAL_CAMPFIRE_BLOCK_CONTAINER =
             CONTAINERS.register("spiritual_campfire_block_container", () ->

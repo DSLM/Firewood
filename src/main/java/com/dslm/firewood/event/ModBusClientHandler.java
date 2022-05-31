@@ -6,6 +6,7 @@ import com.dslm.firewood.block.entity.SpiritualCampfireBlockEntity;
 import com.dslm.firewood.block.entity.SpiritualFireBlockEntity;
 import com.dslm.firewood.fireEffectHelper.flesh.FireEffectHelpers;
 import com.dslm.firewood.fireEffectHelper.flesh.data.FireEffectNBTHelper;
+import com.dslm.firewood.item.TinderTypeItemBase;
 import com.dslm.firewood.screen.SpiritualCampfireBlockScreen;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
@@ -43,7 +44,7 @@ public class ModBusClientHandler
         e.getBlockColors().register(
                 (state, world, pos, tintIndex) ->
                         tintIndex == 1 ?
-                                ((SpiritualCampfireBlockEntity) world.getBlockEntity(pos)).getItem(0).getItem() == Register.TINDER_ITEM.get() ?
+                                ((SpiritualCampfireBlockEntity) world.getBlockEntity(pos)).getItem(0).getItem() instanceof TinderTypeItemBase ?
                                         FireEffectHelpers.getMixedColor(
                                                 FireEffectNBTHelper.loadMajorFireData(((SpiritualCampfireBlockEntity) world.getBlockEntity(pos)).getItem(0).getOrCreateTag()),
                                                 FireEffectNBTHelper.loadMinorFireData(((SpiritualCampfireBlockEntity) world.getBlockEntity(pos)).getItem(0).getOrCreateTag()))

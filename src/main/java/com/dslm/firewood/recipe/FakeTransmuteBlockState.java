@@ -28,10 +28,10 @@ public class FakeTransmuteBlockState
         isTag = false;
     }
     
-    public FakeTransmuteBlockState(TagKey<Block> tagKey)
+    public FakeTransmuteBlockState(TagKey<Block> tagKey, CompoundTag properties)
     {
         this.block = null;
-        this.properties = null;
+        this.properties = properties;
         this.tagKey = tagKey;
         isTag = true;
     }
@@ -56,7 +56,7 @@ public class FakeTransmuteBlockState
         return isTag;
     }
     
-    public Boolean isBlockState()
+    public Boolean isBlock()
     {
         return !isTag;
     }
@@ -77,14 +77,20 @@ public class FakeTransmuteBlockState
     {
         if(tag.contains("Tag"))
         {
-            
+    
             if(tag.contains("Name"))
             {
                 throw new JsonParseException("An ingredient entry is either a tag or a block state, not both");
             }
             ResourceLocation resourcelocation = new ResourceLocation(tag.getString("Tag"));
             TagKey<Block> tagKey = TagKey.create(Registry.BLOCK_REGISTRY, resourcelocation);
-            return new FakeTransmuteBlockState(tagKey);
+    
+            CompoundTag properties = new CompoundTag();
+            if(tag.contains("Properties", 10))
+            {
+                properties = tag.getCompound("Properties");
+            }
+            return new FakeTransmuteBlockState(tagKey, properties);
         }
         
         if(!tag.contains("Name", 8))

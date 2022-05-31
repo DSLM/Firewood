@@ -1,7 +1,7 @@
 package com.dslm.firewood.event;
 
 import com.dslm.firewood.Firewood;
-import com.dslm.firewood.Register;
+import com.dslm.firewood.item.TinderTypeItemBase;
 import com.dslm.firewood.tooltip.MiddleComponent;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -34,7 +34,7 @@ public class ForgeBusClientHandler
     @SubscribeEvent
     public static void onTooltipEvent(RenderTooltipEvent.GatherComponents event)
     {
-        if(event.getItemStack().getItem() == Register.TINDER_ITEM.get())
+        if(event.getItemStack().getItem() instanceof TinderTypeItemBase)
         {
             makeTinderTooltip(event);
         }
@@ -74,7 +74,6 @@ public class ForgeBusClientHandler
                 components.set(i, Either.right(new IconComponent(middle, stack, 10, 10)));
             }
         }
-        //.add(Either.right(new ));
     }
     
     public record IconComponent(MiddleComponent middle, ItemStack stack, int width,

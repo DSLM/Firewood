@@ -30,17 +30,17 @@ import java.util.List;
 
 public class TinderCategory implements IRecipeCategory<TinderRecipe>
 {
-    public static final RecipeType<TinderRecipe> TYPE = RecipeType.create(
+    protected static final RecipeType<TinderRecipe> TYPE = RecipeType.create(
             Register.TINDER_RECIPE_SERIALIZER.getId().getNamespace(),
             Register.TINDER_RECIPE_SERIALIZER.getId().getPath(),
             TinderRecipe.class);
-    private final ResourceLocation backPic = new ResourceLocation(Firewood.MOD_ID, "textures/gui/spiritual_campfire_block_jei_gui.png");
-    private final IDrawable back;
-    private final IDrawable icon;
-    public final Pair<Integer, Integer> startPoint = Pair.of(6, 6);
+    protected final IDrawable back;
+    protected final IDrawable icon;
+    protected final Pair<Integer, Integer> startPoint = Pair.of(6, 6);
     
     protected TinderCategory(IGuiHelper guiHelper)
     {
+        ResourceLocation backPic = new ResourceLocation(Firewood.MOD_ID, "textures/gui/spiritual_campfire_block_jei_gui.png");
         back = guiHelper.createDrawable(backPic, 0, 0, 178, 136);
         icon = guiHelper.createDrawableIngredient(VanillaTypes.ITEM_STACK, new ItemStack(Register.SPIRITUAL_CAMPFIRE_ITEM.get()));
     }
@@ -89,6 +89,7 @@ public class TinderCategory implements IRecipeCategory<TinderRecipe>
             }
             
         }
+    
         builder.addSlot(RecipeIngredientRole.OUTPUT,
                 startPoint.getLeft() + SpiritualCampfireBlockMenu.slotsPos.get(0).getLeft() + 101,
                 startPoint.getRight() + SpiritualCampfireBlockMenu.slotsPos.get(0).getRight())

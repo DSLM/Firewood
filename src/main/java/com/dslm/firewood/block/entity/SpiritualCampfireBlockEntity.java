@@ -3,6 +3,7 @@ package com.dslm.firewood.block.entity;
 import com.dslm.firewood.Register;
 import com.dslm.firewood.block.SpiritualCampfireBlock;
 import com.dslm.firewood.fireEffectHelper.flesh.FireEffectHelpers;
+import com.dslm.firewood.item.TinderTypeItemBase;
 import com.dslm.firewood.recipe.TinderRecipe;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
@@ -111,7 +112,7 @@ public class SpiritualCampfireBlockEntity extends BlockEntity implements Contain
     public static void serverTick(Level level, BlockPos pos, BlockState state, SpiritualCampfireBlockEntity entity)
     {
         ItemStack tinder = entity.itemHandler.getStackInSlot(0);
-        if(!tinder.isEmpty() && tinder.getItem() == Register.TINDER_ITEM.get())
+        if(!tinder.isEmpty() && tinder.getItem() instanceof TinderTypeItemBase)
         {
             level.setBlock(pos, state.setValue(BlockStateProperties.LIT, Boolean.TRUE), Block.UPDATE_ALL);
         }
@@ -357,7 +358,7 @@ public class SpiritualCampfireBlockEntity extends BlockEntity implements Contain
     @Override
     public boolean canPlaceItem(int index, ItemStack stack)
     {
-        return !stack.isEmpty() && inventory.get(index).isEmpty() && (index != 0 ^ stack.getItem() == Register.TINDER_ITEM.get());
+        return !stack.isEmpty() && inventory.get(index).isEmpty() && (index != 0 ^ stack.getItem() instanceof TinderTypeItemBase);
     }
     
     /**

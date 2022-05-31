@@ -2,18 +2,19 @@ package com.dslm.firewood.recipe;
 
 import com.dslm.firewood.Firewood;
 import com.google.gson.JsonObject;
-import com.mojang.datafixers.util.Either;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.common.crafting.CraftingHelper;
+import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nullable;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class TransmuteBlockRecipeBase implements Recipe<FakeTransmuteContainer>
@@ -175,13 +176,23 @@ public class TransmuteBlockRecipeBase implements Recipe<FakeTransmuteContainer>
         }
     }
     
-    public List<Either<List<ItemStack>, Ingredient>> getJEIInputs()
+    public List<ItemStack> getJEIInputs()
     {
-        return null;
-    }
-    
-    public List<ItemStack> getJEIResult()
-    {
-        return null;
+        if(ingBlock.isBlock())
+        {
+            return Collections.singletonList(new ItemStack(ingBlock.getBlock().asItem()));
+        }
+        else
+        {
+            ArrayList<ItemStack> items = new ArrayList<>();
+            for(var block : ForgeRegistries.BLOCKS)
+            {
+                if(block.builtInRegistryHolder().is(ingBlock.getTagKey()))
+                {
+                    items.add(new ItemStack(block.asItem()));
+                }
+            }
+            return items;
+        }
     }
 }

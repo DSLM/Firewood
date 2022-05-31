@@ -150,8 +150,14 @@ public class LanguageUtil
                 "Burning Firewood Min Health Required: %s", "添薪最低生命值：%s");
         add("tooltip." + Firewood.MOD_ID + ".recipe.range",
                 "Effect Range: %s", "效果范围：%s");
-        add("tooltip." + Firewood.MOD_ID + ".recipe.range",
-                "Effect Range: %s", "效果范围：%s");
+    
+        add("tooltip." + Firewood.MOD_ID + ".recipe.block_state",
+                "Block State:", "方块状态：");
+        add("tooltip." + Firewood.MOD_ID + ".recipe.block_state_line",
+                "%1$s = %2$s", "%1$s = %2$s");
+    
+        add("tooltip." + Firewood.MOD_ID + ".recipe.title.fire_effect_sub",
+                "Fire Effect: %2$s (%1$s)", "火焰效果：%2$s（%1$s）");
     
         //start generation
         generator.addProvider(new LanguageProvider(generator, "en_us"));

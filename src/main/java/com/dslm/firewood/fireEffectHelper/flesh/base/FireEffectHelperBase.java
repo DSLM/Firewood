@@ -32,7 +32,7 @@ abstract public class FireEffectHelperBase implements FireEffectHelperInterface
     @Override
     public FireEffectNBTData getDefaultData()
     {
-        return DEFAULT_DATA;
+        return DEFAULT_DATA.copy();
     }
     
     @Override

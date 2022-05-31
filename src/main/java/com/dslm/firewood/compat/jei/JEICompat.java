@@ -3,6 +3,11 @@ package com.dslm.firewood.compat.jei;
 import com.dslm.firewood.Firewood;
 import com.dslm.firewood.Register;
 import com.dslm.firewood.fireEffectHelper.flesh.FireEffectHelpers;
+import com.dslm.firewood.fireEffectHelper.flesh.data.FireEffectNBTData;
+import com.dslm.firewood.fireEffectHelper.flesh.data.FireEffectSubType;
+import com.dslm.firewood.item.TinderTypeItemBase;
+import com.dslm.firewood.recipe.BlockToBlockRecipe;
+import com.dslm.firewood.recipe.FireEffectSubTypeManager;
 import com.dslm.firewood.recipe.TinderRecipe;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
@@ -11,26 +16,25 @@ import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.ingredients.subtypes.IIngredientSubtypeInterpreter;
 import mezz.jei.api.ingredients.subtypes.UidContext;
+import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.registration.*;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.core.NonNullList;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeManager;
-import org.apache.commons.lang3.tuple.Pair;
+import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nonnull;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
-
-import static com.dslm.firewood.fireEffectHelper.flesh.base.TransmuteFireEffectHelperBase.SUB_TAG_ID;
+import java.util.*;
 
 @JeiPlugin
 public class JEICompat implements IModPlugin
 {
+    static HashMap<String, HashMap<String, RecipeType>> recipeTypes = new HashMap<>();
+    
     @Nonnull
     @Override
     public ResourceLocation getPluginUid()
@@ -41,10 +45,21 @@ public class JEICompat implements IModPlugin
     @Override
     public void registerCategories(IRecipeCategoryRegistration registry)
     {
+        recipeTypes = new HashMap<>();
         IGuiHelper guiHelper = registry.getJeiHelpers().getGuiHelper();
         registry.addRecipeCategories(
                 new TinderCategory(guiHelper)
         );
+        {
+            HashMap<String, RecipeType> subMap = new HashMap<>();
+            for(Map.Entry<String, FireEffectSubType> subTypes : FireEffectSubTypeManager.getEffectsMap().get("firewood:block_to_block").entrySet())
+            {
+                var category = new BlockToBlockCategory(guiHelper, subTypes.getKey());
+                subMap.put(subTypes.getKey(), category.getRecipeType());
+                registry.addRecipeCategories(category);
+            }
+            recipeTypes.put("block_to_block", subMap);
+        }
     }
     
     @Override
@@ -59,8 +74,19 @@ public class JEICompat implements IModPlugin
         Minecraft minecraft = Objects.requireNonNull(Minecraft.getInstance());
         ClientLevel level = Objects.requireNonNull(minecraft.level);
         RecipeManager recipeManager = level.getRecipeManager();
-        var recipes = recipeManager.getAllRecipesFor(TinderRecipe.Type.INSTANCE).stream().toList();
-        registration.addRecipes(TinderCategory.TYPE, recipes);
+        var tinderRecipes = recipeManager.getAllRecipesFor(TinderRecipe.Type.INSTANCE).stream().toList();
+        registration.addRecipes(TinderCategory.TYPE, tinderRecipes);
+    
+        {
+            for(Map.Entry<String, FireEffectSubType> subTypes : FireEffectSubTypeManager.getEffectsMap().get("firewood:block_to_block").entrySet())
+            {
+                var recipes = recipeManager.getAllRecipesFor(BlockToBlockRecipe.Type.INSTANCE)
+                        .stream()
+                        .filter(transmuteBlockRecipeBase -> transmuteBlockRecipeBase.getRecipeSubType().equals(subTypes.getKey()))
+                        .toList();
+                registration.addRecipes(recipeTypes.get("block_to_block").get(subTypes.getKey()), recipes);
+            }
+        }
     }
     
     @Override
@@ -78,31 +104,42 @@ public class JEICompat implements IModPlugin
     @Override
     public void registerRecipeCatalysts(IRecipeCatalystRegistration registration)
     {
-    
         registration.addRecipeCatalyst(new ItemStack(Register.SPIRITUAL_CAMPFIRE_BLOCK.get()), TinderCategory.TYPE);
     
-        Minecraft minecraft = Objects.requireNonNull(Minecraft.getInstance());
-        ClientLevel level = Objects.requireNonNull(minecraft.level);
-        RecipeManager recipeManager = level.getRecipeManager();
-    
-        Set<Pair<Item, String>> set = new HashSet<>();
-    
-        for(var recipes : recipeManager.getAllRecipesFor(TinderRecipe.Type.INSTANCE))
+        ArrayList<Item> items = new ArrayList<>();
+        for(Item item : ForgeRegistries.ITEMS)
         {
-            for(var effectData : recipes.getAddEffects().getMajorEffects())
+            if(item instanceof TinderTypeItemBase)
             {
-                if(effectData.getType().equals("smelter"))
-                {
-                    for(var item : Arrays.stream(recipes.getTinder().getItems()).map(ItemStack::getItem).toList())
-                    {
-                        if(set.contains(Pair.of(item, effectData.get(SUB_TAG_ID))))
-                        {
-                            continue;
-                        }
-                        set.add(Pair.of(item, effectData.get(SUB_TAG_ID)));
-                        registration.addRecipeCatalyst(FireEffectHelpers.addMajorEffects(new ItemStack(item), Arrays.asList(effectData)), RecipeTypes.SMELTING);
-                    }
-                }
+                items.add(item);
+            }
+        }
+        registerRecipeSubCatalyst(registration, RecipeTypes.SMELTING, items, "smelter", null);
+    
+        {
+            for(Map.Entry<String, FireEffectSubType> subTypes : FireEffectSubTypeManager.getEffectsMap().get("firewood:block_to_block").entrySet())
+            {
+                registerRecipeSubCatalyst(registration, recipeTypes.get("block_to_block").get(subTypes.getKey()), items, "block_to_block", subTypes.getKey());
+            }
+        }
+    
+    }
+    
+    public void registerRecipeSubCatalyst(IRecipeCatalystRegistration registration, RecipeType recipeType, ArrayList<Item> items, String type, String subType)
+    {
+        if(subType == null)
+        {
+            NonNullList<ItemStack> itemStacks = NonNullList.create();
+            items.forEach(item -> FireEffectHelpers.getMajorHelperByType(type).fillItemCategory(itemStacks, new ItemStack(item)));
+            itemStacks.forEach(itemStack -> registration.addRecipeCatalyst(itemStack, recipeType));
+        }
+        else
+        {
+            FireEffectNBTData defaultData = FireEffectHelpers.getMajorHelperByType(type).getDefaultData();
+            defaultData.put("subType", subType);
+            for(Item item : items)
+            {
+                registration.addRecipeCatalyst(FireEffectHelpers.addMajorEffects(new ItemStack(item), Arrays.asList(defaultData)), recipeType);
             }
         }
     }

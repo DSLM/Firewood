@@ -3,7 +3,6 @@ package com.dslm.firewood.item;
 import com.dslm.firewood.block.SpiritualFireBlock;
 import com.dslm.firewood.fireEffectHelper.flesh.FireEffectHelpers;
 import net.minecraft.advancements.CriteriaTriggers;
-import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
 import net.minecraft.network.chat.Component;
@@ -25,9 +24,8 @@ import javax.annotation.Nonnull;
 import java.util.List;
 
 import static com.dslm.firewood.Register.SPIRITUAL_FIRE_BLOCK;
-import static com.dslm.firewood.fireEffectHelper.flesh.FireEffectHelpers.fireTooltips;
 
-public class TinderItem extends Item
+public class TinderItem extends Item implements TinderTypeItemBase
 {
     
     public TinderItem(Properties pProperties)
@@ -38,14 +36,8 @@ public class TinderItem extends Item
     @Override
     public void appendHoverText(@Nonnull ItemStack stack, Level level, @Nonnull List<Component> tooltip, @Nonnull TooltipFlag flag)
     {
-        
-        boolean extended = false;
-        if(level != null)
-        {
-            extended = Screen.hasShiftDown();
-        }
         super.appendHoverText(stack, level, tooltip, flag);
-        tooltip.addAll(fireTooltips(stack.getOrCreateTag(), extended));
+        appendTinderToolTip(stack, level, tooltip, flag);
     }
     
     @Override

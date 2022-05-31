@@ -27,6 +27,6 @@ public class ModBusHandler
         Registry.register(Registry.RECIPE_TYPE, TeleportTinderRecipe.Type.ID, TeleportTinderRecipe.Type.INSTANCE);
         Registry.register(Registry.RECIPE_TYPE, PotionTinderRecipe.Type.ID, PotionTinderRecipe.Type.INSTANCE);
         Registry.register(Registry.RECIPE_TYPE, GroundTinderRecipe.Type.ID, GroundTinderRecipe.Type.INSTANCE);
-        Registry.register(Registry.RECIPE_TYPE, TransmuteBlockToBlockRecipe.Type.ID, TransmuteBlockToBlockRecipe.Type.INSTANCE);
+        Registry.register(Registry.RECIPE_TYPE, BlockToBlockRecipe.Type.ID, BlockToBlockRecipe.Type.INSTANCE);
     }
 }

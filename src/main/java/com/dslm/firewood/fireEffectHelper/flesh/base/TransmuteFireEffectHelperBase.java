@@ -36,12 +36,17 @@ public abstract class TransmuteFireEffectHelperBase extends MajorFireEffectHelpe
     
     public TransmuteFireEffectHelperBase(String id)
     {
-        super(id);
+        super(new FireEffectNBTData()
+        {{
+            put(TYPE, id);
+            put(SUB_TAG_ID, "");
+            put(PROCESS, "0");
+        }}, id);
     }
     
     public String getSubId(FireEffectNBTData data)
     {
-        return data.get(SUB_TAG_ID);
+        return data.getSubType();
     }
     
     public String getRealProcess(FireEffectNBTData data)
@@ -54,7 +59,7 @@ public abstract class TransmuteFireEffectHelperBase extends MajorFireEffectHelpe
     {
         CompoundTag tags = new CompoundTag();
         tags.putString(TYPE, ID);
-        tags.putString(SUB_TAG_ID, data.get(SUB_TAG_ID));
+        tags.putString(SUB_TAG_ID, data.getSubType());
         tags.putString(PROCESS, data.get(PROCESS));
         return tags;
     }
@@ -77,9 +82,9 @@ public abstract class TransmuteFireEffectHelperBase extends MajorFireEffectHelpe
                 extended ?
                         new MiddleComponent("tooltip.firewood.tinder_item.multi_tooltip_format",
                                 new TranslatableComponent("tooltip.firewood.tinder_item.major_effect.%s".formatted(data.getType())),
-                                new TranslatableComponent("tooltip.firewood.tinder_item.major_effect.%1$s.%2$s".formatted(data.getType(), data.get(SUB_TAG_ID))))
+                                new TranslatableComponent("tooltip.firewood.tinder_item.major_effect.%1$s.%2$s".formatted(data.getType(), data.getSubType())))
                         :
-                        new MiddleComponent("tooltip.firewood.tinder_item.major_effect.%1$s.%2$s".formatted(data.getType(), data.get(SUB_TAG_ID))),
+                        new MiddleComponent("tooltip.firewood.tinder_item.major_effect.%1$s.%2$s".formatted(data.getType(), data.getSubType())),
                 getColor(data));
         mainLine.setDamage(getDamage(data));
         mainLine.setMinHealth(getMinHealth(data));
@@ -123,7 +128,7 @@ public abstract class TransmuteFireEffectHelperBase extends MajorFireEffectHelpe
     @Override
     public String getJEIString(FireEffectNBTData data)
     {
-        return data.getType() + "-" + data.get(SUB_TAG_ID);
+        return data.getType() + "-" + data.getSubType();
     }
     
     @Override
@@ -192,7 +197,7 @@ public abstract class TransmuteFireEffectHelperBase extends MajorFireEffectHelpe
     
     public FireEffectSubType getSubRealEffect(FireEffectNBTData data)
     {
-        return getSubMap().getOrDefault(data.get(SUB_TAG_ID), null);
+        return getSubMap().getOrDefault(data.getSubType(), null);
     }
     
     public HashMap<String, FireEffectSubType> getSubMap()
