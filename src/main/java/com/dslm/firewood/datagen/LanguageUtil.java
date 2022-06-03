@@ -34,6 +34,7 @@ public class LanguageUtil
     
         //item
         add(Register.TINDER_ITEM.get(), "Tinder", "火种");
+        add(Register.LANTERN_ITEM.get(), "Lantern", "提灯");
         add(Register.DYING_EMBER_ITEM.get(), "Dying Ember", "余烬");
         add(Register.DEBUG_ITEM.get(), "DEBUG Tool", "测试工具");
     
@@ -104,6 +105,7 @@ public class LanguageUtil
                 "A relic of the past...... ", "过去残存之事物……");
         add(String.format("tooltip.%s.%s.%s", StaticValue.MOD_ID, Register.DYING_EMBER_ITEM.get(), "2"),
                 "Coordinate: %1$s (%2$s, %3$s, %4$s)", "坐标：%1$s（%2$s，%3$s，%4$s）");
+    
         add("tooltip." + StaticValue.MOD_ID + "." + Register.TINDER_ITEM.get() + ".major_effect",
                 "§lMajor Effect: ", "§l主要效果：");
         add("tooltip." + StaticValue.MOD_ID + "." + Register.TINDER_ITEM.get() + ".major_effect.potion",
@@ -134,6 +136,10 @@ public class LanguageUtil
         add("tooltip." + StaticValue.MOD_ID + "." + Register.TINDER_ITEM.get() + ".multi_tooltip_format",
                 "%2$s (%1$s)", "%2$s（%1$s）");
     
+        add("tooltip." + StaticValue.MOD_ID + "." + Register.LANTERN_ITEM.get() + ".active",
+                "Active", "已开启");
+        add("tooltip." + StaticValue.MOD_ID + "." + Register.LANTERN_ITEM.get() + ".inactive",
+                "Inactive", "已关闭");
     
         //recipe tooltip
         add("tooltip." + StaticValue.MOD_ID + ".recipe.progress",

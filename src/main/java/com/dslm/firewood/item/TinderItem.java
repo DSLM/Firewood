@@ -27,16 +27,30 @@ import static com.dslm.firewood.Register.SPIRITUAL_FIRE_BLOCK;
 public class TinderItem extends Item implements TinderTypeItemBase
 {
     
-    public TinderItem(Properties pProperties)
+    public TinderItem(Properties properties)
     {
-        super(pProperties);
+        super(properties);
     }
     
     @Override
     public void appendHoverText(ItemStack stack, Level level, List<Component> tooltip, TooltipFlag flag)
     {
-        super.appendHoverText(stack, level, tooltip, flag);
         appendTinderToolTip(stack, level, tooltip, flag);
+        super.appendHoverText(stack, level, tooltip, flag);
+    }
+    
+    @Override
+    public void fillItemCategory(CreativeModeTab group, NonNullList<ItemStack> items)
+    {
+        if(!allowdedIn(group))
+        {
+            return;
+        }
+        
+        //vanilla
+        items.add(new ItemStack(this));
+        
+        FireEffectHelpers.fillItemCategory(items, new ItemStack(this));
     }
     
     @Override
@@ -49,9 +63,9 @@ public class TinderItem extends Item implements TinderTypeItemBase
         ItemStack itemStack = context.getItemInHand();
         if(!itemStack.hasTag())
         {
-            return InteractionResult.sidedSuccess(level.isClientSide());
+            return InteractionResult.PASS;
         }
-    
+        
         if(SpiritualFireBlock.canBePlacedAt(level, blockpos1)
                 && FireEffectHelpers.canBePlacedOn(level, blockpos1, itemStack.getTag()))
         {
@@ -74,21 +88,7 @@ public class TinderItem extends Item implements TinderTypeItemBase
         }
         else
         {
-            return InteractionResult.sidedSuccess(level.isClientSide());
+            return InteractionResult.PASS;
         }
-    }
-    
-    @Override
-    public void fillItemCategory(CreativeModeTab group, NonNullList<ItemStack> items)
-    {
-        if(!allowdedIn(group))
-        {
-            return;
-        }
-        
-        //vanilla
-        items.add(new ItemStack(this));
-        
-        FireEffectHelpers.fillItemCategory(items, new ItemStack(this));
     }
 }

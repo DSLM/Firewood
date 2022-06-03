@@ -4,6 +4,7 @@ import com.dslm.firewood.fireEffectHelper.flesh.base.FireEffectHelperBase;
 import com.dslm.firewood.fireEffectHelper.flesh.base.MajorFireEffectHelperInterface;
 import com.dslm.firewood.fireEffectHelper.flesh.base.MinorFireEffectHelperInterface;
 import com.dslm.firewood.fireEffectHelper.flesh.data.FireEffectNBTData;
+import com.dslm.firewood.fireEffectHelper.flesh.data.TinderSourceType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -28,21 +29,39 @@ public class ExceptionCatchHelper extends FireEffectHelperBase implements MajorF
     }
     
     @Override
-    public FireEffectNBTData triggerEffect(FireEffectNBTData data, BlockState state, Level level, BlockPos pos, LivingEntity entity)
+    public FireEffectNBTData triggerEffect(FireEffectNBTData data, TinderSourceType tinderSourceType, BlockState state, Level level, BlockPos pos, LivingEntity entity, ArrayList<FireEffectNBTData> majorEffects, ArrayList<FireEffectNBTData> minorEffects)
     {
-        return data;
+        return MajorFireEffectHelperInterface.super.triggerEffect(data, tinderSourceType, state, level, pos, entity, majorEffects, minorEffects);
     }
     
     @Override
-    public FireEffectNBTData triggerEffect(FireEffectNBTData data, BlockState state, Level level, BlockPos pos)
+    public FireEffectNBTData triggerEffect(FireEffectNBTData data, TinderSourceType tinderSourceType, BlockState state, Level level, BlockPos pos, LivingEntity entity)
     {
-        return data;
+        return MajorFireEffectHelperInterface.super.triggerEffect(data, tinderSourceType, state, level, pos, entity);
     }
     
     @Override
-    public boolean canBePlacedOn(FireEffectNBTData data, Level level, BlockPos pos)
+    public FireEffectNBTData triggerEffect(FireEffectNBTData data, TinderSourceType tinderSourceType, BlockState state, Level level, BlockPos pos, ArrayList<FireEffectNBTData> majorEffects, ArrayList<FireEffectNBTData> minorEffects)
     {
-        return true;
+        return MinorFireEffectHelperInterface.super.triggerEffect(data, tinderSourceType, state, level, pos, majorEffects, minorEffects);
+    }
+    
+    @Override
+    public FireEffectNBTData triggerEffect(FireEffectNBTData data, TinderSourceType tinderSourceType, BlockState state, Level level, BlockPos pos)
+    {
+        return MinorFireEffectHelperInterface.super.triggerEffect(data, tinderSourceType, state, level, pos);
+    }
+    
+    @Override
+    public FireEffectNBTData triggerEffect(FireEffectNBTData data, TinderSourceType tinderSourceType, Level level, BlockPos pos)
+    {
+        return MajorFireEffectHelperInterface.super.triggerEffect(data, tinderSourceType, level, pos);
+    }
+    
+    @Override
+    public FireEffectNBTData triggerEffect(FireEffectNBTData data, Level level, BlockPos pos)
+    {
+        return MajorFireEffectHelperInterface.super.triggerEffect(data, level, pos);
     }
     
     @Override

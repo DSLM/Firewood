@@ -19,4 +19,6 @@ public class StaticValue
     public static String PROCESS = "process";
     public static String CHANCE = "chance";
     public static String RANGE = "range";
+    
+    public static String ACTIVE_LANTERN = "activeLantern";
 }

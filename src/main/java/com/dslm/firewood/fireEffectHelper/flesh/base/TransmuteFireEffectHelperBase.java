@@ -3,6 +3,7 @@ package com.dslm.firewood.fireEffectHelper.flesh.base;
 import com.dslm.firewood.fireEffectHelper.flesh.FireEffectHelpers;
 import com.dslm.firewood.fireEffectHelper.flesh.data.FireEffectNBTData;
 import com.dslm.firewood.fireEffectHelper.flesh.data.FireEffectSubType;
+import com.dslm.firewood.fireEffectHelper.flesh.data.TinderSourceType;
 import com.dslm.firewood.recipe.FireEffectSubTypeManager;
 import com.dslm.firewood.tooltip.MiddleComponent;
 import com.dslm.firewood.util.StaticValue;
@@ -11,7 +12,6 @@ import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TranslatableComponent;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -67,8 +67,8 @@ public abstract class TransmuteFireEffectHelperBase extends MajorFireEffectHelpe
     {
         FireEffectNBTData data = new FireEffectNBTData();
         data.put(StaticValue.TYPE, ID);
-        data.put(StaticValue.SUB_TYPE, tags.getString(StaticValue.SUB_TYPE));
-        data.put(StaticValue.PROCESS, String.valueOf(tags.getInt(StaticValue.PROCESS)));
+        data.put(StaticValue.SUB_TYPE, tags.get(StaticValue.SUB_TYPE).getAsString());
+        data.put(StaticValue.PROCESS, tags.get(StaticValue.PROCESS).getAsString());
         return data;
     }
     
@@ -215,15 +215,15 @@ public abstract class TransmuteFireEffectHelperBase extends MajorFireEffectHelpe
     
     
     @Override
-    public FireEffectNBTData triggerEffect(FireEffectNBTData data, BlockState state, Level level, BlockPos pos, LivingEntity entity)
+    public FireEffectNBTData triggerEffect(FireEffectNBTData data, TinderSourceType tinderSourceType, Level level, BlockPos pos)
     {
-        return checkBlocks(data, state, level, pos, entity);
+        return checkBlocks(data, level, pos);
     }
     
     
-    public FireEffectNBTData checkBlocks(FireEffectNBTData data, BlockState state, Level level, BlockPos pos, LivingEntity entity)
+    public FireEffectNBTData checkBlocks(FireEffectNBTData data, Level level, BlockPos pos)
     {
-    
+        
         FireEffectSubType effectData = getSubRealEffect(data);
         int nowProccess = Integer.parseInt(data.get(StaticValue.PROCESS)) + 1;
         if(nowProccess < effectData.getProcess())

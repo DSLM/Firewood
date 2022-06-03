@@ -102,6 +102,13 @@ public class JEICompat implements IModPlugin
             }
             return FireEffectHelpers.getJEIType(itemStack);
         });
+        r.registerSubtypeInterpreter(VanillaTypes.ITEM_STACK, Register.LANTERN_ITEM.get(), (ItemStack itemStack, UidContext context) -> {
+            if(!itemStack.hasTag())
+            {
+                return IIngredientSubtypeInterpreter.NONE;
+            }
+            return FireEffectHelpers.getJEIType(itemStack);
+        });
     }
     
     @Override

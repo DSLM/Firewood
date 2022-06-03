@@ -3,6 +3,7 @@ package com.dslm.firewood.block.entity;
 import com.dslm.firewood.Register;
 import com.dslm.firewood.fireEffectHelper.flesh.FireEffectHelpers;
 import com.dslm.firewood.fireEffectHelper.flesh.data.FireEffectNBTData;
+import com.dslm.firewood.fireEffectHelper.flesh.data.TinderSourceType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
@@ -83,7 +84,7 @@ public class SpiritualFireBlockEntity extends BlockEntity
     public static void serverTick(Level level, BlockPos pos, BlockState state, SpiritualFireBlockEntity e)
     {
     
-        e.minorEffects = FireEffectHelpers.triggerMinorEffects(e.majorEffects, e.minorEffects, state, level, pos);
+        e.minorEffects = FireEffectHelpers.triggerMinorEffects(e.majorEffects, e.minorEffects, TinderSourceType.GROUND_FIRE, state, level, pos);
         e.syncTick();
     }
     
@@ -112,6 +113,6 @@ public class SpiritualFireBlockEntity extends BlockEntity
     
     public void triggerMajorEffects(BlockState state, Level level, BlockPos pos, LivingEntity entity)
     {
-        majorEffects = FireEffectHelpers.triggerMajorEffects(majorEffects, minorEffects, state, level, pos, entity);
+        majorEffects = FireEffectHelpers.triggerMajorEffects(majorEffects, minorEffects, TinderSourceType.GROUND_FIRE, state, level, pos, entity);
     }
 }

@@ -1,0 +1,17 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "firewood:item/lantern_item_back_glass",
+    "layer1": "firewood:item/lantern_item_fire",
+    "layer2": "firewood:item/lantern_item_glass",
+    "layer3": "firewood:item/lantern_item_frame"
+  },
+  "overrides": [
+    {
+      "predicate": {
+        "active_lantern": 1
+      },
+      "model": "firewood:item/lantern_item_active"
+    }
+  ]
+}

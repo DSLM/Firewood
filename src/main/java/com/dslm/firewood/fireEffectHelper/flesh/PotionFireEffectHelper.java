@@ -3,6 +3,7 @@ package com.dslm.firewood.fireEffectHelper.flesh;
 import com.dslm.firewood.fireEffectHelper.flesh.base.FireEffectHelperInterface;
 import com.dslm.firewood.fireEffectHelper.flesh.base.MajorFireEffectHelperBase;
 import com.dslm.firewood.fireEffectHelper.flesh.data.FireEffectNBTData;
+import com.dslm.firewood.fireEffectHelper.flesh.data.TinderSourceType;
 import com.dslm.firewood.tooltip.MiddleComponent;
 import com.dslm.firewood.util.StaticValue;
 import com.google.common.collect.Lists;
@@ -61,7 +62,7 @@ public class PotionFireEffectHelper extends MajorFireEffectHelperBase
     }
     
     @Override
-    public FireEffectNBTData triggerEffect(FireEffectNBTData data, BlockState state, Level level, BlockPos pos, LivingEntity entity)
+    public FireEffectNBTData triggerEffect(FireEffectNBTData data, TinderSourceType tinderSourceType, BlockState state, Level level, BlockPos pos, LivingEntity entity)
     {
         Potion potion = getPotion(data.get(POTION_TAG_ID));
         List<MobEffectInstance> effects = potion.getEffects();

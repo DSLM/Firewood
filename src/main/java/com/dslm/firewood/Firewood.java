@@ -2,11 +2,9 @@ package com.dslm.firewood;
 
 import com.dslm.firewood.compat.top.TOPCompat;
 import com.dslm.firewood.config.Config;
-import com.dslm.firewood.render.SpiritualCampfireRenderer;
 import com.dslm.firewood.util.StaticValue;
 import com.mojang.logging.LogUtils;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -33,13 +31,6 @@ public class Firewood
         Config.register();
     
         if(ModList.get().isLoaded("theoneprobe")) TOPCompat.register();
-    
-        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::RenderRegister);
-    }
-    
-    public void RenderRegister(EntityRenderersEvent.RegisterRenderers event)
-    {
-        event.registerBlockEntityRenderer(Register.SPIRITUAL_CAMPFIRE_BLOCK_ENTITY.get(), SpiritualCampfireRenderer::new);
     }
     
     private void setup(final FMLCommonSetupEvent event)

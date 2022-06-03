@@ -7,6 +7,7 @@ import com.dslm.firewood.block.entity.SpiritualFireBlockEntity;
 import com.dslm.firewood.compat.top.TOPPlugin;
 import com.dslm.firewood.item.DebugItem;
 import com.dslm.firewood.item.DyingEmberItem;
+import com.dslm.firewood.item.LanternItem;
 import com.dslm.firewood.item.TinderItem;
 import com.dslm.firewood.menu.SpiritualCampfireBlockMenu;
 import com.dslm.firewood.mobEffect.FiredFlesh;
@@ -46,7 +47,7 @@ import net.minecraftforge.registries.RegistryObject;
 
 
 public class Register
-{// TODO: 2022/5/23 方块-方块，方块-物品，方块-实体，实体-物品
+{// TODO: 2022/5/23 方块-物品，方块-实体，实体-物品
     private static final DeferredRegister<Block> BLOCKS =
             DeferredRegister.create(ForgeRegistries.BLOCKS, StaticValue.MOD_ID);
     private static final DeferredRegister<Item> ITEMS =
@@ -88,13 +89,13 @@ public class Register
                     () -> new SpiritualCampfireBlock(
                             BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.PODZOL).strength(2F).sound(SoundType.WOOD).lightLevel((s) -> s.getValue(BlockStateProperties.LIT) ? 15 : 0).noOcclusion()));
     
-    
-    public static final RegistryObject<BlockEntityType<SpiritualCampfireBlockEntity>> SPIRITUAL_CAMPFIRE_BLOCK_ENTITY =
-            BLOCK_ENTITIES.register("spiritual_campfire_block_entity", () ->
-                    BlockEntityType.Builder.of(SpiritualCampfireBlockEntity::new, SPIRITUAL_CAMPFIRE_BLOCK.get()).build(null));
+    // TODO: 2022/6/3 BlockEntityType?
     public static final RegistryObject<BlockEntityType<SpiritualFireBlockEntity>> SPIRITUAL_FIRE_BLOCK_ENTITY =
             BLOCK_ENTITIES.register("spiritual_fire_block_entity", () ->
                     BlockEntityType.Builder.of(SpiritualFireBlockEntity::new, SPIRITUAL_FIRE_BLOCK.get()).build(null));
+    public static final RegistryObject<BlockEntityType<SpiritualCampfireBlockEntity>> SPIRITUAL_CAMPFIRE_BLOCK_ENTITY =
+            BLOCK_ENTITIES.register("spiritual_campfire_block_entity", () ->
+                    BlockEntityType.Builder.of(SpiritualCampfireBlockEntity::new, SPIRITUAL_CAMPFIRE_BLOCK.get()).build(null));
     
     
     public static final RegistryObject<Item> SPIRITUAL_CAMPFIRE_ITEM =
@@ -104,6 +105,8 @@ public class Register
             ITEMS.register("dying_ember_item", () -> new DyingEmberItem(new Item.Properties().tab(CREATIVE_MODE_TAB)));
     public static final RegistryObject<Item> TINDER_ITEM =
             ITEMS.register("tinder_item", () -> new TinderItem(new Item.Properties().stacksTo(1).tab(CREATIVE_MODE_TAB)));
+    public static final RegistryObject<Item> LANTERN_ITEM =
+            ITEMS.register("lantern_item", () -> new LanternItem(new Item.Properties().stacksTo(1).tab(CREATIVE_MODE_TAB)));
     public static final RegistryObject<Item> DEBUG_ITEM =
             ITEMS.register("debug_item", () -> new DebugItem(new Item.Properties().tab(CREATIVE_MODE_TAB)));
     

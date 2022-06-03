@@ -3,6 +3,7 @@ package com.dslm.firewood.fireEffectHelper.flesh;
 import com.dslm.firewood.fireEffectHelper.flesh.base.FireEffectHelperInterface;
 import com.dslm.firewood.fireEffectHelper.flesh.base.MinorFireEffectHelperBase;
 import com.dslm.firewood.fireEffectHelper.flesh.data.FireEffectNBTData;
+import com.dslm.firewood.fireEffectHelper.flesh.data.TinderSourceType;
 import com.dslm.firewood.tooltip.MiddleComponent;
 import com.dslm.firewood.util.StaticValue;
 import net.minecraft.core.BlockPos;
@@ -40,9 +41,9 @@ public class GroundFireEffectHelper extends MinorFireEffectHelperBase
     }
     
     @Override
-    public FireEffectNBTData triggerEffect(FireEffectNBTData data, BlockState state, Level level, BlockPos pos)
+    public FireEffectNBTData triggerEffect(FireEffectNBTData data, TinderSourceType tinderSourceType, Level level, BlockPos pos)
     {
-        if(!canBePlacedOn(data, level, pos))
+        if(tinderSourceType == TinderSourceType.GROUND_FIRE && !canBePlacedOn(data, level, pos))
         {
             level.setBlock(pos, Blocks.AIR.defaultBlockState(), Block.UPDATE_ALL_IMMEDIATE);
         }

@@ -15,4 +15,11 @@ public class ModBusHandler
     {
         event.register(PlayerSpiritualDamageProvider.PlayerSpiritualDamage.class);
     }
+
+//    @SubscribeEvent
+//    public void enqueue(final InterModEnqueueEvent event) {
+//        InterModComms.sendTo("curios", SlotTypeMessage.REGISTER_TYPE,
+//                () -> Arrays.stream(SlotTypePreset.values())
+//                        .map(preset -> preset.getMessageBuilder().cosmetic().build()).collect(Collectors.toList()));
+//    }
 }

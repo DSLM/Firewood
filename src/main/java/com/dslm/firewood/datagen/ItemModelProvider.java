@@ -18,15 +18,18 @@ public class ItemModelProvider extends net.minecraftforge.client.model.generator
         singleTexture(Register.SPIRITUAL_CAMPFIRE_ITEM.get().getRegistryName().getPath(),
                 mcLoc("item/generated"),
                 "layer0", modLoc("item/spiritual_campfire_item"));
+    
         singleTexture(Register.DYING_EMBER_ITEM.get().getRegistryName().getPath(),
                 mcLoc("item/generated"),
                 "layer0", modLoc("item/dying_ember_item"));
+    
         singleTexture(Register.TINDER_ITEM.get().getRegistryName().getPath(),
                 mcLoc("item/generated"),
                 "layer0", modLoc("item/tinder_item_base"));
         singleTexture(Register.TINDER_ITEM.get().getRegistryName().getPath(),
                 mcLoc("item/generated"),
                 "layer1", modLoc("item/tinder_item_fire"));
+    
         singleTexture(Register.DEBUG_ITEM.get().getRegistryName().getPath(),
                 mcLoc("item/generated"),
                 "layer0", modLoc("firewood"));

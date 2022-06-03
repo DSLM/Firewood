@@ -7,6 +7,7 @@ import com.dslm.firewood.fireEffectHelper.flesh.base.FireEffectHelperInterface;
 import com.dslm.firewood.fireEffectHelper.flesh.base.MajorFireEffectHelperInterface;
 import com.dslm.firewood.fireEffectHelper.flesh.base.MinorFireEffectHelperInterface;
 import com.dslm.firewood.fireEffectHelper.flesh.data.FireEffectNBTData;
+import com.dslm.firewood.fireEffectHelper.flesh.data.TinderSourceType;
 import com.dslm.firewood.util.StaticValue;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
@@ -92,6 +93,7 @@ public class FireEffectHelpers
     
     public static ArrayList<FireEffectNBTData> triggerMajorEffects(ArrayList<FireEffectNBTData> majorEffects,
                                                                    ArrayList<FireEffectNBTData> minorEffects,
+                                                                   TinderSourceType tinderSourceType,
                                                                    BlockState state, Level level, BlockPos pos, LivingEntity entity)
     {
         float damage = 0f;
@@ -112,7 +114,7 @@ public class FireEffectHelpers
         {
             FireEffectNBTData data = majorEffects.get(i);
             var helper = getMajorHelperByType(data.getType());
-            data = helper.triggerEffect(data, state, level, pos, entity, majorEffects, minorEffects);
+            data = helper.triggerEffect(data, tinderSourceType, state, level, pos, entity, majorEffects, minorEffects);
             majorEffects.set(i, data);
         }
         return majorEffects;
@@ -120,13 +122,14 @@ public class FireEffectHelpers
     
     public static ArrayList<FireEffectNBTData> triggerMinorEffects(ArrayList<FireEffectNBTData> majorEffects,
                                                                    ArrayList<FireEffectNBTData> minorEffects,
+                                                                   TinderSourceType tinderSourceType,
                                                                    BlockState state, Level level, BlockPos pos)
     {
         for(int i = 0; i < minorEffects.size(); i++)
         {
             FireEffectNBTData data = minorEffects.get(i);
             var helper = getMinorHelperByType(data.getType());
-            data = helper.triggerEffect(data, state, level, pos, majorEffects, minorEffects);
+            data = helper.triggerEffect(data, tinderSourceType, state, level, pos, majorEffects, minorEffects);
             minorEffects.set(i, data);
         }
         return minorEffects;
