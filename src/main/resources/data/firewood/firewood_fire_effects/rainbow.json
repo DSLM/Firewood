@@ -1,0 +1,48 @@
+{
+  "type": "firewood:dye_block",
+  "subType": "rainbow",
+  "color": "0x70f3ff",
+  "damage": 0.1,
+  "minHealth": 0.1,
+  "process": 1,
+  "chance": 100.0,
+  "range": 10,
+  "ColorOrder": [
+    "green",
+    "lime",
+    "yellow",
+    "orange",
+    "red",
+    "pink",
+    "magenta",
+    "purple",
+    "blue",
+    "cyan",
+    "light_blue",
+    "white",
+    "light_gray",
+    "gray",
+    "black",
+    "brown"
+  ],
+  "customGroup": [
+    {
+      "green": "minecraft:dirt",
+      "lime": "minecraft:grass",
+      "yellow": "minecraft:stone",
+      "orange": "minecraft:dirt",
+      "red": "minecraft:grass",
+      "pink": "minecraft:stone",
+      "magenta": "minecraft:dirt",
+      "purple": "minecraft:grass",
+      "blue": "minecraft:stone",
+      "cyan": "minecraft:dirt",
+      "light_blue": "minecraft:grass",
+      "white": "minecraft:stone",
+      "light_gray": "minecraft:dirt",
+      "gray": "minecraft:grass",
+      "black": "minecraft:stone",
+      "brown": "minecraft:dirt"
+    }
+  ]
+}

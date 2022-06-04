@@ -3,11 +3,11 @@ package com.dslm.firewood.compat.jei;
 import com.dslm.firewood.Register;
 import com.dslm.firewood.fireEffectHelper.flesh.FireEffectHelpers;
 import com.dslm.firewood.fireEffectHelper.flesh.data.FireEffectNBTData;
-import com.dslm.firewood.fireEffectHelper.flesh.data.FireEffectSubType;
 import com.dslm.firewood.item.TinderTypeItemBase;
-import com.dslm.firewood.recipe.FireEffectSubTypeManager;
 import com.dslm.firewood.recipe.TinderRecipe;
 import com.dslm.firewood.recipe.type.TinderRecipeType;
+import com.dslm.firewood.subType.FireEffectSubTypeBase;
+import com.dslm.firewood.subType.FireEffectSubTypeManager;
 import com.dslm.firewood.util.StaticValue;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
@@ -51,7 +51,7 @@ public class JEICompat implements IModPlugin
         );
         {
             HashMap<String, RecipeType> subMap = new HashMap<>();
-            for(Map.Entry<String, FireEffectSubType> subTypes : FireEffectSubTypeManager.getEffectsMap().get("firewood:block_to_block").entrySet())
+            for(Map.Entry<String, FireEffectSubTypeBase> subTypes : FireEffectSubTypeManager.getEffectsMap().get("firewood:block_to_block").entrySet())
             {
                 var category = new BlockToBlockCategory(guiHelper, subTypes.getKey());
                 subMap.put(subTypes.getKey(), category.getRecipeType());
@@ -81,7 +81,7 @@ public class JEICompat implements IModPlugin
         
         if(recipeTypes.containsKey("block_to_block"))
         {
-            for(Map.Entry<String, FireEffectSubType> subTypes : FireEffectSubTypeManager.getEffectsMap().get("firewood:block_to_block").entrySet())
+            for(Map.Entry<String, FireEffectSubTypeBase> subTypes : FireEffectSubTypeManager.getEffectsMap().get("firewood:block_to_block").entrySet())
             {
                 var recipes = recipeManager.getAllRecipesFor(Register.BLOCK_TO_BLOCK_RECIPE_TYPE.get())
                         .stream()
@@ -127,7 +127,7 @@ public class JEICompat implements IModPlugin
         registerRecipeSubCatalyst(registration, RecipeTypes.SMELTING, items, "smelter", null);
     
         {
-            for(Map.Entry<String, FireEffectSubType> subTypes : FireEffectSubTypeManager.getEffectsMap().get("firewood:block_to_block").entrySet())
+            for(Map.Entry<String, FireEffectSubTypeBase> subTypes : FireEffectSubTypeManager.getEffectsMap().get("firewood:block_to_block").entrySet())
             {
                 registerRecipeSubCatalyst(registration, recipeTypes.get("block_to_block").get(subTypes.getKey()), items, "block_to_block", subTypes.getKey());
             }

@@ -2,9 +2,9 @@ package com.dslm.firewood.fireEffectHelper.flesh.base;
 
 import com.dslm.firewood.fireEffectHelper.flesh.FireEffectHelpers;
 import com.dslm.firewood.fireEffectHelper.flesh.data.FireEffectNBTData;
-import com.dslm.firewood.fireEffectHelper.flesh.data.FireEffectSubType;
 import com.dslm.firewood.fireEffectHelper.flesh.data.TinderSourceType;
-import com.dslm.firewood.recipe.FireEffectSubTypeManager;
+import com.dslm.firewood.subType.FireEffectSubTypeBase;
+import com.dslm.firewood.subType.FireEffectSubTypeManager;
 import com.dslm.firewood.tooltip.MiddleComponent;
 import com.dslm.firewood.util.StaticValue;
 import net.minecraft.core.BlockPos;
@@ -157,48 +157,48 @@ public abstract class TransmuteFireEffectHelperBase extends MajorFireEffectHelpe
     @Override
     public float getDamage(FireEffectNBTData data)
     {
-        FireEffectSubType effectData = getSubRealEffect(data);
+        FireEffectSubTypeBase effectData = getSubRealEffect(data);
         return effectData == null ? 0 : effectData.getDamage();
     }
     
     @Override
     public int getColor(FireEffectNBTData data)
     {
-        FireEffectSubType effectData = getSubRealEffect(data);
+        FireEffectSubTypeBase effectData = getSubRealEffect(data);
         return effectData == null ? 0 : effectData.getColor();
     }
     
     public int getRange(FireEffectNBTData data)
     {
-        FireEffectSubType effectData = getSubRealEffect(data);
+        FireEffectSubTypeBase effectData = getSubRealEffect(data);
         return effectData == null ? 0 : effectData.getRange();
     }
     
     public int getProcess(FireEffectNBTData data)
     {
-        FireEffectSubType effectData = getSubRealEffect(data);
+        FireEffectSubTypeBase effectData = getSubRealEffect(data);
         return effectData == null ? 0 : effectData.getProcess();
     }
     
     public float getChance(FireEffectNBTData data)
     {
-        FireEffectSubType effectData = getSubRealEffect(data);
+        FireEffectSubTypeBase effectData = getSubRealEffect(data);
         return effectData == null ? 0 : effectData.getChance();
     }
     
     @Override
     public float getMinHealth(FireEffectNBTData data)
     {
-        FireEffectSubType effectData = getSubRealEffect(data);
+        FireEffectSubTypeBase effectData = getSubRealEffect(data);
         return effectData == null ? 0 : effectData.getMinHealth();
     }
     
-    public FireEffectSubType getSubRealEffect(FireEffectNBTData data)
+    public FireEffectSubTypeBase getSubRealEffect(FireEffectNBTData data)
     {
         return getSubMap().getOrDefault(data.getSubType(), null);
     }
     
-    public HashMap<String, FireEffectSubType> getSubMap()
+    public HashMap<String, FireEffectSubTypeBase> getSubMap()
     {
         return FireEffectSubTypeManager.getEffectsMap().getOrDefault(getResourceName(), new HashMap<>());
     }
@@ -223,8 +223,8 @@ public abstract class TransmuteFireEffectHelperBase extends MajorFireEffectHelpe
     
     public FireEffectNBTData checkBlocks(FireEffectNBTData data, Level level, BlockPos pos)
     {
-        
-        FireEffectSubType effectData = getSubRealEffect(data);
+    
+        FireEffectSubTypeBase effectData = getSubRealEffect(data);
         int nowProccess = Integer.parseInt(data.get(StaticValue.PROCESS)) + 1;
         if(nowProccess < effectData.getProcess())
         {

@@ -1,8 +1,6 @@
-package com.dslm.firewood.recipe;
+package com.dslm.firewood.subType;
 
 import com.dslm.firewood.Firewood;
-import com.dslm.firewood.fireEffectHelper.flesh.data.FireEffectSubType;
-import com.dslm.firewood.fireEffectHelper.flesh.data.FireEffectSubTypeBuilder;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
@@ -22,14 +20,17 @@ public class FireEffectSubTypeManager extends SimpleJsonResourceReloadListener
     private static final Gson GSON = (new GsonBuilder()).create();
     
     public static final FireEffectSubTypeBuilder defaultTypeBuilder = new FireEffectSubTypeBuilder();
+    public static final DyeBlockSubTypeBuilder dyeBlockSubTypeBuilder = new DyeBlockSubTypeBuilder();
     
-    public static final HashMap<String, FireEffectSubTypeBuilder> typeBuilders = new HashMap<>()
+    public static final HashMap<String, FireEffectSubTypeBuilderBase> typeBuilders = new HashMap<>()
     {{
         put("firewood:smelter", defaultTypeBuilder);
         put("firewood:block_to_block", defaultTypeBuilder);
+        
+        put("firewood:dye_block", dyeBlockSubTypeBuilder);
     }};
     
-    public static final HashMap<String, HashMap<String, FireEffectSubType>> effectsMap = new HashMap<>();
+    public static final HashMap<String, HashMap<String, FireEffectSubTypeBase>> effectsMap = new HashMap<>();
     
     public FireEffectSubTypeManager()
     {
@@ -65,9 +66,9 @@ public class FireEffectSubTypeManager extends SimpleJsonResourceReloadListener
     
         for(Map.Entry<ResourceLocation, JsonObject> entry : effects.entrySet())
         {
-            FireEffectSubTypeBuilder builder = typeBuilders.getOrDefault(entry.getValue().get(TYPE).getAsString(), defaultTypeBuilder);
-            FireEffectSubType newData = builder.getNewData(entry.getKey(), entry.getValue());
-        
+            FireEffectSubTypeBuilderBase builder = typeBuilders.getOrDefault(entry.getValue().get(TYPE).getAsString(), defaultTypeBuilder);
+            FireEffectSubTypeBase newData = builder.getNewData(entry.getKey(), entry.getValue());
+    
             if(newData == null)
             {
                 continue;
@@ -81,20 +82,20 @@ public class FireEffectSubTypeManager extends SimpleJsonResourceReloadListener
         }
     }
     
-    public static HashMap<String, FireEffectSubTypeBuilder> getTypeBuilders()
+    public static HashMap<String, FireEffectSubTypeBuilderBase> getTypeBuilders()
     {
         return typeBuilders;
     }
     
-    public static HashMap<String, HashMap<String, FireEffectSubType>> getEffectsMap()
+    public static HashMap<String, HashMap<String, FireEffectSubTypeBase>> getEffectsMap()
     {
         return effectsMap;
     }
     
-    public static void setEffectsMap(HashMap<String, HashMap<String, FireEffectSubType>> newMap)
+    public static void setEffectsMap(HashMap<String, HashMap<String, FireEffectSubTypeBase>> newMap)
     {
         effectsMap.clear();
-        for(Map.Entry<String, HashMap<String, FireEffectSubType>> one : newMap.entrySet())
+        for(Map.Entry<String, HashMap<String, FireEffectSubTypeBase>> one : newMap.entrySet())
         {
             effectsMap.put(one.getKey(), one.getValue());
         }

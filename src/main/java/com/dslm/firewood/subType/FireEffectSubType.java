@@ -1,13 +1,11 @@
-package com.dslm.firewood.fireEffectHelper.flesh.data;
+package com.dslm.firewood.subType;
 
 import com.dslm.firewood.util.StaticValue;
 import com.google.gson.JsonObject;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 
-import java.util.HexFormat;
-
-public class FireEffectSubType
+public class FireEffectSubType implements FireEffectSubTypeBase
 {
     public String namespace;
     public String path;
@@ -19,6 +17,11 @@ public class FireEffectSubType
     public int process;
     public float chance;
     public int range;
+    
+    public FireEffectSubType()
+    {
+    
+    }
     
     public FireEffectSubType(String namespace, String path, String id, String subId, int color, float damage, float minHealth, int process, float chance, int range)
     {
@@ -34,6 +37,25 @@ public class FireEffectSubType
         this.range = range;
     }
     
+    public FireEffectSubType(FireEffectSubType copy)
+    {
+        copyFrom(copy);
+    }
+    
+    public void copyFrom(FireEffectSubType copy)
+    {
+        this.namespace = copy.namespace;
+        this.path = copy.path;
+        this.id = copy.id;
+        this.subId = copy.subId;
+        this.color = copy.color;
+        this.damage = copy.damage;
+        this.minHealth = copy.minHealth;
+        this.process = copy.process;
+        this.chance = copy.chance;
+        this.range = copy.range;
+    }
+    
     public FireEffectSubType(ResourceLocation resourceLocation, String id, String subId, int color, float damage, float minHealth, int process, float chance, int range)
     {
         this(resourceLocation.getNamespace(), resourceLocation.getPath(), id, subId, color, damage, minHealth, process, chance, range);
@@ -44,7 +66,7 @@ public class FireEffectSubType
         this(resourceLocation,
                 jsonObject.get(StaticValue.TYPE).getAsString(),
                 jsonObject.get(StaticValue.SUB_TYPE).getAsString(),
-                colorInt(jsonObject.get(StaticValue.COLOR).getAsString()),
+                StaticValue.colorInt(jsonObject.get(StaticValue.COLOR).getAsString()),
                 jsonObject.get(StaticValue.DAMAGE).getAsFloat(),
                 jsonObject.get(StaticValue.MIN_HEALTH).getAsFloat(),
                 jsonObject.get(StaticValue.PROCESS).getAsInt(),
@@ -52,10 +74,10 @@ public class FireEffectSubType
                 jsonObject.get(StaticValue.RANGE).getAsInt());
     }
     
-    public static int colorInt(String s)
+    public FireEffectSubType(FriendlyByteBuf buf)
     {
-        var s1 = s.toLowerCase().replace("0x", "");
-        return HexFormat.fromHexDigits(s1);
+        this();
+        fromNetwork(buf);
     }
     
     public String getNamespace()
@@ -159,7 +181,7 @@ public class FireEffectSubType
     }
     
     
-    public static FireEffectSubType fromNetwork(FriendlyByteBuf buf)
+    public FireEffectSubTypeBase fromNetwork(FriendlyByteBuf buf)
     {
         String namespace = buf.readUtf();
         String path = buf.readUtf();
@@ -175,17 +197,20 @@ public class FireEffectSubType
         return new FireEffectSubType(namespace, path, id, subId, color, damage, minHealth, process, chance, range);
     }
     
-    public static void toNetwork(FriendlyByteBuf buf, FireEffectSubType recipe)
+    public void toNetwork(FriendlyByteBuf buf, FireEffectSubTypeBase recipe)
     {
-        buf.writeUtf(recipe.namespace);
-        buf.writeUtf(recipe.path);
-        buf.writeUtf(recipe.id);
-        buf.writeUtf(recipe.subId);
-        buf.writeInt(recipe.color);
-        buf.writeFloat(recipe.damage);
-        buf.writeFloat(recipe.minHealth);
-        buf.writeInt(recipe.process);
-        buf.writeFloat(recipe.chance);
-        buf.writeInt(recipe.range);
+        if(recipe instanceof FireEffectSubType fireEffectSubType)
+        {
+            buf.writeUtf(fireEffectSubType.namespace);
+            buf.writeUtf(fireEffectSubType.path);
+            buf.writeUtf(fireEffectSubType.id);
+            buf.writeUtf(fireEffectSubType.subId);
+            buf.writeInt(fireEffectSubType.color);
+            buf.writeFloat(fireEffectSubType.damage);
+            buf.writeFloat(fireEffectSubType.minHealth);
+            buf.writeInt(fireEffectSubType.process);
+            buf.writeFloat(fireEffectSubType.chance);
+            buf.writeInt(fireEffectSubType.range);
+        }
     }
 }

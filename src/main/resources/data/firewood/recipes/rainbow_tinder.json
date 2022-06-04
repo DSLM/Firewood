@@ -1,0 +1,34 @@
+{
+  "type": "firewood:tinder_recipe",
+  "ingredients": [
+    {
+      "tag": "forge:dyes/red"
+    },
+    {
+      "tag": "forge:dyes/yellow"
+    },
+    {
+      "tag": "forge:dyes/green"
+    },
+    {
+      "tag": "forge:dyes/blue"
+    }
+  ],
+  "tinder": {
+    "tag": "firewood:tinder"
+  },
+  "addEffects": {
+    "major": [
+      {
+        "type": "dye_block",
+        "subType": "rainbow",
+        "process": 0
+      }
+    ]
+  },
+  "process": 2,
+  "chance": 100.0,
+  "damage": 1.0,
+  "cooldown": 100,
+  "minHealth": 1.0
+}

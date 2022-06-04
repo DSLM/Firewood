@@ -91,9 +91,9 @@ public class ForgeBusClientHandler
             GuiComponent.blit(pose, len, tooltipY, 0, 0, 5, 9, 256, 256);
             len += 5;
     
-            GuiComponent.drawString(pose, Minecraft.getInstance().font, String.format(" x%.2f", middle.getDamage()),
+            GuiComponent.drawString(pose, Minecraft.getInstance().font, String.format(" x%.2f ", middle.getDamage()),
                     len, tooltipY, middle.getStyle().getColor().getValue());
-            len += Minecraft.getInstance().font.width(String.format(" x%.2f", middle.getDamage()));
+            len += Minecraft.getInstance().font.width(String.format(" x%.2f ", middle.getDamage()));
     
     
             RenderSystem.setShaderTexture(0, StaticValue.ICONS);
@@ -101,9 +101,9 @@ public class ForgeBusClientHandler
             GuiComponent.blit(pose, len, tooltipY, 9, 0, 5, 9, 256, 256);
             len += 5;
     
-            GuiComponent.drawString(pose, Minecraft.getInstance().font, String.format(" x%.2f", middle.getMinHealth()),
+            GuiComponent.drawString(pose, Minecraft.getInstance().font, String.format(" x%.2f ", middle.getMinHealth()),
                     len, tooltipY, middle.getStyle().getColor().getValue());
-            len += Minecraft.getInstance().font.width(String.format(" x%.2f", middle.getMinHealth()));
+            len += Minecraft.getInstance().font.width(String.format(" x%.2f ", middle.getMinHealth()));
     
             pose.popPose();
         }

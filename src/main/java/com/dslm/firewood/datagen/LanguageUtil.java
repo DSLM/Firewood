@@ -124,6 +124,10 @@ public class LanguageUtil
                 "Transmute Rock to Mud", "化石为泥");
         add("tooltip." + StaticValue.MOD_ID + "." + Register.TINDER_ITEM.get() + ".major_effect.block_to_block.mud_to_rock",
                 "Transmute Mud to Rock", "化泥为石");
+        add("tooltip." + StaticValue.MOD_ID + "." + Register.TINDER_ITEM.get() + ".major_effect.dye_block",
+                "Dye Block", "方块染色");
+        add("tooltip." + StaticValue.MOD_ID + "." + Register.TINDER_ITEM.get() + ".major_effect.dye_block.rainbow",
+                "Rainbow", "彩虹");
     
         add("tooltip." + StaticValue.MOD_ID + "." + Register.TINDER_ITEM.get() + ".minor_effect",
                 "§lMinor Effect: ", "§l次要效果：");

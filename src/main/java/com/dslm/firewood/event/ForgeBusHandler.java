@@ -4,7 +4,7 @@ import com.dslm.firewood.Register;
 import com.dslm.firewood.capProvider.PlayerSpiritualDamageProvider;
 import com.dslm.firewood.network.FireEffectSubTypeMessage;
 import com.dslm.firewood.network.NetworkHandler;
-import com.dslm.firewood.recipe.FireEffectSubTypeManager;
+import com.dslm.firewood.subType.FireEffectSubTypeManager;
 import com.dslm.firewood.util.StaticValue;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;

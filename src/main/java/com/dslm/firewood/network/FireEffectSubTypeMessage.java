@@ -1,7 +1,7 @@
 package com.dslm.firewood.network;
 
-import com.dslm.firewood.fireEffectHelper.flesh.data.FireEffectSubType;
-import com.dslm.firewood.recipe.FireEffectSubTypeManager;
+import com.dslm.firewood.subType.FireEffectSubTypeBase;
+import com.dslm.firewood.subType.FireEffectSubTypeManager;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraftforge.network.NetworkEvent;
 
@@ -9,47 +9,50 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Supplier;
 
+import static com.dslm.firewood.subType.FireEffectSubTypeManager.defaultTypeBuilder;
+import static com.dslm.firewood.subType.FireEffectSubTypeManager.typeBuilders;
+
 public class FireEffectSubTypeMessage
 {
-    public HashMap<String, HashMap<String, FireEffectSubType>> effectsMap;
+    public HashMap<String, HashMap<String, FireEffectSubTypeBase>> effectsMap;
     
-    public FireEffectSubTypeMessage(HashMap<String, HashMap<String, FireEffectSubType>> effectsMap)
+    public FireEffectSubTypeMessage(HashMap<String, HashMap<String, FireEffectSubTypeBase>> effectsMap)
     {
         this.effectsMap = effectsMap;
     }
     
-    public HashMap<String, HashMap<String, FireEffectSubType>> getEffectsMap()
+    public HashMap<String, HashMap<String, FireEffectSubTypeBase>> getEffectsMap()
     {
         return effectsMap;
     }
     
-    public void setEffectsMap(HashMap<String, HashMap<String, FireEffectSubType>> effectsMap)
+    public void setEffectsMap(HashMap<String, HashMap<String, FireEffectSubTypeBase>> effectsMap)
     {
         this.effectsMap = effectsMap;
     }
     
     public static void encode(FireEffectSubTypeMessage message, FriendlyByteBuf buf)
     {
-        HashMap<String, HashMap<String, FireEffectSubType>> effectsMap = message.getEffectsMap();
+        HashMap<String, HashMap<String, FireEffectSubTypeBase>> effectsMap = message.getEffectsMap();
         
         buf.writeInt(effectsMap.size());
-        
-        for(Map.Entry<String, HashMap<String, FireEffectSubType>> one : effectsMap.entrySet())
+    
+        for(Map.Entry<String, HashMap<String, FireEffectSubTypeBase>> one : effectsMap.entrySet())
         {
             buf.writeUtf(one.getKey());
             buf.writeInt(one.getValue().size());
-            for(Map.Entry<String, FireEffectSubType> two : one.getValue().entrySet())
+            for(Map.Entry<String, FireEffectSubTypeBase> two : one.getValue().entrySet())
             {
                 buf.writeUtf(two.getKey());
-                FireEffectSubType.toNetwork(buf, two.getValue());
+                two.getValue().toNetwork(buf, two.getValue());
             }
         }
     }
     
     public static FireEffectSubTypeMessage decode(FriendlyByteBuf buf)
     {
-        
-        HashMap<String, HashMap<String, FireEffectSubType>> effectsMap = new HashMap<>();
+    
+        HashMap<String, HashMap<String, FireEffectSubTypeBase>> effectsMap = new HashMap<>();
         
         int firstLen = buf.readInt();
         
@@ -57,10 +60,10 @@ public class FireEffectSubTypeMessage
         {
             String mainKey = buf.readUtf();
             int secondLen = buf.readInt();
-            HashMap<String, FireEffectSubType> subMap = new HashMap<>();
+            HashMap<String, FireEffectSubTypeBase> subMap = new HashMap<>();
             for(int j = 0; j < secondLen; j++)
             {
-                subMap.put(buf.readUtf(), FireEffectSubType.fromNetwork(buf));
+                subMap.put(buf.readUtf(), typeBuilders.getOrDefault(mainKey, defaultTypeBuilder).getNewData(buf));
             }
             effectsMap.put(mainKey, subMap);
         }
