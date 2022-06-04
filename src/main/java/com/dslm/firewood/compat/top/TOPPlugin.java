@@ -13,11 +13,11 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.client.gui.ForgeIngameGui;
 
 import java.util.ArrayList;
 
 import static com.dslm.firewood.fireEffectHelper.flesh.FireEffectHelpers.fireTooltips;
+import static com.dslm.firewood.util.StaticValue.ICONS;
 
 
 public class TOPPlugin implements TOPCompat.Provider
@@ -53,13 +53,13 @@ public class TOPPlugin implements TOPCompat.Provider
                     && middle.getDamage() > 0)
             {
                 IconStyle tempIconStyle = new IconStyle();
-                tempIconStyle.width(4).height(9);
+                tempIconStyle.width(5).height(9);
     
                 info.horizontal()
                         .mcText(line)
-                        .icon(ForgeIngameGui.GUI_ICONS_LOCATION, 61, 0, 4, 9, tempIconStyle)
+                        .icon(ICONS, 0, 0, 5, 9, tempIconStyle)
                         .mcText(new TextComponent(String.format(" x%.2f", middle.getDamage())).withStyle(middle.getStyle()))
-                        .icon(ForgeIngameGui.GUI_ICONS_LOCATION, 25, 0, 4, 9, tempIconStyle)
+                        .icon(ICONS, 9, 0, 5, 9, tempIconStyle)
                         .mcText(new TextComponent(String.format(" x%.2f", middle.getMinHealth())).withStyle(middle.getStyle()));
             }
             else

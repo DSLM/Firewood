@@ -6,7 +6,7 @@
     }
   ],
   "tinder": {
-    "item": "firewood:tinder_item"
+    "tag": "firewood:tinder"
   },
   "addEffects": {
   },

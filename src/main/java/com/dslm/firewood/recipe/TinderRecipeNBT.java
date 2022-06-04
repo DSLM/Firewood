@@ -76,6 +76,8 @@ public class TinderRecipeNBT
     
     public static TinderRecipeNBT fromJSON(JsonObject obj)
     {
+        if(obj == null)
+            return fromJSON(null, null);
         return fromJSON(obj.getAsJsonArray("major"), obj.getAsJsonArray("minor"));
     }
     

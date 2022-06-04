@@ -4,7 +4,6 @@ import com.dslm.firewood.compat.top.TOPCompat;
 import com.dslm.firewood.config.Config;
 import com.dslm.firewood.util.StaticValue;
 import com.mojang.logging.LogUtils;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -35,16 +34,11 @@ public class Firewood
     
     private void setup(final FMLCommonSetupEvent event)
     {
-        // some preinit code
-        LOGGER.info("HELLO FROM PREINIT");
-        LOGGER.info("DIRT BLOCK >> {}", Blocks.DIRT.getRegistryName());
     }
     
     // You can use SubscribeEvent and let the Event Bus discover methods to call
     @SubscribeEvent
     public void onServerStarting(ServerStartingEvent event)
     {
-        // Do something when the server starts
-        LOGGER.info("HELLO from server starting");
     }
 }

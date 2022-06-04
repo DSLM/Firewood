@@ -2,16 +2,18 @@
   "parent": "minecraft:recipes/root",
   "rewards": {
     "recipes": [
-      "minecraft:tinder_item"
+      "minecraft:spiritual_campfire_item"
     ]
   },
   "criteria": {
-    "has_stick": {
+    "has_ember": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
-            "tag": "forge:rods/wooden"
+            "items": [
+              "firewood:dying_ember_item"
+            ]
           }
         ]
       }
@@ -19,13 +21,13 @@
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
       "conditions": {
-        "recipe": "minecraft:tinder_item"
+        "recipe": "minecraft:spiritual_campfire_item"
       }
     }
   },
   "requirements": [
     [
-      "has_stick",
+      "has_ember",
       "has_the_recipe"
     ]
   ]

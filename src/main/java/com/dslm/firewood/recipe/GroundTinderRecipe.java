@@ -116,7 +116,7 @@ public class GroundTinderRecipe extends TinderRecipe
     public List<ItemStack> getJEIResult()
     {
         List<ItemStack> groundInput = new ArrayList<>();
-        for(ItemStack i : tinder.getItems())
+        getJEIResultItems().forEach(i ->
         {
             for(Item item : ForgeRegistries.ITEMS)
             {
@@ -128,9 +128,9 @@ public class GroundTinderRecipe extends TinderRecipe
                     }});
                     groundInput.add(stack);
                 }
-    
+        
             }
-        }
+        });
         return groundInput;
     }
     

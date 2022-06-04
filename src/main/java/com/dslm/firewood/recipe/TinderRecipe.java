@@ -5,6 +5,7 @@ import com.dslm.firewood.block.entity.SpiritualCampfireBlockEntity;
 import com.mojang.datafixers.util.Either;
 import net.minecraft.core.NonNullList;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.Recipe;
@@ -16,12 +17,14 @@ import net.minecraftforge.common.util.RecipeMatcher;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Stream;
 
 public class TinderRecipe implements Recipe<SpiritualCampfireBlockEntity>
 {
     protected final ResourceLocation id;
     protected final NonNullList<Ingredient> recipeItems;
     protected final Ingredient tinder;
+    protected final Item targetTinder;
     protected final TinderRecipeNBT addEffects;
     protected final int process;
     protected final double chance;
@@ -29,12 +32,13 @@ public class TinderRecipe implements Recipe<SpiritualCampfireBlockEntity>
     protected final int cooldown;
     protected final double minHealth;
     
-    public TinderRecipe(ResourceLocation id, NonNullList<Ingredient> recipeItems, Ingredient tinder, TinderRecipeNBT addEffects,
+    public TinderRecipe(ResourceLocation id, NonNullList<Ingredient> recipeItems, Ingredient tinder, Item targetTinder, TinderRecipeNBT addEffects,
                         int process, double chance, double damage, int cooldown, double minHealth)
     {
         this.id = id;
         this.recipeItems = recipeItems;
         this.tinder = tinder;
+        this.targetTinder = targetTinder;
         this.addEffects = addEffects;
         this.process = process;
         this.chance = chance;
@@ -48,6 +52,7 @@ public class TinderRecipe implements Recipe<SpiritualCampfireBlockEntity>
         this.id = copy.id;
         this.recipeItems = copy.recipeItems;
         this.tinder = copy.tinder;
+        this.targetTinder = copy.targetTinder;
         this.addEffects = copy.addEffects;
         this.process = copy.process;
         this.chance = copy.chance;
@@ -68,7 +73,11 @@ public class TinderRecipe implements Recipe<SpiritualCampfireBlockEntity>
     @Override
     public ItemStack assemble(SpiritualCampfireBlockEntity container)
     {
-        return addEffects.implementEffects(container.getTinder());
+        if(targetTinder == null)
+            return addEffects.implementEffects(container.getTinder());
+        ItemStack itemStack = new ItemStack(targetTinder);
+        itemStack.setTag(container.getTinder().getOrCreateTag());
+        return addEffects.implementEffects(itemStack);
     }
     
     @Override
@@ -104,6 +113,11 @@ public class TinderRecipe implements Recipe<SpiritualCampfireBlockEntity>
     public Ingredient getTinder()
     {
         return tinder;
+    }
+    
+    public Item getTargetTinder()
+    {
+        return targetTinder;
     }
     
     public TinderRecipeNBT getAddEffects()
@@ -149,8 +163,18 @@ public class TinderRecipe implements Recipe<SpiritualCampfireBlockEntity>
         return list;
     }
     
+    public Stream<ItemStack> getJEIResultItems()
+    {
+        if(targetTinder != null)
+        {
+            ItemStack itemStack = new ItemStack(targetTinder);
+            return Stream.of(itemStack);
+        }
+        return Arrays.stream(tinder.getItems()).map(ItemStack::copy);
+    }
+    
     public List<ItemStack> getJEIResult()
     {
-        return Arrays.stream(tinder.getItems()).map(itemStack -> addEffects.implementEffects(itemStack.copy())).toList();
+        return getJEIResultItems().map(itemStack -> addEffects.implementEffects(itemStack.copy())).toList();
     }
 }

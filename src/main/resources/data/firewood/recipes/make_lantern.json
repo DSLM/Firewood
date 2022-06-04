@@ -1,0 +1,50 @@
+{
+  "type": "firewood:tinder_recipe",
+  "ingredients": [
+    {
+      "tag": "forge:ingots/iron"
+    },
+    {
+      "tag": "forge:ingots/iron"
+    },
+    {
+      "tag": "forge:ingots/iron"
+    },
+    {
+      "tag": "forge:ingots/iron"
+    },
+    {
+      "tag": "forge:glass_panes/white"
+    },
+    {
+      "tag": "forge:glass_panes/white"
+    },
+    {
+      "tag": "forge:ingots/iron"
+    },
+    {
+      "tag": "forge:ingots/iron"
+    },
+    {
+      "tag": "forge:ingots/iron"
+    },
+    {
+      "tag": "forge:ingots/iron"
+    },
+    {
+      "tag": "forge:glass_panes/white"
+    },
+    {
+      "tag": "forge:glass_panes/white"
+    }
+  ],
+  "tinder": {
+    "item": "firewood:tinder_item"
+  },
+  "targetTinder": "firewood:lantern_item",
+  "process": 2,
+  "chance": 100.0,
+  "damage": 1.0,
+  "cooldown": 100,
+  "minHealth": 1.0
+}

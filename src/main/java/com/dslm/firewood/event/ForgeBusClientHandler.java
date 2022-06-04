@@ -18,7 +18,6 @@ import net.minecraft.world.inventory.tooltip.TooltipComponent;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.RenderTooltipEvent;
-import net.minecraftforge.client.gui.ForgeIngameGui;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
@@ -87,22 +86,20 @@ public class ForgeBusClientHandler
             len += Minecraft.getInstance().font.width(middle.getVisualOrderText());
     
     
-            //61, 0: heath icon position
-            //4, 9: heath icon size
-            RenderSystem.setShaderTexture(0, ForgeIngameGui.GUI_ICONS_LOCATION);
+            RenderSystem.setShaderTexture(0, StaticValue.ICONS);
     
-            GuiComponent.blit(pose, len, tooltipY, 61, 0, 4, 9, 256, 256);
-            len += 4;
+            GuiComponent.blit(pose, len, tooltipY, 0, 0, 5, 9, 256, 256);
+            len += 5;
     
             GuiComponent.drawString(pose, Minecraft.getInstance().font, String.format(" x%.2f", middle.getDamage()),
                     len, tooltipY, middle.getStyle().getColor().getValue());
             len += Minecraft.getInstance().font.width(String.format(" x%.2f", middle.getDamage()));
     
     
-            RenderSystem.setShaderTexture(0, ForgeIngameGui.GUI_ICONS_LOCATION);
+            RenderSystem.setShaderTexture(0, StaticValue.ICONS);
     
-            GuiComponent.blit(pose, len, tooltipY, 25, 0, 4, 9, 256, 256);
-            len += 4;
+            GuiComponent.blit(pose, len, tooltipY, 9, 0, 5, 9, 256, 256);
+            len += 5;
     
             GuiComponent.drawString(pose, Minecraft.getInstance().font, String.format(" x%.2f", middle.getMinHealth()),
                     len, tooltipY, middle.getStyle().getColor().getValue());

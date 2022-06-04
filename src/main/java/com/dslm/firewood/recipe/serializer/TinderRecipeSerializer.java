@@ -7,8 +7,10 @@ import com.google.gson.JsonObject;
 import net.minecraft.core.NonNullList;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraftforge.registries.ForgeRegistries;
 
 public class TinderRecipeSerializer<T extends TinderRecipe> implements RecipeSerializer<T>
 {
@@ -53,19 +55,21 @@ public class TinderRecipeSerializer<T extends TinderRecipe> implements RecipeSer
     
         Ingredient tinder = Ingredient.fromJson(json.getAsJsonObject("tinder"));
     
+        Item targetTinder = json.get("targetTinder") == null ? null : ForgeRegistries.ITEMS.getValue(new ResourceLocation(json.get("targetTinder").getAsString()));
+    
         TinderRecipeNBT addEffects = TinderRecipeNBT.fromJSON(json.getAsJsonObject("addEffects"));
     
         int process = json.get("process").getAsInt();
-        
+    
         double chance = json.get("chance").getAsDouble();
-        
+    
         double damage = json.get("damage").getAsDouble();
-        
+    
         int cooldown = json.get("cooldown").getAsInt();
         
         double minHealth = json.get("minHealth").getAsDouble();
-        
-        return getRealClass(new TinderRecipe(id, inputs, tinder, addEffects, process, chance, damage, cooldown, minHealth));
+    
+        return getRealClass(new TinderRecipe(id, inputs, tinder, targetTinder, addEffects, process, chance, damage, cooldown, minHealth));
     }
     
     @Override
@@ -76,22 +80,25 @@ public class TinderRecipeSerializer<T extends TinderRecipe> implements RecipeSer
         {
             inputs.set(i, Ingredient.fromNetwork(buf));
         }
-        
+    
         Ingredient tinder = Ingredient.fromNetwork(buf);
-        
+    
+        String targetName = buf.readUtf();
+        Item targetTinder = "".equals(targetName) ? null : ForgeRegistries.ITEMS.getValue(new ResourceLocation(targetName));
+    
         TinderRecipeNBT addEffects = TinderRecipeNBT.fromNetwork(buf);
-        
+    
         int process = buf.readInt();
-        
+    
         double chance = buf.readDouble();
-        
+    
         double damage = buf.readDouble();
-        
+    
         int cooldown = buf.readInt();
-        
+    
         double minHealth = buf.readDouble();
-        
-        return getRealClass(new TinderRecipe(id, inputs, tinder, addEffects, process, chance, damage, cooldown, minHealth));
+    
+        return getRealClass(new TinderRecipe(id, inputs, tinder, targetTinder, addEffects, process, chance, damage, cooldown, minHealth));
     }
     
     @Override
@@ -105,14 +112,16 @@ public class TinderRecipeSerializer<T extends TinderRecipe> implements RecipeSer
     
         recipe.getTinder().toNetwork(buf);
     
+        buf.writeUtf(recipe.getTargetTinder() == null ? "" : recipe.getTargetTinder().getRegistryName().toString());
+    
         recipe.getAddEffects().toNetwork(buf);
     
         buf.writeInt(recipe.getProcess());
-        
+    
         buf.writeDouble(recipe.getChance());
-        
+    
         buf.writeDouble(recipe.getDamage());
-        
+    
         buf.writeInt(recipe.getCooldown());
         
         buf.writeDouble(recipe.getMinHealth());

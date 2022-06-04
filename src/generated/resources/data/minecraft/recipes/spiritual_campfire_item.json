@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " b ",
+    "bcb",
+    "aaa"
+  ],
+  "key": {
+    "a": {
+      "tag": "minecraft:logs_that_burn"
+    },
+    "b": {
+      "tag": "forge:rods/wooden"
+    },
+    "c": {
+      "item": "firewood:dying_ember_item"
+    }
+  },
+  "result": {
+    "item": "firewood:spiritual_campfire_item"
+  }
+}

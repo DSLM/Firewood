@@ -47,7 +47,7 @@ import net.minecraftforge.registries.RegistryObject;
 
 
 public class Register
-{// TODO: 2022/5/23 方块-物品，方块-实体，实体-物品
+{// TODO: 2022/5/23 方块-物品，方块-实体，实体-物品，火焰材质重叠要改state，JEI服务器有问题？
     private static final DeferredRegister<Block> BLOCKS =
             DeferredRegister.create(ForgeRegistries.BLOCKS, StaticValue.MOD_ID);
     private static final DeferredRegister<Item> ITEMS =

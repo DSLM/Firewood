@@ -1,0 +1,7 @@
+{
+  "replace": false,
+  "values": [
+    "firewood:lantern_item",
+    "firewood:tinder_item"
+  ]
+}

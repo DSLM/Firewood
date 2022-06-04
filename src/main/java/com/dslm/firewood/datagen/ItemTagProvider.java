@@ -24,5 +24,8 @@ public class ItemTagProvider extends ItemTagsProvider
                 .add(Register.LANTERN_ITEM.get());
         tag(TagKey.create(Registry.ITEM_REGISTRY, new ResourceLocation("curios", "charm")))
                 .add(Register.LANTERN_ITEM.get());
+    
+        tag(TagKey.create(Registry.ITEM_REGISTRY, new ResourceLocation("firewood", "tinder")))
+                .add(Register.LANTERN_ITEM.get(), Register.TINDER_ITEM.get());
     }
 }

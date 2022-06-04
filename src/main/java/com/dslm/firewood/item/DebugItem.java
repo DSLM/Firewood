@@ -29,7 +29,7 @@ public class DebugItem extends Item
         player.displayClientMessage(new TextComponent((level.isClientSide ? "client" : "server") + " BlockState:"), false);
         player.displayClientMessage(new TextComponent(s), false);
         
-        return super.useOn(context);
+        return InteractionResult.SUCCESS;
     }
     
     @Override
@@ -38,7 +38,14 @@ public class DebugItem extends Item
         player.displayClientMessage(new TextComponent((level.isClientSide ? "client" : "server") + " Player Cap:"), false);
         player.getCapability(PlayerSpiritualDamageProvider.PLAYER_SPIRITUAL_DAMAGE).ifPresent(
                 data -> player.displayClientMessage(new TextComponent(data.toString()), false));
-        
+
+//        Firewood.LOGGER.info("-----------------------------------------");
+//        for (var item : ForgeRegistries.ITEMS.getValues()) {
+//            if(item.getDefaultInstance().is(DyeColor.LIGHT_BLUE.getTag()))
+//                Firewood.LOGGER.info("{}", item.getRegistryName());
+//
+//        }
+//        Firewood.LOGGER.info("-----------------------------------------");
         return super.use(level, player, usedHand);
     }
 }
