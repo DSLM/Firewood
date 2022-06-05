@@ -8,6 +8,7 @@ import top.theillusivec4.curios.common.capability.CurioItemCapability;
 
 public class Curios
 {
+    
     public static ICapabilityProvider createLanternProvider(ItemStack stack)
     {
         return CurioItemCapability.createProvider(new ICurio()

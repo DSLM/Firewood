@@ -25,7 +25,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.util.FakePlayer;
-import net.minecraftforge.fml.ModList;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -132,7 +131,7 @@ public class LanternItem extends Item implements TinderTypeItemBase
     public ICapabilityProvider initCapabilities(ItemStack stack, CompoundTag nbt)
     {
         initNBT(stack);
-        if(!ModList.get().isLoaded("curios"))
+        if(!StaticValue.checkMod(StaticValue.CURIOS_MOD))
         {
             return null;
         }

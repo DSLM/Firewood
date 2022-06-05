@@ -36,15 +36,18 @@ public class ModBusClientHandler
         MinecraftForgeClient.registerTooltipComponentFactory(ForgeBusClientHandler.IconComponent.class, Function.identity());
         event.enqueueWork(() -> {
             MenuScreens.register(Register.SPIRITUAL_CAMPFIRE_BLOCK_CONTAINER.get(), SpiritualCampfireBlockScreen::new);
-            
+        
             ItemBlockRenderTypes.setRenderLayer(Register.SPIRITUAL_FIRE_BLOCK.get(), RenderType.cutoutMipped());
             ItemBlockRenderTypes.setRenderLayer(Register.SPIRITUAL_CAMPFIRE_BLOCK.get(), RenderType.cutoutMipped());
-            
+        
             ItemProperties.register(Register.LANTERN_ITEM.get(), new ResourceLocation("active_lantern"),
                     (stack, level, Entity, seed) -> stack.getOrCreateTag().getBoolean(StaticValue.ACTIVE_LANTERN) ? 1 : 0);
         });
-        
-        CuriosRendererRegistry.register(Register.LANTERN_ITEM.get(), LanternRendererOnPlayer::new);
+    
+        if(StaticValue.checkMod(StaticValue.CURIOS_MOD))
+        {
+            CuriosRendererRegistry.register(Register.LANTERN_ITEM.get(), LanternRendererOnPlayer::new);
+        }
     }
     
     @SubscribeEvent

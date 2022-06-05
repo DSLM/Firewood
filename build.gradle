@@ -152,14 +152,22 @@ repositories {
     // flatDir {
     //     dir 'libs'
     // }
-    maven { // JEI
+    maven {
+        // JEI
         url "https://dvs1.progwml6.com/files/maven"
     }
-    maven { // TOP
+    maven {
+        // TOP
         url "https://cursemaven.com"
     }
-    maven { // Curios API
+    maven {
+        // Curios API
         url = "https://maven.theillusivec4.top/"
+    }
+    maven {
+        // Patchouli
+        name 'Jared Maven'
+        url 'https://maven.blamejared.com/'
     }
 }
 
@@ -184,6 +192,8 @@ dependencies {
 
     implementation fg.deobf("curse.maven:the-one-probe-245211:3671753")
 
+    compileOnly fg.deobf("vazkii.patchouli:Patchouli:${patchouli_version}")
+    runtimeOnly fg.deobf("vazkii.patchouli:Patchouli:${patchouli_version}")
 
     runtimeOnly fg.deobf("curse.maven:configured-457570:3721946")
     runtimeOnly fg.deobf("curse.maven:catalogue-459701:3803098")

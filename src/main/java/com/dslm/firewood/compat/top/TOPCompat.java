@@ -6,7 +6,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.fml.InterModComms;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,12 +13,6 @@ import java.util.function.Function;
 
 public class TOPCompat
 {
-    
-    public static void register()
-    {
-        InterModComms.sendTo("theoneprobe", "getTheOneProbe", GetTheOneProbe::new);
-    }
-    
     private static List<Provider> providers = new ArrayList<>();
     
     public static class GetTheOneProbe implements Function<ITheOneProbe, Void>

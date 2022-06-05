@@ -5,6 +5,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
+import net.minecraftforge.fml.ModList;
 
 import java.util.HexFormat;
 
@@ -42,5 +43,14 @@ public class StaticValue
     {
         var s1 = s.toLowerCase().replace("0x", "");
         return HexFormat.fromHexDigits(s1);
+    }
+    
+    public static final String TOP_MOD = "theoneprobe";
+    public static final String CURIOS_MOD = "curios";
+    public static final String PATCHOULI_MOD = "patchouli";
+    
+    public static boolean checkMod(String modId)
+    {
+        return ModList.get().isLoaded(modId);
     }
 }
