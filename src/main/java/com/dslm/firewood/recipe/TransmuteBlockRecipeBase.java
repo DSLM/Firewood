@@ -14,7 +14,7 @@ import java.util.List;
 /**
  * NEVER make a instance of this class
  */
-public class TransmuteBlockRecipeBase implements Recipe<FakeTransmuteContainer>
+public class TransmuteBlockRecipeBase implements Recipe<FakeTransmuteContainer>, SubRecipeBase
 {
     protected final ResourceLocation id;
     protected final String recipeType;

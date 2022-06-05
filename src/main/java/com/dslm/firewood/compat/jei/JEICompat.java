@@ -8,6 +8,7 @@ import com.dslm.firewood.recipe.TinderRecipe;
 import com.dslm.firewood.recipe.type.TinderRecipeType;
 import com.dslm.firewood.subType.FireEffectSubTypeBase;
 import com.dslm.firewood.subType.FireEffectSubTypeManager;
+import com.dslm.firewood.subType.SetBlockNameSubType;
 import com.dslm.firewood.util.StaticValue;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
@@ -49,6 +50,8 @@ public class JEICompat implements IModPlugin
         registry.addRecipeCategories(
                 new TinderCategory(guiHelper)
         );
+    
+    
         {
             HashMap<String, RecipeType> subMap = new HashMap<>();
             for(Map.Entry<String, FireEffectSubTypeBase> subTypes : FireEffectSubTypeManager.getEffectsMap().get("firewood:block_to_block").entrySet())
@@ -58,6 +61,18 @@ public class JEICompat implements IModPlugin
                 registry.addRecipeCategories(category);
             }
             recipeTypes.put("block_to_block", subMap);
+        }
+    
+    
+        {
+            HashMap<String, RecipeType> subMap = new HashMap<>();
+            for(Map.Entry<String, FireEffectSubTypeBase> subTypes : FireEffectSubTypeManager.getEffectsMap().get("firewood:set_block_name").entrySet())
+            {
+                var category = new SetBlockNameCategory(guiHelper, subTypes.getKey());
+                subMap.put(subTypes.getKey(), category.getRecipeType());
+                registry.addRecipeCategories(category);
+            }
+            recipeTypes.put("set_block_name", subMap);
         }
     }
     
@@ -78,7 +93,8 @@ public class JEICompat implements IModPlugin
                 .map(recipe -> (TinderRecipe) recipe)
                 .toList();
         registration.addRecipes(TinderCategory.TYPE, tinderRecipes);
-        
+    
+    
         if(recipeTypes.containsKey("block_to_block"))
         {
             for(Map.Entry<String, FireEffectSubTypeBase> subTypes : FireEffectSubTypeManager.getEffectsMap().get("firewood:block_to_block").entrySet())
@@ -88,6 +104,16 @@ public class JEICompat implements IModPlugin
                         .filter(blockRecipe -> blockRecipe.getRecipeSubType().equals(subTypes.getKey()))
                         .toList();
                 registration.addRecipes(recipeTypes.get("block_to_block").get(subTypes.getKey()), recipes);
+            }
+        }
+    
+    
+        if(recipeTypes.containsKey("set_block_name"))
+        {
+            for(Map.Entry<String, FireEffectSubTypeBase> subTypes : FireEffectSubTypeManager.getEffectsMap().get("firewood:set_block_name").entrySet())
+            {
+                var recipes = ((SetBlockNameSubType) subTypes.getValue()).getBlockMap();
+                registration.addRecipes(recipeTypes.get("set_block_name").get(subTypes.getKey()), recipes);
             }
         }
     }
@@ -126,10 +152,19 @@ public class JEICompat implements IModPlugin
         }
         registerRecipeSubCatalyst(registration, RecipeTypes.SMELTING, items, "smelter", null);
     
+    
         {
             for(Map.Entry<String, FireEffectSubTypeBase> subTypes : FireEffectSubTypeManager.getEffectsMap().get("firewood:block_to_block").entrySet())
             {
                 registerRecipeSubCatalyst(registration, recipeTypes.get("block_to_block").get(subTypes.getKey()), items, "block_to_block", subTypes.getKey());
+            }
+        }
+    
+    
+        {
+            for(Map.Entry<String, FireEffectSubTypeBase> subTypes : FireEffectSubTypeManager.getEffectsMap().get("firewood:set_block_name").entrySet())
+            {
+                registerRecipeSubCatalyst(registration, recipeTypes.get("set_block_name").get(subTypes.getKey()), items, "set_block_name", subTypes.getKey());
             }
         }
     
@@ -149,7 +184,7 @@ public class JEICompat implements IModPlugin
             defaultData.put("subType", subType);
             for(Item item : items)
             {
-                registration.addRecipeCatalyst(FireEffectHelpers.addMajorEffects(new ItemStack(item), Arrays.asList(defaultData)), recipeType);
+                registration.addRecipeCatalyst(FireEffectHelpers.addMajorEffects(new ItemStack(item), Collections.singletonList(defaultData)), recipeType);
             }
         }
     }

@@ -6,10 +6,7 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HexFormat;
-import java.util.List;
 
 public class StaticValue
 {
@@ -40,47 +37,6 @@ public class StaticValue
             new ResourceLocation("firewood", "tinder"));
     
     public static final ResourceLocation ICONS = new ResourceLocation(MOD_ID, "textures/gui/icons.png");
-    
-    public static final String[] COLORS = {
-            "light_blue",
-            "light_gray",
-            "white",
-            "orange",
-            "magenta",
-            "yellow",
-            "lime",
-            "pink",
-            "gray",
-            "cyan",
-            "purple",
-            "blue",
-            "brown",
-            "green",
-            "red",
-            "black"};
-    
-    public static final List<String> COLORS_ARRAY = Arrays.asList(COLORS);
-    
-    
-    public static final ArrayList<String> DEFAULT_COLOR_ORDER = new ArrayList<>()
-    {{
-        add("green");
-        add("lime");
-        add("yellow");
-        add("orange");
-        add("red");
-        add("pink");
-        add("magenta");
-        add("purple");
-        add("blue");
-        add("cyan");
-        add("light_blue");
-        add("white");
-        add("light_gray");
-        add("gray");
-        add("black");
-        add("brown");
-    }};
     
     public static int colorInt(String s)
     {

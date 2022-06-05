@@ -20,7 +20,7 @@
   "addEffects": {
     "major": [
       {
-        "type": "dye_block",
+        "type": "set_block_name",
         "subType": "rainbow",
         "process": 0
       }

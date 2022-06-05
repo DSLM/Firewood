@@ -119,8 +119,8 @@ public abstract class TransmuteFireEffectHelperBase extends MajorFireEffectHelpe
     public static void dropItemAt(Level level, BlockPos pos, ItemStack itemStack)
     {
         level.addFreshEntity(new ItemEntity(level, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, itemStack.copy()));
-        
-        return;
+    
+    
     }
     
     @Override
@@ -225,6 +225,8 @@ public abstract class TransmuteFireEffectHelperBase extends MajorFireEffectHelpe
     {
     
         FireEffectSubTypeBase effectData = getSubRealEffect(data);
+        if(effectData == null)
+            return data;
         int nowProccess = Integer.parseInt(data.get(StaticValue.PROCESS)) + 1;
         if(nowProccess < effectData.getProcess())
         {

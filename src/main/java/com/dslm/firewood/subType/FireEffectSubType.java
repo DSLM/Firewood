@@ -77,7 +77,7 @@ public class FireEffectSubType implements FireEffectSubTypeBase
     public FireEffectSubType(FriendlyByteBuf buf)
     {
         this();
-        fromNetwork(buf);
+        copyFrom((FireEffectSubType) fromNetwork(buf));
     }
     
     public String getNamespace()
@@ -180,7 +180,7 @@ public class FireEffectSubType implements FireEffectSubTypeBase
         this.range = range;
     }
     
-    
+    @Override
     public FireEffectSubTypeBase fromNetwork(FriendlyByteBuf buf)
     {
         String namespace = buf.readUtf();
@@ -197,6 +197,7 @@ public class FireEffectSubType implements FireEffectSubTypeBase
         return new FireEffectSubType(namespace, path, id, subId, color, damage, minHealth, process, chance, range);
     }
     
+    @Override
     public void toNetwork(FriendlyByteBuf buf, FireEffectSubTypeBase recipe)
     {
         if(recipe instanceof FireEffectSubType fireEffectSubType)

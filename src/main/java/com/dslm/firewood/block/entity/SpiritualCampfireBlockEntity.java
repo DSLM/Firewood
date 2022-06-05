@@ -394,10 +394,10 @@ public class SpiritualCampfireBlockEntity extends BlockEntity implements Contain
         needSync = true;
     }
     
-    public class SpiritualCampfireBlockInvWrapper extends InvWrapper
+    public static class SpiritualCampfireBlockInvWrapper extends InvWrapper
     {
         public SpiritualCampfireBlockEntity entity;
-        
+    
         public SpiritualCampfireBlockInvWrapper(SpiritualCampfireBlockEntity inv)
         {
             super(inv);

@@ -43,7 +43,7 @@ public class FireEffectHelpers
         majorEffectHelpers.helpers.put("teleport", new TeleportFireEffectHelper("teleport"));
         majorEffectHelpers.helpers.put("smelter", new SmelterFireEffectHelper("smelter"));
         majorEffectHelpers.helpers.put("block_to_block", new BlockToBlockFireEffectHelper("block_to_block"));
-        majorEffectHelpers.helpers.put("dye_block", new DyeBlockFireEffectHelper("dye_block"));
+        majorEffectHelpers.helpers.put("set_block_name", new SetBlockNameFireEffectHelper("set_block_name"));
         
         
         minorEffectHelpers.helpers.put("ground", new GroundFireEffectHelper("ground"));
@@ -341,7 +341,7 @@ public class FireEffectHelpers
     
     public static String getJEIType(ItemStack itemStack)
     {
-        StringBuilder stringBuilder = new StringBuilder("");
+        StringBuilder stringBuilder = new StringBuilder();
         ArrayList<FireEffectNBTData> majorEffects = loadMajorFireData(itemStack.getOrCreateTag());
         ArrayList<FireEffectNBTData> minorEffects = loadMinorFireData(itemStack.getOrCreateTag());
     

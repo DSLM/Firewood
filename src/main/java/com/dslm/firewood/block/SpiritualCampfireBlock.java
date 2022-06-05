@@ -125,7 +125,7 @@ public class SpiritualCampfireBlock extends BaseEntityBlock
             {
                 for(int i = 0; i < pRand.nextInt(1) + 1; ++i)
                 {
-                    pLevel.addParticle(ParticleTypes.LAVA, (double) pPos.getX() + 0.5D, (double) pPos.getY() + 0.5D, (double) pPos.getZ() + 0.5D, (double) (pRand.nextFloat() / 2.0F), 5.0E-5D, (double) (pRand.nextFloat() / 2.0F));
+                    pLevel.addParticle(ParticleTypes.LAVA, (double) pPos.getX() + 0.5D, (double) pPos.getY() + 0.5D, (double) pPos.getZ() + 0.5D, pRand.nextFloat() / 2.0F, 5.0E-5D, pRand.nextFloat() / 2.0F);
                 }
             }
             

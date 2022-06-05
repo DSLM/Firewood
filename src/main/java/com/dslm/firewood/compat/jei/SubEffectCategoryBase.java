@@ -3,6 +3,7 @@ package com.dslm.firewood.compat.jei;
 import com.dslm.firewood.Register;
 import com.dslm.firewood.fireEffectHelper.flesh.FireEffectHelpers;
 import com.dslm.firewood.fireEffectHelper.flesh.data.FireEffectNBTData;
+import com.dslm.firewood.recipe.SubRecipeBase;
 import com.mojang.blaze3d.platform.InputConstants;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -25,17 +26,16 @@ import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.InventoryMenu;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.client.model.data.EmptyModelData;
 import net.minecraftforge.registries.RegistryObject;
 
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import static com.dslm.firewood.util.StaticValue.MOD_ID;
 
-abstract class SubEffectCategoryBase<T extends Recipe<?>> implements IRecipeCategory<T>
+abstract class SubEffectCategoryBase<T extends SubRecipeBase> implements IRecipeCategory<T>
 {
     protected final IDrawable icon;
     protected final String type;
@@ -51,7 +51,7 @@ abstract class SubEffectCategoryBase<T extends Recipe<?>> implements IRecipeCate
         defaultData.put("subType", subType);
         icon = guiHelper.createDrawableIngredient(VanillaTypes.ITEM_STACK,
                 FireEffectHelpers.addMajorEffects(
-                        new ItemStack(Register.TINDER_ITEM.get()), Arrays.asList(defaultData)));
+                        new ItemStack(Register.TINDER_ITEM.get()), Collections.singletonList(defaultData)));
         uid = new ResourceLocation(
                 getSerializer().getId().getNamespace(),
                 "%1$s.%2$s.%3$s".formatted(

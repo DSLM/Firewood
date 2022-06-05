@@ -42,8 +42,8 @@ public class ForgeBusClientHandler
 //     TODO: 2022/5/9 自行实现火焰遮挡视线，参考EntityRenderDispatcher.renderFlame
 
 //        PoseStack pose = e.getMatrixStack();
-//        TextureAtlasSprite textureatlassprite = ModelBakery.FIRE_0.sprite();
-//        TextureAtlasSprite textureatlassprite1 = ModelBakery.FIRE_1.sprite();
+//        TextureAtlasSprite textureAtlasSprite = ModelBakery.FIRE_0.sprite();
+//        TextureAtlasSprite textureAtlasSprite1 = ModelBakery.FIRE_1.sprite();
 //        pose.pushPose();
 //        e.getWindow();
 //        draw

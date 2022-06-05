@@ -47,17 +47,17 @@ public class LanternItem extends Item implements TinderTypeItemBase
         }
     }
     
-    public Boolean isActive(ItemStack itemStack)
+    public boolean isActive(ItemStack itemStack)
     {
         initNBT(itemStack);
         CompoundTag tags = itemStack.getOrCreateTag();
         return tags.getBoolean(StaticValue.ACTIVE_LANTERN);
     }
     
-    public Boolean reverseValue(ItemStack itemStack)
+    public boolean reverseValue(ItemStack itemStack)
     {
         CompoundTag tags = itemStack.getOrCreateTag();
-        Boolean now = tags.getBoolean(StaticValue.ACTIVE_LANTERN);
+        boolean now = tags.getBoolean(StaticValue.ACTIVE_LANTERN);
         tags.putBoolean(StaticValue.ACTIVE_LANTERN, !now);
         return !now;
     }

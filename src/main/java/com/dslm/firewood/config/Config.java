@@ -28,6 +28,7 @@ public class Config
     {
         ForgeConfigSpec.Builder COMMON_BUILDER = new ForgeConfigSpec.Builder();
         //.registerCommonConfig(COMMON_BUILDER);
+        SpiritualFireBlockEffectConfig.registerCommonConfig(COMMON_BUILDER);
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, COMMON_BUILDER.build());
     }
     
@@ -36,7 +37,6 @@ public class Config
         ForgeConfigSpec.Builder SERVER_BUILDER = new ForgeConfigSpec.Builder();
         MobEffectConfig.registerServerConfig(SERVER_BUILDER);
         SpiritualFireBlockEffectConfig.registerServerConfig(SERVER_BUILDER);
-        //SpiritualCampfireBlockConfig.registerServerConfig(SERVER_BUILDER);
         ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, SERVER_BUILDER.build());
     }
 }

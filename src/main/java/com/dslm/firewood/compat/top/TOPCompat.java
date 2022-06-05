@@ -52,9 +52,9 @@ public class TOPCompat
         providers.add(p);
     }
     
-    public static interface Provider
+    public interface Provider
     {
-        public void addProbeInfo(ProbeMode mode, IProbeInfo info, Player player, Level level, BlockState state, IProbeHitData hitData);
+        void addProbeInfo(ProbeMode mode, IProbeInfo info, Player player, Level level, BlockState state, IProbeHitData hitData);
     }
     
 }

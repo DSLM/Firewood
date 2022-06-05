@@ -118,9 +118,7 @@ public class TeleportTinderRecipe extends TinderRecipe
     {
         NonNullList<ItemStack> list = NonNullList.create();
         getJEIResultItems().forEach(i ->
-        {
-            TeleportFireEffectHelper.getInstanceList().get(0).fillItemCategory(list, i.copy());
-        });
+                TeleportFireEffectHelper.getInstanceList().get(0).fillItemCategory(list, i.copy()));
         return list;
     }
     

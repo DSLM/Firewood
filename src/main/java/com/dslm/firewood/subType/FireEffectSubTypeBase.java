@@ -8,7 +8,6 @@ public interface FireEffectSubTypeBase
     
     void toNetwork(FriendlyByteBuf buf, FireEffectSubTypeBase recipe);
     
-    
     String getNamespace();
     
     void setNamespace(String namespace);

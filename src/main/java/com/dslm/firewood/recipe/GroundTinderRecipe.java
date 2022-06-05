@@ -78,9 +78,9 @@ public class GroundTinderRecipe extends TinderRecipe
         return block;
     }
     
-    public class BlockItemIngredient extends Ingredient
+    public static class BlockItemIngredient extends Ingredient
     {
-        
+    
         public BlockItemIngredient()
         {
             super(Stream.of(new ItemValue(ItemStack.EMPTY)));

@@ -113,9 +113,7 @@ public class PotionTinderRecipe extends TinderRecipe
     {
         NonNullList<ItemStack> list = NonNullList.create();
         getJEIResultItems().forEach(i ->
-        {
-            PotionFireEffectHelper.getInstanceList().get(0).fillItemCategory(list, i.copy());
-        });
+                PotionFireEffectHelper.getInstanceList().get(0).fillItemCategory(list, i.copy()));
         return list;
     }
     

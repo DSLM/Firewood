@@ -44,13 +44,13 @@ public class LanguageUtil
     
         //death
         add("death.attack.spiritualFire",
-                "%s\'s spirit is burned to ashes.", "%s的灵魂被烧成了灰烬。");
+                "%s's spirit is burned to ashes.", "%s的灵魂被烧成了灰烬。");
         add("death.attack.spiritualFire.player",
-                "%1$s\'s spirit is burned to ashes by %2$s\'s conspiracy.", "%2$s的阴谋将%1$s的灵魂烧成了灰烬。");
+                "%1$s's spirit is burned to ashes by %2$s's conspiracy.", "%2$s的阴谋将%1$s的灵魂烧成了灰烬。");
         add("death.attack.fleshyFire",
-                "%s\'s flesh is burned to ashes.", "%s的躯体被烧成了灰烬。");
+                "%s's flesh is burned to ashes.", "%s的躯体被烧成了灰烬。");
         add("death.attack.fleshyFire.player",
-                "%1$s\'s flesh is burned to ashes by %2$s\'s conspiracy.", "%2$s的阴谋将%1$s的躯体烧成了灰烬。");
+                "%1$s's flesh is burned to ashes by %2$s's conspiracy.", "%2$s的阴谋将%1$s的躯体烧成了灰烬。");
     
         //config
         add("config.firewood.fired_spirit", "Settings for the Fired Spirit", "燃烧之魂设置");
@@ -73,6 +73,10 @@ public class LanguageUtil
                 "Settings for the Teleport Effects", "传送效果设置");
         add("config.firewood.spiritual_fire_block_effects.major.teleport.base_damage",
                 "the base damage for trigger a teleport effect", "触发一个传送效果时造成的基础伤害");
+        add("config.firewood.spiritual_fire_block_effects.major.set_block_name",
+                "Settings for Set Block By Name Effects", "方块注册名转化效果设置");
+        add("config.firewood.spiritual_fire_block_effects.major.set_block_name.blacklist",
+                "the blacklist for trigger a set block by name effect", "触发一个方块注册名转化效果时忽略的方块列表");
     
         add("config.firewood.spiritual_fire_block_effects.minor",
                 "Settings for the Minor Effects", "次要效果设置");
@@ -86,19 +90,7 @@ public class LanguageUtil
         add("config.firewood.spiritual_fire_block_effects.others.fired_flesh_interval",
                 "Fired Flesh effect time (tick); it is also a cooldown time of triggering spiritual fire effects",
                 "燃烧之躯效果时长（刻）；这个时间也代表着灵性之火效果触发的冷却时间");
-
-
-//        add("config.firewood.spiritual_campfire_block",
-//                "Settings for the Spiritual Campfire Block", "灵性营火效果设置");
-//        add("config.firewood.spiritual_campfire_block.process_damage",
-//                "the base damage for each time offering the campfire process",
-//                "增加营火进度时造成的基础伤害");
-//        add("config.firewood.spiritual_campfire_block.process_chance",
-//                "the success rate of offering the campfire process (%)",
-//                "增加营火进度的成功率（%）");
-//        add("config.firewood.spiritual_campfire_block.fired_flesh_interval",
-//                "Fired Flesh effect time (tick); it is also a cooldown time of offering the campfire process from one entity",
-//                "燃烧之躯效果时长（刻）；这个时间也代表着每个实体增加营火进度的冷却时间");
+    
     
         //tooltip
         add(String.format("tooltip.%s.%s.%s", StaticValue.MOD_ID, Register.DYING_EMBER_ITEM.get(), "1"),
@@ -124,10 +116,12 @@ public class LanguageUtil
                 "Transmute Rock to Mud", "化石为泥");
         add("tooltip." + StaticValue.MOD_ID + "." + Register.TINDER_ITEM.get() + ".major_effect.block_to_block.mud_to_rock",
                 "Transmute Mud to Rock", "化泥为石");
-        add("tooltip." + StaticValue.MOD_ID + "." + Register.TINDER_ITEM.get() + ".major_effect.dye_block",
-                "Dye Block", "方块染色");
-        add("tooltip." + StaticValue.MOD_ID + "." + Register.TINDER_ITEM.get() + ".major_effect.dye_block.rainbow",
+        add("tooltip." + StaticValue.MOD_ID + "." + Register.TINDER_ITEM.get() + ".major_effect.set_block_name",
+                "Set Block by Name", "方块注册名转化");
+        add("tooltip." + StaticValue.MOD_ID + "." + Register.TINDER_ITEM.get() + ".major_effect.set_block_name.rainbow",
                 "Rainbow", "彩虹");
+        add("tooltip." + StaticValue.MOD_ID + "." + Register.TINDER_ITEM.get() + ".major_effect.set_block_name.graft",
+                "Graft", "嫁接");
     
         add("tooltip." + StaticValue.MOD_ID + "." + Register.TINDER_ITEM.get() + ".minor_effect",
                 "§lMinor Effect: ", "§l次要效果：");

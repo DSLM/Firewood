@@ -62,7 +62,7 @@ public class PlayerSpiritualDamageProvider implements ICapabilityProvider, INBTS
         createPlayerSpiritualDamage().loadNBTData(nbt);
     }
     
-    public class PlayerSpiritualDamage
+    public static class PlayerSpiritualDamage
     {
         private float fleshDamage;
         private int fleshColor;

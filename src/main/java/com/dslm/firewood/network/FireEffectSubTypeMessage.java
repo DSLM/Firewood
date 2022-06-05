@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Supplier;
 
-import static com.dslm.firewood.subType.FireEffectSubTypeManager.defaultTypeBuilder;
+import static com.dslm.firewood.subType.FireEffectSubTypeManager.DEFAULT_TYPE_BUILDER;
 import static com.dslm.firewood.subType.FireEffectSubTypeManager.typeBuilders;
 
 public class FireEffectSubTypeMessage
@@ -63,7 +63,7 @@ public class FireEffectSubTypeMessage
             HashMap<String, FireEffectSubTypeBase> subMap = new HashMap<>();
             for(int j = 0; j < secondLen; j++)
             {
-                subMap.put(buf.readUtf(), typeBuilders.getOrDefault(mainKey, defaultTypeBuilder).getNewData(buf));
+                subMap.put(buf.readUtf(), typeBuilders.getOrDefault(mainKey, DEFAULT_TYPE_BUILDER).getNewData(buf));
             }
             effectsMap.put(mainKey, subMap);
         }

@@ -27,12 +27,12 @@ public class SpiritualCampfireRenderer implements BlockEntityRenderer<SpiritualC
     public void render(SpiritualCampfireBlockEntity pBlockEntity, float pPartialTick, PoseStack pPoseStack, MultiBufferSource pBufferSource, int pPackedLight, int pPackedOverlay)
     {
         Direction direction = pBlockEntity.getBlockState().getValue(SpiritualCampfireBlock.FACING);
-        List<ItemStack> nonnulllist = pBlockEntity.getIngredients();
+        List<ItemStack> nonnullList = pBlockEntity.getIngredients();
         int i = (int) pBlockEntity.getBlockPos().asLong();
     
         for(int j = 0; j < SpiritualCampfireBlockEntity.NUM_SLOTS - 1; ++j)
         {
-            ItemStack itemstack = nonnulllist.get(j);
+            ItemStack itemstack = nonnullList.get(j);
             if(itemstack != ItemStack.EMPTY)
             {
                 pPoseStack.pushPose();
@@ -43,14 +43,11 @@ public class SpiritualCampfireRenderer implements BlockEntityRenderer<SpiritualC
                 pPoseStack.mulPose(Vector3f.XP.rotationDegrees(90.0F));
                 switch((j % 6))
                 {
-                    case 3:
+                    case 3 -> {
                         pPoseStack.mulPose(Vector3f.ZP.rotationDegrees(90.0F));
                         pPoseStack.translate(0.75D, 0.0D, 0.0D);
-                        break;
-                    case 4:
-                    case 5:
-                        pPoseStack.translate(0.0D, 0.0D, 0.44921875D / 7 * 3);
-                        break;
+                    }
+                    case 4, 5 -> pPoseStack.translate(0.0D, 0.0D, 0.44921875D / 7 * 3);
                 }
                 pPoseStack.translate(-0.375D, -0.375D, 0.0D);
                 pPoseStack.translate((j % 3) * 0.25D, 0.0D, 0.0D);

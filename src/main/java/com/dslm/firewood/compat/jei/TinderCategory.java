@@ -89,7 +89,7 @@ public class TinderCategory implements IRecipeCategory<TinderRecipe>
             {
                 slot.addItemStacks(inputs.get(i).left().get());
             }
-            else
+            else if(inputs.get(i).right().isPresent())
             {
                 slot.addIngredients(inputs.get(i).right().get());
             }
