@@ -85,10 +85,12 @@ public class PotionTinderRecipe extends TinderRecipe
         return potion;
     }
     
-    public List<Either<List<ItemStack>, Ingredient>> getJEIInputs()
+    @Override
+    public List<Either<List<ItemStack>, Ingredient>> getJEIInputs(int num)
     {
         ArrayList<Either<List<ItemStack>, Ingredient>> list = new ArrayList<>();
-        list.add(Either.right(tinder));
+        list.add(Either.left(getTinderListByNum(num / tinder.getItems().length)));
+        
         if(potion.getItems().length > 0)
         {
             List<ItemStack> potionInput = new ArrayList<>();
@@ -106,6 +108,7 @@ public class PotionTinderRecipe extends TinderRecipe
         return list;
     }
     
+    @Override
     public List<ItemStack> getJEIResult()
     {
         NonNullList<ItemStack> list = NonNullList.create();

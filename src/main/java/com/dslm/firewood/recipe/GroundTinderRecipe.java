@@ -85,7 +85,7 @@ public class GroundTinderRecipe extends TinderRecipe
         {
             super(Stream.of(new ItemValue(ItemStack.EMPTY)));
         }
-        
+    
         @Override
         public boolean test(ItemStack itemStack)
         {
@@ -93,10 +93,11 @@ public class GroundTinderRecipe extends TinderRecipe
         }
     }
     
-    public List<Either<List<ItemStack>, Ingredient>> getJEIInputs()
+    @Override
+    public List<Either<List<ItemStack>, Ingredient>> getJEIInputs(int num)
     {
         ArrayList<Either<List<ItemStack>, Ingredient>> list = new ArrayList<>();
-        list.add(Either.right(tinder));
+        list.add(Either.left(getTinderListByNum(num / tinder.getItems().length)));
         
         List<ItemStack> groundInput = new ArrayList<>();
         for(Item item : ForgeRegistries.ITEMS)
@@ -113,6 +114,7 @@ public class GroundTinderRecipe extends TinderRecipe
         return list;
     }
     
+    @Override
     public List<ItemStack> getJEIResult()
     {
         List<ItemStack> groundInput = new ArrayList<>();
@@ -128,7 +130,7 @@ public class GroundTinderRecipe extends TinderRecipe
                     }});
                     groundInput.add(stack);
                 }
-        
+                
             }
         });
         return groundInput;

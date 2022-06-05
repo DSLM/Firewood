@@ -155,10 +155,23 @@ public class TinderRecipe implements Recipe<SpiritualCampfireBlockEntity>
         return recipeItems;
     }
     
-    public List<Either<List<ItemStack>, Ingredient>> getJEIInputs()
+    public List<ItemStack> getTinderListByNum(int num)
+    {
+        ArrayList<ItemStack> list = new ArrayList<>();
+        Arrays.stream(tinder.getItems()).forEach(itemStack -> {
+            for(int i = 0; i < num; i++)
+            {
+                list.add(itemStack);
+            }
+        });
+        return list;
+    }
+    
+    public List<Either<List<ItemStack>, Ingredient>> getJEIInputs(int num)
     {
         ArrayList<Either<List<ItemStack>, Ingredient>> list = new ArrayList<>();
-        list.add(Either.right(tinder));
+        list.add(Either.left(getTinderListByNum(num / tinder.getItems().length)));
+        
         recipeItems.forEach(item -> list.add(Either.right(item)));
         return list;
     }

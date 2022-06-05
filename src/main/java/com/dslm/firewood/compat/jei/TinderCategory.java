@@ -71,8 +71,15 @@ public class TinderCategory implements IRecipeCategory<TinderRecipe>
     @Override
     public void setRecipe(IRecipeLayoutBuilder builder, TinderRecipe recipe, IFocusGroup focuses)
     {
+        var outputs = recipe.getJEIResult();
+        //Outputs
+        builder.addSlot(RecipeIngredientRole.OUTPUT,
+                startPoint.getLeft() + SpiritualCampfireBlockMenu.slotsPos.get(0).getLeft() + 101,
+                startPoint.getRight() + SpiritualCampfireBlockMenu.slotsPos.get(0).getRight())
+                .addItemStacks(outputs);
+    
         //Inputs
-        List<Either<List<ItemStack>, Ingredient>> inputs = recipe.getJEIInputs();
+        List<Either<List<ItemStack>, Ingredient>> inputs = recipe.getJEIInputs(outputs.size());
         for(int i = 0; i < inputs.size(); i++)
         {
             IRecipeSlotBuilder slot = builder.addSlot(RecipeIngredientRole.INPUT,
@@ -88,11 +95,6 @@ public class TinderCategory implements IRecipeCategory<TinderRecipe>
             }
     
         }
-    
-        builder.addSlot(RecipeIngredientRole.OUTPUT,
-                startPoint.getLeft() + SpiritualCampfireBlockMenu.slotsPos.get(0).getLeft() + 101,
-                startPoint.getRight() + SpiritualCampfireBlockMenu.slotsPos.get(0).getRight())
-                .addItemStacks(recipe.getJEIResult());
     
         builder.addInvisibleIngredients(RecipeIngredientRole.INPUT).addIngredients(recipe.getTinder());
     }
