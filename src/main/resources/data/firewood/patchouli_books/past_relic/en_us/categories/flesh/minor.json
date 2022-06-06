@@ -1,0 +1,7 @@
+{
+  "sortnum": 1,
+  "name": "patchouli.firewood.book.categories.fire_effects.flesh.minor.name",
+  "description": "patchouli.firewood.book.categories.fire_effects.flesh.minor.description",
+  "icon": "minecraft:rotten_flesh",
+  "parent": "firewood:fleshy_fire_effects"
+}

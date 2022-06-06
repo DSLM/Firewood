@@ -1,0 +1,12 @@
+{
+  "sortnum": 1,
+  "name": "patchouli.firewood.book.entries.fire_effects.flesh.major.teleport.name",
+  "category": "firewood:flesh/major",
+  "icon": "minecraft:ender_eye",
+  "pages": [
+    {
+      "type": "text",
+      "text": "patchouli.firewood.book.entries.fire_effects.flesh.major.teleport.pages.0.text"
+    }
+  ]
+}

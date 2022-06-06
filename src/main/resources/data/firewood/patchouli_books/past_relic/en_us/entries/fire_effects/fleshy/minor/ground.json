@@ -1,0 +1,12 @@
+{
+  "sortnum": 0,
+  "name": "patchouli.firewood.book.entries.fire_effects.flesh.minor.ground.name",
+  "category": "firewood:flesh/minor",
+  "icon": "minecraft:bone_block",
+  "pages": [
+    {
+      "type": "text",
+      "text": "patchouli.firewood.book.entries.fire_effects.flesh.minor.ground.pages.0.text"
+    }
+  ]
+}

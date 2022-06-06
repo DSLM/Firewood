@@ -1,0 +1,12 @@
+{
+  "sortnum": 0,
+  "name": "patchouli.firewood.book.entries.fire_effects.flesh.major.potion.name",
+  "category": "firewood:flesh/major",
+  "icon": "minecraft:potion{'Potion':'water'}",
+  "pages": [
+    {
+      "type": "text",
+      "text": "patchouli.firewood.book.entries.fire_effects.flesh.major.potion.pages.0.text"
+    }
+  ]
+}

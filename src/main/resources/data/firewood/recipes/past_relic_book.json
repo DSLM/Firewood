@@ -1,0 +1,12 @@
+{
+  "type": "patchouli:shapeless_book_recipe",
+  "ingredients": [
+    {
+      "item": "firewood:dying_ember_item"
+    },
+    {
+      "item": "minecraft:book"
+    }
+  ],
+  "book": "firewood:past_relic"
+}

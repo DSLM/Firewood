@@ -1,0 +1,10 @@
+{
+  "name": "patchouli.firewood.book.name",
+  "landing_text": "patchouli.firewood.book.landing_text",
+  "book_texture": "patchouli:textures/gui/book_gray.png",
+  "model": "patchouli:book_gray",
+  "creative_tab": "firewood",
+  "show_progress": false,
+  "i18n": true,
+  "version": 1
+}
