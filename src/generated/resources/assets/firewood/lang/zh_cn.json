@@ -1,4 +1,5 @@
 {
+  "block.firewood.lantern_block": "\u63D0\u706F",
   "block.firewood.spiritual_campfire_block": "\u7075\u6027\u8425\u706B",
   "block.firewood.spiritual_fire_block": "\u7075\u6027\u4E4B\u706B",
   "config.firewood.fired_flesh": "\u71C3\u70E7\u4E4B\u8EAF\u8BBE\u7F6E",
@@ -26,7 +27,6 @@
   "effect.firewood.fired_spirit": "\u71C3\u70E7\u4E4B\u9B42",
   "item.firewood.debug_item": "\u6D4B\u8BD5\u5DE5\u5177",
   "item.firewood.dying_ember_item": "\u4F59\u70EC",
-  "item.firewood.lantern_item": "\u63D0\u706F",
   "item.firewood.tinder_item": "\u706B\u79CD",
   "itemGroup.firewood": "\u85AA\u706B",
   "patchouli.firewood.book.categories.fire_effects.description": "\u4ECB\u7ECD\u4E86\u6240\u6709\u7684\u706B\u7130\u6548\u679C\u3002",

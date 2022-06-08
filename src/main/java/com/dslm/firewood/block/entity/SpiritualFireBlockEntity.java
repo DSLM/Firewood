@@ -29,18 +29,6 @@ public class SpiritualFireBlockEntity extends BlockEntity
     {
         super(Register.SPIRITUAL_FIRE_BLOCK_ENTITY.get(), pWorldPosition, pBlockState);
     }
-
-
-//    public void use(Player player)
-//    {
-//        if(getLevel().isClientSide())
-//        {
-//        } else
-//        {
-//
-//            sync();
-//        }
-//    }
     
     protected void sync()
     {

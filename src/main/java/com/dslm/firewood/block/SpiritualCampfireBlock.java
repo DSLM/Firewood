@@ -97,21 +97,25 @@ public class SpiritualCampfireBlock extends BaseEntityBlock
         };
     }
     
+    @Override
     public BlockEntity newBlockEntity(BlockPos pPos, BlockState pState)
     {
         return new SpiritualCampfireBlockEntity(pPos, pState);
     }
     
-    public BlockState getStateForPlacement(BlockPlaceContext pContext)
+    @Override
+    public BlockState getStateForPlacement(BlockPlaceContext context)
     {
-        return this.defaultBlockState().setValue(LIT, Boolean.FALSE).setValue(FACING, pContext.getHorizontalDirection());
+        return this.defaultBlockState().setValue(LIT, Boolean.FALSE).setValue(FACING, context.getHorizontalDirection());
     }
     
+    @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> pBuilder)
     {
         pBuilder.add(LIT, FACING);
     }
     
+    @Override
     public void animateTick(BlockState pState, Level pLevel, BlockPos pPos, Random pRand)
     {
         if(pState.getValue(LIT))
@@ -132,6 +136,7 @@ public class SpiritualCampfireBlock extends BaseEntityBlock
         }
     }
     
+    @Override
     public VoxelShape getShape(BlockState pState, BlockGetter pLevel, BlockPos pPos, CollisionContext pContext)
     {
         return SHAPE;

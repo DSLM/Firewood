@@ -1,11 +1,13 @@
 package com.dslm.firewood.event;
 
 import com.dslm.firewood.Register;
+import com.dslm.firewood.block.entity.LanternBlockEntity;
 import com.dslm.firewood.block.entity.SpiritualCampfireBlockEntity;
 import com.dslm.firewood.block.entity.SpiritualFireBlockEntity;
 import com.dslm.firewood.fireEffectHelper.flesh.FireEffectHelpers;
 import com.dslm.firewood.fireEffectHelper.flesh.data.FireEffectNBTHelper;
 import com.dslm.firewood.item.TinderTypeItemBase;
+import com.dslm.firewood.render.LanternModelLoader;
 import com.dslm.firewood.render.LanternRendererOnPlayer;
 import com.dslm.firewood.render.SpiritualCampfireRenderer;
 import com.dslm.firewood.screen.SpiritualCampfireBlockScreen;
@@ -19,6 +21,8 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.MinecraftForgeClient;
 import net.minecraftforge.client.event.ColorHandlerEvent;
 import net.minecraftforge.client.event.EntityRenderersEvent;
+import net.minecraftforge.client.event.ModelRegistryEvent;
+import net.minecraftforge.client.model.ModelLoaderRegistry;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
@@ -39,7 +43,8 @@ public class ModBusClientHandler
         
             ItemBlockRenderTypes.setRenderLayer(Register.SPIRITUAL_FIRE_BLOCK.get(), RenderType.cutoutMipped());
             ItemBlockRenderTypes.setRenderLayer(Register.SPIRITUAL_CAMPFIRE_BLOCK.get(), RenderType.cutoutMipped());
-        
+            ItemBlockRenderTypes.setRenderLayer(Register.LANTERN_BLOCK.get(), RenderType.translucent());
+    
             ItemProperties.register(Register.LANTERN_ITEM.get(), new ResourceLocation("active_lantern"),
                     (stack, level, Entity, seed) -> stack.getOrCreateTag().getBoolean(StaticValue.ACTIVE_LANTERN) ? 1 : 0);
         });
@@ -48,6 +53,12 @@ public class ModBusClientHandler
         {
             CuriosRendererRegistry.register(Register.LANTERN_ITEM.get(), LanternRendererOnPlayer::new);
         }
+    }
+    
+    @SubscribeEvent
+    public static void onModelRegistryEvent(ModelRegistryEvent event)
+    {
+        ModelLoaderRegistry.registerLoader(LanternModelLoader.LANTERN_LOADER, new LanternModelLoader());
     }
     
     @SubscribeEvent
@@ -69,6 +80,13 @@ public class ModBusClientHandler
                                                 FireEffectNBTHelper.loadMinorFireData(((SpiritualCampfireBlockEntity) world.getBlockEntity(pos)).getItem(0).getOrCreateTag()))
                                         : -1 : -1,
                 Register.SPIRITUAL_CAMPFIRE_BLOCK.get());
+        
+        event.getBlockColors().register(
+                (state, world, pos, tintIndex) ->
+                {
+                    return ((LanternBlockEntity) world.getBlockEntity(pos)).getColor();
+                },
+                Register.LANTERN_BLOCK.get());
     }
     
     @SubscribeEvent

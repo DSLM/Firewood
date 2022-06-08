@@ -1,4 +1,5 @@
 {
+  "block.firewood.lantern_block": "Lantern",
   "block.firewood.spiritual_campfire_block": "Spiritual Campfire",
   "block.firewood.spiritual_fire_block": "Spiritual Fire",
   "config.firewood.fired_flesh": "Settings for the Fired Flesh",
@@ -26,7 +27,6 @@
   "effect.firewood.fired_spirit": "Fired Spirit",
   "item.firewood.debug_item": "DEBUG Tool",
   "item.firewood.dying_ember_item": "Dying Ember",
-  "item.firewood.lantern_item": "Lantern",
   "item.firewood.tinder_item": "Tinder",
   "itemGroup.firewood": "Firewood",
   "patchouli.firewood.book.categories.fire_effects.description": "Introduce All Fire Effects.",

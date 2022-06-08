@@ -20,6 +20,8 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 
 import java.awt.*;
@@ -374,7 +376,19 @@ public class FireEffectHelpers
                 return false;
             }
         }
-        
+    
         return true;
+    }
+    
+    public static Block getBlock(List<FireEffectNBTData> minorEffects)
+    {
+        for(var data : minorEffects)
+        {
+            if(data.getType().equals("ground"))
+            {
+                return GroundFireEffectHelper.getBlock(data.get("block"));
+            }
+        }
+        return Blocks.AIR;
     }
 }

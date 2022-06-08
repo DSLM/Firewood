@@ -1,7 +1,9 @@
 package com.dslm.firewood;
 
+import com.dslm.firewood.block.LanternBlock;
 import com.dslm.firewood.block.SpiritualCampfireBlock;
 import com.dslm.firewood.block.SpiritualFireBlock;
+import com.dslm.firewood.block.entity.LanternBlockEntity;
 import com.dslm.firewood.block.entity.SpiritualCampfireBlockEntity;
 import com.dslm.firewood.block.entity.SpiritualFireBlockEntity;
 import com.dslm.firewood.compat.top.TOPPlugin;
@@ -47,7 +49,7 @@ import net.minecraftforge.registries.RegistryObject;
 
 
 public class Register
-{// TODO: 2022/5/23 方块-物品，方块-实体，实体-物品，火焰材质重叠要改state，JEI服务器有问题？
+{// TODO: 2022/5/23 方块-物品，方块-实体，实体-物品，火焰材质重叠要改state
     private static final DeferredRegister<Block> BLOCKS =
             DeferredRegister.create(ForgeRegistries.BLOCKS, StaticValue.MOD_ID);
     private static final DeferredRegister<Item> ITEMS =
@@ -88,14 +90,20 @@ public class Register
             BLOCKS.register("spiritual_campfire_block",
                     () -> new SpiritualCampfireBlock(
                             BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.PODZOL).strength(2F).sound(SoundType.WOOD).lightLevel((s) -> s.getValue(BlockStateProperties.LIT) ? 15 : 0).noOcclusion()));
+    public static final RegistryObject<Block> LANTERN_BLOCK =
+            BLOCKS.register("lantern_block",
+                    () -> new LanternBlock(
+                            BlockBehaviour.Properties.of(Material.METAL).requiresCorrectToolForDrops().strength(3.5F).sound(SoundType.LANTERN).lightLevel((s) -> s.getValue(BlockStateProperties.LIT) ? 15 : 0)));
     
-    // TODO: 2022/6/3 BlockEntityType?
     public static final RegistryObject<BlockEntityType<SpiritualFireBlockEntity>> SPIRITUAL_FIRE_BLOCK_ENTITY =
             BLOCK_ENTITIES.register("spiritual_fire_block_entity", () ->
                     BlockEntityType.Builder.of(SpiritualFireBlockEntity::new, SPIRITUAL_FIRE_BLOCK.get()).build(null));
     public static final RegistryObject<BlockEntityType<SpiritualCampfireBlockEntity>> SPIRITUAL_CAMPFIRE_BLOCK_ENTITY =
             BLOCK_ENTITIES.register("spiritual_campfire_block_entity", () ->
                     BlockEntityType.Builder.of(SpiritualCampfireBlockEntity::new, SPIRITUAL_CAMPFIRE_BLOCK.get()).build(null));
+    public static final RegistryObject<BlockEntityType<LanternBlockEntity>> LANTERN_BLOCK_ENTITY =
+            BLOCK_ENTITIES.register("lantern_block_entity", () ->
+                    BlockEntityType.Builder.of(LanternBlockEntity::new, LANTERN_BLOCK.get()).build(null));
     
     
     public static final RegistryObject<Item> SPIRITUAL_CAMPFIRE_ITEM =
@@ -106,7 +114,8 @@ public class Register
     public static final RegistryObject<Item> TINDER_ITEM =
             ITEMS.register("tinder_item", () -> new TinderItem(new Item.Properties().stacksTo(1).tab(CREATIVE_MODE_TAB)));
     public static final RegistryObject<Item> LANTERN_ITEM =
-            ITEMS.register("lantern_item", () -> new LanternItem(new Item.Properties().stacksTo(1).tab(CREATIVE_MODE_TAB)));
+            ITEMS.register("lantern_item",
+                    () -> new LanternItem(LANTERN_BLOCK.get(), new Item.Properties().stacksTo(1).tab(CREATIVE_MODE_TAB)));
     public static final RegistryObject<Item> DEBUG_ITEM =
             ITEMS.register("debug_item", () -> new DebugItem(new Item.Properties().tab(CREATIVE_MODE_TAB)));
     

@@ -1,0 +1,25 @@
+{
+  "variants": {
+    "facing=up": {
+      "model": "firewood:block/lantern_block"
+    },
+    "facing=down": {
+      "model": "firewood:block/lantern_block"
+    },
+    "facing=east": {
+      "model": "firewood:block/lantern_block"
+    },
+    "facing=south": {
+      "model": "firewood:block/lantern_block",
+      "y": 90
+    },
+    "facing=west": {
+      "model": "firewood:block/lantern_block",
+      "y": 180
+    },
+    "facing=north": {
+      "model": "firewood:block/lantern_block",
+      "y": 270
+    }
+  }
+}

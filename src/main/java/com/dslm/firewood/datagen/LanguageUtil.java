@@ -32,12 +32,12 @@ public class LanguageUtil
         {
             add(Register.SPIRITUAL_FIRE_BLOCK.get(), "Spiritual Fire", "灵性之火");
             add(Register.SPIRITUAL_CAMPFIRE_BLOCK.get(), "Spiritual Campfire", "灵性营火");
+            add(Register.LANTERN_BLOCK.get(), "Lantern", "提灯");
         }
     
         //item
         {
             add(Register.TINDER_ITEM.get(), "Tinder", "火种");
-            add(Register.LANTERN_ITEM.get(), "Lantern", "提灯");
             add(Register.DYING_EMBER_ITEM.get(), "Dying Ember", "余烬");
             add(Register.DEBUG_ITEM.get(), "DEBUG Tool", "测试工具");
         }
