@@ -19,7 +19,7 @@ public class DataGenerators
             generator.addProvider(new RecipeProvider(generator));
             //generator.addProvider(new TutLootTables(generator));
             BlockTagProvider blockTags = new BlockTagProvider(generator, event.getExistingFileHelper());
-            //generator.addProvider(blockTags);
+            generator.addProvider(blockTags);
             generator.addProvider(new ItemTagProvider(generator, blockTags, event.getExistingFileHelper()));
         }
         if(event.includeClient())

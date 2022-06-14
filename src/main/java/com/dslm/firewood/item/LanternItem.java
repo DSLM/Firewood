@@ -8,17 +8,12 @@ import com.dslm.firewood.fireEffectHelper.flesh.data.FireEffectNBTHelper;
 import com.dslm.firewood.fireEffectHelper.flesh.data.TinderSourceType;
 import com.dslm.firewood.util.StaticValue;
 import net.minecraft.ChatFormatting;
-import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TranslatableComponent;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.sounds.SoundEvents;
-import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
@@ -26,18 +21,15 @@ import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
-import net.minecraft.world.item.context.UseOnContext;
+import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.util.FakePlayer;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static com.dslm.firewood.Register.LANTERN_BLOCK;
 
 
 public class LanternItem extends BlockItem implements TinderTypeItemBase
@@ -48,40 +40,15 @@ public class LanternItem extends BlockItem implements TinderTypeItemBase
     }
     
     @Override
-    public InteractionResult useOn(UseOnContext context)
+    protected boolean placeBlock(BlockPlaceContext context, BlockState state)
     {
-        Player player = context.getPlayer();
-        Level level = context.getLevel();
-        BlockPos blockpos = context.getClickedPos();
-        BlockPos blockpos1 = blockpos.relative(context.getClickedFace());
-        ItemStack itemStack = context.getItemInHand();
-        BlockState blockstate = level.getBlockState(blockpos1);
-        if(blockstate.isAir())
-        {
-            level.playSound(player, blockpos1, SoundEvents.ANVIL_PLACE, SoundSource.BLOCKS, 1.0F, level.getRandom().nextFloat() * 0.4F + 0.8F);
-            BlockState blockstate1 = LANTERN_BLOCK.get().defaultBlockState();
-            level.setBlock(blockpos1, blockstate1, 11);
-            level.gameEvent(player, GameEvent.BLOCK_PLACE, blockpos);
-            
-            level.getBlockEntity(blockpos1).load(itemStack.getOrCreateTag());
-            if(player instanceof ServerPlayer)
-            {
-                CriteriaTriggers.PLACED_BLOCK.trigger((ServerPlayer) player, blockpos1, itemStack);
-                if(!player.getAbilities().instabuild)
-                {
-                    itemStack.shrink(1);
-                }
-            }
-            
-            return InteractionResult.sidedSuccess(level.isClientSide());
-        }
-        else
-        {
-            return InteractionResult.PASS;
-        }
+        
+        Boolean result = context.getLevel().setBlock(context.getClickedPos(), state, 11);
+        context.getLevel().getBlockEntity(context.getClickedPos()).load(context.getItemInHand().getOrCreateTag());
+        return result;
     }
     
-    public void initNBT(ItemStack itemStack)
+    public static void initNBT(ItemStack itemStack)
     {
         CompoundTag tags = itemStack.getOrCreateTag();
         if(!tags.contains(StaticValue.ACTIVE_LANTERN))
@@ -90,14 +57,14 @@ public class LanternItem extends BlockItem implements TinderTypeItemBase
         }
     }
     
-    public boolean isActive(ItemStack itemStack)
+    public static boolean isActive(ItemStack itemStack)
     {
         initNBT(itemStack);
         CompoundTag tags = itemStack.getOrCreateTag();
         return tags.getBoolean(StaticValue.ACTIVE_LANTERN);
     }
     
-    public boolean reverseValue(ItemStack itemStack)
+    public static boolean reverseValue(ItemStack itemStack)
     {
         CompoundTag tags = itemStack.getOrCreateTag();
         boolean now = tags.getBoolean(StaticValue.ACTIVE_LANTERN);
@@ -183,6 +150,5 @@ public class LanternItem extends BlockItem implements TinderTypeItemBase
         }
         return Curios.createLanternProvider(stack);
     }
-    
     
 }

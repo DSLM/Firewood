@@ -27,9 +27,9 @@ import static com.dslm.firewood.fireEffectHelper.flesh.data.FireEffectNBTHelper.
 
 public class LanternBlockEntity extends BlockEntity
 {
-    private int color = -1;
-    public ArrayList<FireEffectNBTData> majorEffects = new ArrayList<>();
-    public ArrayList<FireEffectNBTData> minorEffects = new ArrayList<>();
+    protected int color = -1;
+    protected ArrayList<FireEffectNBTData> majorEffects = new ArrayList<>();
+    protected ArrayList<FireEffectNBTData> minorEffects = new ArrayList<>();
     
     public static final ModelProperty<Integer> COLOR = new ModelProperty<>();
     public static final ModelProperty<Block> BASE_BLOCK = new ModelProperty<>();
@@ -122,5 +122,25 @@ public class LanternBlockEntity extends BlockEntity
                     .forEach(k -> k.connection.send(p));
             setChanged();
         }
+    }
+    
+    public ArrayList<FireEffectNBTData> getMajorEffects()
+    {
+        return majorEffects;
+    }
+    
+    public void setMajorEffects(ArrayList<FireEffectNBTData> majorEffects)
+    {
+        this.majorEffects = majorEffects;
+    }
+    
+    public ArrayList<FireEffectNBTData> getMinorEffects()
+    {
+        return minorEffects;
+    }
+    
+    public void setMinorEffects(ArrayList<FireEffectNBTData> minorEffects)
+    {
+        this.minorEffects = minorEffects;
     }
 }

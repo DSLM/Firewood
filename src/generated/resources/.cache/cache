@@ -6,6 +6,7 @@ cc19718020bbec3fb5fadeedcc12718e37c4468a assets/firewood/models/item/spiritual_c
 369c6aa5fe1ea9e919e0c4ab8358fd4219ad02d4 assets/firewood/models/item/tinder_item.json
 ff6b7e45927f9e97917532f8b4f1da44d8a47cf1 data/curios/tags/items/belt.json
 ff6b7e45927f9e97917532f8b4f1da44d8a47cf1 data/curios/tags/items/charm.json
+83df5a48ba27bc227e0bcdea7af53bab37dbe9e6 data/firewood/tags/blocks/tinder.json
 efefc03403be02c7308d54482ef2e74468fc09bc data/firewood/tags/items/tinder.json
 8567108a8baa167f4a2715b0b2d5bff3895ba5bb data/minecraft/advancements/recipes/firewood/dying_ember_item.json
 63ce0e47028277ba56e4716c31bf515fd88a1180 data/minecraft/advancements/recipes/firewood/spiritual_campfire_item.json
@@ -13,3 +14,5 @@ efefc03403be02c7308d54482ef2e74468fc09bc data/firewood/tags/items/tinder.json
 c6f6e39b1767ccb5f14194b35d2c9a2a68c2846d data/minecraft/recipes/dying_ember_item.json
 3100b96b862a35abbf849ffa3c35fafe630c0952 data/minecraft/recipes/spiritual_campfire_item.json
 0890fefd4d5387d1aed179057ae0ec8efde1b76e data/minecraft/recipes/tinder_item.json
+0b688dff175a45c1df20b2711bed7118e64ee970 data/minecraft/tags/blocks/mineable/pickaxe.json
+0b688dff175a45c1df20b2711bed7118e64ee970 data/minecraft/tags/blocks/needs_iron_tool.json

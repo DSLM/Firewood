@@ -6,6 +6,7 @@ import net.minecraft.core.Registry;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.tags.BlockTagsProvider;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagKey;
 import net.minecraftforge.common.data.ExistingFileHelper;
 
@@ -21,5 +22,10 @@ public class BlockTagProvider extends BlockTagsProvider
     {
         tag(TagKey.create(Registry.BLOCK_REGISTRY, new ResourceLocation("firewood", "tinder")))
                 .add(Register.SPIRITUAL_FIRE_BLOCK.get());
+    
+        tag(BlockTags.MINEABLE_WITH_PICKAXE)
+                .add(Register.LANTERN_BLOCK.get());
+        tag(BlockTags.NEEDS_IRON_TOOL)
+                .add(Register.LANTERN_BLOCK.get());
     }
 }
