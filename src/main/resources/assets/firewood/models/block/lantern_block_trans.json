@@ -1,5 +1,5 @@
 {
   "parent": "minecraft:block/cube",
   "loader": "firewood:lantern_loader",
-  "translucent": false
+  "translucent": true
 }

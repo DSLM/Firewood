@@ -26,15 +26,17 @@ public class LanternModelLoader implements IModelLoader<LanternModelLoader.Lante
     public static final ResourceLocation GENERATOR_SHELL_SIDE = new ResourceLocation(StaticValue.MOD_ID, "block/lantern_shell");
     public static final ResourceLocation GENERATOR_SHELL_BOTTOM = new ResourceLocation(StaticValue.MOD_ID, "block/lantern_shell");
     public static final ResourceLocation GENERATOR_SHELL_GLASS = new ResourceLocation(StaticValue.MOD_ID, "block/lantern_glass");
+    public static final ResourceLocation GENERATOR_SHELL_TRANS_GLASS = new ResourceLocation(StaticValue.MOD_ID, "block/lantern_trans_glass");
     
     public static final Material MATERIAL_SHELL_SIDE = ForgeHooksClient.getBlockMaterial(GENERATOR_SHELL_SIDE);
     public static final Material MATERIAL_SHELL_BOTTOM = ForgeHooksClient.getBlockMaterial(GENERATOR_SHELL_BOTTOM);
     public static final Material MATERIAL_SHELL_GLASS = ForgeHooksClient.getBlockMaterial(GENERATOR_SHELL_GLASS);
+    public static final Material MATERIAL_SHELL_TRANS_GLASS = ForgeHooksClient.getBlockMaterial(GENERATOR_SHELL_TRANS_GLASS);
     
     @Override
     public LanternModelGeometry read(JsonDeserializationContext deserializationContext, JsonObject modelContents)
     {
-        return new LanternModelGeometry();
+        return new LanternModelGeometry(deserializationContext.deserialize(modelContents.get("translucent"), Boolean.class));
     }
     
     @Override
@@ -46,17 +48,23 @@ public class LanternModelLoader implements IModelLoader<LanternModelLoader.Lante
     
     public static class LanternModelGeometry implements IModelGeometry<LanternModelGeometry>
     {
+        public final boolean translucent;
+        
+        public LanternModelGeometry(boolean translucent)
+        {
+            this.translucent = translucent;
+        }
         
         @Override
         public BakedModel bake(IModelConfiguration owner, ModelBakery bakery, Function<Material, TextureAtlasSprite> spriteGetter, ModelState modelTransform, ItemOverrides overrides, ResourceLocation modelLocation)
         {
-            return new LanternBakedModel(modelTransform, spriteGetter, overrides, owner.getCameraTransforms());
+            return new LanternBakedModel(modelTransform, spriteGetter, overrides, owner.getCameraTransforms(), translucent);
         }
         
         @Override
         public Collection<Material> getTextures(IModelConfiguration owner, Function<ResourceLocation, UnbakedModel> modelGetter, Set<Pair<String, String>> missingTextureErrors)
         {
-            return List.of(MATERIAL_SHELL_SIDE, MATERIAL_SHELL_BOTTOM, MATERIAL_SHELL_GLASS);
+            return List.of(MATERIAL_SHELL_SIDE, MATERIAL_SHELL_BOTTOM, MATERIAL_SHELL_GLASS, MATERIAL_SHELL_TRANS_GLASS);
         }
     }
 }

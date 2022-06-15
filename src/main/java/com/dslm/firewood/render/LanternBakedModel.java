@@ -2,7 +2,9 @@ package com.dslm.firewood.render;
 
 import com.dslm.firewood.block.entity.LanternBlockEntity;
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.math.Quaternion;
 import com.mojang.math.Transformation;
+import com.mojang.math.Vector3f;
 import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.block.model.ItemOverrides;
 import net.minecraft.client.renderer.block.model.ItemTransforms;
@@ -35,8 +37,9 @@ public class LanternBakedModel implements IDynamicBakedModel
     private final List<BakedQuad> quadGlass;
     private final ItemOverrides overrides;
     private final ItemTransforms itemTransforms;
+    private final Quaternion FIXED_ROTATION = Vector3f.YP.rotationDegrees(90);
     
-    public LanternBakedModel(ModelState modelState, Function<Material, TextureAtlasSprite> spriteGetter, ItemOverrides overrides, ItemTransforms itemTransforms)
+    public LanternBakedModel(ModelState modelState, Function<Material, TextureAtlasSprite> spriteGetter, ItemOverrides overrides, ItemTransforms itemTransforms, boolean translucent)
     {
         this.modelState = modelState;
         this.spriteGetter = spriteGetter;
@@ -44,13 +47,13 @@ public class LanternBakedModel implements IDynamicBakedModel
         this.itemTransforms = itemTransforms;
         quadCache = generateQuads();
         quadCacheDown = generateQuadsDown();
-        quadGlass = generateGlass();
+        quadGlass = translucent ? generateTransGlass() : generateGlass();
     }
     
     @Override
     public boolean usesBlockLight()
     {
-        return false;
+        return true;
     }
     
     @Nonnull
@@ -84,6 +87,26 @@ public class LanternBakedModel implements IDynamicBakedModel
         
         Transformation rotation = modelState.getRotation();
         TextureAtlasSprite textureShellGlass = spriteGetter.apply(LanternModelLoader.MATERIAL_SHELL_GLASS);
+        
+        //glass
+        float a = 4f / 16f;
+        float b = 12f / 16f;
+        float c = 5f / 16f;
+        float d = 11f / 16f;
+        float s = 4f / 16f;
+        float h = 13f / 16f;
+        quads.addAll(createCenterTrapezoidSideQuad(a, b, c, d, s, h, rotation, textureShellGlass, 1));
+    
+        return quads;
+    }
+    
+    @NotNull
+    private List<BakedQuad> generateTransGlass()
+    {
+        var quads = new ArrayList<BakedQuad>();
+        
+        Transformation rotation = modelState.getRotation();
+        TextureAtlasSprite textureShellGlass = spriteGetter.apply(LanternModelLoader.MATERIAL_SHELL_TRANS_GLASS);
         
         //glass
         float a = 4f / 16f;
@@ -219,6 +242,22 @@ public class LanternBakedModel implements IDynamicBakedModel
     @Override
     public BakedModel handlePerspective(ItemTransforms.TransformType cameraTransformType, PoseStack poseStack)
     {
+        switch(cameraTransformType)
+        {
+            case THIRD_PERSON_RIGHT_HAND, THIRD_PERSON_LEFT_HAND -> poseStack.translate(0, -0.2, -0.2);
+            case FIRST_PERSON_RIGHT_HAND, FIRST_PERSON_LEFT_HAND -> {
+                float size = 1.5f;
+                poseStack.scale(size, size, size);
+                poseStack.translate(0, 0.15, 0);
+            }
+            case GROUND -> poseStack.scale(2, 2, 2);
+            case FIXED -> {
+                poseStack.scale(2, 2, 2);
+                poseStack.mulPose(FIXED_ROTATION);
+            }
+        }
+//        poseStack.translate(10, 10, 10);
+//        poseStack.scale(10, 10, 10);
         return IDynamicBakedModel.super.handlePerspective(cameraTransformType, poseStack);
     }
     

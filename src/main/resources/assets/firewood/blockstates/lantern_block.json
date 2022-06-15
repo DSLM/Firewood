@@ -1,24 +1,45 @@
 {
   "variants": {
-    "facing=up": {
+    "facing=up,lit=false": {
       "model": "firewood:block/lantern_block"
     },
-    "facing=down": {
+    "facing=down,lit=false": {
       "model": "firewood:block/lantern_block"
     },
-    "facing=east": {
+    "facing=east,lit=false": {
       "model": "firewood:block/lantern_block"
     },
-    "facing=south": {
+    "facing=south,lit=false": {
       "model": "firewood:block/lantern_block",
       "y": 90
     },
-    "facing=west": {
+    "facing=west,lit=false": {
       "model": "firewood:block/lantern_block",
       "y": 180
     },
-    "facing=north": {
+    "facing=north,lit=false": {
       "model": "firewood:block/lantern_block",
+      "y": 270
+    },
+    "facing=up,lit=true": {
+      "model": "firewood:block/lantern_block_trans"
+    },
+    "facing=down,lit=true": {
+      "model": "firewood:block/lantern_block_trans"
+    },
+    "facing=east,lit=true": {
+      "model": "firewood:block/lantern_block_trans"
+    },
+    "facing=south,lit=true": {
+      "model": "firewood:block/lantern_block_trans",
+      "y": 90
+    },
+    "facing=west,lit=true": {
+      "model": "firewood:block/lantern_block_trans",
+      "y": 180
+    },
+    "facing=north,lit=true": {
+      "model": "firewood:block/lantern_block_trans",
       "y": 270
     }
   }
