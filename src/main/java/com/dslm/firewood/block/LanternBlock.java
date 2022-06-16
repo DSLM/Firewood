@@ -87,9 +87,14 @@ public class LanternBlock extends Block implements EntityBlock
     }
     
     @Override
-    public InteractionResult use(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand, BlockHitResult pHit)
-    {// TODO: 2022/6/7 打开关闭灯火
-        return super.use(pState, pLevel, pPos, pPlayer, pHand, pHit);
+    public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit)
+    {
+        if(!level.isClientSide)
+        {
+            level.setBlock(pos, state.setValue(LIT, !state.getValue(LIT)), Block.UPDATE_ALL);
+            return InteractionResult.CONSUME;
+        }
+        return InteractionResult.SUCCESS;
     }
     
     @Nullable
