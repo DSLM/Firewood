@@ -49,7 +49,7 @@ import net.minecraftforge.registries.RegistryObject;
 
 
 public class Register
-{// TODO: 2022/5/23 方块-物品，方块-实体，实体-物品，火焰材质重叠要改state
+{// TODO: 2022/5/23 方块-物品，方块-实体，实体-物品，火焰材质重叠要改state，所有主要分类，冷却属性下放，多形状范围，允许自定义药水效果，重构药水效果
     private static final DeferredRegister<Block> BLOCKS =
             DeferredRegister.create(ForgeRegistries.BLOCKS, StaticValue.MOD_ID);
     private static final DeferredRegister<Item> ITEMS =
