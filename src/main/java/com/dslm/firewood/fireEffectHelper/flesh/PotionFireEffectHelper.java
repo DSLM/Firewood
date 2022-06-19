@@ -3,6 +3,7 @@ package com.dslm.firewood.fireEffectHelper.flesh;
 import com.dslm.firewood.fireEffectHelper.flesh.base.FireEffectHelperInterface;
 import com.dslm.firewood.fireEffectHelper.flesh.base.MajorFireEffectHelperBase;
 import com.dslm.firewood.fireEffectHelper.flesh.data.FireEffectNBTData;
+import com.dslm.firewood.fireEffectHelper.flesh.data.FireEffectNBTDataInterface;
 import com.dslm.firewood.fireEffectHelper.flesh.data.TinderSourceType;
 import com.dslm.firewood.tooltip.MiddleComponent;
 import com.dslm.firewood.util.StaticValue;
@@ -56,13 +57,13 @@ public class PotionFireEffectHelper extends MajorFireEffectHelperBase
     }
     
     @Override
-    public int getColor(FireEffectNBTData data)
+    public int getColor(FireEffectNBTDataInterface data)
     {
         return getPotionColor(data.get(POTION_TAG_ID));
     }
     
     @Override
-    public FireEffectNBTData triggerEffect(FireEffectNBTData data, TinderSourceType tinderSourceType, BlockState state, Level level, BlockPos pos, LivingEntity entity)
+    public FireEffectNBTDataInterface triggerEffect(FireEffectNBTDataInterface data, TinderSourceType tinderSourceType, BlockState state, Level level, BlockPos pos, LivingEntity entity)
     {
         Potion potion = getPotion(data.get(POTION_TAG_ID));
         List<MobEffectInstance> effects = potion.getEffects();
@@ -75,13 +76,13 @@ public class PotionFireEffectHelper extends MajorFireEffectHelperBase
     }
     
     @Override
-    public float getDamage(FireEffectNBTData data)
+    public float getDamage(FireEffectNBTDataInterface data)
     {
         return POTION_BASE_DAMAGE.get().floatValue();
     }
     
     @Override
-    public ArrayList<Component> getToolTips(FireEffectNBTData data, boolean extended)
+    public ArrayList<Component> getToolTips(FireEffectNBTDataInterface data, boolean extended)
     {
         ArrayList<Component> lines = new ArrayList<>();
         var name = new TranslatableComponent(
@@ -95,6 +96,7 @@ public class PotionFireEffectHelper extends MajorFireEffectHelperBase
                     getPotionColor(data.get(POTION_TAG_ID)));
             mainLine.setDamage(getDamage(data));
             mainLine.setMinHealth(getMinHealth(data));
+            mainLine.setCooldown(getCooldown(data));
             lines.add(mainLine);
         
             // TODO: 2022/5/13 实现药水削弱
@@ -185,7 +187,7 @@ public class PotionFireEffectHelper extends MajorFireEffectHelperBase
     }
     
     @Override
-    public CompoundTag saveToNBT(FireEffectNBTData data)
+    public CompoundTag saveToNBT(FireEffectNBTDataInterface data)
     {
         CompoundTag tags = new CompoundTag();
         tags.putString(StaticValue.TYPE, ID);
@@ -194,9 +196,9 @@ public class PotionFireEffectHelper extends MajorFireEffectHelperBase
     }
     
     @Override
-    public FireEffectNBTData readFromNBT(CompoundTag tags)
+    public FireEffectNBTDataInterface readFromNBT(CompoundTag tags)
     {
-        FireEffectNBTData data = new FireEffectNBTData();
+        FireEffectNBTDataInterface data = new FireEffectNBTData();
         data.put(StaticValue.TYPE, ID);
         data.put(POTION_TAG_ID, tags.getString(POTION_TAG_ID));
         return data;
@@ -213,7 +215,7 @@ public class PotionFireEffectHelper extends MajorFireEffectHelperBase
     }
     
     @Override
-    public String getJEIString(FireEffectNBTData data)
+    public String getJEIString(FireEffectNBTDataInterface data)
     {
         return data.getType() + "-" + data.get(POTION_TAG_ID);
     }

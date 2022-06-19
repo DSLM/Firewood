@@ -1,10 +1,10 @@
 package com.dslm.firewood.fireEffectHelper.flesh.base;
 
-import com.dslm.firewood.fireEffectHelper.flesh.data.FireEffectNBTData;
+import com.dslm.firewood.fireEffectHelper.flesh.data.FireEffectNBTDataInterface;
 
 abstract public class MajorFireEffectHelperBase extends FireEffectHelperBase implements MajorFireEffectHelperInterface
 {
-    public MajorFireEffectHelperBase(FireEffectNBTData defaultData, String id)
+    public MajorFireEffectHelperBase(FireEffectNBTDataInterface defaultData, String id)
     {
         super(defaultData, id);
     }

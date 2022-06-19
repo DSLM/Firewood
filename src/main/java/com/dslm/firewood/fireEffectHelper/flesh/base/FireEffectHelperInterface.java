@@ -1,6 +1,6 @@
 package com.dslm.firewood.fireEffectHelper.flesh.base;
 
-import com.dslm.firewood.fireEffectHelper.flesh.data.FireEffectNBTData;
+import com.dslm.firewood.fireEffectHelper.flesh.data.FireEffectNBTDataInterface;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -18,15 +18,15 @@ public interface FireEffectHelperInterface
         return first.getString(TYPE).equals(second.getString(TYPE));
     }
     
-    int getColor(FireEffectNBTData data);
+    int getColor(FireEffectNBTDataInterface data);
     
-    ArrayList<Component> getToolTips(FireEffectNBTData data, boolean extended);
+    ArrayList<Component> getToolTips(FireEffectNBTDataInterface data, boolean extended);
     
-    CompoundTag saveToNBT(FireEffectNBTData data);
+    CompoundTag saveToNBT(FireEffectNBTDataInterface data);
     
-    FireEffectNBTData readFromNBT(CompoundTag tags);
+    FireEffectNBTDataInterface readFromNBT(CompoundTag tags);
     
-    String getJEIString(FireEffectNBTData data);
+    String getJEIString(FireEffectNBTDataInterface data);
     
     
     default void fillItemCategory(NonNullList<ItemStack> items, ItemStack item)
@@ -35,7 +35,7 @@ public interface FireEffectHelperInterface
     
     CompoundTag getDefaultNBT();
     
-    FireEffectNBTData getDefaultData();
+    FireEffectNBTDataInterface getDefaultData();
     
     String getId();
     

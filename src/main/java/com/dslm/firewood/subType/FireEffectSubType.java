@@ -17,13 +17,14 @@ public class FireEffectSubType implements FireEffectSubTypeBase
     public int process;
     public float chance;
     public int range;
+    public int cooldown;
     
     public FireEffectSubType()
     {
     
     }
     
-    public FireEffectSubType(String namespace, String path, String id, String subId, int color, float damage, float minHealth, int process, float chance, int range)
+    public FireEffectSubType(String namespace, String path, String id, String subId, int color, float damage, float minHealth, int process, float chance, int range, int cooldown)
     {
         this.namespace = namespace;
         this.path = path;
@@ -35,6 +36,7 @@ public class FireEffectSubType implements FireEffectSubTypeBase
         this.process = process;
         this.chance = chance;
         this.range = range;
+        this.cooldown = cooldown;
     }
     
     public FireEffectSubType(FireEffectSubType copy)
@@ -54,11 +56,12 @@ public class FireEffectSubType implements FireEffectSubTypeBase
         this.process = copy.process;
         this.chance = copy.chance;
         this.range = copy.range;
+        this.cooldown = copy.cooldown;
     }
     
-    public FireEffectSubType(ResourceLocation resourceLocation, String id, String subId, int color, float damage, float minHealth, int process, float chance, int range)
+    public FireEffectSubType(ResourceLocation resourceLocation, String id, String subId, int color, float damage, float minHealth, int process, float chance, int range, int cooldown)
     {
-        this(resourceLocation.getNamespace(), resourceLocation.getPath(), id, subId, color, damage, minHealth, process, chance, range);
+        this(resourceLocation.getNamespace(), resourceLocation.getPath(), id, subId, color, damage, minHealth, process, chance, range, cooldown);
     }
     
     public FireEffectSubType(ResourceLocation resourceLocation, JsonObject jsonObject)
@@ -68,10 +71,11 @@ public class FireEffectSubType implements FireEffectSubTypeBase
                 jsonObject.get(StaticValue.SUB_TYPE).getAsString(),
                 StaticValue.colorInt(jsonObject.get(StaticValue.COLOR).getAsString()),
                 jsonObject.get(StaticValue.DAMAGE).getAsFloat(),
-                jsonObject.get(StaticValue.MIN_HEALTH).getAsFloat(),
+                jsonObject.get(StaticValue.MIN_HEALTH) == null ? jsonObject.get(StaticValue.DAMAGE).getAsFloat() : jsonObject.get(StaticValue.MIN_HEALTH).getAsFloat(),
                 jsonObject.get(StaticValue.PROCESS).getAsInt(),
-                jsonObject.get(StaticValue.CHANCE).getAsFloat(),
-                jsonObject.get(StaticValue.RANGE).getAsInt());
+                jsonObject.get(StaticValue.CHANCE) == null ? 100 : jsonObject.get(StaticValue.CHANCE).getAsFloat(),
+                jsonObject.get(StaticValue.RANGE).getAsInt(),
+                jsonObject.get(StaticValue.COOLDOWN).getAsInt());
     }
     
     public FireEffectSubType(FriendlyByteBuf buf)
@@ -80,104 +84,136 @@ public class FireEffectSubType implements FireEffectSubTypeBase
         copyFrom((FireEffectSubType) fromNetwork(buf));
     }
     
+    @Override
     public String getNamespace()
     {
         return namespace;
     }
     
+    @Override
     public void setNamespace(String namespace)
     {
         this.namespace = namespace;
     }
     
+    @Override
     public String getPath()
     {
         return path;
     }
     
+    @Override
     public void setPath(String path)
     {
         this.path = path;
     }
     
+    @Override
     public String getId()
     {
         return id;
     }
     
+    @Override
     public void setId(String id)
     {
         this.id = id;
     }
     
+    @Override
     public String getSubId()
     {
         return subId;
     }
     
+    @Override
     public void setSubId(String subId)
     {
         this.subId = subId;
     }
     
+    @Override
     public int getColor()
     {
         return color;
     }
     
+    @Override
     public void setColor(int color)
     {
         this.color = color;
     }
     
+    @Override
     public float getDamage()
     {
         return damage;
     }
     
+    @Override
     public void setDamage(float damage)
     {
         this.damage = damage;
     }
     
+    @Override
     public float getMinHealth()
     {
         return minHealth;
     }
     
+    @Override
     public void setMinHealth(float minHealth)
     {
         this.minHealth = minHealth;
     }
     
+    @Override
     public int getProcess()
     {
         return process;
     }
     
+    @Override
     public void setProcess(int process)
     {
         this.process = process;
     }
     
+    @Override
     public float getChance()
     {
         return chance;
     }
     
+    @Override
     public void setChance(float chance)
     {
         this.chance = chance;
     }
     
+    @Override
     public int getRange()
     {
         return range;
     }
     
+    @Override
     public void setRange(int range)
     {
         this.range = range;
+    }
+    
+    @Override
+    public int getCooldown()
+    {
+        return cooldown;
+    }
+    
+    @Override
+    public void setCooldown(int cooldown)
+    {
+        this.cooldown = cooldown;
     }
     
     @Override
@@ -193,8 +229,9 @@ public class FireEffectSubType implements FireEffectSubTypeBase
         int process = buf.readInt();
         float chance = buf.readFloat();
         int range = buf.readInt();
+        int cooldown = buf.readInt();
         
-        return new FireEffectSubType(namespace, path, id, subId, color, damage, minHealth, process, chance, range);
+        return new FireEffectSubType(namespace, path, id, subId, color, damage, minHealth, process, chance, range, cooldown);
     }
     
     @Override
@@ -212,6 +249,7 @@ public class FireEffectSubType implements FireEffectSubTypeBase
             buf.writeInt(fireEffectSubType.process);
             buf.writeFloat(fireEffectSubType.chance);
             buf.writeInt(fireEffectSubType.range);
+            buf.writeInt(fireEffectSubType.cooldown);
         }
     }
 }

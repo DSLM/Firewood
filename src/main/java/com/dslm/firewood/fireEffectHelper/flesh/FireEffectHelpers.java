@@ -2,11 +2,10 @@ package com.dslm.firewood.fireEffectHelper.flesh;
 
 import com.dslm.firewood.Register;
 import com.dslm.firewood.capProvider.PlayerSpiritualDamageProvider;
-import com.dslm.firewood.config.SpiritualFireBlockEffectConfig;
 import com.dslm.firewood.fireEffectHelper.flesh.base.FireEffectHelperInterface;
 import com.dslm.firewood.fireEffectHelper.flesh.base.MajorFireEffectHelperInterface;
 import com.dslm.firewood.fireEffectHelper.flesh.base.MinorFireEffectHelperInterface;
-import com.dslm.firewood.fireEffectHelper.flesh.data.FireEffectNBTData;
+import com.dslm.firewood.fireEffectHelper.flesh.data.FireEffectNBTDataInterface;
 import com.dslm.firewood.fireEffectHelper.flesh.data.TinderSourceType;
 import com.dslm.firewood.util.StaticValue;
 import net.minecraft.core.BlockPos;
@@ -28,6 +27,7 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.dslm.firewood.config.ColorConfig.HIGH_CONTRAST_MODE;
 import static com.dslm.firewood.fireEffectHelper.flesh.data.FireEffectNBTHelper.loadMajorFireData;
 import static com.dslm.firewood.fireEffectHelper.flesh.data.FireEffectNBTHelper.loadMinorFireData;
 
@@ -89,33 +89,35 @@ public class FireEffectHelpers
         return exceptionCatchHelper;
     }
     
-    public static int getColorByType(String kind, FireEffectNBTData data)
+    public static int getColorByType(String kind, FireEffectNBTDataInterface data)
     {
         return getHelperByType(kind, data.getType()).getColor(data);
     }
     
-    public static ArrayList<FireEffectNBTData> triggerMajorEffects(ArrayList<FireEffectNBTData> majorEffects,
-                                                                   ArrayList<FireEffectNBTData> minorEffects,
-                                                                   TinderSourceType tinderSourceType,
-                                                                   BlockState state, Level level, BlockPos pos, LivingEntity entity)
+    public static ArrayList<FireEffectNBTDataInterface> triggerMajorEffects(ArrayList<FireEffectNBTDataInterface> majorEffects,
+                                                                            ArrayList<FireEffectNBTDataInterface> minorEffects,
+                                                                            TinderSourceType tinderSourceType,
+                                                                            BlockState state, Level level, BlockPos pos, LivingEntity entity)
     {
         float damage = 0f;
         float minHealth = 0f;
-        for(FireEffectNBTData data : majorEffects)
+        int cooldown = 0;
+        for(FireEffectNBTDataInterface data : majorEffects)
         {
             var helper = getMajorHelperByType(data.getType());
             damage += helper.getDamage(data);
             minHealth += helper.getMinHealth(data);
+            cooldown += helper.getCooldown(data);
         }
         float nowHealth = entity.getHealth();
-        damageEntity(entity, damage);
+        damageEntity(entity, damage, cooldown);
         if(nowHealth < minHealth)
         {
             return majorEffects;
         }
         for(int i = 0; i < majorEffects.size(); i++)
         {
-            FireEffectNBTData data = majorEffects.get(i);
+            FireEffectNBTDataInterface data = majorEffects.get(i);
             var helper = getMajorHelperByType(data.getType());
             data = helper.triggerEffect(data, tinderSourceType, state, level, pos, entity, majorEffects, minorEffects);
             majorEffects.set(i, data);
@@ -123,25 +125,19 @@ public class FireEffectHelpers
         return majorEffects;
     }
     
-    public static ArrayList<FireEffectNBTData> triggerMinorEffects(ArrayList<FireEffectNBTData> majorEffects,
-                                                                   ArrayList<FireEffectNBTData> minorEffects,
-                                                                   TinderSourceType tinderSourceType,
-                                                                   BlockState state, Level level, BlockPos pos)
+    public static ArrayList<FireEffectNBTDataInterface> triggerMinorEffects(ArrayList<FireEffectNBTDataInterface> majorEffects,
+                                                                            ArrayList<FireEffectNBTDataInterface> minorEffects,
+                                                                            TinderSourceType tinderSourceType,
+                                                                            BlockState state, Level level, BlockPos pos)
     {
         for(int i = 0; i < minorEffects.size(); i++)
         {
-            FireEffectNBTData data = minorEffects.get(i);
+            FireEffectNBTDataInterface data = minorEffects.get(i);
             var helper = getMinorHelperByType(data.getType());
             data = helper.triggerEffect(data, tinderSourceType, state, level, pos, majorEffects, minorEffects);
             minorEffects.set(i, data);
         }
         return minorEffects;
-    }
-    
-    
-    public static void damageEntity(LivingEntity entity, float amount)
-    {
-        damageEntity(entity, amount, SpiritualFireBlockEffectConfig.FIRED_FLESH_TIME.get());
     }
     
     public static void damageEntity(LivingEntity entity, float amount, int cooldown)
@@ -163,8 +159,8 @@ public class FireEffectHelpers
 //                }
     }
     
-    public static ArrayList<Component> fireTooltips(ArrayList<FireEffectNBTData> majorEffects,
-                                                    ArrayList<FireEffectNBTData> minorEffects, boolean extended)
+    public static ArrayList<Component> fireTooltips(ArrayList<FireEffectNBTDataInterface> majorEffects,
+                                                    ArrayList<FireEffectNBTDataInterface> minorEffects, boolean extended)
     {
         ArrayList<Component> lines = new ArrayList<>();
         
@@ -172,7 +168,7 @@ public class FireEffectHelpers
         if(majorEffects.size() > 0)
         {
             lines.add(colorfulText(new TranslatableComponent("tooltip.firewood.tinder_item.major_effect"), StaticValue.MAJOR_EFFECT_COLOR));
-            for(FireEffectNBTData data : majorEffects)
+            for(FireEffectNBTDataInterface data : majorEffects)
             {
                 ArrayList<Component> list = getMajorHelperByType(data.getType()).getToolTips(data, extended);
                 lines.addAll(list);
@@ -183,7 +179,7 @@ public class FireEffectHelpers
         if(minorEffects.size() > 0)
         {
             lines.add(colorfulText(new TranslatableComponent("tooltip.firewood.tinder_item.minor_effect"), StaticValue.MINOR_EFFECT_COLOR));
-            for(FireEffectNBTData data : minorEffects)
+            for(FireEffectNBTDataInterface data : minorEffects)
             {
                 ArrayList<Component> list = getMinorHelperByType(data.getType()).getToolTips(data, extended);
                 lines.addAll(list);
@@ -195,25 +191,24 @@ public class FireEffectHelpers
     
     public static ArrayList<Component> fireTooltips(CompoundTag compoundTag, boolean extended)
     {
-        ArrayList<FireEffectNBTData> majorEffects = loadMajorFireData(compoundTag);
-        ArrayList<FireEffectNBTData> minorEffects = loadMinorFireData(compoundTag);
+        ArrayList<FireEffectNBTDataInterface> majorEffects = loadMajorFireData(compoundTag);
+        ArrayList<FireEffectNBTDataInterface> minorEffects = loadMinorFireData(compoundTag);
         return fireTooltips(majorEffects, minorEffects, extended);
     }
     
-    
     public static TranslatableComponent colorfulText(TranslatableComponent text, int color)
     {
-        return (TranslatableComponent) text.withStyle(style -> style.withColor(TextColor.fromRgb(color)));
+        return HIGH_CONTRAST_MODE != null && HIGH_CONTRAST_MODE.get() ? text : (TranslatableComponent) text.withStyle(style -> style.withColor(TextColor.fromRgb(color)));
     }
     
-    public static int getMixedColor(ArrayList<FireEffectNBTData> majorEffects, ArrayList<FireEffectNBTData> minorEffects)
+    public static int getMixedColor(ArrayList<FireEffectNBTDataInterface> majorEffects, ArrayList<FireEffectNBTDataInterface> minorEffects)
     {
         int num = 0;
         int[] color = {0, 0, 0};
         Color tempColor;
         
         //mainEffect
-        for(FireEffectNBTData i : majorEffects)
+        for(FireEffectNBTDataInterface i : majorEffects)
         {
             int colorInt = getColorByType(StaticValue.MAJOR, i);
             if(colorInt < 0 || colorInt > 0xffffff)
@@ -238,12 +233,12 @@ public class FireEffectHelpers
         return getHelperByType(kind, type).isSameNBT(first, second);
     }
     
-    public static CompoundTag saveToNBT(String kind, String type, FireEffectNBTData data)
+    public static CompoundTag saveToNBT(String kind, String type, FireEffectNBTDataInterface data)
     {
         return getHelperByType(kind, type).saveToNBT(data);
     }
     
-    public static FireEffectNBTData readFromNBT(String kind, String type, CompoundTag tags)
+    public static FireEffectNBTDataInterface readFromNBT(String kind, String type, CompoundTag tags)
     {
         return getHelperByType(kind, type).readFromNBT(tags);
     }
@@ -267,11 +262,11 @@ public class FireEffectHelpers
         return allNBT;
     }
     
-    public static ItemStack addMajorEffect(ItemStack itemStack, String type, FireEffectNBTData data)
+    public static ItemStack addMajorEffect(ItemStack itemStack, String type, FireEffectNBTDataInterface data)
     {
         CompoundTag allNBT = getDefaultMinorNBTs(itemStack.getOrCreateTag());
         ListTag tags = (ListTag) allNBT.get(StaticValue.MAJOR);
-    
+        
         CompoundTag newEffect = saveToNBT(StaticValue.MAJOR, type, data);
         //clean old same effect
         if(tags != null)
@@ -298,11 +293,11 @@ public class FireEffectHelpers
         return itemStack;
     }
     
-    public static ItemStack addMinorEffect(ItemStack itemStack, String type, FireEffectNBTData data)
+    public static ItemStack addMinorEffect(ItemStack itemStack, String type, FireEffectNBTDataInterface data)
     {
         CompoundTag allNBT = getDefaultMinorNBTs(itemStack.getOrCreateTag());
         ListTag tags = (ListTag) allNBT.get(StaticValue.MINOR);
-    
+        
         CompoundTag newEffect = saveToNBT(StaticValue.MINOR, type, data);
         
         //clean old same effect
@@ -323,18 +318,18 @@ public class FireEffectHelpers
         return itemStack;
     }
     
-    public static ItemStack addMajorEffects(ItemStack itemStack, List<FireEffectNBTData> data)
+    public static ItemStack addMajorEffects(ItemStack itemStack, List<FireEffectNBTDataInterface> data)
     {
-        for(FireEffectNBTData one : data)
+        for(FireEffectNBTDataInterface one : data)
         {
             addMajorEffect(itemStack, one.getType(), one);
         }
         return itemStack;
     }
     
-    public static ItemStack addMinorEffects(ItemStack itemStack, List<FireEffectNBTData> data)
+    public static ItemStack addMinorEffects(ItemStack itemStack, List<FireEffectNBTDataInterface> data)
     {
-        for(FireEffectNBTData one : data)
+        for(FireEffectNBTDataInterface one : data)
         {
             addMinorEffect(itemStack, one.getType(), one);
         }
@@ -344,14 +339,14 @@ public class FireEffectHelpers
     public static String getJEIType(ItemStack itemStack)
     {
         StringBuilder stringBuilder = new StringBuilder();
-        ArrayList<FireEffectNBTData> majorEffects = loadMajorFireData(itemStack.getOrCreateTag());
-        ArrayList<FireEffectNBTData> minorEffects = loadMinorFireData(itemStack.getOrCreateTag());
+        ArrayList<FireEffectNBTDataInterface> majorEffects = loadMajorFireData(itemStack.getOrCreateTag());
+        ArrayList<FireEffectNBTDataInterface> minorEffects = loadMinorFireData(itemStack.getOrCreateTag());
     
-        for(FireEffectNBTData one : majorEffects)
+        for(FireEffectNBTDataInterface one : majorEffects)
         {
             stringBuilder.append(getMajorHelperByType(one.getType()).getJEIString(one)).append(";");
         }
-        for(FireEffectNBTData one : minorEffects)
+        for(FireEffectNBTDataInterface one : minorEffects)
         {
             stringBuilder.append(getMinorHelperByType(one.getType()).getJEIString(one)).append(";");
         }
@@ -367,9 +362,9 @@ public class FireEffectHelpers
     
     public static boolean canBePlacedOn(Level level, BlockPos pos, CompoundTag tag)
     {
-        ArrayList<FireEffectNBTData> minorEffects = loadMinorFireData(tag);
+        ArrayList<FireEffectNBTDataInterface> minorEffects = loadMinorFireData(tag);
     
-        for(FireEffectNBTData one : minorEffects)
+        for(FireEffectNBTDataInterface one : minorEffects)
         {
             if(!getMinorHelperByType(one.getType()).canBePlacedOn(one, level, pos))
             {
@@ -380,7 +375,7 @@ public class FireEffectHelpers
         return true;
     }
     
-    public static Block getBlock(List<FireEffectNBTData> minorEffects)
+    public static Block getBlock(List<FireEffectNBTDataInterface> minorEffects)
     {
         for(var data : minorEffects)
         {

@@ -11,7 +11,6 @@ import java.util.List;
 public class SpiritualFireBlockEffectConfig
 {
     public static ForgeConfigSpec.DoubleValue POTION_BASE_DAMAGE;
-    public static ForgeConfigSpec.DoubleValue TELEPORT_BASE_DAMAGE;
     public static ForgeConfigSpec.ConfigValue<List<? extends String>> SET_BLOCK_NAME_BLACKLIST;
     
     public static ForgeConfigSpec.ConfigValue<String> GROUND_DEFAULT_BLOCK;
@@ -39,17 +38,6 @@ public class SpiritualFireBlockEffectConfig
         POTION_BASE_DAMAGE = SERVER_BUILDER
                 .comment("the base damage for trigger a potion effect")
                 .translation("config.firewood.spiritual_fire_block_effects.major.potion.base_damage")
-                .defineInRange("damage", 0.1, 0, Integer.MAX_VALUE);
-        SERVER_BUILDER.pop();
-    
-        //teleport
-        SERVER_BUILDER
-                .comment("Settings for Teleport Effects")
-                //.translation("config.firewood.spiritual_fire_block_effects.major.teleport")
-                .push("spiritualFireMajorTeleport");
-        TELEPORT_BASE_DAMAGE = SERVER_BUILDER
-                .comment("the base damage for trigger a teleport effect")
-                .translation("config.firewood.spiritual_fire_block_effects.major.teleport.base_damage")
                 .defineInRange("damage", 0.1, 0, Integer.MAX_VALUE);
         SERVER_BUILDER.pop();
         
@@ -82,9 +70,9 @@ public class SpiritualFireBlockEffectConfig
                 //.translation("config.firewood.spiritual_fire_block_effects.others")
                 .push("others");
         FIRED_FLESH_TIME = SERVER_BUILDER
-                .comment("Fired Flesh effect time (tick); it is also a cooldown time of triggering spiritual fire effects")
+                .comment("Fired Flesh default effect time for each major effect (tick); it is also a cooldown time of triggering spiritual fire effects")
                 .translation("config.firewood.spiritual_fire_block_effects.others.fired_flesh_interval")
-                .defineInRange("time", 100, 0, Integer.MAX_VALUE);
+                .defineInRange("time", 10, 0, Integer.MAX_VALUE);
         SERVER_BUILDER.pop();
     
     

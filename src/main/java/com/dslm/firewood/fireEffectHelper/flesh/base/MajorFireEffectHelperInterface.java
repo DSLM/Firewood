@@ -1,6 +1,7 @@
 package com.dslm.firewood.fireEffectHelper.flesh.base;
 
-import com.dslm.firewood.fireEffectHelper.flesh.data.FireEffectNBTData;
+import com.dslm.firewood.config.SpiritualFireBlockEffectConfig;
+import com.dslm.firewood.fireEffectHelper.flesh.data.FireEffectNBTDataInterface;
 import com.dslm.firewood.fireEffectHelper.flesh.data.TinderSourceType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.LivingEntity;
@@ -11,35 +12,40 @@ import java.util.ArrayList;
 
 public interface MajorFireEffectHelperInterface extends FireEffectHelperInterface
 {
-    default FireEffectNBTData triggerEffect(FireEffectNBTData data, TinderSourceType tinderSourceType,
-                                            BlockState state, Level level, BlockPos pos, LivingEntity entity,
-                                            ArrayList<FireEffectNBTData> majorEffects,
-                                            ArrayList<FireEffectNBTData> minorEffects)
+    default FireEffectNBTDataInterface triggerEffect(FireEffectNBTDataInterface data, TinderSourceType tinderSourceType,
+                                                     BlockState state, Level level, BlockPos pos, LivingEntity entity,
+                                                     ArrayList<FireEffectNBTDataInterface> majorEffects,
+                                                     ArrayList<FireEffectNBTDataInterface> minorEffects)
     {
         return triggerEffect(data, tinderSourceType, state, level, pos, entity);
     }
     
-    default FireEffectNBTData triggerEffect(FireEffectNBTData data, TinderSourceType tinderSourceType,
-                                            BlockState state, Level level, BlockPos pos, LivingEntity entity)
+    default FireEffectNBTDataInterface triggerEffect(FireEffectNBTDataInterface data, TinderSourceType tinderSourceType,
+                                                     BlockState state, Level level, BlockPos pos, LivingEntity entity)
     {
         return triggerEffect(data, tinderSourceType, level, pos);
     }
     
-    default FireEffectNBTData triggerEffect(FireEffectNBTData data, TinderSourceType tinderSourceType,
-                                            Level level, BlockPos pos)
+    default FireEffectNBTDataInterface triggerEffect(FireEffectNBTDataInterface data, TinderSourceType tinderSourceType,
+                                                     Level level, BlockPos pos)
     {
         return triggerEffect(data, level, pos);
     }
     
-    default FireEffectNBTData triggerEffect(FireEffectNBTData data, Level level, BlockPos pos)
+    default FireEffectNBTDataInterface triggerEffect(FireEffectNBTDataInterface data, Level level, BlockPos pos)
     {
         return data;
     }
     
-    float getDamage(FireEffectNBTData data);
+    float getDamage(FireEffectNBTDataInterface data);
     
-    default float getMinHealth(FireEffectNBTData data)
+    default float getMinHealth(FireEffectNBTDataInterface data)
     {
         return getDamage(data);
+    }
+    
+    default int getCooldown(FireEffectNBTDataInterface data)
+    {
+        return SpiritualFireBlockEffectConfig.FIRED_FLESH_TIME.get();
     }
 }

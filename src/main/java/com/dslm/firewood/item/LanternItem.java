@@ -3,7 +3,7 @@ package com.dslm.firewood.item;
 import com.dslm.firewood.Register;
 import com.dslm.firewood.compat.curios.Curios;
 import com.dslm.firewood.fireEffectHelper.flesh.FireEffectHelpers;
-import com.dslm.firewood.fireEffectHelper.flesh.data.FireEffectNBTData;
+import com.dslm.firewood.fireEffectHelper.flesh.data.FireEffectNBTDataInterface;
 import com.dslm.firewood.fireEffectHelper.flesh.data.FireEffectNBTHelper;
 import com.dslm.firewood.fireEffectHelper.flesh.data.TinderSourceType;
 import com.dslm.firewood.util.StaticValue;
@@ -124,18 +124,18 @@ public class LanternItem extends BlockItem implements TinderTypeItemBase
         {
             BlockPos blockPos = player.blockPosition();
             BlockState blockState = player.getFeetBlockState();
-        
+    
             CompoundTag tags = stack.getOrCreateTag();
-            ArrayList<FireEffectNBTData> majorEffects = FireEffectNBTHelper.loadMajorFireData(tags);
-            ArrayList<FireEffectNBTData> minorEffects = FireEffectNBTHelper.loadMinorFireData(tags);
-        
+            ArrayList<FireEffectNBTDataInterface> majorEffects = FireEffectNBTHelper.loadMajorFireData(tags);
+            ArrayList<FireEffectNBTDataInterface> minorEffects = FireEffectNBTHelper.loadMinorFireData(tags);
+    
             tags.remove(StaticValue.MAJOR);
             tags.remove(StaticValue.MINOR);
             majorEffects = FireEffectHelpers.triggerMajorEffects(majorEffects, minorEffects, TinderSourceType.IN_BACKPACK_LANTERN, blockState, level, blockPos, player);
-            
-            
+    
+    
             tags = FireEffectNBTHelper.saveFireData(tags, majorEffects, minorEffects);
-            
+    
             stack.setTag(tags);
         }
     }

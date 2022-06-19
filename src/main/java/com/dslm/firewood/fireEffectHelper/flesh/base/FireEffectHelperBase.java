@@ -1,15 +1,16 @@
 package com.dslm.firewood.fireEffectHelper.flesh.base;
 
 import com.dslm.firewood.fireEffectHelper.flesh.data.FireEffectNBTData;
+import com.dslm.firewood.fireEffectHelper.flesh.data.FireEffectNBTDataInterface;
 import com.dslm.firewood.util.StaticValue;
 import net.minecraft.nbt.CompoundTag;
 
 abstract public class FireEffectHelperBase implements FireEffectHelperInterface
 {
-    protected final FireEffectNBTData DEFAULT_DATA;
+    protected final FireEffectNBTDataInterface DEFAULT_DATA;
     protected final String ID;
     
-    public FireEffectHelperBase(FireEffectNBTData defaultData, String id)
+    public FireEffectHelperBase(FireEffectNBTDataInterface defaultData, String id)
     {
         this.DEFAULT_DATA = defaultData;
         this.ID = id;
@@ -30,7 +31,7 @@ abstract public class FireEffectHelperBase implements FireEffectHelperInterface
     }
     
     @Override
-    public FireEffectNBTData getDefaultData()
+    public FireEffectNBTDataInterface getDefaultData()
     {
         return DEFAULT_DATA.copy();
     }
@@ -42,7 +43,7 @@ abstract public class FireEffectHelperBase implements FireEffectHelperInterface
     }
     
     @Override
-    public String getJEIString(FireEffectNBTData data)
+    public String getJEIString(FireEffectNBTDataInterface data)
     {
         return data.getType();
     }

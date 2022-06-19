@@ -2,7 +2,7 @@ package com.dslm.firewood.compat.jei;
 
 import com.dslm.firewood.Register;
 import com.dslm.firewood.fireEffectHelper.flesh.FireEffectHelpers;
-import com.dslm.firewood.fireEffectHelper.flesh.data.FireEffectNBTData;
+import com.dslm.firewood.fireEffectHelper.flesh.data.FireEffectNBTDataInterface;
 import com.dslm.firewood.item.TinderTypeItemBase;
 import com.dslm.firewood.recipe.TinderRecipe;
 import com.dslm.firewood.recipe.type.TinderRecipeType;
@@ -180,7 +180,7 @@ public class JEICompat implements IModPlugin
         }
         else
         {
-            FireEffectNBTData defaultData = FireEffectHelpers.getMajorHelperByType(type).getDefaultData();
+            FireEffectNBTDataInterface defaultData = FireEffectHelpers.getMajorHelperByType(type).getDefaultData();
             defaultData.put("subType", subType);
             for(Item item : items)
             {

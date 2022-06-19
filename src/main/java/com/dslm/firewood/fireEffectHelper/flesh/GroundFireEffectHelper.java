@@ -3,6 +3,7 @@ package com.dslm.firewood.fireEffectHelper.flesh;
 import com.dslm.firewood.fireEffectHelper.flesh.base.FireEffectHelperInterface;
 import com.dslm.firewood.fireEffectHelper.flesh.base.MinorFireEffectHelperBase;
 import com.dslm.firewood.fireEffectHelper.flesh.data.FireEffectNBTData;
+import com.dslm.firewood.fireEffectHelper.flesh.data.FireEffectNBTDataInterface;
 import com.dslm.firewood.fireEffectHelper.flesh.data.TinderSourceType;
 import com.dslm.firewood.tooltip.MiddleComponent;
 import com.dslm.firewood.util.StaticValue;
@@ -41,7 +42,7 @@ public class GroundFireEffectHelper extends MinorFireEffectHelperBase
     }
     
     @Override
-    public FireEffectNBTData triggerEffect(FireEffectNBTData data, TinderSourceType tinderSourceType, Level level, BlockPos pos)
+    public FireEffectNBTDataInterface triggerEffect(FireEffectNBTDataInterface data, TinderSourceType tinderSourceType, Level level, BlockPos pos)
     {
         if(tinderSourceType == TinderSourceType.GROUND_FIRE && !canBePlacedOn(data, level, pos))
         {
@@ -70,13 +71,13 @@ public class GroundFireEffectHelper extends MinorFireEffectHelperBase
     }
     
     @Override
-    public int getColor(FireEffectNBTData data)
+    public int getColor(FireEffectNBTDataInterface data)
     {
         return getBlock(data.get(BLOCK_TAG_ID)).defaultMaterialColor().col;
     }
     
     @Override
-    public CompoundTag saveToNBT(FireEffectNBTData data)
+    public CompoundTag saveToNBT(FireEffectNBTDataInterface data)
     {
         CompoundTag tags = new CompoundTag();
         tags.putString(StaticValue.TYPE, ID);
@@ -85,16 +86,16 @@ public class GroundFireEffectHelper extends MinorFireEffectHelperBase
     }
     
     @Override
-    public FireEffectNBTData readFromNBT(CompoundTag tags)
+    public FireEffectNBTDataInterface readFromNBT(CompoundTag tags)
     {
-        FireEffectNBTData data = new FireEffectNBTData();
+        FireEffectNBTDataInterface data = new FireEffectNBTData();
         data.put(StaticValue.TYPE, ID);
         data.put(BLOCK_TAG_ID, tags.getString(BLOCK_TAG_ID));
         return data;
     }
     
     @Override
-    public ArrayList<Component> getToolTips(FireEffectNBTData data, boolean extended)
+    public ArrayList<Component> getToolTips(FireEffectNBTDataInterface data, boolean extended)
     {
         ArrayList<Component> lines = new ArrayList<>();
         var name = getBlock(data.get(BLOCK_TAG_ID)).getName();
@@ -109,11 +110,11 @@ public class GroundFireEffectHelper extends MinorFireEffectHelperBase
         return ForgeRegistries.BLOCKS.getValue(ResourceLocation.tryParse(block));
     }
     
-    public static Block getBlockByMinorList(ArrayList<FireEffectNBTData> minorEffects)
+    public static Block getBlockByMinorList(ArrayList<FireEffectNBTDataInterface> minorEffects)
     {
         try
         {
-            for(FireEffectNBTData i : minorEffects)
+            for(FireEffectNBTDataInterface i : minorEffects)
             {
                 if(ID.equals(i.getType()))
                 {
@@ -127,14 +128,14 @@ public class GroundFireEffectHelper extends MinorFireEffectHelperBase
     }
     
     @Override
-    public boolean canBePlacedOn(FireEffectNBTData data, Level level, BlockPos pos)
+    public boolean canBePlacedOn(FireEffectNBTDataInterface data, Level level, BlockPos pos)
     {
         BlockState blockstate = level.getBlockState(pos.below());
         return blockstate.getBlock() == getBlock(data.get(BLOCK_TAG_ID));
     }
     
     @Override
-    public String getJEIString(FireEffectNBTData data)
+    public String getJEIString(FireEffectNBTDataInterface data)
     {
         return data.getType() + "-" + data.get(BLOCK_TAG_ID);
     }

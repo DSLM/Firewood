@@ -1,7 +1,7 @@
 package com.dslm.firewood.fireEffectHelper.flesh;
 
-import com.dslm.firewood.fireEffectHelper.flesh.base.TransmuteFireEffectHelperBase;
-import com.dslm.firewood.fireEffectHelper.flesh.data.FireEffectNBTData;
+import com.dslm.firewood.fireEffectHelper.flesh.base.SubMajorFireEffectHelperBase;
+import com.dslm.firewood.fireEffectHelper.flesh.data.FireEffectNBTDataInterface;
 import com.dslm.firewood.subType.FireEffectSubTypeBase;
 import com.dslm.firewood.subType.FireEffectSubTypeManager;
 import com.dslm.firewood.subType.SetBlockNameSubType;
@@ -18,15 +18,15 @@ import java.util.ArrayList;
 
 import static com.dslm.firewood.config.SpiritualFireBlockEffectConfig.SET_BLOCK_NAME_BLACKLIST;
 
-public class SetBlockNameFireEffectHelper extends TransmuteFireEffectHelperBase
+public class SetBlockNameFireEffectHelper extends SubMajorFireEffectHelperBase
 {
     public SetBlockNameFireEffectHelper(String id)
     {
-        super(id);
+        super(id, TargetType.BLOCK);
     }
     
     @Override
-    public void transmuteBlock(FireEffectNBTData data, BlockState blockState, Level level, BlockPos blockPos)
+    public void transmuteBlock(FireEffectNBTDataInterface data, BlockState blockState, Level level, BlockPos blockPos)
     {
         if(SET_BLOCK_NAME_BLACKLIST.get().contains(blockState.getBlock().getRegistryName().toString()))
         {

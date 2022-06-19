@@ -2,6 +2,7 @@ package com.dslm.firewood.recipe;
 
 import com.dslm.firewood.fireEffectHelper.flesh.FireEffectHelpers;
 import com.dslm.firewood.fireEffectHelper.flesh.data.FireEffectNBTData;
+import com.dslm.firewood.fireEffectHelper.flesh.data.FireEffectNBTDataInterface;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -12,8 +13,8 @@ import java.util.ArrayList;
 
 public class TinderRecipeNBT
 {
-    public ArrayList<FireEffectNBTData> majorEffects;
-    public ArrayList<FireEffectNBTData> minorEffects;
+    public ArrayList<FireEffectNBTDataInterface> majorEffects;
+    public ArrayList<FireEffectNBTDataInterface> minorEffects;
     
     public ItemStack implementEffects(ItemStack stack)
     {
@@ -25,13 +26,13 @@ public class TinderRecipeNBT
         return new TinderRecipeNBT(arrayFromNetwork(buf), arrayFromNetwork(buf));
     }
     
-    public static ArrayList<FireEffectNBTData> arrayFromNetwork(FriendlyByteBuf buf)
+    public static ArrayList<FireEffectNBTDataInterface> arrayFromNetwork(FriendlyByteBuf buf)
     {
-        ArrayList<FireEffectNBTData> effects = new ArrayList<>();
+        ArrayList<FireEffectNBTDataInterface> effects = new ArrayList<>();
         int arrSize = buf.readInt();
         for(int i = 0; i < arrSize; i++)
         {
-            FireEffectNBTData tempMap = new FireEffectNBTData();
+            FireEffectNBTDataInterface tempMap = new FireEffectNBTData();
             int mapSize = buf.readInt();
             for(int j = 0; j < mapSize; j++)
             {
@@ -48,13 +49,13 @@ public class TinderRecipeNBT
         arrayToNetwork(buf, minorEffects);
     }
     
-    public static void arrayToNetwork(FriendlyByteBuf buf, ArrayList<FireEffectNBTData> effects)
+    public static void arrayToNetwork(FriendlyByteBuf buf, ArrayList<FireEffectNBTDataInterface> effects)
     {
         int size = effects == null ? 0 : effects.size();
         buf.writeInt(size);
         for(int i = 0; i < size; i++)
         {
-            FireEffectNBTData tempMap = effects.get(i);
+            FireEffectNBTDataInterface tempMap = effects.get(i);
             buf.writeInt(tempMap.size());
             for(String j : tempMap.keySet())
             {
@@ -64,12 +65,12 @@ public class TinderRecipeNBT
         }
     }
     
-    public FireEffectNBTData getMajorEffect(int i)
+    public FireEffectNBTDataInterface getMajorEffect(int i)
     {
         return majorEffects.get(i);
     }
     
-    public FireEffectNBTData getMinorEffect(int i)
+    public FireEffectNBTDataInterface getMinorEffect(int i)
     {
         return minorEffects.get(i);
     }
@@ -86,15 +87,15 @@ public class TinderRecipeNBT
         return new TinderRecipeNBT(arrayFromJSON(major), arrayFromJSON(minor));
     }
     
-    public static ArrayList<FireEffectNBTData> arrayFromJSON(JsonArray array)
+    public static ArrayList<FireEffectNBTDataInterface> arrayFromJSON(JsonArray array)
     {
-        ArrayList<FireEffectNBTData> tempArray = new ArrayList<>();
+        ArrayList<FireEffectNBTDataInterface> tempArray = new ArrayList<>();
         if(array != null)
         {
             for(JsonElement i : array)
             {
                 JsonObject tempObj = i.getAsJsonObject();
-                FireEffectNBTData tempMap = new FireEffectNBTData();
+                FireEffectNBTDataInterface tempMap = new FireEffectNBTData();
                 for(String j : tempObj.keySet())
                 {
                     tempMap.put(j, tempObj.get(j).getAsString());
@@ -106,38 +107,38 @@ public class TinderRecipeNBT
         return tempArray;
     }
     
-    public TinderRecipeNBT(ArrayList<FireEffectNBTData> majorEffects, ArrayList<FireEffectNBTData> minorEffects)
+    public TinderRecipeNBT(ArrayList<FireEffectNBTDataInterface> majorEffects, ArrayList<FireEffectNBTDataInterface> minorEffects)
     {
         this.majorEffects = majorEffects;
         this.minorEffects = minorEffects;
     }
     
-    public void addMajorEffect(FireEffectNBTData effect)
+    public void addMajorEffect(FireEffectNBTDataInterface effect)
     {
         majorEffects.add(effect);
     }
     
-    public void addMinorEffect(FireEffectNBTData effect)
+    public void addMinorEffect(FireEffectNBTDataInterface effect)
     {
         minorEffects.add(effect);
     }
     
-    public ArrayList<FireEffectNBTData> getMajorEffects()
+    public ArrayList<FireEffectNBTDataInterface> getMajorEffects()
     {
         return majorEffects;
     }
     
-    public void setMajorEffects(ArrayList<FireEffectNBTData> majorEffects)
+    public void setMajorEffects(ArrayList<FireEffectNBTDataInterface> majorEffects)
     {
         this.majorEffects = majorEffects;
     }
     
-    public ArrayList<FireEffectNBTData> getMinorEffects()
+    public ArrayList<FireEffectNBTDataInterface> getMinorEffects()
     {
         return minorEffects;
     }
     
-    public void setMinorEffects(ArrayList<FireEffectNBTData> minorEffects)
+    public void setMinorEffects(ArrayList<FireEffectNBTDataInterface> minorEffects)
     {
         this.minorEffects = minorEffects;
     }

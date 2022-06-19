@@ -28,6 +28,7 @@ public class StaticValue
     public static final String PROCESS = "process";
     public static final String CHANCE = "chance";
     public static final String RANGE = "range";
+    public static final String COOLDOWN = "cooldown";
     
     public static final String ACTIVE_LANTERN = "activeLantern";
     
@@ -38,6 +39,8 @@ public class StaticValue
             new ResourceLocation("firewood", "tinder"));
     
     public static final ResourceLocation ICONS = new ResourceLocation(MOD_ID, "textures/gui/icons.png");
+    
+    public static final ResourceLocation CLOCK = new ResourceLocation("minecraft", "textures/item/clock_10.png");
     
     public static int colorInt(String s)
     {

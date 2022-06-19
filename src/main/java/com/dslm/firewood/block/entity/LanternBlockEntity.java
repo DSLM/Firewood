@@ -2,7 +2,7 @@ package com.dslm.firewood.block.entity;
 
 import com.dslm.firewood.Register;
 import com.dslm.firewood.fireEffectHelper.flesh.FireEffectHelpers;
-import com.dslm.firewood.fireEffectHelper.flesh.data.FireEffectNBTData;
+import com.dslm.firewood.fireEffectHelper.flesh.data.FireEffectNBTDataInterface;
 import com.dslm.firewood.fireEffectHelper.flesh.data.TinderSourceType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -28,8 +28,8 @@ import static com.dslm.firewood.fireEffectHelper.flesh.data.FireEffectNBTHelper.
 public class LanternBlockEntity extends BlockEntity
 {
     protected int color = -1;
-    protected ArrayList<FireEffectNBTData> majorEffects = new ArrayList<>();
-    protected ArrayList<FireEffectNBTData> minorEffects = new ArrayList<>();
+    protected ArrayList<FireEffectNBTDataInterface> majorEffects = new ArrayList<>();
+    protected ArrayList<FireEffectNBTDataInterface> minorEffects = new ArrayList<>();
     
     public static final ModelProperty<Integer> COLOR = new ModelProperty<>();
     public static final ModelProperty<Block> BASE_BLOCK = new ModelProperty<>();
@@ -124,22 +124,22 @@ public class LanternBlockEntity extends BlockEntity
         }
     }
     
-    public ArrayList<FireEffectNBTData> getMajorEffects()
+    public ArrayList<FireEffectNBTDataInterface> getMajorEffects()
     {
         return majorEffects;
     }
     
-    public void setMajorEffects(ArrayList<FireEffectNBTData> majorEffects)
+    public void setMajorEffects(ArrayList<FireEffectNBTDataInterface> majorEffects)
     {
         this.majorEffects = majorEffects;
     }
     
-    public ArrayList<FireEffectNBTData> getMinorEffects()
+    public ArrayList<FireEffectNBTDataInterface> getMinorEffects()
     {
         return minorEffects;
     }
     
-    public void setMinorEffects(ArrayList<FireEffectNBTData> minorEffects)
+    public void setMinorEffects(ArrayList<FireEffectNBTDataInterface> minorEffects)
     {
         this.minorEffects = minorEffects;
     }

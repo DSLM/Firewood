@@ -6,5 +6,6 @@
   "minHealth": 0.1,
   "process": 2,
   "chance": 100.0,
-  "range": 3
+  "range": 3,
+  "cooldown": 10
 }

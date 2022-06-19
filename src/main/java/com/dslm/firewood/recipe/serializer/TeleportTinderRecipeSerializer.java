@@ -1,6 +1,7 @@
 package com.dslm.firewood.recipe.serializer;
 
 import com.dslm.firewood.recipe.TeleportTinderRecipe;
+import com.dslm.firewood.util.StaticValue;
 import com.google.gson.JsonObject;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
@@ -17,23 +18,29 @@ public class TeleportTinderRecipeSerializer extends TinderRecipeSerializer<Telep
     public TeleportTinderRecipe fromJson(ResourceLocation id, JsonObject json)
     {
         Ingredient ember = Ingredient.fromJson(json.getAsJsonObject("ember"));
-        
-        return new TeleportTinderRecipe(super.fromJson(id, json), ember);
+    
+        String subType = json.get(StaticValue.SUB_TYPE).getAsString();
+    
+        return new TeleportTinderRecipe(super.fromJson(id, json), ember, subType);
     }
     
     @Override
     public TeleportTinderRecipe fromNetwork(ResourceLocation id, FriendlyByteBuf buf)
     {
         Ingredient ember = Ingredient.fromNetwork(buf);
-        
-        return new TeleportTinderRecipe(super.fromNetwork(id, buf), ember);
+    
+        String subType = buf.readUtf();
+    
+        return new TeleportTinderRecipe(super.fromNetwork(id, buf), ember, subType);
     }
     
     @Override
     public void toNetwork(FriendlyByteBuf buf, TeleportTinderRecipe recipe)
     {
         recipe.getEmber().toNetwork(buf);
-        
+    
+        buf.writeUtf(recipe.getSubType());
+    
         super.toNetwork(buf, recipe);
     }
 }

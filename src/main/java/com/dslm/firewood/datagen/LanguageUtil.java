@@ -62,14 +62,17 @@ public class LanguageUtil
     
         //config
         {
+            add("config.firewood.client.high_contrast_mode",
+                    "High Contrast Mode (if true, tooltip wouldn't be dyed)", "高对比度模式（开启后提示信息不会变色）");
+    
             add("config.firewood.fired_spirit", "Settings for the Fired Spirit", "燃烧之魂设置");
             add("config.firewood.fired_spirit.interval", "Fired Spirit damage interval (tick)", "燃烧之魂伤害间隔（刻）");
             add("config.firewood.fired_flesh", "Settings for the Fired Flesh", "燃烧之躯设置");
             add("config.firewood.fired_flesh.interval", "Fired Flesh damage interval (tick)", "燃烧之躯伤害间隔（刻）");
-        
+    
             add("config.firewood.spiritual_fire_block_effects",
                     "Settings for the Spiritual Fire Block Effects", "灵性之火效果设置");
-        
+    
             add("config.firewood.spiritual_fire_block_effects.major",
                     "Settings for the Major Effects", "主要效果设置");
             add("config.firewood.spiritual_fire_block_effects.major.potion",
@@ -92,11 +95,11 @@ public class LanguageUtil
                     "Settings for Ground Effects", "基底效果设置");
             add("config.firewood.spiritual_fire_block_effects.minor.ground.default_block",
                     "the default block ID for a ground effect", "默认基底方块的ID");
-        
+    
             add("config.firewood.spiritual_fire_block_effects.others", "Settings for Others", "其他设置");
             add("config.firewood.spiritual_fire_block_effects.others.fired_flesh_interval",
-                    "Fired Flesh effect time (tick); it is also a cooldown time of triggering spiritual fire effects",
-                    "燃烧之躯效果时长（刻）；这个时间也代表着灵性之火效果触发的冷却时间");
+                    "Fired Flesh default effect time for each major effect (tick); it is also a cooldown time of triggering spiritual fire effects",
+                    "每个主要效果造成的燃烧之躯效果默认时长（刻）；这个时间也代表着灵性之火效果触发的冷却时间");
         }
     
         //tooltip
@@ -105,25 +108,31 @@ public class LanguageUtil
                     "A relic of the past...... ", "过去残存之事物……");
             add(String.format("tooltip.%s.%s.%s", StaticValue.MOD_ID, Register.DYING_EMBER_ITEM.get(), "2"),
                     "Coordinate: %1$s (%2$s, %3$s, %4$s)", "坐标：%1$s（%2$s，%3$s，%4$s）");
-        
+    
             add("tooltip." + StaticValue.MOD_ID + "." + Register.TINDER_ITEM.get() + ".major_effect",
                     "§lMajor Effect: ", "§l主要效果：");
             add("tooltip." + StaticValue.MOD_ID + "." + Register.TINDER_ITEM.get() + ".major_effect.potion",
                     "Potion", "药水");
+    
             add("tooltip." + StaticValue.MOD_ID + "." + Register.TINDER_ITEM.get() + ".major_effect.teleport",
                     "Teleport", "传送");
             add("tooltip." + StaticValue.MOD_ID + "." + Register.TINDER_ITEM.get() + ".major_effect.teleport.extend.1",
                     "Teleport to: %1$s (%2$s, %3$s, %4$s)", "传送到：%1$s（%2$s，%3$s，%4$s）");
+            add("tooltip." + StaticValue.MOD_ID + "." + Register.TINDER_ITEM.get() + ".major_effect.teleport.teleport",
+                    "Teleport", "传送");
+    
             add("tooltip." + StaticValue.MOD_ID + "." + Register.TINDER_ITEM.get() + ".major_effect.smelter",
                     "Smelter", "熔炉");
             add("tooltip." + StaticValue.MOD_ID + "." + Register.TINDER_ITEM.get() + ".major_effect.smelter.smelter",
                     "Smelter", "熔炉");
+    
             add("tooltip." + StaticValue.MOD_ID + "." + Register.TINDER_ITEM.get() + ".major_effect.block_to_block",
                     "Block->Block", "方块->方块");
             add("tooltip." + StaticValue.MOD_ID + "." + Register.TINDER_ITEM.get() + ".major_effect.block_to_block.rock_to_mud",
                     "Transmute Rock to Mud", "化石为泥");
             add("tooltip." + StaticValue.MOD_ID + "." + Register.TINDER_ITEM.get() + ".major_effect.block_to_block.mud_to_rock",
                     "Transmute Mud to Rock", "化泥为石");
+    
             add("tooltip." + StaticValue.MOD_ID + "." + Register.TINDER_ITEM.get() + ".major_effect.set_block_name",
                     "Set Block by Name", "方块注册名转化");
             add("tooltip." + StaticValue.MOD_ID + "." + Register.TINDER_ITEM.get() + ".major_effect.set_block_name.rainbow",
@@ -180,7 +189,7 @@ public class LanguageUtil
         {
             final String patchouli = "patchouli." + StaticValue.MOD_ID + ".book.";
             add(patchouli + "name",
-                    "A Relic of the Past", "过去残存之事物");
+                    "A Relic of the Past (WIP)", "过去残存之事物（WIP）");
             add(patchouli + "landing_text",
                     "This is a mod related to fire, so that all practical and effective effects must be paid by irresistible fire damage.",
                     "这是一个与火焰有关的mod，一切切实有效的效果都需要以受到不可阻挡的火焰伤害为代价。");

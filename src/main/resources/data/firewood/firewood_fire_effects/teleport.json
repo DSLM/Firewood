@@ -1,0 +1,10 @@
+{
+  "type": "firewood:teleport",
+  "subType": "teleport",
+  "color": "0x336666",
+  "damage": 1,
+  "process": 1,
+  "chance": 100.0,
+  "range": -1,
+  "cooldown": 10
+}

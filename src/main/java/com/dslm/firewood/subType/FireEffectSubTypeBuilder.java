@@ -19,10 +19,9 @@ public class FireEffectSubTypeBuilder implements FireEffectSubTypeBuilderBase
                 jsonObject.get(StaticValue.SUB_TYPE) == null ||
                 jsonObject.get(StaticValue.COLOR) == null ||
                 jsonObject.get(StaticValue.DAMAGE) == null ||
-                jsonObject.get(StaticValue.MIN_HEALTH) == null ||
                 jsonObject.get(StaticValue.PROCESS) == null ||
-                jsonObject.get(StaticValue.CHANCE) == null ||
-                jsonObject.get(StaticValue.RANGE) == null ?
+                jsonObject.get(StaticValue.RANGE) == null ||
+                jsonObject.get(StaticValue.COOLDOWN) == null ?
                 null :
                 new FireEffectSubType(resourceLocation, jsonObject);
     }

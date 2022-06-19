@@ -1,6 +1,5 @@
 package com.dslm.firewood.item;
 
-import com.dslm.firewood.fireEffectHelper.flesh.TeleportFireEffectHelper;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -20,6 +19,7 @@ import static com.dslm.firewood.fireEffectHelper.flesh.FireEffectHelpers.colorfu
 
 public class DyingEmberItem extends Item
 {
+    final int color = 0x336666;
     public DyingEmberItem(Properties pProperties)
     {
         super(pProperties);
@@ -37,7 +37,7 @@ public class DyingEmberItem extends Item
                             stack.getTag().get("posX").getAsString(),
                             stack.getTag().get("posY").getAsString(),
                             stack.getTag().get("posZ").getAsString()),
-                    TeleportFireEffectHelper.getColor()));
+                    color));
         }
     }
     

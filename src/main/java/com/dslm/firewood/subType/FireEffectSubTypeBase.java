@@ -47,4 +47,8 @@ public interface FireEffectSubTypeBase
     int getRange();
     
     void setRange(int range);
+    
+    int getCooldown();
+    
+    void setCooldown(int range);
 }

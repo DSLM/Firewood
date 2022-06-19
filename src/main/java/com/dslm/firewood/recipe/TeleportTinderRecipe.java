@@ -2,13 +2,11 @@ package com.dslm.firewood.recipe;
 
 import com.dslm.firewood.Register;
 import com.dslm.firewood.block.entity.SpiritualCampfireBlockEntity;
-import com.dslm.firewood.fireEffectHelper.flesh.TeleportFireEffectHelper;
 import com.dslm.firewood.fireEffectHelper.flesh.data.FireEffectNBTData;
 import com.dslm.firewood.item.DyingEmberItem;
 import com.dslm.firewood.util.StaticValue;
 import com.mojang.datafixers.util.Either;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.NonNullList;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
@@ -25,17 +23,21 @@ import static com.dslm.firewood.fireEffectHelper.flesh.TeleportFireEffectHelper.
 
 public class TeleportTinderRecipe extends TinderRecipe
 {
-    protected Ingredient ember = Ingredient.of(Register.DYING_EMBER_ITEM.get());
+    protected final Ingredient ember;
+    protected final String subType;
     
-    public TeleportTinderRecipe(TinderRecipe recipe, Ingredient ember)
+    public TeleportTinderRecipe(TinderRecipe recipe, Ingredient ember, String subType)
     {
         super(recipe);
         this.ember = ember;
+        this.subType = subType;
     }
     
     public TeleportTinderRecipe(TinderRecipe recipe)
     {
         super(recipe);
+        this.ember = Ingredient.of(Register.DYING_EMBER_ITEM.get());
+        this.subType = "";
     }
     
     @Override
@@ -66,16 +68,28 @@ public class TeleportTinderRecipe extends TinderRecipe
     {
         ArrayList<ItemStack> inputs = new ArrayList<>(container.getIngredients());
         inputs.removeIf((i) -> i == null || i.isEmpty());
+    
+    
+        if(targetTinder == null)
+            return addEffects.implementEffects(container.getTinder());
+        ItemStack itemStack = new ItemStack(targetTinder);
+        itemStack.setTag(container.getTinder().getOrCreateTag());
+    
+        itemStack = addEffects.implementEffects(itemStack);
+    
         int[] recipe = RecipeMatcher.findMatches(inputs, new ArrayList<>(recipeItems)
         {{
             add(ember);
         }});
+    
         container.getIngredients().forEach((i) -> {
             if(inputs.get(recipe[recipe.length - 1]) == i && matchEmber(i))
             {
                 addEffects.addMajorEffect(new FireEffectNBTData()
                 {{
                     put(StaticValue.TYPE, "teleport");
+                    put(StaticValue.SUB_TYPE, subType);
+                    put(StaticValue.PROCESS, "0");
                     put(DIM_TAG_ID, i.getTag().getString(DIM_TAG_ID));
                     put(X_TAG_ID, i.getTag().getString(X_TAG_ID));
                     put(Y_TAG_ID, i.getTag().getString(Y_TAG_ID));
@@ -83,7 +97,8 @@ public class TeleportTinderRecipe extends TinderRecipe
                 }});
             }
         });
-        return super.assemble(container);
+    
+        return itemStack;
     }
     
     @Override
@@ -95,6 +110,11 @@ public class TeleportTinderRecipe extends TinderRecipe
     public Ingredient getEmber()
     {
         return ember;
+    }
+    
+    public String getSubType()
+    {
+        return subType;
     }
     
     @Override
@@ -110,15 +130,6 @@ public class TeleportTinderRecipe extends TinderRecipe
             list.add(Either.left(emberInput));
         }
         recipeItems.forEach(item -> list.add(Either.right(item)));
-        return list;
-    }
-    
-    @Override
-    public List<ItemStack> getJEIResult()
-    {
-        NonNullList<ItemStack> list = NonNullList.create();
-        getJEIResultItems().forEach(i ->
-                TeleportFireEffectHelper.getInstanceList().get(0).fillItemCategory(list, i.copy()));
         return list;
     }
     

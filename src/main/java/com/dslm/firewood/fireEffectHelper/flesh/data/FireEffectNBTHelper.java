@@ -13,9 +13,9 @@ import static com.dslm.firewood.util.StaticValue.TYPE;
 public class FireEffectNBTHelper
 {
     
-    public static ArrayList<FireEffectNBTData> loadMajorFireData(CompoundTag pTag)
+    public static ArrayList<FireEffectNBTDataInterface> loadMajorFireData(CompoundTag pTag)
     {
-        ArrayList<FireEffectNBTData> majorEffects = new ArrayList<>();
+        ArrayList<FireEffectNBTDataInterface> majorEffects = new ArrayList<>();
         ListTag tags = (ListTag) pTag.get(StaticValue.MAJOR);
         if(tags != null)
         {
@@ -30,9 +30,9 @@ public class FireEffectNBTHelper
         return majorEffects;
     }
     
-    public static ArrayList<FireEffectNBTData> loadMinorFireData(CompoundTag pTag)
+    public static ArrayList<FireEffectNBTDataInterface> loadMinorFireData(CompoundTag pTag)
     {
-        ArrayList<FireEffectNBTData> minorEffects = new ArrayList<>();
+        ArrayList<FireEffectNBTDataInterface> minorEffects = new ArrayList<>();
         ListTag tags = (ListTag) pTag.get(StaticValue.MINOR);
         if(tags != null)
         {
@@ -49,17 +49,17 @@ public class FireEffectNBTHelper
     
     
     @SuppressWarnings("ConstantConditions")
-    public static CompoundTag saveFireData(CompoundTag tag, ArrayList<FireEffectNBTData> majorEffects, ArrayList<FireEffectNBTData> minorEffects)
+    public static CompoundTag saveFireData(CompoundTag tag, ArrayList<FireEffectNBTDataInterface> majorEffects, ArrayList<FireEffectNBTDataInterface> minorEffects)
     {
         tag = saveMajorFireData(tag, majorEffects);
         tag = saveMinorFireData(tag, minorEffects);
         return tag;
     }
     
-    public static CompoundTag saveMajorFireData(CompoundTag pTag, ArrayList<FireEffectNBTData> majorEffects)
+    public static CompoundTag saveMajorFireData(CompoundTag pTag, ArrayList<FireEffectNBTDataInterface> majorEffects)
     {
         ListTag tags = new ListTag();
-        for(FireEffectNBTData i : majorEffects)
+        for(FireEffectNBTDataInterface i : majorEffects)
         {
             if(i.getType() != null)
             {
@@ -71,10 +71,10 @@ public class FireEffectNBTHelper
         return pTag;
     }
     
-    public static CompoundTag saveMinorFireData(CompoundTag pTag, ArrayList<FireEffectNBTData> minorEffects)
+    public static CompoundTag saveMinorFireData(CompoundTag pTag, ArrayList<FireEffectNBTDataInterface> minorEffects)
     {
         ListTag tags = new ListTag();
-        for(FireEffectNBTData i : minorEffects)
+        for(FireEffectNBTDataInterface i : minorEffects)
         {
             if(i.getType() != null)
             {

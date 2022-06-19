@@ -2,7 +2,7 @@ package com.dslm.firewood.block.entity;
 
 import com.dslm.firewood.Register;
 import com.dslm.firewood.fireEffectHelper.flesh.FireEffectHelpers;
-import com.dslm.firewood.fireEffectHelper.flesh.data.FireEffectNBTData;
+import com.dslm.firewood.fireEffectHelper.flesh.data.FireEffectNBTDataInterface;
 import com.dslm.firewood.fireEffectHelper.flesh.data.TinderSourceType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -22,8 +22,8 @@ import static com.dslm.firewood.fireEffectHelper.flesh.data.FireEffectNBTHelper.
 public class SpiritualFireBlockEntity extends BlockEntity
 {
     private int color = -1;
-    public ArrayList<FireEffectNBTData> majorEffects = new ArrayList<>();
-    public ArrayList<FireEffectNBTData> minorEffects = new ArrayList<>();
+    private ArrayList<FireEffectNBTDataInterface> majorEffects = new ArrayList<>();
+    private ArrayList<FireEffectNBTDataInterface> minorEffects = new ArrayList<>();
     
     public SpiritualFireBlockEntity(BlockPos pWorldPosition, BlockState pBlockState)
     {
@@ -102,5 +102,25 @@ public class SpiritualFireBlockEntity extends BlockEntity
     public void triggerMajorEffects(BlockState state, Level level, BlockPos pos, LivingEntity entity)
     {
         majorEffects = FireEffectHelpers.triggerMajorEffects(majorEffects, minorEffects, TinderSourceType.GROUND_FIRE, state, level, pos, entity);
+    }
+    
+    public ArrayList<FireEffectNBTDataInterface> getMajorEffects()
+    {
+        return majorEffects;
+    }
+    
+    public void setMajorEffects(ArrayList<FireEffectNBTDataInterface> majorEffects)
+    {
+        this.majorEffects = majorEffects;
+    }
+    
+    public ArrayList<FireEffectNBTDataInterface> getMinorEffects()
+    {
+        return minorEffects;
+    }
+    
+    public void setMinorEffects(ArrayList<FireEffectNBTDataInterface> minorEffects)
+    {
+        this.minorEffects = minorEffects;
     }
 }

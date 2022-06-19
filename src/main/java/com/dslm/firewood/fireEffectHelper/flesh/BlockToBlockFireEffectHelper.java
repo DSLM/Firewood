@@ -1,8 +1,8 @@
 package com.dslm.firewood.fireEffectHelper.flesh;
 
 import com.dslm.firewood.Register;
-import com.dslm.firewood.fireEffectHelper.flesh.base.TransmuteFireEffectHelperBase;
-import com.dslm.firewood.fireEffectHelper.flesh.data.FireEffectNBTData;
+import com.dslm.firewood.fireEffectHelper.flesh.base.SubMajorFireEffectHelperBase;
+import com.dslm.firewood.fireEffectHelper.flesh.data.FireEffectNBTDataInterface;
 import com.dslm.firewood.recipe.BlockToBlockRecipe;
 import com.dslm.firewood.recipe.FakeTransmuteContainer;
 import net.minecraft.core.BlockPos;
@@ -10,16 +10,16 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 
-public class BlockToBlockFireEffectHelper extends TransmuteFireEffectHelperBase
+public class BlockToBlockFireEffectHelper extends SubMajorFireEffectHelperBase
 {
     
     public BlockToBlockFireEffectHelper(String id)
     {
-        super(id);
+        super(id, TargetType.BLOCK);
     }
     
     @Override
-    public void transmuteBlock(FireEffectNBTData data, BlockState blockState, Level level, BlockPos blockPos)
+    public void transmuteBlock(FireEffectNBTDataInterface data, BlockState blockState, Level level, BlockPos blockPos)
     {
         for(BlockToBlockRecipe blockRecipe : level.getRecipeManager().getAllRecipesFor(Register.BLOCK_TO_BLOCK_RECIPE_TYPE.get()))
         {

@@ -4,6 +4,7 @@ import com.dslm.firewood.fireEffectHelper.flesh.base.FireEffectHelperBase;
 import com.dslm.firewood.fireEffectHelper.flesh.base.MajorFireEffectHelperInterface;
 import com.dslm.firewood.fireEffectHelper.flesh.base.MinorFireEffectHelperInterface;
 import com.dslm.firewood.fireEffectHelper.flesh.data.FireEffectNBTData;
+import com.dslm.firewood.fireEffectHelper.flesh.data.FireEffectNBTDataInterface;
 import com.dslm.firewood.fireEffectHelper.flesh.data.TinderSourceType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -23,55 +24,55 @@ public class ExceptionCatchHelper extends FireEffectHelperBase implements MajorF
     }
     
     @Override
-    public int getColor(FireEffectNBTData data)
+    public int getColor(FireEffectNBTDataInterface data)
     {
         return 0;
     }
     
     @Override
-    public FireEffectNBTData triggerEffect(FireEffectNBTData data, TinderSourceType tinderSourceType, BlockState state, Level level, BlockPos pos, LivingEntity entity, ArrayList<FireEffectNBTData> majorEffects, ArrayList<FireEffectNBTData> minorEffects)
+    public FireEffectNBTDataInterface triggerEffect(FireEffectNBTDataInterface data, TinderSourceType tinderSourceType, BlockState state, Level level, BlockPos pos, LivingEntity entity, ArrayList<FireEffectNBTDataInterface> majorEffects, ArrayList<FireEffectNBTDataInterface> minorEffects)
     {
         return MajorFireEffectHelperInterface.super.triggerEffect(data, tinderSourceType, state, level, pos, entity, majorEffects, minorEffects);
     }
     
     @Override
-    public FireEffectNBTData triggerEffect(FireEffectNBTData data, TinderSourceType tinderSourceType, BlockState state, Level level, BlockPos pos, LivingEntity entity)
+    public FireEffectNBTDataInterface triggerEffect(FireEffectNBTDataInterface data, TinderSourceType tinderSourceType, BlockState state, Level level, BlockPos pos, LivingEntity entity)
     {
         return MajorFireEffectHelperInterface.super.triggerEffect(data, tinderSourceType, state, level, pos, entity);
     }
     
     @Override
-    public FireEffectNBTData triggerEffect(FireEffectNBTData data, TinderSourceType tinderSourceType, BlockState state, Level level, BlockPos pos, ArrayList<FireEffectNBTData> majorEffects, ArrayList<FireEffectNBTData> minorEffects)
+    public FireEffectNBTDataInterface triggerEffect(FireEffectNBTDataInterface data, TinderSourceType tinderSourceType, BlockState state, Level level, BlockPos pos, ArrayList<FireEffectNBTDataInterface> majorEffects, ArrayList<FireEffectNBTDataInterface> minorEffects)
     {
         return MinorFireEffectHelperInterface.super.triggerEffect(data, tinderSourceType, state, level, pos, majorEffects, minorEffects);
     }
     
     @Override
-    public FireEffectNBTData triggerEffect(FireEffectNBTData data, TinderSourceType tinderSourceType, BlockState state, Level level, BlockPos pos)
+    public FireEffectNBTDataInterface triggerEffect(FireEffectNBTDataInterface data, TinderSourceType tinderSourceType, BlockState state, Level level, BlockPos pos)
     {
         return MinorFireEffectHelperInterface.super.triggerEffect(data, tinderSourceType, state, level, pos);
     }
     
     @Override
-    public FireEffectNBTData triggerEffect(FireEffectNBTData data, TinderSourceType tinderSourceType, Level level, BlockPos pos)
+    public FireEffectNBTDataInterface triggerEffect(FireEffectNBTDataInterface data, TinderSourceType tinderSourceType, Level level, BlockPos pos)
     {
         return MajorFireEffectHelperInterface.super.triggerEffect(data, tinderSourceType, level, pos);
     }
     
     @Override
-    public FireEffectNBTData triggerEffect(FireEffectNBTData data, Level level, BlockPos pos)
+    public FireEffectNBTDataInterface triggerEffect(FireEffectNBTDataInterface data, Level level, BlockPos pos)
     {
         return MajorFireEffectHelperInterface.super.triggerEffect(data, level, pos);
     }
     
     @Override
-    public float getDamage(FireEffectNBTData data)
+    public float getDamage(FireEffectNBTDataInterface data)
     {
         return 0;
     }
     
     @Override
-    public ArrayList<Component> getToolTips(FireEffectNBTData data, boolean extended)
+    public ArrayList<Component> getToolTips(FireEffectNBTDataInterface data, boolean extended)
     {
         ArrayList<Component> lines = new ArrayList<>();
         lines.add(new TranslatableComponent("tooltip.firewood.tinder_item.exception_effect"));
@@ -89,7 +90,7 @@ public class ExceptionCatchHelper extends FireEffectHelperBase implements MajorF
     }
     
     @Override
-    public CompoundTag saveToNBT(FireEffectNBTData data)
+    public CompoundTag saveToNBT(FireEffectNBTDataInterface data)
     {
         CompoundTag tags = new CompoundTag();
         for(String i : data.keySet())
@@ -100,9 +101,9 @@ public class ExceptionCatchHelper extends FireEffectHelperBase implements MajorF
     }
     
     @Override
-    public FireEffectNBTData readFromNBT(CompoundTag tags)
+    public FireEffectNBTDataInterface readFromNBT(CompoundTag tags)
     {
-        FireEffectNBTData data = new FireEffectNBTData();
+        FireEffectNBTDataInterface data = new FireEffectNBTData();
         for(String i : tags.getAllKeys())
         {
             data.put(i, tags.getString(i));

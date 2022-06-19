@@ -2,7 +2,7 @@ package com.dslm.firewood.compat.jei;
 
 import com.dslm.firewood.Register;
 import com.dslm.firewood.fireEffectHelper.flesh.FireEffectHelpers;
-import com.dslm.firewood.fireEffectHelper.flesh.data.FireEffectNBTData;
+import com.dslm.firewood.fireEffectHelper.flesh.data.FireEffectNBTDataInterface;
 import com.dslm.firewood.recipe.SubRecipeBase;
 import com.mojang.blaze3d.platform.InputConstants;
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -47,7 +47,7 @@ abstract class SubEffectCategoryBase<T extends SubRecipeBase> implements IRecipe
     {
         this.type = type;
         this.subType = subType;
-        FireEffectNBTData defaultData = FireEffectHelpers.getMajorHelperByType(type).getDefaultData();
+        FireEffectNBTDataInterface defaultData = FireEffectHelpers.getMajorHelperByType(type).getDefaultData();
         defaultData.put("subType", subType);
         icon = guiHelper.createDrawableIngredient(VanillaTypes.ITEM_STACK,
                 FireEffectHelpers.addMajorEffects(

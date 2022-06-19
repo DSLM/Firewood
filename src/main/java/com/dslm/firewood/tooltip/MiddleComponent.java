@@ -6,6 +6,7 @@ public class MiddleComponent extends TranslatableComponent
 {
     private float damage = 0f;
     private float minHealth = 0f;
+    private int cooldown = 0;
     
     public MiddleComponent(String pKey)
     {
@@ -35,5 +36,15 @@ public class MiddleComponent extends TranslatableComponent
     public void setMinHealth(float minHealth)
     {
         this.minHealth = minHealth;
+    }
+    
+    public int getCooldown()
+    {
+        return cooldown;
+    }
+    
+    public void setCooldown(int cooldown)
+    {
+        this.cooldown = cooldown;
     }
 }

@@ -37,7 +37,6 @@ public class TinderRecipeSerializer<T extends TinderRecipe> implements RecipeSer
             return recipeClass.getConstructor(TinderRecipe.class).newInstance(tinderRecipe);
         } catch(Exception e)
         {
-            System.out.println("----------------------");
             e.printStackTrace();
             return null;
         }

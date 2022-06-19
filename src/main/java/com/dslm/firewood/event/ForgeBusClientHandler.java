@@ -23,6 +23,8 @@ import net.minecraftforge.fml.common.Mod;
 
 import java.util.List;
 
+import static com.dslm.firewood.config.ColorConfig.HIGH_CONTRAST_MODE;
+
 
 @Mod.EventBusSubscriber(value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.FORGE, modid = StaticValue.MOD_ID)
 public class ForgeBusClientHandler
@@ -78,32 +80,43 @@ public class ForgeBusClientHandler
             pose.pushPose();
             pose.translate(0, 0, 500);
     
+            int color = HIGH_CONTRAST_MODE.get() ? 0xffffff : middle.getStyle().getColor().getValue();
     
             int len = tooltipX;
     
             GuiComponent.drawString(pose, Minecraft.getInstance().font, middle,
-                    len, tooltipY, middle.getStyle().getColor().getValue());
+                    len, tooltipY, color);
             len += Minecraft.getInstance().font.width(middle.getVisualOrderText());
     
     
             RenderSystem.setShaderTexture(0, StaticValue.ICONS);
     
-            GuiComponent.blit(pose, len, tooltipY, 0, 0, 5, 9, 256, 256);
-            len += 5;
+            GuiComponent.blit(pose, len, tooltipY, 0, 0, 9, 9, 256, 256);
+            len += 9;
     
             GuiComponent.drawString(pose, Minecraft.getInstance().font, String.format(" x%.2f ", middle.getDamage()),
-                    len, tooltipY, middle.getStyle().getColor().getValue());
+                    len, tooltipY, color);
             len += Minecraft.getInstance().font.width(String.format(" x%.2f ", middle.getDamage()));
     
     
             RenderSystem.setShaderTexture(0, StaticValue.ICONS);
     
-            GuiComponent.blit(pose, len, tooltipY, 9, 0, 5, 9, 256, 256);
-            len += 5;
+            GuiComponent.blit(pose, len, tooltipY, 9, 0, 9, 9, 256, 256);
+            len += 9;
     
             GuiComponent.drawString(pose, Minecraft.getInstance().font, String.format(" x%.2f ", middle.getMinHealth()),
-                    len, tooltipY, middle.getStyle().getColor().getValue());
+                    len, tooltipY, color);
             len += Minecraft.getInstance().font.width(String.format(" x%.2f ", middle.getMinHealth()));
+    
+    
+            RenderSystem.setShaderTexture(0, StaticValue.ICONS);
+    
+            GuiComponent.blit(pose, len, tooltipY, 18, 0, 9, 9, 256, 256);
+            len += 9;
+    
+            GuiComponent.drawString(pose, Minecraft.getInstance().font, String.format(" x%d ", middle.getCooldown()),
+                    len, tooltipY, color);
+            len += Minecraft.getInstance().font.width(String.format(" x%d ", middle.getCooldown()));
     
             pose.popPose();
         }
@@ -118,8 +131,9 @@ public class ForgeBusClientHandler
         public int getWidth(Font font)
         {
             return Minecraft.getInstance().font.width(middle.getVisualOrderText())
-                    + Minecraft.getInstance().font.width(String.format(" x%.2f", middle.getDamage())) + 4
-                    + Minecraft.getInstance().font.width(String.format(" x%.2f", middle.getMinHealth())) + 4;
+                    + Minecraft.getInstance().font.width(String.format(" x%.2f", middle.getDamage())) + 9
+                    + Minecraft.getInstance().font.width(String.format(" x%.2f", middle.getMinHealth())) + 9
+                    + Minecraft.getInstance().font.width(String.format(" x%d ", middle.getCooldown())) + 9;
         }
     }
 }
