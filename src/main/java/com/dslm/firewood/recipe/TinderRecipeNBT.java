@@ -28,19 +28,14 @@ public class TinderRecipeNBT
     
     public static ArrayList<FireEffectNBTDataInterface> arrayFromNetwork(FriendlyByteBuf buf)
     {
-        ArrayList<FireEffectNBTDataInterface> effects = new ArrayList<>();
+        ArrayList<FireEffectNBTDataInterface> tempArray = new ArrayList<>();
         int arrSize = buf.readInt();
         for(int i = 0; i < arrSize; i++)
         {
-            FireEffectNBTDataInterface tempMap = new FireEffectNBTData();
-            int mapSize = buf.readInt();
-            for(int j = 0; j < mapSize; j++)
-            {
-                tempMap.put(buf.readUtf(), buf.readUtf());
-            }
-            effects.add(tempMap);
+            FireEffectNBTDataInterface tempMap = new FireEffectNBTData();// TODO: 2022/6/21 换成通用构造器？
+            tempArray.add(tempMap.fromNetwork(buf));
         }
-        return effects;
+        return tempArray;
     }
     
     public void toNetwork(FriendlyByteBuf buf)
@@ -55,13 +50,7 @@ public class TinderRecipeNBT
         buf.writeInt(size);
         for(int i = 0; i < size; i++)
         {
-            FireEffectNBTDataInterface tempMap = effects.get(i);
-            buf.writeInt(tempMap.size());
-            for(String j : tempMap.keySet())
-            {
-                buf.writeUtf(j);
-                buf.writeUtf(tempMap.get(j));
-            }
+            effects.get(i).toNetwork(buf);
         }
     }
     
@@ -95,12 +84,8 @@ public class TinderRecipeNBT
             for(JsonElement i : array)
             {
                 JsonObject tempObj = i.getAsJsonObject();
-                FireEffectNBTDataInterface tempMap = new FireEffectNBTData();
-                for(String j : tempObj.keySet())
-                {
-                    tempMap.put(j, tempObj.get(j).getAsString());
-                }
-                tempArray.add(tempMap);
+                FireEffectNBTDataInterface tempMap = new FireEffectNBTData();// TODO: 2022/6/21 换成通用构造器？
+                tempArray.add(tempMap.fromJSON(tempObj));
             }
         }
         

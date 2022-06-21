@@ -119,8 +119,7 @@ public class LanternItem extends BlockItem implements TinderTypeItemBase
     public void inventoryTick(ItemStack stack, Level level, Entity entity, int slotId, boolean isSelected)
     {
         // TODO: 2022/6/7 开着触发次要
-        if(entity instanceof Player player && !(player instanceof FakePlayer) && !level.isClientSide && isActive(stack) &&
-                !player.hasEffect(Register.FIRED_FLESH.get()))
+        if(entity instanceof Player player && !(player instanceof FakePlayer) && !level.isClientSide && isActive(stack))
         {
             BlockPos blockPos = player.blockPosition();
             BlockState blockState = player.getFeetBlockState();
@@ -128,11 +127,16 @@ public class LanternItem extends BlockItem implements TinderTypeItemBase
             CompoundTag tags = stack.getOrCreateTag();
             ArrayList<FireEffectNBTDataInterface> majorEffects = FireEffectNBTHelper.loadMajorFireData(tags);
             ArrayList<FireEffectNBTDataInterface> minorEffects = FireEffectNBTHelper.loadMinorFireData(tags);
-    
-            tags.remove(StaticValue.MAJOR);
             tags.remove(StaticValue.MINOR);
-            majorEffects = FireEffectHelpers.triggerMajorEffects(majorEffects, minorEffects, TinderSourceType.IN_BACKPACK_LANTERN, blockState, level, blockPos, player);
-    
+            if(!player.hasEffect(Register.FIRED_FLESH.get()))
+            {
+        
+                tags.remove(StaticValue.MAJOR);
+                majorEffects = FireEffectHelpers.triggerMajorEffects(majorEffects, minorEffects, TinderSourceType.IN_BACKPACK_LANTERN, blockState, level, blockPos, player);
+        
+            }
+            minorEffects = FireEffectHelpers.triggerMinorEffects(majorEffects, minorEffects, TinderSourceType.IN_BACKPACK_LANTERN, blockState, level, blockPos);
+            majorEffects = FireEffectHelpers.cacheClear(majorEffects, minorEffects, TinderSourceType.IN_GROUND_LANTERN, blockState, level, blockPos);
     
             tags = FireEffectNBTHelper.saveFireData(tags, majorEffects, minorEffects);
     

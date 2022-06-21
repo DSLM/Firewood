@@ -115,7 +115,7 @@ public class ForgeBusClientHandler
             GuiComponent.blit(pose, len, tooltipY, 18, 0, 9, 9, 256, 256);
             len += 9;
     
-            TranslatableComponent cooldownCom = new TranslatableComponent("tooltip.firewood.tinder_item.cooldown", middle.getCooldown() / 20);
+            TranslatableComponent cooldownCom = new TranslatableComponent("tooltip.firewood.tinder_item.cooldown", middle.getCooldown() / 20.0);
             GuiComponent.drawString(pose, Minecraft.getInstance().font, cooldownCom,
                     len, tooltipY, color);
             len += Minecraft.getInstance().font.width(cooldownCom);
@@ -135,7 +135,7 @@ public class ForgeBusClientHandler
             return Minecraft.getInstance().font.width(middle.getVisualOrderText())
                     + Minecraft.getInstance().font.width(String.format(" x%.2f", middle.getDamage())) + 9
                     + Minecraft.getInstance().font.width(String.format(" x%.2f", middle.getMinHealth())) + 9
-                    + Minecraft.getInstance().font.width(new TranslatableComponent("tooltip.firewood.tinder_item.cooldown", middle.getCooldown() / 20)) + 9;
+                    + Minecraft.getInstance().font.width(new TranslatableComponent("tooltip.firewood.tinder_item.cooldown", middle.getCooldown() / 20.0)) + 9;
         }
     }
 }

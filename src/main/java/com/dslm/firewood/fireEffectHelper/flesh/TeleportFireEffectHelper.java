@@ -4,7 +4,6 @@ import com.dslm.firewood.Firewood;
 import com.dslm.firewood.fireEffectHelper.flesh.base.SubMajorFireEffectHelperBase;
 import com.dslm.firewood.fireEffectHelper.flesh.data.FireEffectNBTData;
 import com.dslm.firewood.fireEffectHelper.flesh.data.FireEffectNBTDataInterface;
-import com.dslm.firewood.util.StaticValue;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -24,7 +23,7 @@ import java.util.function.Function;
 import static com.dslm.firewood.fireEffectHelper.flesh.FireEffectHelpers.colorfulText;
 
 public class TeleportFireEffectHelper extends SubMajorFireEffectHelperBase
-{// TODO: 2022/6/19 传送维度黑白名单 
+{// TODO: 2022/6/19 传送维度黑白名单
     public static final String DIM_TAG_ID = "dim";
     public static final String X_TAG_ID = "posX";
     public static final String Y_TAG_ID = "posY";
@@ -34,13 +33,13 @@ public class TeleportFireEffectHelper extends SubMajorFireEffectHelperBase
     {
         super(new FireEffectNBTData()
         {{
-            put(StaticValue.TYPE, id);
-            put(StaticValue.SUB_TYPE, "");
-            put(StaticValue.PROCESS, "0");
-            put(DIM_TAG_ID, "overworld");
-            put(X_TAG_ID, "0");
-            put(Y_TAG_ID, "256");
-            put(Z_TAG_ID, "0");
+            setType(id);
+            setSubType("");
+            setProcess(0);
+            set(DIM_TAG_ID, "overworld");
+            set(X_TAG_ID, "0");
+            set(Y_TAG_ID, "256");
+            set(Z_TAG_ID, "0");
         }}, id, TargetType.LIVING_ENTITY);
     }
     
@@ -105,10 +104,10 @@ public class TeleportFireEffectHelper extends SubMajorFireEffectHelperBase
     public FireEffectNBTDataInterface readFromNBT(CompoundTag tags)
     {
         FireEffectNBTDataInterface data = super.readFromNBT(tags);
-        data.put(DIM_TAG_ID, tags.getString(DIM_TAG_ID));
-        data.put(X_TAG_ID, tags.getString(X_TAG_ID));
-        data.put(Y_TAG_ID, tags.getString(Y_TAG_ID));
-        data.put(Z_TAG_ID, tags.getString(Z_TAG_ID));
+        data.set(DIM_TAG_ID, tags.getString(DIM_TAG_ID));
+        data.set(X_TAG_ID, tags.getString(X_TAG_ID));
+        data.set(Y_TAG_ID, tags.getString(Y_TAG_ID));
+        data.set(Z_TAG_ID, tags.getString(Z_TAG_ID));
         return data;
     }
     
@@ -117,17 +116,11 @@ public class TeleportFireEffectHelper extends SubMajorFireEffectHelperBase
     {
         for(String s : getSubIdList())
         {
-        
-            ItemStack stack = FireEffectHelpers.addMajorEffect(item.copy(), ID, new FireEffectNBTData()
-            {{
-                put(StaticValue.SUB_TYPE, s);
-                put(StaticValue.PROCESS, "0");
-                put(DIM_TAG_ID, "overworld");
-                put(X_TAG_ID, "0");
-                put(Y_TAG_ID, "256");
-                put(Z_TAG_ID, "0");
-            }});
-        
+            FireEffectNBTDataInterface defaultData = getDefaultData();
+            defaultData.setSubType(s);
+    
+            ItemStack stack = FireEffectHelpers.addMajorEffect(item.copy(), ID, defaultData);
+    
             if(!stack.isEmpty())
                 items.add(stack);
         }

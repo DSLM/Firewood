@@ -106,7 +106,7 @@ public class ExceptionCatchHelper extends FireEffectHelperBase implements MajorF
         FireEffectNBTDataInterface data = new FireEffectNBTData();
         for(String i : tags.getAllKeys())
         {
-            data.put(i, tags.getString(i));
+            data.set(i, tags.getString(i));
         }
         return data;
     }

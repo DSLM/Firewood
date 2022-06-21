@@ -21,7 +21,6 @@ import java.util.List;
 import java.util.stream.Stream;
 
 import static com.dslm.firewood.fireEffectHelper.flesh.GroundFireEffectHelper.BLOCK_TAG_ID;
-import static com.dslm.firewood.util.StaticValue.TYPE;
 
 public class GroundTinderRecipe extends TinderRecipe
 {
@@ -64,8 +63,8 @@ public class GroundTinderRecipe extends TinderRecipe
             {
                 finalItemStack[0] = FireEffectHelpers.addMajorEffect(itemStack, "ground", new FireEffectNBTData()
                 {{
-                    put(TYPE, "ground");
-                    put(BLOCK_TAG_ID, blockItem.getBlock().getRegistryName().toString());
+                    setType("ground");
+                    set(BLOCK_TAG_ID, blockItem.getBlock().getRegistryName().toString());
                 }});
             }
         });
@@ -132,7 +131,7 @@ public class GroundTinderRecipe extends TinderRecipe
                 {
                     ItemStack stack = FireEffectHelpers.addMinorEffect(i.copy(), "ground", new FireEffectNBTData()
                     {{
-                        put(BLOCK_TAG_ID, blockItem.getBlock().getRegistryName().toString());
+                        set(BLOCK_TAG_ID, blockItem.getBlock().getRegistryName().toString());
                     }});
                     groundInput.add(stack);
                 }

@@ -181,7 +181,7 @@ public class JEICompat implements IModPlugin
         else
         {
             FireEffectNBTDataInterface defaultData = FireEffectHelpers.getMajorHelperByType(type).getDefaultData();
-            defaultData.put("subType", subType);
+            defaultData.setSubType(subType);
             for(Item item : items)
             {
                 registration.addRecipeCatalyst(FireEffectHelpers.addMajorEffects(new ItemStack(item), Collections.singletonList(defaultData)), recipeType);

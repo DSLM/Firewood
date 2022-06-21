@@ -3,10 +3,9 @@
   "subType": "rainbow",
   "color": "0x70f3ff",
   "damage": 0.1,
-  "minHealth": 0.1,
   "process": 1,
-  "chance": 100.0,
-  "range": 10,
+  "range": 2,
+  "target_limit": 5,
   "cooldown": 10,
   "order": [
     "green",

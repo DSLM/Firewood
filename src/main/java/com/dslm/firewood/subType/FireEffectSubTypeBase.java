@@ -44,9 +44,13 @@ public interface FireEffectSubTypeBase
     
     void setChance(float chance);
     
-    int getRange();
+    int[] getRange();
     
-    void setRange(int range);
+    void setRange(int[] range);
+    
+    int getTargetLimit();
+    
+    void setTargetLimit(int targetLimit);
     
     int getCooldown();
     

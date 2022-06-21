@@ -59,6 +59,7 @@ public class LanternBlockEntity extends BlockEntity
     {
         // TODO: 2022/6/7 开着且有燃料触发主要
         e.minorEffects = FireEffectHelpers.triggerMinorEffects(e.majorEffects, e.minorEffects, TinderSourceType.IN_GROUND_LANTERN, state, level, pos);
+        e.majorEffects = FireEffectHelpers.cacheClear(e.majorEffects, e.minorEffects, TinderSourceType.IN_GROUND_LANTERN, state, level, pos);
         e.syncTick();
     }
     

@@ -1,5 +1,6 @@
 package com.dslm.firewood.fireEffectHelper.flesh.base;
 
+import com.dslm.firewood.fireEffectHelper.flesh.BlockCheckOrderFireEffectHelper;
 import com.dslm.firewood.fireEffectHelper.flesh.FireEffectHelpers;
 import com.dslm.firewood.fireEffectHelper.flesh.data.FireEffectNBTData;
 import com.dslm.firewood.fireEffectHelper.flesh.data.FireEffectNBTDataInterface;
@@ -19,10 +20,12 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
+import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.*;
 
 import static com.dslm.firewood.fireEffectHelper.flesh.FireEffectHelpers.colorfulText;
+import static com.dslm.firewood.fireEffectHelper.flesh.FireEffectHelpers.getMinorHelperByType;
 
 public abstract class SubMajorFireEffectHelperBase extends MajorFireEffectHelperBase
 {
@@ -44,9 +47,9 @@ public abstract class SubMajorFireEffectHelperBase extends MajorFireEffectHelper
     {
         this(new FireEffectNBTData()
         {{
-            put(StaticValue.TYPE, id);
-            put(StaticValue.SUB_TYPE, "");
-            put(StaticValue.PROCESS, "0");
+            setType(id);
+            setSubType("");
+            setProcess(0);
         }}, id, targetType);
     }
     
@@ -55,9 +58,9 @@ public abstract class SubMajorFireEffectHelperBase extends MajorFireEffectHelper
         return data.getSubType();
     }
     
-    public String getRealProcess(FireEffectNBTDataInterface data)
+    public int getRealProcess(FireEffectNBTDataInterface data)
     {
-        return data.get(StaticValue.PROCESS);
+        return data.getProcess();
     }
     
     @Override
@@ -66,7 +69,27 @@ public abstract class SubMajorFireEffectHelperBase extends MajorFireEffectHelper
         CompoundTag tags = new CompoundTag();
         tags.putString(StaticValue.TYPE, ID);
         tags.putString(StaticValue.SUB_TYPE, data.getSubType());
-        tags.putString(StaticValue.PROCESS, data.get(StaticValue.PROCESS));
+        if(data.getProcess() != Integer.MIN_VALUE)
+        {
+            tags.putInt(StaticValue.PROCESS, data.getProcess());
+        }
+        if(data.isInCache())
+        {
+            tags.putBoolean(StaticValue.IN_CACHE, data.isInCache());
+        }
+        int[] cache = data.getCache();
+        int tempCount = 0;
+        for(int i = 0; i < cache.length; i++)
+        {
+            if(cache[i] == Integer.MIN_VALUE)
+            {
+                tempCount++;
+            }
+        }
+        if(tempCount < cache.length)
+        {
+            tags.putIntArray(StaticValue.CACHE, data.getCache());
+        }
         return tags;
     }
     
@@ -74,9 +97,20 @@ public abstract class SubMajorFireEffectHelperBase extends MajorFireEffectHelper
     public FireEffectNBTDataInterface readFromNBT(CompoundTag tags)
     {
         FireEffectNBTDataInterface data = new FireEffectNBTData();
-        data.put(StaticValue.TYPE, ID);
-        data.put(StaticValue.SUB_TYPE, tags.get(StaticValue.SUB_TYPE).getAsString());
-        data.put(StaticValue.PROCESS, tags.get(StaticValue.PROCESS).getAsString());
+        data.setType(ID);
+        data.setSubType(tags.get(StaticValue.SUB_TYPE).getAsString());
+        if(tags.contains(StaticValue.PROCESS))
+        {
+            data.setProcess(tags.getInt(StaticValue.PROCESS));
+        }
+        if(tags.contains(StaticValue.IN_CACHE))
+        {
+            data.setInCache(tags.getBoolean(StaticValue.IN_CACHE));
+        }
+        if(tags.contains(StaticValue.CACHE))
+        {
+            data.setCache(tags.getIntArray(StaticValue.CACHE));
+        }
         return data;
     }
     
@@ -121,8 +155,17 @@ public abstract class SubMajorFireEffectHelperBase extends MajorFireEffectHelper
             lines.add(colorfulText(new TranslatableComponent("tooltip.firewood.recipe.chance", getChance(data)),
                     getColor(data)));
         }
-        lines.add(colorfulText(new TranslatableComponent("tooltip.firewood.recipe.range", getRange(data)),
-                getColor(data)));
+        int[] range = getRange(data);
+        if(range[0] < 0 || range[1] < 0 || range[2] < 0)
+        {
+            lines.add(colorfulText(new TranslatableComponent("tooltip.firewood.recipe.range_single"),
+                    getColor(data)));
+        }
+        else
+        {
+            lines.add(colorfulText(new TranslatableComponent("tooltip.firewood.recipe.range", range[0], range[1], range[2]),
+                    getColor(data)));
+        }
         return lines;
     }
     
@@ -144,13 +187,11 @@ public abstract class SubMajorFireEffectHelperBase extends MajorFireEffectHelper
     {
         for(String s : getSubIdList())
         {
+            FireEffectNBTDataInterface defaultData = getDefaultData();
+            defaultData.setSubType(s);
     
-            ItemStack stack = FireEffectHelpers.addMajorEffect(item.copy(), ID, new FireEffectNBTData()
-            {{
-                put(StaticValue.SUB_TYPE, s);
-                put(StaticValue.PROCESS, "0");
-            }});
-            
+            ItemStack stack = FireEffectHelpers.addMajorEffect(item.copy(), ID, defaultData);
+    
             if(!stack.isEmpty())
                 items.add(stack);
         }
@@ -170,10 +211,10 @@ public abstract class SubMajorFireEffectHelperBase extends MajorFireEffectHelper
         return effectData == null ? 0 : effectData.getColor();
     }
     
-    public int getRange(FireEffectNBTDataInterface data)
+    public int[] getRange(FireEffectNBTDataInterface data)
     {
         FireEffectSubTypeBase effectData = getSubRealEffect(data);
-        return effectData == null ? 0 : effectData.getRange();
+        return effectData == null ? new int[]{0, 0, 0} : effectData.getRange();
     }
     
     public int getProcess(FireEffectNBTDataInterface data)
@@ -222,19 +263,12 @@ public abstract class SubMajorFireEffectHelperBase extends MajorFireEffectHelper
         return "%s:%s".formatted(StaticValue.MOD_ID, getId());
     }
     
-    public static Iterable<BlockPos> getBlockPosIterable(BlockPos pos, int offset)
+    public static Iterable<LivingEntity> getEntityPosIterable(BlockPos pos, Level level, LivingEntity livingEntity, int[] offset)
     {
-        return BlockPos.betweenClosed(
-                pos.offset(offset, offset, offset),
-                pos.offset(-offset, -offset, -offset));
-    }
-    
-    public static Iterable<LivingEntity> getEntityPosIterable(BlockPos pos, Level level, LivingEntity livingEntity, int offset)
-    {
-        if(offset < 0) return Collections.singleton(livingEntity);
+        if(offset[0] < 0 || offset[1] < 0 || offset[2] < 0) return Collections.singleton(livingEntity);
         return level.getEntities(null, new AABB(
-                pos.offset(offset, offset, offset),
-                pos.offset(-offset, -offset, -offset)))
+                pos.offset(offset[0], offset[1], offset[2]),
+                pos.offset(-offset[0], -offset[1], -offset[2])))
                 .stream().filter(entity -> entity instanceof LivingEntity)
                 .map(entity -> (LivingEntity) entity)
                 .toList();
@@ -247,37 +281,83 @@ public abstract class SubMajorFireEffectHelperBase extends MajorFireEffectHelper
     
     @Override
     public FireEffectNBTDataInterface triggerEffect(FireEffectNBTDataInterface data, TinderSourceType tinderSourceType,
-                                                    BlockState state, Level level, BlockPos pos, LivingEntity entity)
+                                                    BlockState state, Level level, BlockPos pos, LivingEntity entity,
+                                                    ArrayList<FireEffectNBTDataInterface> majorEffects,
+                                                    ArrayList<FireEffectNBTDataInterface> minorEffects)
     {
         return switch(targetType)
                 {
-                    case BLOCK -> checkBlocks(data, level, pos);
+                    case BLOCK -> checkBlocks(data, pos, minorEffects);
                     case LIVING_ENTITY -> checkEntitys(data, level, pos, entity);
                 };
     }
     
-    public FireEffectNBTDataInterface checkBlocks(FireEffectNBTDataInterface data, Level level, BlockPos pos)
+    public FireEffectNBTDataInterface checkBlocks(FireEffectNBTDataInterface data, BlockPos pos, ArrayList<FireEffectNBTDataInterface> minorEffects)
     {
+        if(data.isInCache())
+        {
+            return data;
+        }
         FireEffectSubTypeBase effectData = getSubRealEffect(data);
         if(effectData == null)
             return data;
-        int nowProccess = Integer.parseInt(data.get(StaticValue.PROCESS)) + 1;
-        if(nowProccess < effectData.getProcess())
+        int nowProcess = data.getProcess() + 1;
+        if(nowProcess < effectData.getProcess())
         {
-            data.put(StaticValue.PROCESS, String.valueOf(nowProccess));
+            data.setProcess(nowProcess);
             return data;
         }
-        data.put(StaticValue.PROCESS, "0");
+        data.setProcess(0);
+        data.setInCache(true);
+        BlockCheckOrderFireEffectHelper blockCheckOrderFireEffectHelper = (BlockCheckOrderFireEffectHelper) getMinorHelperByType("order");
+        String nowOrder = "y+x-z-";
+        for(var effect : minorEffects)
+        {
+            if(effect.getType().equals("order"))
+            {
+                nowOrder = effect.get("order");
+            }
+        }
         
+        data.setCache(blockCheckOrderFireEffectHelper.initializeCash(pos, effectData, nowOrder));
+        
+        return data;
+    }
+    
+    @Override
+    public FireEffectNBTDataInterface cacheClear(FireEffectNBTDataInterface data, TinderSourceType tinderSourceType,
+                                                 BlockState state, Level level, BlockPos pos,
+                                                 ArrayList<FireEffectNBTDataInterface> majorEffects,
+                                                 ArrayList<FireEffectNBTDataInterface> minorEffects)
+    {
+        if(!data.isInCache())
+        {
+            return data;
+        }
+        FireEffectSubTypeBase effectData = getSubRealEffect(data);
         Random random = level.random;
-        getBlockPosIterable(pos, effectData.getRange()).forEach(blockPos -> {
+        
+        BlockCheckOrderFireEffectHelper blockCheckOrderFireEffectHelper = (BlockCheckOrderFireEffectHelper) getMinorHelperByType("order");
+        String nowOrder = "y+x-z-";
+        for(var effect : minorEffects)
+        {
+            if(effect.getType().equals("order"))
+            {
+                nowOrder = effect.get("order");
+            }
+        }
+        Pair<Iterable<BlockPos>, FireEffectNBTDataInterface> tempData =
+                blockCheckOrderFireEffectHelper.getBlocksByCache(data, effectData, effectData.getTargetLimit(), nowOrder);
+        
+        tempData.getLeft().forEach(blockPos -> {
             if(random.nextDouble() * 100 < effectData.getChance())
             {
                 BlockState blockState = level.getBlockState(blockPos);
                 transmuteBlock(data, blockState, level, blockPos);
             }
         });
-        return data;
+        
+        return tempData.getRight();
     }
     
     public void transmuteBlock(FireEffectNBTDataInterface data, BlockState blockState, Level level, BlockPos blockPos)
@@ -290,14 +370,14 @@ public abstract class SubMajorFireEffectHelperBase extends MajorFireEffectHelper
         FireEffectSubTypeBase effectData = getSubRealEffect(data);
         if(effectData == null)
             return data;
-        int nowProccess = Integer.parseInt(data.get(StaticValue.PROCESS)) + 1;
-        if(nowProccess < effectData.getProcess())
+        int nowProcess = data.getProcess() + 1;
+        if(nowProcess < effectData.getProcess())
         {
-            data.put(StaticValue.PROCESS, String.valueOf(nowProccess));
+            data.setProcess(nowProcess);
             return data;
         }
-        data.put(StaticValue.PROCESS, "0");
-        
+        data.setProcess(0);
+    
         Random random = level.random;
         getEntityPosIterable(pos, level, entity, effectData.getRange()).forEach(livingEntity -> {
             if(random.nextDouble() * 100 < effectData.getChance())

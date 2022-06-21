@@ -5,7 +5,6 @@ import com.dslm.firewood.block.entity.SpiritualCampfireBlockEntity;
 import com.dslm.firewood.fireEffectHelper.flesh.FireEffectHelpers;
 import com.dslm.firewood.fireEffectHelper.flesh.data.FireEffectNBTData;
 import com.dslm.firewood.item.DyingEmberItem;
-import com.dslm.firewood.util.StaticValue;
 import com.mojang.datafixers.util.Either;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
@@ -84,13 +83,13 @@ public class TeleportTinderRecipe extends TinderRecipe
             {
                 finalItemStack[0] = FireEffectHelpers.addMajorEffect(itemStack, "teleport", new FireEffectNBTData()
                 {{
-                    put(StaticValue.TYPE, "teleport");
-                    put(StaticValue.SUB_TYPE, subType);
-                    put(StaticValue.PROCESS, "0");
-                    put(DIM_TAG_ID, i.getTag().getString(DIM_TAG_ID));
-                    put(X_TAG_ID, i.getTag().getString(X_TAG_ID));
-                    put(Y_TAG_ID, i.getTag().getString(Y_TAG_ID));
-                    put(Z_TAG_ID, i.getTag().getString(Z_TAG_ID));
+                    setType("teleport");
+                    setSubType(subType);
+                    setProcess(0);
+                    set(DIM_TAG_ID, i.getTag().getString(DIM_TAG_ID));
+                    set(X_TAG_ID, i.getTag().getString(X_TAG_ID));
+                    set(Y_TAG_ID, i.getTag().getString(Y_TAG_ID));
+                    set(Z_TAG_ID, i.getTag().getString(Z_TAG_ID));
                 }});
             }
         });
@@ -138,13 +137,13 @@ public class TeleportTinderRecipe extends TinderRecipe
                 list.add(
                         FireEffectHelpers.addMajorEffect(addEffects.implementEffects(i), "teleport", new FireEffectNBTData()
                                 {{
-                                    put(StaticValue.TYPE, "teleport");
-                                    put(StaticValue.SUB_TYPE, subType);
-                                    put(StaticValue.PROCESS, "0");
-                                    put(DIM_TAG_ID, "overworld");
-                                    put(X_TAG_ID, "0");
-                                    put(Y_TAG_ID, "256");
-                                    put(Z_TAG_ID, "0");
+                                    setType("teleport");
+                                    setSubType(subType);
+                                    setProcess(0);
+                                    set(DIM_TAG_ID, "overworld");
+                                    set(X_TAG_ID, "0");
+                                    set(Y_TAG_ID, "256");
+                                    set(Z_TAG_ID, "0");
                                 }}
                         )
                 )

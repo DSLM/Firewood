@@ -48,7 +48,7 @@ abstract class SubEffectCategoryBase<T extends SubRecipeBase> implements IRecipe
         this.type = type;
         this.subType = subType;
         FireEffectNBTDataInterface defaultData = FireEffectHelpers.getMajorHelperByType(type).getDefaultData();
-        defaultData.put("subType", subType);
+        defaultData.setSubType(subType);
         icon = guiHelper.createDrawableIngredient(VanillaTypes.ITEM_STACK,
                 FireEffectHelpers.addMajorEffects(
                         new ItemStack(Register.TINDER_ITEM.get()), Collections.singletonList(defaultData)));

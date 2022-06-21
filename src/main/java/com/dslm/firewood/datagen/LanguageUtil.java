@@ -153,18 +153,20 @@ public class LanguageUtil
                     "Rainbow", "彩虹");
             add("tooltip." + StaticValue.MOD_ID + "." + Register.TINDER_ITEM.get() + ".major_effect.set_block_name.graft",
                     "Graft", "嫁接");
-        
+    
             add("tooltip." + StaticValue.MOD_ID + "." + Register.TINDER_ITEM.get() + ".minor_effect",
                     "§lMinor Effect: ", "§l次要效果：");
             add("tooltip." + StaticValue.MOD_ID + "." + Register.TINDER_ITEM.get() + ".minor_effect.ground",
                     "Ground: %s", "基底：%s");
-        
+            add("tooltip." + StaticValue.MOD_ID + "." + Register.TINDER_ITEM.get() + ".minor_effect.order",
+                    "Block Check Order: %s", "方块检查顺序：%s");
+    
             add("tooltip." + StaticValue.MOD_ID + "." + Register.TINDER_ITEM.get() + ".exception_effect",
                     "Unexpected Data", "错误数据");
-        
+    
             add("tooltip." + StaticValue.MOD_ID + "." + Register.TINDER_ITEM.get() + ".multi_tooltip_format",
                     "%2$s (%1$s)", "%2$s（%1$s）");
-        
+    
             add("tooltip." + StaticValue.MOD_ID + "." + Register.LANTERN_ITEM.get() + ".active",
                     "Active", "已开启");
             add("tooltip." + StaticValue.MOD_ID + "." + Register.LANTERN_ITEM.get() + ".inactive",
@@ -186,13 +188,15 @@ public class LanguageUtil
             add("tooltip." + StaticValue.MOD_ID + ".recipe.min_health",
                     "Burning Firewood Min Health Required: %s", "添薪最低生命值：%s");
             add("tooltip." + StaticValue.MOD_ID + ".recipe.range",
-                    "Effect Range: %s", "效果范围：%s");
-        
+                    "Effect Range: (x: %s, y: %s, z: %s)", "效果范围：（x：%s，y：%s，z：%s）");
+            add("tooltip." + StaticValue.MOD_ID + ".recipe.range_single",
+                    "Effect Range: self", "效果范围：自身");
+    
             add("tooltip." + StaticValue.MOD_ID + ".recipe.block_state",
                     "Block State:", "方块状态：");
             add("tooltip." + StaticValue.MOD_ID + ".recipe.block_state_line",
                     "%1$s = %2$s", "%1$s = %2$s");
-        
+    
             add("tooltip." + StaticValue.MOD_ID + ".recipe.title.fire_effect_sub",
                     "Fire Effect: %2$s (%1$s)", "火焰效果：%2$s（%1$s）");
             add("tooltip." + StaticValue.MOD_ID + ".recipe.title.fire_effect",

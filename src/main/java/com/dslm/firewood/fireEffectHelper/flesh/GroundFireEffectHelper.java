@@ -36,7 +36,7 @@ public class GroundFireEffectHelper extends MinorFireEffectHelperBase
     {
         super(new FireEffectNBTData()
         {{
-            put(BLOCK_TAG_ID, GROUND_DEFAULT_BLOCK.get());
+            set(BLOCK_TAG_ID, GROUND_DEFAULT_BLOCK.get());
         }}, id);
         INSTANCE_LIST.add(this);
     }
@@ -89,8 +89,8 @@ public class GroundFireEffectHelper extends MinorFireEffectHelperBase
     public FireEffectNBTDataInterface readFromNBT(CompoundTag tags)
     {
         FireEffectNBTDataInterface data = new FireEffectNBTData();
-        data.put(StaticValue.TYPE, ID);
-        data.put(BLOCK_TAG_ID, tags.getString(BLOCK_TAG_ID));
+        data.setType(ID);
+        data.set(BLOCK_TAG_ID, tags.getString(BLOCK_TAG_ID));
         return data;
     }
     

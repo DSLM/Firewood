@@ -3,9 +3,8 @@
   "subType": "smelter",
   "color": "0xc2ccd0",
   "damage": 0.5,
-  "minHealth": 1.0,
+  "min_health": 1.0,
   "process": 8,
-  "chance": 100.0,
   "range": 2,
   "cooldown": 10
 }

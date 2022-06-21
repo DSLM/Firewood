@@ -47,9 +47,10 @@ public class FireEffectHelpers
         majorEffectHelpers.helpers.put("smelter", new SmelterFireEffectHelper("smelter"));
         majorEffectHelpers.helpers.put("block_to_block", new BlockToBlockFireEffectHelper("block_to_block"));
         majorEffectHelpers.helpers.put("set_block_name", new SetBlockNameFireEffectHelper("set_block_name"));
-        
-        
+    
+    
         minorEffectHelpers.helpers.put("ground", new GroundFireEffectHelper("ground"));
+        minorEffectHelpers.helpers.put("order", new BlockCheckOrderFireEffectHelper("order"));
     }
     
     
@@ -105,6 +106,10 @@ public class FireEffectHelpers
         int cooldown = 0;
         for(FireEffectNBTDataInterface data : majorEffects)
         {
+            if(data.isInCache())
+            {
+                continue;
+            }
             var helper = getMajorHelperByType(data.getType());
             damage += helper.getDamage(data);
             minHealth += helper.getMinHealth(data);
@@ -119,8 +124,28 @@ public class FireEffectHelpers
         for(int i = 0; i < majorEffects.size(); i++)
         {
             FireEffectNBTDataInterface data = majorEffects.get(i);
+            if(data.isInCache())
+            {
+                continue;
+            }
             var helper = getMajorHelperByType(data.getType());
             data = helper.triggerEffect(data, tinderSourceType, state, level, pos, entity, majorEffects, minorEffects);
+            majorEffects.set(i, data);
+        }
+        return majorEffects;
+    }
+    
+    
+    public static ArrayList<FireEffectNBTDataInterface> cacheClear(ArrayList<FireEffectNBTDataInterface> majorEffects,
+                                                                   ArrayList<FireEffectNBTDataInterface> minorEffects,
+                                                                   TinderSourceType tinderSourceType,
+                                                                   BlockState state, Level level, BlockPos pos)
+    {
+        for(int i = 0; i < majorEffects.size(); i++)
+        {
+            FireEffectNBTDataInterface data = majorEffects.get(i);
+            var helper = getMajorHelperByType(data.getType());
+            data = helper.cacheClear(data, tinderSourceType, state, level, pos, majorEffects, minorEffects);
             majorEffects.set(i, data);
         }
         return majorEffects;
@@ -219,7 +244,7 @@ public class FireEffectHelpers
                     new TranslatableComponent("tooltip.firewood.tinder_item.total.min_health", minHealth),
                     StaticValue.TOTAL_COLOR));
             lines.add(colorfulText(
-                    new TranslatableComponent("tooltip.firewood.tinder_item.total.cooldown", cooldown / 20),
+                    new TranslatableComponent("tooltip.firewood.tinder_item.total.cooldown", cooldown / 20.0),
                     StaticValue.TOTAL_COLOR));
         }
     
@@ -243,8 +268,8 @@ public class FireEffectHelpers
         int num = 0;
         int[] color = {0, 0, 0};
         Color tempColor;
-        
-        //mainEffect
+    
+        //majorEffect
         for(FireEffectNBTDataInterface i : majorEffects)
         {
             int colorInt = getColorByType(StaticValue.MAJOR, i);

@@ -25,10 +25,13 @@ public class StaticValue
     public static final String TARGET_BLOCK = "target_block";
     public static final String COLOR = "color";
     public static final String DAMAGE = "damage";
-    public static final String MIN_HEALTH = "minHealth";
+    public static final String MIN_HEALTH = "min_health";
     public static final String PROCESS = "process";
+    public static final String IN_CACHE = "in_cache";
+    public static final String CACHE = "cache";
     public static final String CHANCE = "chance";
     public static final String RANGE = "range";
+    public static final String TARGET_LIMIT = "target_limit";
     public static final String COOLDOWN = "cooldown";
     
     public static final String ACTIVE_LANTERN = "activeLantern";

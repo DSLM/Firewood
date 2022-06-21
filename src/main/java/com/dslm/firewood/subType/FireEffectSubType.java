@@ -16,7 +16,8 @@ public class FireEffectSubType implements FireEffectSubTypeBase
     public float minHealth;
     public int process;
     public float chance;
-    public int range;
+    public int[] range; // x, y, z
+    public int targetLimit;
     public int cooldown;
     
     public FireEffectSubType()
@@ -24,7 +25,7 @@ public class FireEffectSubType implements FireEffectSubTypeBase
     
     }
     
-    public FireEffectSubType(String namespace, String path, String id, String subId, int color, float damage, float minHealth, int process, float chance, int range, int cooldown)
+    public FireEffectSubType(String namespace, String path, String id, String subId, int color, float damage, float minHealth, int process, float chance, int[] range, int targetLimit, int cooldown)
     {
         this.namespace = namespace;
         this.path = path;
@@ -36,6 +37,7 @@ public class FireEffectSubType implements FireEffectSubTypeBase
         this.process = process;
         this.chance = chance;
         this.range = range;
+        this.targetLimit = targetLimit;
         this.cooldown = cooldown;
     }
     
@@ -56,25 +58,27 @@ public class FireEffectSubType implements FireEffectSubTypeBase
         this.process = copy.process;
         this.chance = copy.chance;
         this.range = copy.range;
+        this.targetLimit = copy.targetLimit;
         this.cooldown = copy.cooldown;
     }
     
-    public FireEffectSubType(ResourceLocation resourceLocation, String id, String subId, int color, float damage, float minHealth, int process, float chance, int range, int cooldown)
+    public FireEffectSubType(ResourceLocation resourceLocation, String id, String subId, int color, float damage, float minHealth, int process, float chance, int[] range, int targetLimit, int cooldown)
     {
-        this(resourceLocation.getNamespace(), resourceLocation.getPath(), id, subId, color, damage, minHealth, process, chance, range, cooldown);
+        this(resourceLocation.getNamespace(), resourceLocation.getPath(), id, subId, color, damage, minHealth, process, chance, range, targetLimit, cooldown);
     }
     
-    public FireEffectSubType(ResourceLocation resourceLocation, JsonObject jsonObject)
+    public FireEffectSubType(ResourceLocation resourceLocation, JsonObject jsonObject, int[] range)
     {
         this(resourceLocation,
                 jsonObject.get(StaticValue.TYPE).getAsString(),
                 jsonObject.get(StaticValue.SUB_TYPE).getAsString(),
                 StaticValue.colorInt(jsonObject.get(StaticValue.COLOR).getAsString()),
                 jsonObject.get(StaticValue.DAMAGE).getAsFloat(),
-                jsonObject.get(StaticValue.MIN_HEALTH) == null ? jsonObject.get(StaticValue.DAMAGE).getAsFloat() : jsonObject.get(StaticValue.MIN_HEALTH).getAsFloat(),
+                !jsonObject.has(StaticValue.MIN_HEALTH) ? jsonObject.get(StaticValue.DAMAGE).getAsFloat() : jsonObject.get(StaticValue.MIN_HEALTH).getAsFloat(),
                 jsonObject.get(StaticValue.PROCESS).getAsInt(),
-                jsonObject.get(StaticValue.CHANCE) == null ? 100 : jsonObject.get(StaticValue.CHANCE).getAsFloat(),
-                jsonObject.get(StaticValue.RANGE).getAsInt(),
+                !jsonObject.has(StaticValue.CHANCE) ? 100 : jsonObject.get(StaticValue.CHANCE).getAsFloat(),
+                range,
+                !jsonObject.has(StaticValue.TARGET_LIMIT) ? Integer.MAX_VALUE : jsonObject.get(StaticValue.TARGET_LIMIT).getAsInt(),
                 jsonObject.get(StaticValue.COOLDOWN).getAsInt());
     }
     
@@ -193,15 +197,27 @@ public class FireEffectSubType implements FireEffectSubTypeBase
     }
     
     @Override
-    public int getRange()
+    public int[] getRange()
     {
         return range;
     }
     
     @Override
-    public void setRange(int range)
+    public void setRange(int[] range)
     {
         this.range = range;
+    }
+    
+    @Override
+    public int getTargetLimit()
+    {
+        return targetLimit;
+    }
+    
+    @Override
+    public void setTargetLimit(int targetLimit)
+    {
+        this.targetLimit = targetLimit;
     }
     
     @Override
@@ -228,10 +244,11 @@ public class FireEffectSubType implements FireEffectSubTypeBase
         float minHealth = buf.readFloat();
         int process = buf.readInt();
         float chance = buf.readFloat();
-        int range = buf.readInt();
+        int[] range = {buf.readInt(), buf.readInt(), buf.readInt()};
+        int targetLimit = buf.readInt();
         int cooldown = buf.readInt();
-        
-        return new FireEffectSubType(namespace, path, id, subId, color, damage, minHealth, process, chance, range, cooldown);
+    
+        return new FireEffectSubType(namespace, path, id, subId, color, damage, minHealth, process, chance, range, targetLimit, cooldown);
     }
     
     @Override
@@ -248,7 +265,10 @@ public class FireEffectSubType implements FireEffectSubTypeBase
             buf.writeFloat(fireEffectSubType.minHealth);
             buf.writeInt(fireEffectSubType.process);
             buf.writeFloat(fireEffectSubType.chance);
-            buf.writeInt(fireEffectSubType.range);
+            buf.writeInt(fireEffectSubType.range[0]);
+            buf.writeInt(fireEffectSubType.range[1]);
+            buf.writeInt(fireEffectSubType.range[2]);
+            buf.writeInt(fireEffectSubType.targetLimit);
             buf.writeInt(fireEffectSubType.cooldown);
         }
     }

@@ -3,9 +3,8 @@
   "subType": "mud_to_rock",
   "color": "0xa88462",
   "damage": 0.1,
-  "minHealth": 0.1,
   "process": 2,
-  "chance": 100.0,
+  "chance": 50.0,
   "range": 3,
   "cooldown": 10
 }

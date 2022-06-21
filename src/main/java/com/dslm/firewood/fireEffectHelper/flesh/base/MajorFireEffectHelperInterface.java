@@ -37,6 +37,31 @@ public interface MajorFireEffectHelperInterface extends FireEffectHelperInterfac
         return data;
     }
     
+    default FireEffectNBTDataInterface cacheClear(FireEffectNBTDataInterface data, TinderSourceType tinderSourceType,
+                                                  BlockState state, Level level, BlockPos pos,
+                                                  ArrayList<FireEffectNBTDataInterface> majorEffects,
+                                                  ArrayList<FireEffectNBTDataInterface> minorEffects)
+    {
+        return cacheClear(data, tinderSourceType, state, level, pos);
+    }
+    
+    default FireEffectNBTDataInterface cacheClear(FireEffectNBTDataInterface data, TinderSourceType tinderSourceType,
+                                                  BlockState state, Level level, BlockPos pos)
+    {
+        return cacheClear(data, tinderSourceType, level, pos);
+    }
+    
+    default FireEffectNBTDataInterface cacheClear(FireEffectNBTDataInterface data, TinderSourceType tinderSourceType,
+                                                  Level level, BlockPos pos)
+    {
+        return cacheClear(data, level, pos);
+    }
+    
+    default FireEffectNBTDataInterface cacheClear(FireEffectNBTDataInterface data, Level level, BlockPos pos)
+    {
+        return data;
+    }
+    
     float getDamage(FireEffectNBTDataInterface data);
     
     default float getMinHealth(FireEffectNBTDataInterface data)

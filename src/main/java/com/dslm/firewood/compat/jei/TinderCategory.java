@@ -123,7 +123,7 @@ public class TinderCategory implements IRecipeCategory<TinderRecipe>
                     add(new TranslatableComponent("tooltip.firewood.recipe.chance", recipe.getChance()));
                 }
                 add(new TranslatableComponent("tooltip.firewood.recipe.damage", recipe.getDamage()));
-                add(new TranslatableComponent("tooltip.firewood.recipe.cooldown", recipe.getCooldown() / 20, recipe.getCooldown()));
+                add(new TranslatableComponent("tooltip.firewood.recipe.cooldown", recipe.getCooldown() / 20.0, recipe.getCooldown()));
                 add(new TranslatableComponent("tooltip.firewood.recipe.min_health", recipe.getMinHealth()));
             }};
             return arrayList;

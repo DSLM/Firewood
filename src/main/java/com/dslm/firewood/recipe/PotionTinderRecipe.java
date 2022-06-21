@@ -24,7 +24,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.dslm.firewood.fireEffectHelper.flesh.PotionFireEffectHelper.POTION_TAG_ID;
-import static com.dslm.firewood.util.StaticValue.TYPE;
 
 public class PotionTinderRecipe extends TinderRecipe
 {
@@ -72,8 +71,8 @@ public class PotionTinderRecipe extends TinderRecipe
             {
                 finalItemStack[0] = FireEffectHelpers.addMajorEffect(itemStack, "potion", new FireEffectNBTData()
                 {{
-                    put(TYPE, "potion");
-                    put(POTION_TAG_ID, PotionUtils.getPotion(i).getRegistryName().toString());
+                    setType("potion");
+                    set(POTION_TAG_ID, PotionUtils.getPotion(i).getRegistryName().toString());
                 }});
             }
         });

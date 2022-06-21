@@ -2,7 +2,6 @@ package com.dslm.firewood.fireEffectHelper.flesh.base;
 
 import com.dslm.firewood.fireEffectHelper.flesh.data.FireEffectNBTData;
 import com.dslm.firewood.fireEffectHelper.flesh.data.FireEffectNBTDataInterface;
-import com.dslm.firewood.util.StaticValue;
 import net.minecraft.nbt.CompoundTag;
 
 abstract public class FireEffectHelperBase implements FireEffectHelperInterface
@@ -20,7 +19,7 @@ abstract public class FireEffectHelperBase implements FireEffectHelperInterface
     {
         this(new FireEffectNBTData()
         {{
-            put(StaticValue.TYPE, id);
+            setType(id);
         }}, id);
     }
     

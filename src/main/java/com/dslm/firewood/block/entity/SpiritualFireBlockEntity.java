@@ -73,6 +73,7 @@ public class SpiritualFireBlockEntity extends BlockEntity
     {
     
         e.minorEffects = FireEffectHelpers.triggerMinorEffects(e.majorEffects, e.minorEffects, TinderSourceType.GROUND_FIRE, state, level, pos);
+        e.majorEffects = FireEffectHelpers.cacheClear(e.majorEffects, e.minorEffects, TinderSourceType.IN_GROUND_LANTERN, state, level, pos);
         e.syncTick();
     }
     

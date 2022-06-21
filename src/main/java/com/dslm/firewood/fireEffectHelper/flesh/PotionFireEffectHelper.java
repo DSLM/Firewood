@@ -51,7 +51,7 @@ public class PotionFireEffectHelper extends MajorFireEffectHelperBase
     {
         super(new FireEffectNBTData()
         {{
-            put(POTION_TAG_ID, "minecraft:water");
+            set(POTION_TAG_ID, "minecraft:water");
         }}, id);
         instanceList.add(this);
     }
@@ -199,8 +199,8 @@ public class PotionFireEffectHelper extends MajorFireEffectHelperBase
     public FireEffectNBTDataInterface readFromNBT(CompoundTag tags)
     {
         FireEffectNBTDataInterface data = new FireEffectNBTData();
-        data.put(StaticValue.TYPE, ID);
-        data.put(POTION_TAG_ID, tags.getString(POTION_TAG_ID));
+        data.setType(ID);
+        data.set(POTION_TAG_ID, tags.getString(POTION_TAG_ID));
         return data;
     }
     
@@ -230,7 +230,7 @@ public class PotionFireEffectHelper extends MajorFireEffectHelperBase
             String potionId = potion.getRegistryName().toString();
             ItemStack stack = FireEffectHelpers.addMajorEffect(item.copy(), ID, new FireEffectNBTData()
             {{
-                put(POTION_TAG_ID, potionId);
+                set(POTION_TAG_ID, potionId);
             }});
             
             if(!stack.isEmpty())

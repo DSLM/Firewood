@@ -66,7 +66,7 @@ public class TinderRecipeSerializer<T extends TinderRecipe> implements RecipeSer
     
         int cooldown = json.get("cooldown").getAsInt();
         
-        double minHealth = json.get("minHealth").getAsDouble();
+        double minHealth = json.get("min_health").getAsDouble();
     
         return getRealClass(new TinderRecipe(id, inputs, tinder, targetTinder, addEffects, process, chance, damage, cooldown, minHealth));
     }

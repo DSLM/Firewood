@@ -14,7 +14,7 @@
   "chance": 50.0,
   "damage": 1.0,
   "cooldown": 1000,
-  "minHealth": 1.0,
+  "min_health": 1.0,
   "subType": "teleport",
   "ember": {
     "item": "firewood:dying_ember_item"
