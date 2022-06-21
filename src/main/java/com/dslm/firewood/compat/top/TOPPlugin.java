@@ -82,7 +82,7 @@ public class TOPPlugin implements TOPCompat.Provider
                         .icon(ICONS, 9, 0, 9, 9, tempIconStyle)
                         .mcText(new TextComponent(String.format(" x%.2f ", middle.getMinHealth())).withStyle(middle.getStyle()))
                         .icon(ICONS, 18, 0, 9, 9, tempIconStyle)
-                        .mcText(new TextComponent(String.format(" x%d ", middle.getCooldown())).withStyle(middle.getStyle()));
+                        .mcText(new TranslatableComponent("tooltip.firewood.tinder_item.cooldown", middle.getCooldown() / 20).withStyle(middle.getStyle()));
             }
             else
             {

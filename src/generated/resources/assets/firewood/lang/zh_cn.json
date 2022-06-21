@@ -2,7 +2,7 @@
   "block.firewood.lantern_block": "\u63D0\u706F",
   "block.firewood.spiritual_campfire_block": "\u7075\u6027\u8425\u706B",
   "block.firewood.spiritual_fire_block": "\u7075\u6027\u4E4B\u706B",
-  "config.firewood.client.high_contrast_mode": "\u9AD8\u5BF9\u6BD4\u5EA6\u6A21\u5F0F\uFF08\u5F00\u542F\u540E\u5DE5\u5177\u63D0\u793A\u4E0D\u4F1A\u53D8\u8272\uFF09",
+  "config.firewood.client.high_contrast_mode": "\u9AD8\u5BF9\u6BD4\u5EA6\u6A21\u5F0F\uFF08\u5F00\u542F\u540E\u63D0\u793A\u4FE1\u606F\u4E0D\u4F1A\u53D8\u8272\uFF09",
   "config.firewood.fired_flesh": "\u71C3\u70E7\u4E4B\u8EAF\u8BBE\u7F6E",
   "config.firewood.fired_flesh.interval": "\u71C3\u70E7\u4E4B\u8EAF\u4F24\u5BB3\u95F4\u9694\uFF08\u523B\uFF09",
   "config.firewood.fired_spirit": "\u71C3\u70E7\u4E4B\u9B42\u8BBE\u7F6E",
@@ -61,6 +61,7 @@
   "tooltip.firewood.recipe.range": "\u6548\u679C\u8303\u56F4\uFF1A%s",
   "tooltip.firewood.recipe.title.fire_effect": "\u706B\u7130\u6548\u679C\uFF1A%s",
   "tooltip.firewood.recipe.title.fire_effect_sub": "\u706B\u7130\u6548\u679C\uFF1A%2$s\uFF08%1$s\uFF09",
+  "tooltip.firewood.tinder_item.cooldown": " x%1$s\u79D2 ",
   "tooltip.firewood.tinder_item.exception_effect": "\u9519\u8BEF\u6570\u636E",
   "tooltip.firewood.tinder_item.major_effect": "\u00A7l\u4E3B\u8981\u6548\u679C\uFF1A",
   "tooltip.firewood.tinder_item.major_effect.block_to_block": "\u65B9\u5757->\u65B9\u5757",
@@ -74,7 +75,13 @@
   "tooltip.firewood.tinder_item.major_effect.smelter.smelter": "\u7194\u7089",
   "tooltip.firewood.tinder_item.major_effect.teleport": "\u4F20\u9001",
   "tooltip.firewood.tinder_item.major_effect.teleport.extend.1": "\u4F20\u9001\u5230\uFF1A%1$s\uFF08%2$s\uFF0C%3$s\uFF0C%4$s\uFF09",
+  "tooltip.firewood.tinder_item.major_effect.teleport.teleport": "\u4F20\u9001",
   "tooltip.firewood.tinder_item.minor_effect": "\u00A7l\u6B21\u8981\u6548\u679C\uFF1A",
   "tooltip.firewood.tinder_item.minor_effect.ground": "\u57FA\u5E95\uFF1A%s",
-  "tooltip.firewood.tinder_item.multi_tooltip_format": "%2$s\uFF08%1$s\uFF09"
+  "tooltip.firewood.tinder_item.multi_tooltip_format": "%2$s\uFF08%1$s\uFF09",
+  "tooltip.firewood.tinder_item.total": "\u603B\u8BA1\uFF1A",
+  "tooltip.firewood.tinder_item.total.cooldown": "\u51B7\u5374\u65F6\u95F4\uFF1A%s\u79D2",
+  "tooltip.firewood.tinder_item.total.damage": "\u4F24\u5BB3\uFF1A%s",
+  "tooltip.firewood.tinder_item.total.full": "\u603B\u8BA1\uFF1A",
+  "tooltip.firewood.tinder_item.total.min_health": "\u6700\u4F4E\u751F\u547D\u503C\u9700\u6C42\uFF1A%s"
 }

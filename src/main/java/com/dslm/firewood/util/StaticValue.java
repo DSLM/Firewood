@@ -17,6 +17,7 @@ public class StaticValue
     public static final String MINOR = "minorEffects";
     public static final int MAJOR_EFFECT_COLOR = 0x48c774;
     public static final int MINOR_EFFECT_COLOR = 0x48c774;
+    public static final int TOTAL_COLOR = 0x48c774;
     
     public static final String TYPE = "type";
     public static final String SUB_TYPE = "subType";

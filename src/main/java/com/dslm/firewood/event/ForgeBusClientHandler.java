@@ -14,6 +14,7 @@ import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.network.chat.FormattedText;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.inventory.tooltip.TooltipComponent;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
@@ -114,9 +115,10 @@ public class ForgeBusClientHandler
             GuiComponent.blit(pose, len, tooltipY, 18, 0, 9, 9, 256, 256);
             len += 9;
     
-            GuiComponent.drawString(pose, Minecraft.getInstance().font, String.format(" x%d ", middle.getCooldown()),
+            TranslatableComponent cooldownCom = new TranslatableComponent("tooltip.firewood.tinder_item.cooldown", middle.getCooldown() / 20);
+            GuiComponent.drawString(pose, Minecraft.getInstance().font, cooldownCom,
                     len, tooltipY, color);
-            len += Minecraft.getInstance().font.width(String.format(" x%d ", middle.getCooldown()));
+            len += Minecraft.getInstance().font.width(cooldownCom);
     
             pose.popPose();
         }
@@ -133,7 +135,7 @@ public class ForgeBusClientHandler
             return Minecraft.getInstance().font.width(middle.getVisualOrderText())
                     + Minecraft.getInstance().font.width(String.format(" x%.2f", middle.getDamage())) + 9
                     + Minecraft.getInstance().font.width(String.format(" x%.2f", middle.getMinHealth())) + 9
-                    + Minecraft.getInstance().font.width(String.format(" x%d ", middle.getCooldown())) + 9;
+                    + Minecraft.getInstance().font.width(new TranslatableComponent("tooltip.firewood.tinder_item.cooldown", middle.getCooldown() / 20)) + 9;
         }
     }
 }

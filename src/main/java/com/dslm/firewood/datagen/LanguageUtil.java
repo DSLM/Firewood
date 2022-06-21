@@ -109,6 +109,20 @@ public class LanguageUtil
             add(String.format("tooltip.%s.%s.%s", StaticValue.MOD_ID, Register.DYING_EMBER_ITEM.get(), "2"),
                     "Coordinate: %1$s (%2$s, %3$s, %4$s)", "坐标：%1$s（%2$s，%3$s，%4$s）");
     
+    
+            add("tooltip." + StaticValue.MOD_ID + "." + Register.TINDER_ITEM.get() + ".cooldown",
+                    " x%1$sS ", " x%1$s秒 ");
+            add("tooltip." + StaticValue.MOD_ID + "." + Register.TINDER_ITEM.get() + ".total",
+                    "Total: ", "总计：");
+            add("tooltip." + StaticValue.MOD_ID + "." + Register.TINDER_ITEM.get() + ".total.full",
+                    "Total:", "总计：");
+            add("tooltip." + StaticValue.MOD_ID + "." + Register.TINDER_ITEM.get() + ".total.damage",
+                    "Damage: %s", "伤害：%s");
+            add("tooltip." + StaticValue.MOD_ID + "." + Register.TINDER_ITEM.get() + ".total.min_health",
+                    "Min Health: %s", "最低生命值需求：%s");
+            add("tooltip." + StaticValue.MOD_ID + "." + Register.TINDER_ITEM.get() + ".total.cooldown",
+                    "Cooldown: %sS", "冷却时间：%s秒");
+    
             add("tooltip." + StaticValue.MOD_ID + "." + Register.TINDER_ITEM.get() + ".major_effect",
                     "§lMajor Effect: ", "§l主要效果：");
             add("tooltip." + StaticValue.MOD_ID + "." + Register.TINDER_ITEM.get() + ".major_effect.potion",

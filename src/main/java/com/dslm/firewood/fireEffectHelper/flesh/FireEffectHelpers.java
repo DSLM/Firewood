@@ -7,6 +7,7 @@ import com.dslm.firewood.fireEffectHelper.flesh.base.MajorFireEffectHelperInterf
 import com.dslm.firewood.fireEffectHelper.flesh.base.MinorFireEffectHelperInterface;
 import com.dslm.firewood.fireEffectHelper.flesh.data.FireEffectNBTDataInterface;
 import com.dslm.firewood.fireEffectHelper.flesh.data.TinderSourceType;
+import com.dslm.firewood.tooltip.MiddleComponent;
 import com.dslm.firewood.util.StaticValue;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
@@ -163,15 +164,23 @@ public class FireEffectHelpers
                                                     ArrayList<FireEffectNBTDataInterface> minorEffects, boolean extended)
     {
         ArrayList<Component> lines = new ArrayList<>();
-        
+    
+        float damage = 0f;
+        float minHealth = 0f;
+        int cooldown = 0;
+    
         //majorEffects
         if(majorEffects.size() > 0)
         {
             lines.add(colorfulText(new TranslatableComponent("tooltip.firewood.tinder_item.major_effect"), StaticValue.MAJOR_EFFECT_COLOR));
             for(FireEffectNBTDataInterface data : majorEffects)
             {
-                ArrayList<Component> list = getMajorHelperByType(data.getType()).getToolTips(data, extended);
+                var helper = getMajorHelperByType(data.getType());
+                ArrayList<Component> list = helper.getToolTips(data, extended);
                 lines.addAll(list);
+                damage += helper.getDamage(data);
+                minHealth += helper.getMinHealth(data);
+                cooldown += helper.getCooldown(data);
             }
         }
         
@@ -181,11 +190,39 @@ public class FireEffectHelpers
             lines.add(colorfulText(new TranslatableComponent("tooltip.firewood.tinder_item.minor_effect"), StaticValue.MINOR_EFFECT_COLOR));
             for(FireEffectNBTDataInterface data : minorEffects)
             {
-                ArrayList<Component> list = getMinorHelperByType(data.getType()).getToolTips(data, extended);
+                var helper = getMinorHelperByType(data.getType());
+                ArrayList<Component> list = helper.getToolTips(data, extended);
                 lines.addAll(list);
             }
         }
-        
+    
+        //total
+        if(extended)
+        {
+            MiddleComponent mainLine = (MiddleComponent) colorfulText(
+                    new MiddleComponent("tooltip.firewood.tinder_item.total"),
+                    StaticValue.TOTAL_COLOR);
+            mainLine.setDamage(damage);
+            mainLine.setMinHealth(minHealth);
+            mainLine.setCooldown(cooldown);
+            lines.add(mainLine);
+        }
+        else
+        {
+            lines.add(colorfulText(
+                    new TranslatableComponent("tooltip.firewood.tinder_item.total.full"),
+                    StaticValue.TOTAL_COLOR));
+            lines.add(colorfulText(
+                    new TranslatableComponent("tooltip.firewood.tinder_item.total.damage", damage),
+                    StaticValue.TOTAL_COLOR));
+            lines.add(colorfulText(
+                    new TranslatableComponent("tooltip.firewood.tinder_item.total.min_health", minHealth),
+                    StaticValue.TOTAL_COLOR));
+            lines.add(colorfulText(
+                    new TranslatableComponent("tooltip.firewood.tinder_item.total.cooldown", cooldown / 20),
+                    StaticValue.TOTAL_COLOR));
+        }
+    
         return lines;
     }
     

@@ -2,6 +2,7 @@ package com.dslm.firewood.recipe;
 
 import com.dslm.firewood.Register;
 import com.dslm.firewood.block.entity.SpiritualCampfireBlockEntity;
+import com.dslm.firewood.fireEffectHelper.flesh.FireEffectHelpers;
 import com.dslm.firewood.fireEffectHelper.flesh.PotionFireEffectHelper;
 import com.dslm.firewood.fireEffectHelper.flesh.data.FireEffectNBTData;
 import com.mojang.datafixers.util.Either;
@@ -57,21 +58,27 @@ public class PotionTinderRecipe extends TinderRecipe
     {
         ArrayList<ItemStack> inputs = new ArrayList<>(container.getIngredients());
         inputs.removeIf((i) -> i == null || i.isEmpty());
+    
+        ItemStack itemStack = super.assemble(container);
+    
         int[] recipe = RecipeMatcher.findMatches(inputs, new ArrayList<>(recipeItems)
         {{
             add(potion);
         }});
+    
+        final ItemStack[] finalItemStack = new ItemStack[1];
         container.getIngredients().forEach((i) -> {
             if(inputs.get(recipe[recipe.length - 1]) == i)
             {
-                addEffects.addMajorEffect(new FireEffectNBTData()
+                finalItemStack[0] = FireEffectHelpers.addMajorEffect(itemStack, "potion", new FireEffectNBTData()
                 {{
                     put(TYPE, "potion");
                     put(POTION_TAG_ID, PotionUtils.getPotion(i).getRegistryName().toString());
                 }});
             }
         });
-        return super.assemble(container);
+    
+        return finalItemStack[0];
     }
     
     @Override

@@ -24,7 +24,7 @@ import java.util.function.Function;
 import static com.dslm.firewood.fireEffectHelper.flesh.FireEffectHelpers.colorfulText;
 
 public class TeleportFireEffectHelper extends SubMajorFireEffectHelperBase
-{
+{// TODO: 2022/6/19 传送维度黑白名单 
     public static final String DIM_TAG_ID = "dim";
     public static final String X_TAG_ID = "posX";
     public static final String Y_TAG_ID = "posY";

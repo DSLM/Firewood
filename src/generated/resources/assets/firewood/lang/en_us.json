@@ -61,6 +61,7 @@
   "tooltip.firewood.recipe.range": "Effect Range: %s",
   "tooltip.firewood.recipe.title.fire_effect": "Fire Effect: %s",
   "tooltip.firewood.recipe.title.fire_effect_sub": "Fire Effect: %2$s (%1$s)",
+  "tooltip.firewood.tinder_item.cooldown": " x%1$sS ",
   "tooltip.firewood.tinder_item.exception_effect": "Unexpected Data",
   "tooltip.firewood.tinder_item.major_effect": "\u00A7lMajor Effect: ",
   "tooltip.firewood.tinder_item.major_effect.block_to_block": "Block->Block",
@@ -74,7 +75,13 @@
   "tooltip.firewood.tinder_item.major_effect.smelter.smelter": "Smelter",
   "tooltip.firewood.tinder_item.major_effect.teleport": "Teleport",
   "tooltip.firewood.tinder_item.major_effect.teleport.extend.1": "Teleport to: %1$s (%2$s, %3$s, %4$s)",
+  "tooltip.firewood.tinder_item.major_effect.teleport.teleport": "Teleport",
   "tooltip.firewood.tinder_item.minor_effect": "\u00A7lMinor Effect: ",
   "tooltip.firewood.tinder_item.minor_effect.ground": "Ground: %s",
-  "tooltip.firewood.tinder_item.multi_tooltip_format": "%2$s (%1$s)"
+  "tooltip.firewood.tinder_item.multi_tooltip_format": "%2$s (%1$s)",
+  "tooltip.firewood.tinder_item.total": "Total: ",
+  "tooltip.firewood.tinder_item.total.cooldown": "Cooldown: %sS",
+  "tooltip.firewood.tinder_item.total.damage": "Damage: %s",
+  "tooltip.firewood.tinder_item.total.full": "Total:",
+  "tooltip.firewood.tinder_item.total.min_health": "Min Health: %s"
 }

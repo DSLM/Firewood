@@ -50,21 +50,27 @@ public class GroundTinderRecipe extends TinderRecipe
     {
         ArrayList<ItemStack> inputs = new ArrayList<>(container.getIngredients());
         inputs.removeIf((i) -> i == null || i.isEmpty());
+    
+        ItemStack itemStack = super.assemble(container);
+    
         int[] recipe = RecipeMatcher.findMatches(inputs, new ArrayList<>(recipeItems)
         {{
             add(block);
         }});
+    
+        final ItemStack[] finalItemStack = new ItemStack[1];
         container.getIngredients().forEach((i) -> {
-            if(inputs.get(recipe[recipe.length - 1]) == i)
+            if(inputs.get(recipe[recipe.length - 1]) == i && i.getItem() instanceof BlockItem blockItem)
             {
-                addEffects.addMinorEffect(new FireEffectNBTData()
+                finalItemStack[0] = FireEffectHelpers.addMajorEffect(itemStack, "ground", new FireEffectNBTData()
                 {{
                     put(TYPE, "ground");
-                    put(BLOCK_TAG_ID, ((BlockItem) i.getItem()).getBlock().getRegistryName().toString());
+                    put(BLOCK_TAG_ID, blockItem.getBlock().getRegistryName().toString());
                 }});
             }
         });
-        return super.assemble(container);
+    
+        return finalItemStack[0];
     }
     
     @Override

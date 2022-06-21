@@ -6,5 +6,5 @@
   "process": 1,
   "chance": 100.0,
   "range": -1,
-  "cooldown": 10
+  "cooldown": 200
 }
