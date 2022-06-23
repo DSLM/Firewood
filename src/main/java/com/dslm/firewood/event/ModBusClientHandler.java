@@ -9,6 +9,7 @@ import com.dslm.firewood.fireEffectHelper.flesh.data.FireEffectNBTHelper;
 import com.dslm.firewood.item.TinderTypeItemBase;
 import com.dslm.firewood.render.LanternModelLoader;
 import com.dslm.firewood.render.LanternRendererOnPlayer;
+import com.dslm.firewood.render.RemnantSoulRender;
 import com.dslm.firewood.render.SpiritualCampfireRenderer;
 import com.dslm.firewood.screen.SpiritualCampfireBlockScreen;
 import com.dslm.firewood.util.StaticValue;
@@ -109,8 +110,9 @@ public class ModBusClientHandler
     }
     
     @SubscribeEvent
-    public void RenderRegister(EntityRenderersEvent.RegisterRenderers event)
+    public static void RenderRegister(EntityRenderersEvent.RegisterRenderers event)
     {
         event.registerBlockEntityRenderer(Register.SPIRITUAL_CAMPFIRE_BLOCK_ENTITY.get(), SpiritualCampfireRenderer::new);
+        event.registerEntityRenderer(Register.REMNANT_SOUL_ENTITY.get(), RemnantSoulRender::new);
     }
 }

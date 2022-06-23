@@ -1,8 +1,11 @@
 package com.dslm.firewood.event;
 
+import com.dslm.firewood.Register;
 import com.dslm.firewood.capProvider.PlayerSpiritualDamageProvider;
+import com.dslm.firewood.entity.RemnantSoulEntity;
 import com.dslm.firewood.util.StaticValue;
 import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
+import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
@@ -14,6 +17,12 @@ public class ModBusHandler
     public static void onRegisterCapabilities(RegisterCapabilitiesEvent event)
     {
         event.register(PlayerSpiritualDamageProvider.PlayerSpiritualDamage.class);
+    }
+    
+    @SubscribeEvent
+    public static void onAttributeCreate(EntityAttributeCreationEvent event)
+    {
+        event.put(Register.REMNANT_SOUL_ENTITY.get(), RemnantSoulEntity.prepareAttributes().build());
     }
 
 //    @SubscribeEvent

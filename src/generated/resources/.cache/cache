@@ -1,7 +1,8 @@
-f88af135fe1ab1dd3d2f1ca6fccb27044fa2ec2f assets/firewood/lang/en_us.json
-1b613065506ab8c1ba1d7cab7e23b20b76417b89 assets/firewood/lang/zh_cn.json
+24349b5c16dae184e1826a6df289b2929526384d assets/firewood/lang/en_us.json
+b647f78f1928883b66ce5fde2d3f02f246f9245a assets/firewood/lang/zh_cn.json
 aea1e8f48a92f25a26ef55758426e88eba7bdbb8 assets/firewood/models/item/debug_item.json
 2ef5502025ded72701b222cbbdb2d486495463ae assets/firewood/models/item/dying_ember_item.json
+98167609bf3898587f7565736a6fc24a7966cacd assets/firewood/models/item/remnant_soul_egg_item.json
 cc19718020bbec3fb5fadeedcc12718e37c4468a assets/firewood/models/item/spiritual_campfire_item.json
 369c6aa5fe1ea9e919e0c4ab8358fd4219ad02d4 assets/firewood/models/item/tinder_item.json
 ff6b7e45927f9e97917532f8b4f1da44d8a47cf1 data/curios/tags/items/belt.json

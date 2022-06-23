@@ -3,6 +3,7 @@ package com.dslm.firewood.datagen;
 import com.dslm.firewood.util.StaticValue;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.common.data.LanguageProvider;
@@ -35,6 +36,10 @@ public class LanguageZhProvider extends LanguageProvider
         for(MobEffect i : MobEffectKey_zh.keySet())
         {
             add(i, MobEffectKey_zh.get(i));
+        }
+        for(EntityType i : EntityType_zh.keySet())
+        {
+            add(i, EntityType_zh.get(i));
         }
     }
 }

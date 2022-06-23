@@ -7,10 +7,8 @@ import com.dslm.firewood.block.entity.LanternBlockEntity;
 import com.dslm.firewood.block.entity.SpiritualCampfireBlockEntity;
 import com.dslm.firewood.block.entity.SpiritualFireBlockEntity;
 import com.dslm.firewood.compat.top.TOPPlugin;
-import com.dslm.firewood.item.DebugItem;
-import com.dslm.firewood.item.DyingEmberItem;
-import com.dslm.firewood.item.LanternItem;
-import com.dslm.firewood.item.TinderItem;
+import com.dslm.firewood.entity.RemnantSoulEntity;
+import com.dslm.firewood.item.*;
 import com.dslm.firewood.menu.SpiritualCampfireBlockMenu;
 import com.dslm.firewood.mobEffect.FiredFlesh;
 import com.dslm.firewood.mobEffect.FiredSpirit;
@@ -22,11 +20,12 @@ import com.dslm.firewood.recipe.serializer.TeleportTinderRecipeSerializer;
 import com.dslm.firewood.recipe.serializer.TinderRecipeSerializer;
 import com.dslm.firewood.recipe.type.TinderRecipeType;
 import com.dslm.firewood.recipe.type.TransmuteBlockRecipeType;
-import com.dslm.firewood.util.StaticValue;
 import net.minecraft.core.Registry;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTab;
@@ -41,31 +40,35 @@ import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.material.MaterialColor;
+import net.minecraftforge.common.ForgeSpawnEggItem;
 import net.minecraftforge.common.extensions.IForgeMenuType;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
+import static com.dslm.firewood.util.StaticValue.MOD_ID;
+
 
 public class Register
-{// TODO: 2022/5/23 方块-物品，方块-实体，实体-物品，火焰材质重叠要改state，所有主要分类（无法强制实现？），多形状范围，允许自定义药水效果，重构药水效果，物品提灯材质记得改
+{// TODO: 2022/5/23 方块-物品，方块-实体，实体-物品，火焰材质重叠要改state，所有主要分类（无法强制实现？），多形状范围，允许自定义药水效果，重构药水效果，物品提灯材质记得改，推拉实体
     private static final DeferredRegister<Block> BLOCKS =
-            DeferredRegister.create(ForgeRegistries.BLOCKS, StaticValue.MOD_ID);
+            DeferredRegister.create(ForgeRegistries.BLOCKS, MOD_ID);
     private static final DeferredRegister<Item> ITEMS =
-            DeferredRegister.create(ForgeRegistries.ITEMS, StaticValue.MOD_ID);
+            DeferredRegister.create(ForgeRegistries.ITEMS, MOD_ID);
     private static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITIES =
-            DeferredRegister.create(ForgeRegistries.BLOCK_ENTITIES, StaticValue.MOD_ID);
+            DeferredRegister.create(ForgeRegistries.BLOCK_ENTITIES, MOD_ID);
     private static final DeferredRegister<MobEffect> MOB_EFFECTS =
-            DeferredRegister.create(ForgeRegistries.MOB_EFFECTS, StaticValue.MOD_ID);
+            DeferredRegister.create(ForgeRegistries.MOB_EFFECTS, MOD_ID);
     public static final DeferredRegister<RecipeType<?>> RECIPES =
-            DeferredRegister.create(Registry.RECIPE_TYPE_REGISTRY, StaticValue.MOD_ID);
+            DeferredRegister.create(Registry.RECIPE_TYPE_REGISTRY, MOD_ID);
     private static final DeferredRegister<RecipeSerializer<?>> RECIPE_SERIALIZERS =
-            DeferredRegister.create(ForgeRegistries.RECIPE_SERIALIZERS, StaticValue.MOD_ID);
+            DeferredRegister.create(ForgeRegistries.RECIPE_SERIALIZERS, MOD_ID);
     private static final DeferredRegister<MenuType<?>> CONTAINERS =
-            DeferredRegister.create(ForgeRegistries.CONTAINERS, StaticValue.MOD_ID);
+            DeferredRegister.create(ForgeRegistries.CONTAINERS, MOD_ID);
+    private static final DeferredRegister<EntityType<?>> ENTITIES = DeferredRegister.create(ForgeRegistries.ENTITIES, MOD_ID);
     
-    public static CreativeModeTab CREATIVE_MODE_TAB = new CreativeModeTab(StaticValue.MOD_ID)
+    public static CreativeModeTab CREATIVE_MODE_TAB = new CreativeModeTab(MOD_ID)
     {
         
         @Override
@@ -82,6 +85,15 @@ public class Register
             (new DamageSource("fleshyFire")).bypassArmor().bypassMagic().setMagic();
     
     
+    public static final RegistryObject<EntityType<RemnantSoulEntity>> REMNANT_SOUL_ENTITY =
+            ENTITIES.register("remnant_soul_entity",
+                    () -> EntityType.Builder.of(RemnantSoulEntity::new, MobCategory.AMBIENT)
+                            .sized(0.1f, 0.1f)
+                            .clientTrackingRange(8)
+                            .setShouldReceiveVelocityUpdates(false)
+                            .build("remnant_soul_entity"));
+    
+    
     public static final RegistryObject<Block> SPIRITUAL_FIRE_BLOCK =
             BLOCKS.register("spiritual_fire_block",
                     () -> new SpiritualFireBlock(
@@ -94,6 +106,7 @@ public class Register
             BLOCKS.register("lantern_block",
                     () -> new LanternBlock(
                             BlockBehaviour.Properties.of(Material.METAL).requiresCorrectToolForDrops().strength(3.5F).sound(SoundType.LANTERN).lightLevel((s) -> s.getValue(BlockStateProperties.LIT) ? 15 : 0)));
+    
     
     public static final RegistryObject<BlockEntityType<SpiritualFireBlockEntity>> SPIRITUAL_FIRE_BLOCK_ENTITY =
             BLOCK_ENTITIES.register("spiritual_fire_block_entity", () ->
@@ -118,6 +131,12 @@ public class Register
                     () -> new LanternItem(LANTERN_BLOCK.get(), new Item.Properties().stacksTo(1).tab(CREATIVE_MODE_TAB)));
     public static final RegistryObject<Item> DEBUG_ITEM =
             ITEMS.register("debug_item", () -> new DebugItem(new Item.Properties().tab(CREATIVE_MODE_TAB)));
+    public static final RegistryObject<Item> REMNANT_SOUL_ITEM =
+            ITEMS.register("remnant_soul_item", () -> new RemnantSoulItem(new Item.Properties().tab(CREATIVE_MODE_TAB)));
+    public static final RegistryObject<Item> REMNANT_SOUL_EGG_ITEM =
+            ITEMS.register("remnant_soul_egg_item",
+                    () -> new ForgeSpawnEggItem(REMNANT_SOUL_ENTITY, 0xff0000, 0x00ff00,
+                            new Item.Properties().tab(CREATIVE_MODE_TAB)));
     
     
     public static final RegistryObject<MobEffect> FIRED_SPIRIT = MOB_EFFECTS.register("fired_spirit",
@@ -166,6 +185,7 @@ public class Register
         RECIPES.register(bus);
         RECIPE_SERIALIZERS.register(bus);
         CONTAINERS.register(bus);
+        ENTITIES.register(bus);
         TOPPlugin.register();
         NetworkHandler.init();
     }

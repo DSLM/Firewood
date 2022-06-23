@@ -3,6 +3,7 @@ package com.dslm.firewood.datagen;
 import com.dslm.firewood.util.StaticValue;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 
@@ -35,6 +36,10 @@ public class LanguageProvider extends net.minecraftforge.common.data.LanguagePro
         for(MobEffect i : MobEffectKey_en.keySet())
         {
             add(i, MobEffectKey_en.get(i));
+        }
+        for(EntityType i : EntityType_en.keySet())
+        {
+            add(i, EntityType_en.get(i));
         }
     }
 }

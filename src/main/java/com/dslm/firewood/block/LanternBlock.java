@@ -89,12 +89,16 @@ public class LanternBlock extends Block implements EntityBlock
     @Override
     public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit)
     {
-        if(!level.isClientSide)
+        if(player.getItemInHand(hand).isEmpty())
         {
-            level.setBlock(pos, state.setValue(LIT, !state.getValue(LIT)), Block.UPDATE_ALL);
-            return InteractionResult.CONSUME;
+            if(!level.isClientSide)
+            {
+                level.setBlock(pos, state.setValue(LIT, !state.getValue(LIT)), Block.UPDATE_ALL);
+                return InteractionResult.CONSUME;
+            }
+            return InteractionResult.SUCCESS;
         }
-        return InteractionResult.SUCCESS;
+        return InteractionResult.PASS;
     }
     
     @Nullable

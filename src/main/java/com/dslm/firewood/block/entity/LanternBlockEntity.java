@@ -25,7 +25,7 @@ import static com.dslm.firewood.fireEffectHelper.flesh.FireEffectHelpers.getBloc
 import static com.dslm.firewood.fireEffectHelper.flesh.FireEffectHelpers.getMixedColor;
 import static com.dslm.firewood.fireEffectHelper.flesh.data.FireEffectNBTHelper.*;
 
-public class LanternBlockEntity extends BlockEntity
+public class LanternBlockEntity extends BlockEntity implements RemnantSoulBoundedBlockEntity
 {
     protected int color = -1;
     protected ArrayList<FireEffectNBTDataInterface> majorEffects = new ArrayList<>();

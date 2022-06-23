@@ -118,7 +118,6 @@ public class LanternItem extends BlockItem implements TinderTypeItemBase
     @Override
     public void inventoryTick(ItemStack stack, Level level, Entity entity, int slotId, boolean isSelected)
     {
-        // TODO: 2022/6/7 开着触发次要
         if(entity instanceof Player player && !(player instanceof FakePlayer) && !level.isClientSide && isActive(stack))
         {
             BlockPos blockPos = player.blockPosition();

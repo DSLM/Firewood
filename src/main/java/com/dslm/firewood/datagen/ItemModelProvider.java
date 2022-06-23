@@ -33,5 +33,8 @@ public class ItemModelProvider extends net.minecraftforge.client.model.generator
         singleTexture(Register.DEBUG_ITEM.get().getRegistryName().getPath(),
                 mcLoc("item/generated"),
                 "layer0", modLoc("firewood"));
+    
+        withExistingParent(Register.REMNANT_SOUL_EGG_ITEM.get().getRegistryName().getPath(),
+                mcLoc("item/template_spawn_egg"));
     }
 }

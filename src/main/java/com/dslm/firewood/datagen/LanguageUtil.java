@@ -4,6 +4,7 @@ import com.dslm.firewood.Register;
 import com.dslm.firewood.util.StaticValue;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 
@@ -23,11 +24,14 @@ public class LanguageUtil
     public static HashMap<MobEffect, String> MobEffectKey_en = new HashMap<>();
     public static HashMap<MobEffect, String> MobEffectKey_zh = new HashMap<>();
     
+    public static HashMap<EntityType, String> EntityType_en = new HashMap<>();
+    public static HashMap<EntityType, String> EntityType_zh = new HashMap<>();
+    
     public static void buildLanguage(DataGenerator generator)
     {
         //group
         add("itemGroup." + StaticValue.MOD_ID, "Firewood", "薪火");
-    
+        
         //block
         {
             add(Register.SPIRITUAL_FIRE_BLOCK.get(), "Spiritual Fire", "灵性之火");
@@ -40,6 +44,7 @@ public class LanguageUtil
             add(Register.TINDER_ITEM.get(), "Tinder", "火种");
             add(Register.DYING_EMBER_ITEM.get(), "Dying Ember", "余烬");
             add(Register.DEBUG_ITEM.get(), "DEBUG Tool", "测试工具");
+            add(Register.REMNANT_SOUL_EGG_ITEM.get(), "Remnant Soul Egg", "残存之魂刷怪蛋");
         }
     
         //mob effect
@@ -245,18 +250,26 @@ public class LanguageUtil
                         "Minor Fire Effects", "次要火焰效果");
                 add(patchouli + "categories.fire_effects.flesh.minor.description",
                         "Introduce All Minor Fire Effects.", "介绍了所有的次要火焰效果。");
-            
-            
+    
+    
                 add(patchouli + "entries.fire_effects.flesh.minor.ground.name",
                         "Fire Effect: Ground", "火焰效果：基底");
                 add(patchouli + "entries.fire_effects.flesh.minor.ground.pages.0.text",
                         "Define the block that Spiritual Fire can be placed. Useless for Lanterns.", "决定了灵性之火可以放在什么方块上面，对提灯无效。");
             }
         }
-    
+        
+        add(Register.REMNANT_SOUL_ENTITY.get(), "Remnant Soul", "残存之魂");
+        
         //start generation
         generator.addProvider(new LanguageProvider(generator, "en_us"));
         generator.addProvider(new LanguageZhProvider(generator, "zh_cn"));
+    }
+    
+    private static void add(EntityType key, String en, String zh)
+    {
+        EntityType_en.put(key, en);
+        EntityType_zh.put(key, zh);
     }
     
     public static void add(String key, String en, String zh)
