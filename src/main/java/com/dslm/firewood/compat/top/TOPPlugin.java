@@ -3,6 +3,7 @@ package com.dslm.firewood.compat.top;
 import com.dslm.firewood.block.entity.LanternBlockEntity;
 import com.dslm.firewood.block.entity.SpiritualCampfireBlockEntity;
 import com.dslm.firewood.block.entity.SpiritualFireBlockEntity;
+import com.dslm.firewood.entity.RemnantSoulEntity;
 import com.dslm.firewood.fireEffectHelper.flesh.data.FireEffectNBTDataInterface;
 import com.dslm.firewood.tooltip.MiddleComponent;
 import mcjty.theoneprobe.api.IProbeHitData;
@@ -27,6 +28,7 @@ import static com.dslm.firewood.util.StaticValue.ICONS;
 
 public class TOPPlugin implements TOPCompat.Provider
 {
+    
     public static void register()
     {
         TOPCompat.registerProvider(new TOPPlugin());
@@ -38,29 +40,78 @@ public class TOPPlugin implements TOPCompat.Provider
         BlockEntity blockEntity = level.getBlockEntity(hitData.getPos());
         if(blockEntity instanceof SpiritualFireBlockEntity spiritualFireBlockEntity)
         {
-            spiritualFireBlockEntityInfo(mode, info, player, level, state, hitData, spiritualFireBlockEntity.getMajorEffects(), spiritualFireBlockEntity.getMinorEffects());
+            spiritualFireBlockEntityInfo(mode,
+                    info,
+                    player,
+                    level,
+                    state,
+                    hitData,
+                    spiritualFireBlockEntity.getMajorEffects(),
+                    spiritualFireBlockEntity.getMinorEffects());
         }
         if(blockEntity instanceof LanternBlockEntity lanternBlockEntity)
         {
-            boolean isActive = state.getValue(BlockStateProperties.LIT);
-            TranslatableComponent newLine = isActive ?
-                    new TranslatableComponent("tooltip.firewood.lantern_item.active")
-                    :
-                    new TranslatableComponent("tooltip.firewood.lantern_item.inactive");
-            newLine.withStyle(isActive ?
-                    ChatFormatting.GREEN
-                    :
-                    ChatFormatting.RED);
-            info.mcText(newLine);
-            spiritualFireBlockEntityInfo(mode, info, player, level, state, hitData, lanternBlockEntity.getMajorEffects(), lanternBlockEntity.getMinorEffects());
+            LanternBlockEntityInfo(mode,
+                    info,
+                    player,
+                    level,
+                    state,
+                    hitData,
+                    lanternBlockEntity.getMajorEffects(),
+                    lanternBlockEntity.getMinorEffects(),
+                    lanternBlockEntity.getRemnantSoulEntity());
         }
         if(blockEntity instanceof SpiritualCampfireBlockEntity spiritualCampfireBlockEntity)
         {
-            spiritualCampfireBlockEntityInfo(mode, info, player, level, state, hitData, spiritualCampfireBlockEntity);
+            spiritualCampfireBlockEntityInfo(mode,
+                    info,
+                    player,
+                    level,
+                    state,
+                    hitData,
+                    spiritualCampfireBlockEntity);
         }
     }
     
-    public static void spiritualFireBlockEntityInfo(ProbeMode mode, IProbeInfo info, Player player, Level level, BlockState state, IProbeHitData hitData, ArrayList<FireEffectNBTDataInterface> majorEffects, ArrayList<FireEffectNBTDataInterface> minorEffects)
+    public static void LanternBlockEntityInfo(ProbeMode mode,
+                                              IProbeInfo info,
+                                              Player player,
+                                              Level level,
+                                              BlockState state,
+                                              IProbeHitData hitData,
+                                              ArrayList<FireEffectNBTDataInterface> majorEffects,
+                                              ArrayList<FireEffectNBTDataInterface> minorEffects,
+                                              RemnantSoulEntity remnantSoulEntity)
+    {
+        boolean isActive = state.getValue(BlockStateProperties.LIT);
+        TranslatableComponent newLine = isActive ?
+                new TranslatableComponent("tooltip.firewood.lantern_item.active")
+                :
+                new TranslatableComponent("tooltip.firewood.lantern_item.inactive");
+        newLine.withStyle(isActive ?
+                ChatFormatting.GREEN
+                :
+                ChatFormatting.RED);
+        info.mcText(newLine);
+        
+        if(remnantSoulEntity != null)
+        {
+            info.horizontal()
+                    .mcText(new TranslatableComponent("item.firewood.remnant_soul_item"))
+                    .mcText(new TextComponent(String.format(": %.2f/%.2f", remnantSoulEntity.getHealth(), remnantSoulEntity.getMaxHealth())));
+        }
+        
+        spiritualFireBlockEntityInfo(mode, info, player, level, state, hitData, majorEffects, minorEffects);
+    }
+    
+    public static void spiritualFireBlockEntityInfo(ProbeMode mode,
+                                                    IProbeInfo info,
+                                                    Player player,
+                                                    Level level,
+                                                    BlockState state,
+                                                    IProbeHitData hitData,
+                                                    ArrayList<FireEffectNBTDataInterface> majorEffects,
+                                                    ArrayList<FireEffectNBTDataInterface> minorEffects)
     {
         ArrayList<Component> lines =
                 fireTooltips(majorEffects, minorEffects,
@@ -91,7 +142,13 @@ public class TOPPlugin implements TOPCompat.Provider
         }
     }
     
-    public static void spiritualCampfireBlockEntityInfo(ProbeMode mode, IProbeInfo info, Player player, Level level, BlockState state, IProbeHitData hitData, SpiritualCampfireBlockEntity blockEntity)
+    public static void spiritualCampfireBlockEntityInfo(ProbeMode mode,
+                                                        IProbeInfo info,
+                                                        Player player,
+                                                        Level level,
+                                                        BlockState state,
+                                                        IProbeHitData hitData,
+                                                        SpiritualCampfireBlockEntity blockEntity)
     {
         if(blockEntity.getProcess() > 0 && blockEntity.getRecipe() != null)
         {

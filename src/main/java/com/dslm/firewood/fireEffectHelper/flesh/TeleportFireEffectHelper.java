@@ -1,6 +1,7 @@
 package com.dslm.firewood.fireEffectHelper.flesh;
 
 import com.dslm.firewood.Firewood;
+import com.dslm.firewood.entity.RemnantSoulEntity;
 import com.dslm.firewood.fireEffectHelper.flesh.base.SubMajorFireEffectHelperBase;
 import com.dslm.firewood.fireEffectHelper.flesh.data.FireEffectNBTData;
 import com.dslm.firewood.fireEffectHelper.flesh.data.FireEffectNBTDataInterface;
@@ -10,6 +11,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
@@ -46,6 +48,10 @@ public class TeleportFireEffectHelper extends SubMajorFireEffectHelperBase
     @Override
     public void transmuteEntity(FireEffectNBTDataInterface data, Level level, LivingEntity livingEntity)
     {
+        if(livingEntity instanceof RemnantSoulEntity)
+        {
+            return;
+        }
         try
         {
             Set<ResourceKey<Level>> levelList = level.getServer().levelKeys();
@@ -61,6 +67,12 @@ public class TeleportFireEffectHelper extends SubMajorFireEffectHelperBase
                             entity = repositionEntity.apply(false);
                             entity.teleportTo(Integer.parseInt(data.get(X_TAG_ID)) + 0.5, Integer.parseInt(data.get(Y_TAG_ID)), Integer.parseInt(data.get(Z_TAG_ID)) + 0.5);
                             return entity;
+                        }
+                    
+                        @Override
+                        public boolean playTeleportSound(ServerPlayer player, ServerLevel sourceWorld, ServerLevel destWorld)
+                        {
+                            return false;
                         }
                     });
                     return;

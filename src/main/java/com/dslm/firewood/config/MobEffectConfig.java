@@ -16,7 +16,7 @@ public class MobEffectConfig
         FIRED_SPIRIT_INTERVAL = SERVER_BUILDER
                 .comment("Fired Spirit damage interval (tick)")
                 .translation("config.firewood.fired_spirit.interval")
-                .defineInRange("firedSpiritInterval", 40, 10, Integer.MAX_VALUE);
+                .defineInRange("firedSpiritInterval", 10, 10, Integer.MAX_VALUE);
         SERVER_BUILDER.pop();
     
         SERVER_BUILDER
@@ -26,7 +26,7 @@ public class MobEffectConfig
         FIRED_FLESH_INTERVAL = SERVER_BUILDER
                 .comment("Fired Flesh damage interval (tick)")
                 .translation("config.firewood.fired_flesh.interval")
-                .defineInRange("firedFleshInterval", 40, 10, Integer.MAX_VALUE);
+                .defineInRange("firedFleshInterval", 10, 10, Integer.MAX_VALUE);
         SERVER_BUILDER.pop();
     }
 }

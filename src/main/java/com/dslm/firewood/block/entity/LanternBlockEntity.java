@@ -1,6 +1,7 @@
 package com.dslm.firewood.block.entity;
 
 import com.dslm.firewood.Register;
+import com.dslm.firewood.entity.RemnantSoulEntity;
 import com.dslm.firewood.fireEffectHelper.flesh.FireEffectHelpers;
 import com.dslm.firewood.fireEffectHelper.flesh.data.FireEffectNBTDataInterface;
 import com.dslm.firewood.fireEffectHelper.flesh.data.TinderSourceType;
@@ -8,12 +9,14 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraftforge.client.model.data.IModelData;
 import net.minecraftforge.client.model.data.ModelDataMap;
 import net.minecraftforge.client.model.data.ModelProperty;
@@ -27,12 +30,18 @@ import static com.dslm.firewood.fireEffectHelper.flesh.data.FireEffectNBTHelper.
 
 public class LanternBlockEntity extends BlockEntity implements RemnantSoulBoundedBlockEntity
 {
+    public static final BooleanProperty LIT = BlockStateProperties.LIT;
+    public static final DirectionProperty FACING = BlockStateProperties.FACING;
+    
     protected int color = -1;
     protected ArrayList<FireEffectNBTDataInterface> majorEffects = new ArrayList<>();
     protected ArrayList<FireEffectNBTDataInterface> minorEffects = new ArrayList<>();
+    protected RemnantSoulEntity remnantSoulEntity = null;
+    protected CompoundTag remnantSoulEntityTemp = null;
     
     public static final ModelProperty<Integer> COLOR = new ModelProperty<>();
     public static final ModelProperty<Block> BASE_BLOCK = new ModelProperty<>();
+    public static final ModelProperty<Boolean> REMNANT_SOUL = new ModelProperty<>();
     
     public LanternBlockEntity(BlockPos pWorldPosition, BlockState pBlockState)
     {
@@ -47,7 +56,19 @@ public class LanternBlockEntity extends BlockEntity implements RemnantSoulBounde
         return new ModelDataMap.Builder()
                 .withInitial(COLOR, getColor())
                 .withInitial(BASE_BLOCK, getBlock(minorEffects))
+                .withInitial(REMNANT_SOUL, remnantSoulEntity != null)
                 .build();
+    }
+    
+    public RemnantSoulEntity getRemnantSoulEntity()
+    {
+        return remnantSoulEntity;
+    }
+    
+    public void setRemnantSoulEntity(RemnantSoulEntity remnantSoulEntity)
+    {
+        this.remnantSoulEntity = remnantSoulEntity;
+        needSync = true;
     }
     
     public static void clientTick(Level level, BlockPos pos, BlockState state, LanternBlockEntity o)
@@ -57,36 +78,60 @@ public class LanternBlockEntity extends BlockEntity implements RemnantSoulBounde
     
     public static void serverTick(Level level, BlockPos pos, BlockState state, LanternBlockEntity e)
     {
-        // TODO: 2022/6/7 开着且有燃料触发主要
+        if(e.remnantSoulEntity != null)
+        {
+            e.remnantSoulEntity.tick();
+            if(e.remnantSoulEntity.getHealth() <= 0)
+            {
+                e.remnantSoulEntity = null;
+            }
+            else if(state.getValue(LIT) && !e.remnantSoulEntity.hasEffect(Register.FIRED_FLESH.get()))
+            {
+                e.majorEffects = FireEffectHelpers.triggerMajorEffects(e.majorEffects, e.minorEffects, TinderSourceType.IN_GROUND_LANTERN, state, level, pos, e.remnantSoulEntity);
+            }
+        }
+        else if(e.remnantSoulEntityTemp != null)
+        {
+            e.remnantSoulEntity = new RemnantSoulEntity(Register.REMNANT_SOUL_ENTITY.get(), level);
+            e.remnantSoulEntity.load(e.remnantSoulEntityTemp);
+            e.remnantSoulEntityTemp = null;
+        }
         e.minorEffects = FireEffectHelpers.triggerMinorEffects(e.majorEffects, e.minorEffects, TinderSourceType.IN_GROUND_LANTERN, state, level, pos);
         e.majorEffects = FireEffectHelpers.cacheClear(e.majorEffects, e.minorEffects, TinderSourceType.IN_GROUND_LANTERN, state, level, pos);
         e.syncTick();
     }
     
-    public void triggerMajorEffects(BlockState state, Level level, BlockPos pos, LivingEntity entity)
-    {
-        majorEffects = FireEffectHelpers.triggerMajorEffects(majorEffects, minorEffects, TinderSourceType.IN_GROUND_LANTERN, state, level, pos, entity);
-    }
-    
     @Override
     public CompoundTag getUpdateTag()
     {
-        return saveFireData(new CompoundTag(), majorEffects, minorEffects);
+        CompoundTag tag = new CompoundTag();
+        saveAdditional(tag);
+        return tag;
     }
     
     @Override
-    protected void saveAdditional(CompoundTag pTag)
+    protected void saveAdditional(CompoundTag tag)
     {
-        saveFireData(pTag, majorEffects, minorEffects);
+        saveFireData(tag, majorEffects, minorEffects);
+        if(remnantSoulEntity != null)
+        {
+            CompoundTag fakeEntityTag = new CompoundTag();
+            remnantSoulEntity.save(fakeEntityTag);
+            tag.put("fakeEntity", fakeEntityTag);
+        }
     }
     
     @Override
-    public void load(CompoundTag pTag)
+    public void load(CompoundTag tag)
     {
-        super.load(pTag);
+        super.load(tag);
         
-        majorEffects = loadMajorFireData(pTag);
-        minorEffects = loadMinorFireData(pTag);
+        majorEffects = loadMajorFireData(tag);
+        minorEffects = loadMinorFireData(tag);
+        if(tag.contains("fakeEntity"))
+        {
+            remnantSoulEntityTemp = tag.getCompound("fakeEntity");
+        }
         
         needSync = true;
     }

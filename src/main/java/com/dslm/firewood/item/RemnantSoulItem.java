@@ -21,20 +21,18 @@ public class RemnantSoulItem extends Item
     
     @Override
     public InteractionResult useOn(UseOnContext context)
-    {// TODO: 2022/6/23 planb，改为无level实体 
+    {
         Player player = context.getPlayer();
         Level level = context.getLevel();
         BlockPos blockpos = context.getClickedPos();
         ItemStack itemStack = context.getItemInHand();
-        
-        if(level.getBlockEntity(blockpos) instanceof RemnantSoulBoundedBlockEntity)
+        if(level.getBlockEntity(blockpos) instanceof RemnantSoulBoundedBlockEntity remnantSoulBoundedBlockEntity &&
+                remnantSoulBoundedBlockEntity.getRemnantSoulEntity() == null)
         {
-            System.out.println(level.getBlockEntity(blockpos));
             RemnantSoulEntity entity = new RemnantSoulEntity(Register.REMNANT_SOUL_ENTITY.get(), level);
             entity.setBlockPos(blockpos);
-            level.addFreshEntity(entity);
-            entity.setPos(blockpos.getX() + 0.5, blockpos.getY() + 0.5, blockpos.getZ() + 0.5);
-            
+            remnantSoulBoundedBlockEntity.setRemnantSoulEntity(entity);
+        
             if(!player.getAbilities().instabuild)
             {
                 itemStack.shrink(1);

@@ -35,7 +35,6 @@ public class TransmuteBlockRecipeSerializerBase<T extends TransmuteBlockRecipeBa
             return recipeClass.getConstructor(TransmuteBlockRecipeBase.class).newInstance(transmuteBlockRecipeBase);
         } catch(Exception e)
         {
-            System.out.println("----------------------");
             e.printStackTrace();
             return null;
         }

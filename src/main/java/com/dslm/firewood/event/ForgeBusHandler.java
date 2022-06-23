@@ -9,6 +9,7 @@ import com.dslm.firewood.util.StaticValue;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraftforge.client.event.sound.PlaySoundEvent;
 import net.minecraftforge.event.AddReloadListenerEvent;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.OnDatapackSyncEvent;
@@ -74,5 +75,12 @@ public class ForgeBusHandler
             return;
         }
         NetworkHandler.CHANNEL.send(PacketDistributor.PLAYER.with(event::getPlayer), new FireEffectSubTypeMessage(FireEffectSubTypeManager.getEffectsMap()));
+    }
+    
+    @SubscribeEvent
+    public static void onPlaySoundEvent(PlaySoundEvent event)
+    {
+        System.out.println("==================");
+        System.out.println(event.getSound().getSource().getName());
     }
 }

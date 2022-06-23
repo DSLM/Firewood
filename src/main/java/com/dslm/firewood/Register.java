@@ -135,7 +135,7 @@ public class Register
             ITEMS.register("remnant_soul_item", () -> new RemnantSoulItem(new Item.Properties().tab(CREATIVE_MODE_TAB)));
     public static final RegistryObject<Item> REMNANT_SOUL_EGG_ITEM =
             ITEMS.register("remnant_soul_egg_item",
-                    () -> new ForgeSpawnEggItem(REMNANT_SOUL_ENTITY, 0xff0000, 0x00ff00,
+                    () -> new ForgeSpawnEggItem(REMNANT_SOUL_ENTITY, 0x333333, 0x888888,
                             new Item.Properties().tab(CREATIVE_MODE_TAB)));
     
     

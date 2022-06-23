@@ -45,6 +45,7 @@ public class LanguageUtil
             add(Register.DYING_EMBER_ITEM.get(), "Dying Ember", "余烬");
             add(Register.DEBUG_ITEM.get(), "DEBUG Tool", "测试工具");
             add(Register.REMNANT_SOUL_EGG_ITEM.get(), "Remnant Soul Egg", "残存之魂刷怪蛋");
+            add(Register.REMNANT_SOUL_ITEM.get(), "Remnant Soul", "残存之魂");
         }
     
         //mob effect
@@ -193,7 +194,7 @@ public class LanguageUtil
             add("tooltip." + StaticValue.MOD_ID + ".recipe.min_health",
                     "Burning Firewood Min Health Required: %s", "添薪最低生命值：%s");
             add("tooltip." + StaticValue.MOD_ID + ".recipe.range",
-                    "Effect Range: (x: %s, y: %s, z: %s)", "效果范围：（x：%s，y：%s，z：%s）");
+                    "Effect Range: (X: %s, Y: %s, Z: %s)", "效果范围：（X：%s，Y：%s，Z：%s）");
             add("tooltip." + StaticValue.MOD_ID + ".recipe.range_single",
                     "Effect Range: self", "效果范围：自身");
     

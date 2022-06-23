@@ -75,7 +75,7 @@ public class SpiritualCampfireBlockEntity extends BlockEntity implements Contain
     
     public void addProcess(BlockState state, Level level, BlockPos pos, LivingEntity livingEntity)
     {
-        TinderRecipe recipe = refreshRecipe();
+        recipe = refreshRecipe();
         if(recipe != null)
         {
             Random random = level.random;
