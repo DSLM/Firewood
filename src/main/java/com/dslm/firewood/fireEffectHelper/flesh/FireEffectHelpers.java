@@ -3,6 +3,7 @@ package com.dslm.firewood.fireEffectHelper.flesh;
 import com.dslm.firewood.Register;
 import com.dslm.firewood.capProvider.PlayerSpiritualDamageProvider;
 import com.dslm.firewood.fireEffectHelper.flesh.base.FireEffectHelperInterface;
+import com.dslm.firewood.fireEffectHelper.flesh.base.FireEffectKindHelper;
 import com.dslm.firewood.fireEffectHelper.flesh.base.MajorFireEffectHelperInterface;
 import com.dslm.firewood.fireEffectHelper.flesh.base.MinorFireEffectHelperInterface;
 import com.dslm.firewood.fireEffectHelper.flesh.data.FireEffectNBTDataInterface;

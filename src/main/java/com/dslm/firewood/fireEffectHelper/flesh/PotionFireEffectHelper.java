@@ -223,6 +223,7 @@ public class PotionFireEffectHelper extends MajorFireEffectHelperBase
     @Override
     public void fillItemCategory(NonNullList<ItemStack> items, ItemStack item)
     {
+        // TODO: 2022/6/24 MobEffectInstance.update(MobEffectInstance) 去重
         for(Potion potion : ForgeRegistries.POTIONS)
         {
             if(potion == Potions.EMPTY) continue;

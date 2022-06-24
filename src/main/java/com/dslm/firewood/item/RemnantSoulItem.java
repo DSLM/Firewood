@@ -12,7 +12,8 @@ import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 
 public class RemnantSoulItem extends Item
-{
+{// TODO: 2022/6/24 增加掉落方式
+    
     public RemnantSoulItem(Properties pProperties)
     {
         super(pProperties);
