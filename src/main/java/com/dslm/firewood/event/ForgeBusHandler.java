@@ -2,6 +2,7 @@ package com.dslm.firewood.event;
 
 import com.dslm.firewood.Register;
 import com.dslm.firewood.capProvider.PlayerSpiritualDamageProvider;
+import com.dslm.firewood.command.FirewoodCommand;
 import com.dslm.firewood.network.FireEffectSubTypeMessage;
 import com.dslm.firewood.network.NetworkHandler;
 import com.dslm.firewood.subType.FireEffectSubTypeManager;
@@ -12,6 +13,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraftforge.event.AddReloadListenerEvent;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.OnDatapackSyncEvent;
+import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.event.entity.living.PotionEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -74,5 +76,10 @@ public class ForgeBusHandler
             return;
         }
         NetworkHandler.CHANNEL.send(PacketDistributor.PLAYER.with(event::getPlayer), new FireEffectSubTypeMessage(FireEffectSubTypeManager.getEffectsMap()));
+    }
+    
+    @SubscribeEvent
+    public static void registerCommands(RegisterCommandsEvent event){
+        FirewoodCommand.register(event.getDispatcher());
     }
 }

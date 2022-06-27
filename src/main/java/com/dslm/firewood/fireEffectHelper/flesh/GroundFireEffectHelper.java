@@ -23,7 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.dslm.firewood.config.SpiritualFireBlockEffectConfig.GROUND_DEFAULT_BLOCK;
-import static com.dslm.firewood.fireEffectHelper.flesh.FireEffectHelpers.colorfulText;
+import static com.dslm.firewood.util.StaticValue.colorfulText;
 
 public class GroundFireEffectHelper extends MinorFireEffectHelperBase
 {

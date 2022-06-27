@@ -15,7 +15,7 @@ import net.minecraft.world.level.Level;
 
 import java.util.List;
 
-import static com.dslm.firewood.fireEffectHelper.flesh.FireEffectHelpers.colorfulText;
+import static com.dslm.firewood.util.StaticValue.colorfulText;
 
 public class DyingEmberItem extends Item
 {

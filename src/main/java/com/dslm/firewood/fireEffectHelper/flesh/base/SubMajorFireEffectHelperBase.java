@@ -24,7 +24,7 @@ import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.*;
 
-import static com.dslm.firewood.fireEffectHelper.flesh.FireEffectHelpers.colorfulText;
+import static com.dslm.firewood.util.StaticValue.colorfulText;
 import static com.dslm.firewood.fireEffectHelper.flesh.FireEffectHelpers.getMinorHelperByType;
 
 public abstract class SubMajorFireEffectHelperBase extends MajorFireEffectHelperBase

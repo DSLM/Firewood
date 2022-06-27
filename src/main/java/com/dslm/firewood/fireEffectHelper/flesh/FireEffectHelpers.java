@@ -15,7 +15,6 @@ import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextColor;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
@@ -29,7 +28,6 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.dslm.firewood.config.ColorConfig.HIGH_CONTRAST_MODE;
 import static com.dslm.firewood.fireEffectHelper.flesh.data.FireEffectNBTHelper.loadMajorFireData;
 import static com.dslm.firewood.fireEffectHelper.flesh.data.FireEffectNBTHelper.loadMinorFireData;
 
@@ -198,7 +196,7 @@ public class FireEffectHelpers
         //majorEffects
         if(majorEffects.size() > 0)
         {
-            lines.add(colorfulText(new TranslatableComponent("tooltip.firewood.tinder_item.major_effect"), StaticValue.MAJOR_EFFECT_COLOR));
+            lines.add(StaticValue.colorfulText(new TranslatableComponent("tooltip.firewood.tinder_item.major_effect"), StaticValue.MAJOR_EFFECT_COLOR));
             for(FireEffectNBTDataInterface data : majorEffects)
             {
                 var helper = getMajorHelperByType(data.getType());
@@ -213,7 +211,7 @@ public class FireEffectHelpers
         //minorEffects
         if(minorEffects.size() > 0)
         {
-            lines.add(colorfulText(new TranslatableComponent("tooltip.firewood.tinder_item.minor_effect"), StaticValue.MINOR_EFFECT_COLOR));
+            lines.add(StaticValue.colorfulText(new TranslatableComponent("tooltip.firewood.tinder_item.minor_effect"), StaticValue.MINOR_EFFECT_COLOR));
             for(FireEffectNBTDataInterface data : minorEffects)
             {
                 var helper = getMinorHelperByType(data.getType());
@@ -225,7 +223,7 @@ public class FireEffectHelpers
         //total
         if(extended)
         {
-            MiddleComponent mainLine = (MiddleComponent) colorfulText(
+            MiddleComponent mainLine = (MiddleComponent) StaticValue.colorfulText(
                     new MiddleComponent("tooltip.firewood.tinder_item.total"),
                     StaticValue.TOTAL_COLOR);
             mainLine.setDamage(damage);
@@ -235,16 +233,16 @@ public class FireEffectHelpers
         }
         else
         {
-            lines.add(colorfulText(
+            lines.add(StaticValue.colorfulText(
                     new TranslatableComponent("tooltip.firewood.tinder_item.total.full"),
                     StaticValue.TOTAL_COLOR));
-            lines.add(colorfulText(
+            lines.add(StaticValue.colorfulText(
                     new TranslatableComponent("tooltip.firewood.tinder_item.total.damage", damage),
                     StaticValue.TOTAL_COLOR));
-            lines.add(colorfulText(
+            lines.add(StaticValue.colorfulText(
                     new TranslatableComponent("tooltip.firewood.tinder_item.total.min_health", minHealth),
                     StaticValue.TOTAL_COLOR));
-            lines.add(colorfulText(
+            lines.add(StaticValue.colorfulText(
                     new TranslatableComponent("tooltip.firewood.tinder_item.total.cooldown", cooldown / 20.0),
                     StaticValue.TOTAL_COLOR));
         }
@@ -257,11 +255,6 @@ public class FireEffectHelpers
         ArrayList<FireEffectNBTDataInterface> majorEffects = loadMajorFireData(compoundTag);
         ArrayList<FireEffectNBTDataInterface> minorEffects = loadMinorFireData(compoundTag);
         return fireTooltips(majorEffects, minorEffects, extended);
-    }
-    
-    public static TranslatableComponent colorfulText(TranslatableComponent text, int color)
-    {
-        return HIGH_CONTRAST_MODE != null && HIGH_CONTRAST_MODE.get() ? text : (TranslatableComponent) text.withStyle(style -> style.withColor(TextColor.fromRgb(color)));
     }
     
     public static int getMixedColor(ArrayList<FireEffectNBTDataInterface> majorEffects, ArrayList<FireEffectNBTDataInterface> minorEffects)

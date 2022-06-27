@@ -1,6 +1,8 @@
 package com.dslm.firewood.util;
 
 import net.minecraft.core.Registry;
+import net.minecraft.network.chat.TextColor;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
@@ -8,6 +10,8 @@ import net.minecraft.world.level.block.Block;
 import net.minecraftforge.fml.ModList;
 
 import java.util.HexFormat;
+
+import static com.dslm.firewood.config.ColorConfig.HIGH_CONTRAST_MODE;
 
 public class StaticValue
 {
@@ -59,5 +63,10 @@ public class StaticValue
     public static boolean checkMod(String modId)
     {
         return ModList.get().isLoaded(modId);
+    }
+    
+    public static TranslatableComponent colorfulText(TranslatableComponent text, int color)
+    {
+        return HIGH_CONTRAST_MODE != null && HIGH_CONTRAST_MODE.get() ? text : (TranslatableComponent) text.withStyle(style -> style.withColor(TextColor.fromRgb(color)));
     }
 }

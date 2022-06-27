@@ -22,7 +22,7 @@ import java.util.ArrayList;
 import java.util.Set;
 import java.util.function.Function;
 
-import static com.dslm.firewood.fireEffectHelper.flesh.FireEffectHelpers.colorfulText;
+import static com.dslm.firewood.util.StaticValue.colorfulText;
 
 public class TeleportFireEffectHelper extends SubMajorFireEffectHelperBase
 {// TODO: 2022/6/19 传送维度黑白名单
