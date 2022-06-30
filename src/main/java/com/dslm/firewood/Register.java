@@ -20,6 +20,7 @@ import com.dslm.firewood.recipe.serializer.TeleportTinderRecipeSerializer;
 import com.dslm.firewood.recipe.serializer.TinderRecipeSerializer;
 import com.dslm.firewood.recipe.type.TinderRecipeType;
 import com.dslm.firewood.recipe.type.TransmuteBlockRecipeType;
+import com.dslm.firewood.util.StaticValue;
 import net.minecraft.core.Registry;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffect;
@@ -186,7 +187,11 @@ public class Register
         RECIPE_SERIALIZERS.register(bus);
         CONTAINERS.register(bus);
         ENTITIES.register(bus);
-        TOPPlugin.register();
         NetworkHandler.init();
+    
+        if(StaticValue.checkMod(StaticValue.TOP_MOD))
+        {
+            TOPPlugin.register();
+        }
     }
 }
