@@ -5,6 +5,9 @@ import com.dslm.firewood.entity.RemnantSoulEntity;
 import com.dslm.firewood.fireEffectHelper.flesh.base.SubMajorFireEffectHelperBase;
 import com.dslm.firewood.fireEffectHelper.flesh.data.FireEffectNBTData;
 import com.dslm.firewood.fireEffectHelper.flesh.data.FireEffectNBTDataInterface;
+import com.dslm.firewood.subType.FireEffectSubTypeBase;
+import com.dslm.firewood.subType.FireEffectSubTypeManager;
+import com.dslm.firewood.subType.TeleportSubType;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -25,7 +28,7 @@ import java.util.function.Function;
 import static com.dslm.firewood.util.StaticValue.colorfulText;
 
 public class TeleportFireEffectHelper extends SubMajorFireEffectHelperBase
-{// TODO: 2022/6/19 传送维度黑白名单
+{
     public static final String DIM_TAG_ID = "dim";
     public static final String X_TAG_ID = "posX";
     public static final String Y_TAG_ID = "posY";
@@ -48,7 +51,22 @@ public class TeleportFireEffectHelper extends SubMajorFireEffectHelperBase
     @Override
     public void transmuteEntity(FireEffectNBTDataInterface data, Level level, LivingEntity livingEntity)
     {
+        FireEffectSubTypeBase subType = FireEffectSubTypeManager.getEffectsMap().get("firewood:teleport").get(data.getSubType());
         if(livingEntity instanceof RemnantSoulEntity)
+        {
+            return;
+        }
+        if(subType instanceof TeleportSubType teleportSubType)
+        {
+            if(teleportSubType.allowFromDim(level.dimension().location().getPath()) && teleportSubType.allowToDim(data.get(DIM_TAG_ID)))
+            {
+            }
+            else
+            {
+                return;
+            }
+        }
+        else
         {
             return;
         }

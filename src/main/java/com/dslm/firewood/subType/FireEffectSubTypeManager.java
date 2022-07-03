@@ -21,10 +21,11 @@ public class FireEffectSubTypeManager extends SimpleJsonResourceReloadListener
     
     public static final FireEffectSubTypeBuilder DEFAULT_TYPE_BUILDER = new FireEffectSubTypeBuilder();
     public static final SetBlockNameSubTypeBuilder SET_BLOCK_NAME_SUB_TYPE_BUILDER = new SetBlockNameSubTypeBuilder();
+    public static final TeleportSubTypeBuilder TELEPORT_SUB_TYPE_BUILDER = new TeleportSubTypeBuilder();
     
     public static final HashMap<String, FireEffectSubTypeBuilderBase> typeBuilders = new HashMap<>()
     {{
-        put("firewood:teleport", DEFAULT_TYPE_BUILDER);
+        put("firewood:teleport", TELEPORT_SUB_TYPE_BUILDER);
         put("firewood:smelter", DEFAULT_TYPE_BUILDER);
         put("firewood:block_to_block", DEFAULT_TYPE_BUILDER);
         
