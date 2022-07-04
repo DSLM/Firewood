@@ -1,0 +1,10 @@
+{
+  "type": "firewood:smelter",
+  "subType": "nether_smelter",
+  "color": "0x800000",
+  "damage": 0.5,
+  "min_health": 1.0,
+  "process": 4,
+  "range": 3,
+  "cooldown": 10
+}

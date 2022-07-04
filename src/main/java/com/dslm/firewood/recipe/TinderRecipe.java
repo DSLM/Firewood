@@ -26,13 +26,15 @@ public class TinderRecipe implements Recipe<SpiritualCampfireBlockEntity>
     protected final Ingredient tinder;
     protected final Item targetTinder;
     protected final TinderRecipeNBT addEffects;
+    protected final TinderRecipeNBT removeEffects;
     protected final int process;
     protected final double chance;
     protected final double damage;
     protected final int cooldown;
     protected final double minHealth;
     
-    public TinderRecipe(ResourceLocation id, NonNullList<Ingredient> recipeItems, Ingredient tinder, Item targetTinder, TinderRecipeNBT addEffects,
+    public TinderRecipe(ResourceLocation id, NonNullList<Ingredient> recipeItems, Ingredient tinder, Item targetTinder,
+                        TinderRecipeNBT addEffects, TinderRecipeNBT removeEffects,
                         int process, double chance, double damage, int cooldown, double minHealth)
     {
         this.id = id;
@@ -40,6 +42,7 @@ public class TinderRecipe implements Recipe<SpiritualCampfireBlockEntity>
         this.tinder = tinder;
         this.targetTinder = targetTinder;
         this.addEffects = addEffects;
+        this.removeEffects = removeEffects;
         this.process = process;
         this.chance = chance;
         this.damage = damage;
@@ -54,6 +57,7 @@ public class TinderRecipe implements Recipe<SpiritualCampfireBlockEntity>
         this.tinder = copy.tinder;
         this.targetTinder = copy.targetTinder;
         this.addEffects = copy.addEffects;
+        this.removeEffects = copy.removeEffects;
         this.process = copy.process;
         this.chance = copy.chance;
         this.damage = copy.damage;
@@ -74,10 +78,10 @@ public class TinderRecipe implements Recipe<SpiritualCampfireBlockEntity>
     public ItemStack assemble(SpiritualCampfireBlockEntity container)
     {
         if(targetTinder == null)
-            return addEffects.implementEffects(container.getTinder());
+            return addEffects.implementEffects(removeEffects.cleanEffects(container.getTinder()));
         ItemStack itemStack = new ItemStack(targetTinder);
         itemStack.setTag(container.getTinder().getOrCreateTag());
-        return addEffects.implementEffects(itemStack);
+        return addEffects.implementEffects(removeEffects.cleanEffects(itemStack));
     }
     
     @Override
@@ -89,7 +93,7 @@ public class TinderRecipe implements Recipe<SpiritualCampfireBlockEntity>
     @Override
     public ItemStack getResultItem()
     {
-        return addEffects.implementEffects(new ItemStack(Register.TINDER_ITEM.get()));
+        return addEffects.implementEffects(removeEffects.cleanEffects(new ItemStack(Register.TINDER_ITEM.get())));
     }
     
     @Override
@@ -123,6 +127,11 @@ public class TinderRecipe implements Recipe<SpiritualCampfireBlockEntity>
     public TinderRecipeNBT getAddEffects()
     {
         return addEffects;
+    }
+    
+    public TinderRecipeNBT getRemoveEffects()
+    {
+        return removeEffects;
     }
     
     public int getProcess()
@@ -188,6 +197,6 @@ public class TinderRecipe implements Recipe<SpiritualCampfireBlockEntity>
     
     public List<ItemStack> getJEIResult()
     {
-        return getJEIResultItems().map(itemStack -> addEffects.implementEffects(itemStack.copy())).toList();
+        return getJEIResultItems().map(itemStack -> addEffects.implementEffects(removeEffects.cleanEffects(itemStack.copy()))).toList();
     }
 }

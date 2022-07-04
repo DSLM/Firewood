@@ -57,6 +57,7 @@ public class TinderRecipeSerializer<T extends TinderRecipe> implements RecipeSer
         Item targetTinder = json.get("targetTinder") == null ? null : ForgeRegistries.ITEMS.getValue(new ResourceLocation(json.get("targetTinder").getAsString()));
     
         TinderRecipeNBT addEffects = TinderRecipeNBT.fromJSON(json.getAsJsonObject("addEffects"));
+        TinderRecipeNBT removeEffects = TinderRecipeNBT.fromJSON(json.getAsJsonObject("removeEffects"));
     
         int process = json.get("process").getAsInt();
     
@@ -68,7 +69,7 @@ public class TinderRecipeSerializer<T extends TinderRecipe> implements RecipeSer
         
         double minHealth = json.get("min_health").getAsDouble();
     
-        return getRealClass(new TinderRecipe(id, inputs, tinder, targetTinder, addEffects, process, chance, damage, cooldown, minHealth));
+        return getRealClass(new TinderRecipe(id, inputs, tinder, targetTinder, addEffects, removeEffects, process, chance, damage, cooldown, minHealth));
     }
     
     @Override
@@ -86,6 +87,7 @@ public class TinderRecipeSerializer<T extends TinderRecipe> implements RecipeSer
         Item targetTinder = "".equals(targetName) ? null : ForgeRegistries.ITEMS.getValue(new ResourceLocation(targetName));
     
         TinderRecipeNBT addEffects = TinderRecipeNBT.fromNetwork(buf);
+        TinderRecipeNBT removeEffects = TinderRecipeNBT.fromNetwork(buf);
     
         int process = buf.readInt();
     
@@ -97,7 +99,7 @@ public class TinderRecipeSerializer<T extends TinderRecipe> implements RecipeSer
     
         double minHealth = buf.readDouble();
     
-        return getRealClass(new TinderRecipe(id, inputs, tinder, targetTinder, addEffects, process, chance, damage, cooldown, minHealth));
+        return getRealClass(new TinderRecipe(id, inputs, tinder, targetTinder, addEffects, removeEffects, process, chance, damage, cooldown, minHealth));
     }
     
     @Override
@@ -114,6 +116,7 @@ public class TinderRecipeSerializer<T extends TinderRecipe> implements RecipeSer
         buf.writeUtf(recipe.getTargetTinder() == null ? "" : recipe.getTargetTinder().getRegistryName().toString());
     
         recipe.getAddEffects().toNetwork(buf);
+        recipe.getRemoveEffects().toNetwork(buf);
     
         buf.writeInt(recipe.getProcess());
     

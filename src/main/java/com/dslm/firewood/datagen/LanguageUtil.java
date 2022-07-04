@@ -145,6 +145,10 @@ public class LanguageUtil
                     "Smelter", "熔炉");
             add("tooltip." + StaticValue.MOD_ID + "." + Register.TINDER_ITEM.get() + ".major_effect.smelter.smelter",
                     "Smelter", "熔炉");
+            add("tooltip." + StaticValue.MOD_ID + "." + Register.TINDER_ITEM.get() + ".major_effect.smelter.nether_smelter",
+                    "Smelter", "下界熔炉");
+            add("tooltip." + StaticValue.MOD_ID + "." + Register.TINDER_ITEM.get() + ".major_effect.smelter.black_smelter",
+                    "Smelter", "黑石熔炉");
     
             add("tooltip." + StaticValue.MOD_ID + "." + Register.TINDER_ITEM.get() + ".major_effect.block_to_block",
                     "Block->Block", "方块->方块");

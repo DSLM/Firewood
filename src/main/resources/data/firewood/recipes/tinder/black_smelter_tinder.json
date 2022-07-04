@@ -1,0 +1,79 @@
+{
+  "type": "firewood:tinder_recipe",
+  "ingredients": [
+    {
+      "item": "minecraft:blackstone"
+    },
+    {
+      "item": "minecraft:blackstone"
+    },
+    {
+      "item": "minecraft:blackstone"
+    },
+    {
+      "item": "minecraft:blackstone"
+    },
+    {
+      "item": "minecraft:blackstone"
+    },
+    {
+      "item": "minecraft:blackstone"
+    },
+    {
+      "item": "minecraft:blackstone"
+    },
+    {
+      "item": "minecraft:blackstone"
+    },
+    {
+      "item": "minecraft:blackstone"
+    },
+    {
+      "item": "minecraft:blackstone"
+    },
+    {
+      "item": "minecraft:blackstone"
+    },
+    {
+      "item": "minecraft:blackstone"
+    }
+  ],
+  "tinder": {
+    "type": "forge:partial_nbt",
+    "items": [
+      "firewood:tinder_item",
+      "firewood:lantern_item"
+    ],
+    "nbt": {
+      "majorEffects": [
+        {
+          "type": "smelter",
+          "subType": "nether_smelter",
+          "process": 0
+        }
+      ]
+    }
+  },
+  "addEffects": {
+    "major": [
+      {
+        "type": "smelter",
+        "subType": "black_smelter",
+        "process": 0
+      }
+    ]
+  },
+  "removeEffects": {
+    "major": [
+      {
+        "type": "smelter",
+        "subType": "nether_smelter"
+      }
+    ]
+  },
+  "process": 2,
+  "chance": 100.0,
+  "damage": 1.0,
+  "cooldown": 100,
+  "min_health": 1.0
+}

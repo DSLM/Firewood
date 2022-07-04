@@ -21,6 +21,11 @@ public class TinderRecipeNBT
         return FireEffectHelpers.addMinorEffects(FireEffectHelpers.addMajorEffects(stack, majorEffects), minorEffects);
     }
     
+    public ItemStack cleanEffects(ItemStack stack)
+    {
+        return FireEffectHelpers.removeMinorEffects(FireEffectHelpers.removeMajorEffects(stack, majorEffects), minorEffects);
+    }
+    
     public static TinderRecipeNBT fromNetwork(FriendlyByteBuf buf)
     {
         return new TinderRecipeNBT(arrayFromNetwork(buf), arrayFromNetwork(buf));

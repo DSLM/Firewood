@@ -374,6 +374,62 @@ public class FireEffectHelpers
         return itemStack;
     }
     
+    public static ItemStack removeMajorEffect(ItemStack itemStack, String type, FireEffectNBTDataInterface data)
+    {
+        CompoundTag allNBT = getDefaultMinorNBTs(itemStack.getOrCreateTag());
+        ListTag tags = (ListTag) allNBT.get(StaticValue.MAJOR);
+        
+        CompoundTag newEffect = saveToNBT(StaticValue.MAJOR, type, data);
+        //clean old same effect
+        if(tags != null)
+        {
+            for(int i = 0; i < tags.size(); i++)
+            {
+                if(tags.get(i) instanceof CompoundTag compoundTag)
+                {
+                    if(isSameNBT(StaticValue.MAJOR, type, newEffect, compoundTag))
+                    {
+                        tags.remove(i);
+                    }
+                }
+            }
+        }
+        else
+        {
+            tags = new ListTag();
+        }
+        
+        allNBT.put(StaticValue.MAJOR, tags);
+        itemStack.setTag(allNBT);
+        return itemStack;
+    }
+    
+    public static ItemStack removeMinorEffect(ItemStack itemStack, String type, FireEffectNBTDataInterface data)
+    {
+        CompoundTag allNBT = getDefaultMinorNBTs(itemStack.getOrCreateTag());
+        ListTag tags = (ListTag) allNBT.get(StaticValue.MINOR);
+        
+        CompoundTag newEffect = saveToNBT(StaticValue.MINOR, type, data);
+        CompoundTag defaultEffect = saveToNBT(StaticValue.MINOR, type, getMinorHelperByType(type).getDefaultData());
+        
+        //clean old same effect
+        for(int i = 0; i < tags.size(); i++)
+        {
+            if(tags.get(i) instanceof CompoundTag compoundTag)
+            {
+                if(isSameNBT(StaticValue.MINOR, type, newEffect, compoundTag))
+                {
+                    tags.setTag(i, defaultEffect);
+                    break;
+                }
+            }
+        }
+        
+        allNBT.put(StaticValue.MINOR, tags);
+        itemStack.setTag(allNBT);
+        return itemStack;
+    }
+    
     public static ItemStack addMajorEffects(ItemStack itemStack, List<FireEffectNBTDataInterface> data)
     {
         for(FireEffectNBTDataInterface one : data)
@@ -392,12 +448,30 @@ public class FireEffectHelpers
         return itemStack;
     }
     
+    public static ItemStack removeMajorEffects(ItemStack itemStack, List<FireEffectNBTDataInterface> data)
+    {
+        for(FireEffectNBTDataInterface one : data)
+        {
+            removeMajorEffect(itemStack, one.getType(), one);
+        }
+        return itemStack;
+    }
+    
+    public static ItemStack removeMinorEffects(ItemStack itemStack, List<FireEffectNBTDataInterface> data)
+    {
+        for(FireEffectNBTDataInterface one : data)
+        {
+            removeMinorEffect(itemStack, one.getType(), one);
+        }
+        return itemStack;
+    }
+    
     public static String getJEIType(ItemStack itemStack)
     {
         StringBuilder stringBuilder = new StringBuilder();
         ArrayList<FireEffectNBTDataInterface> majorEffects = loadMajorFireData(itemStack.getOrCreateTag());
         ArrayList<FireEffectNBTDataInterface> minorEffects = loadMinorFireData(itemStack.getOrCreateTag());
-    
+        
         for(FireEffectNBTDataInterface one : majorEffects)
         {
             stringBuilder.append(getMajorHelperByType(one.getType()).getJEIString(one)).append(";");
