@@ -43,7 +43,7 @@ public class SetBlockNameFireEffectHelper extends SubMajorFireEffectHelperBase
         ArrayList<ArrayList<String>> nowOrder = subType instanceof SetBlockNameSubType setBlockNameSubType ? setBlockNameSubType.getOrder() : new ArrayList<>();
         ArrayList<Integer> checkOrder = subType instanceof SetBlockNameSubType setBlockNameSubType ? setBlockNameSubType.getCheckOrder() : new ArrayList<>();
     
-        if(nowOrder.size() == 0 || checkOrder.size() == 0) return;
+        if(nowOrder.size() == 0) return;
     
         String oldString = blockState.getBlock().getRegistryName().toString();
     
