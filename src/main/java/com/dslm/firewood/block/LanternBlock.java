@@ -2,7 +2,7 @@ package com.dslm.firewood.block;
 
 import com.dslm.firewood.Register;
 import com.dslm.firewood.block.entity.LanternBlockEntity;
-import com.dslm.firewood.fireEffectHelper.flesh.data.FireEffectNBTHelper;
+import com.dslm.firewood.fireEffectHelper.flesh.data.FireEffectNBTStaticHelper;
 import com.dslm.firewood.item.LanternItem;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -129,7 +129,7 @@ public class LanternBlock extends Block implements EntityBlock
     public ItemStack getCloneItemStack(LanternBlockEntity lanternBlockEntity, BlockState state)
     {
         ItemStack itemStack = new ItemStack(Register.LANTERN_ITEM.get());
-        FireEffectNBTHelper.saveFireData(itemStack.getOrCreateTag(),
+        FireEffectNBTStaticHelper.saveFireData(itemStack.getOrCreateTag(),
                 lanternBlockEntity.getMajorEffects(),
                 lanternBlockEntity.getMinorEffects());
         LanternItem.initNBT(itemStack);

@@ -28,8 +28,8 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.dslm.firewood.fireEffectHelper.flesh.data.FireEffectNBTHelper.loadMajorFireData;
-import static com.dslm.firewood.fireEffectHelper.flesh.data.FireEffectNBTHelper.loadMinorFireData;
+import static com.dslm.firewood.fireEffectHelper.flesh.data.FireEffectNBTStaticHelper.loadMajorFireData;
+import static com.dslm.firewood.fireEffectHelper.flesh.data.FireEffectNBTStaticHelper.loadMinorFireData;
 
 public class FireEffectHelpers
 {

@@ -127,7 +127,7 @@ public class FireEffectNBTData implements FireEffectNBTDataInterface
     @Override
     public void toNetwork(FriendlyByteBuf buf)
     {
-        buf.writeUtf(type);
+        //buf.writeUtf(type);
         buf.writeUtf(subType);
         buf.writeInt(process);
         buf.writeBoolean(inCache);
@@ -147,7 +147,7 @@ public class FireEffectNBTData implements FireEffectNBTDataInterface
     @Override
     public FireEffectNBTDataInterface fromNetwork(FriendlyByteBuf buf)
     {
-        type = buf.readUtf();
+        //type = buf.readUtf();
         subType = buf.readUtf();
         process = buf.readInt();
         inCache = buf.readBoolean();

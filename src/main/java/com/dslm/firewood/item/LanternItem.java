@@ -4,7 +4,7 @@ import com.dslm.firewood.Register;
 import com.dslm.firewood.compat.curios.Curios;
 import com.dslm.firewood.fireEffectHelper.flesh.FireEffectHelpers;
 import com.dslm.firewood.fireEffectHelper.flesh.data.FireEffectNBTDataInterface;
-import com.dslm.firewood.fireEffectHelper.flesh.data.FireEffectNBTHelper;
+import com.dslm.firewood.fireEffectHelper.flesh.data.FireEffectNBTStaticHelper;
 import com.dslm.firewood.fireEffectHelper.flesh.data.TinderSourceType;
 import com.dslm.firewood.util.StaticValue;
 import net.minecraft.ChatFormatting;
@@ -124,8 +124,8 @@ public class LanternItem extends BlockItem implements TinderTypeItemBase
             BlockState blockState = player.getFeetBlockState();
     
             CompoundTag tags = stack.getOrCreateTag();
-            ArrayList<FireEffectNBTDataInterface> majorEffects = FireEffectNBTHelper.loadMajorFireData(tags);
-            ArrayList<FireEffectNBTDataInterface> minorEffects = FireEffectNBTHelper.loadMinorFireData(tags);
+            ArrayList<FireEffectNBTDataInterface> majorEffects = FireEffectNBTStaticHelper.loadMajorFireData(tags);
+            ArrayList<FireEffectNBTDataInterface> minorEffects = FireEffectNBTStaticHelper.loadMinorFireData(tags);
             tags.remove(StaticValue.MINOR);
             if(!player.hasEffect(Register.FIRED_FLESH.get()))
             {
@@ -137,7 +137,7 @@ public class LanternItem extends BlockItem implements TinderTypeItemBase
             minorEffects = FireEffectHelpers.triggerMinorEffects(majorEffects, minorEffects, TinderSourceType.IN_BACKPACK_LANTERN, blockState, level, blockPos);
             majorEffects = FireEffectHelpers.cacheClear(majorEffects, minorEffects, TinderSourceType.IN_GROUND_LANTERN, blockState, level, blockPos);
     
-            tags = FireEffectNBTHelper.saveFireData(tags, majorEffects, minorEffects);
+            tags = FireEffectNBTStaticHelper.saveFireData(tags, majorEffects, minorEffects);
     
             stack.setTag(tags);
         }

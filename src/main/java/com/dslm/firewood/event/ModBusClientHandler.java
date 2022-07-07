@@ -5,7 +5,7 @@ import com.dslm.firewood.block.entity.LanternBlockEntity;
 import com.dslm.firewood.block.entity.SpiritualCampfireBlockEntity;
 import com.dslm.firewood.block.entity.SpiritualFireBlockEntity;
 import com.dslm.firewood.fireEffectHelper.flesh.FireEffectHelpers;
-import com.dslm.firewood.fireEffectHelper.flesh.data.FireEffectNBTHelper;
+import com.dslm.firewood.fireEffectHelper.flesh.data.FireEffectNBTStaticHelper;
 import com.dslm.firewood.item.TinderTypeItemBase;
 import com.dslm.firewood.render.LanternModelLoader;
 import com.dslm.firewood.render.LanternRendererOnPlayer;
@@ -77,8 +77,8 @@ public class ModBusClientHandler
                         tintIndex == 1 ?
                                 ((SpiritualCampfireBlockEntity) world.getBlockEntity(pos)).getItem(0).getItem() instanceof TinderTypeItemBase ?
                                         FireEffectHelpers.getMixedColor(
-                                                FireEffectNBTHelper.loadMajorFireData(((SpiritualCampfireBlockEntity) world.getBlockEntity(pos)).getItem(0).getOrCreateTag()),
-                                                FireEffectNBTHelper.loadMinorFireData(((SpiritualCampfireBlockEntity) world.getBlockEntity(pos)).getItem(0).getOrCreateTag()))
+                                                FireEffectNBTStaticHelper.loadMajorFireData(((SpiritualCampfireBlockEntity) world.getBlockEntity(pos)).getItem(0).getOrCreateTag()),
+                                                FireEffectNBTStaticHelper.loadMinorFireData(((SpiritualCampfireBlockEntity) world.getBlockEntity(pos)).getItem(0).getOrCreateTag()))
                                         : -1 : -1,
                 Register.SPIRITUAL_CAMPFIRE_BLOCK.get());
         
@@ -97,15 +97,15 @@ public class ModBusClientHandler
                 (stack, index) ->
                         index == 0 ?
                                 -1 : FireEffectHelpers.getMixedColor(
-                                FireEffectNBTHelper.loadMajorFireData(stack.getOrCreateTag()),
-                                FireEffectNBTHelper.loadMinorFireData(stack.getOrCreateTag())),
+                                FireEffectNBTStaticHelper.loadMajorFireData(stack.getOrCreateTag()),
+                                FireEffectNBTStaticHelper.loadMinorFireData(stack.getOrCreateTag())),
                 Register.TINDER_ITEM.get());
         event.getItemColors().register(
                 (stack, index) ->
                         index != 1 ?
                                 -1 : FireEffectHelpers.getMixedColor(
-                                FireEffectNBTHelper.loadMajorFireData(stack.getOrCreateTag()),
-                                FireEffectNBTHelper.loadMinorFireData(stack.getOrCreateTag())),
+                                FireEffectNBTStaticHelper.loadMajorFireData(stack.getOrCreateTag()),
+                                FireEffectNBTStaticHelper.loadMinorFireData(stack.getOrCreateTag())),
                 Register.LANTERN_ITEM.get());
     }
     

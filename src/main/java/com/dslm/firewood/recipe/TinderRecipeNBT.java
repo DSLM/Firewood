@@ -1,8 +1,8 @@
 package com.dslm.firewood.recipe;
 
 import com.dslm.firewood.fireEffectHelper.flesh.FireEffectHelpers;
-import com.dslm.firewood.fireEffectHelper.flesh.data.FireEffectNBTData;
 import com.dslm.firewood.fireEffectHelper.flesh.data.FireEffectNBTDataInterface;
+import com.dslm.firewood.util.StaticValue;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -28,16 +28,17 @@ public class TinderRecipeNBT
     
     public static TinderRecipeNBT fromNetwork(FriendlyByteBuf buf)
     {
-        return new TinderRecipeNBT(arrayFromNetwork(buf), arrayFromNetwork(buf));
+        return new TinderRecipeNBT(arrayFromNetwork(buf, StaticValue.MAJOR), arrayFromNetwork(buf, StaticValue.MINOR));
     }
     
-    public static ArrayList<FireEffectNBTDataInterface> arrayFromNetwork(FriendlyByteBuf buf)
+    public static ArrayList<FireEffectNBTDataInterface> arrayFromNetwork(FriendlyByteBuf buf, String kind)
     {
         ArrayList<FireEffectNBTDataInterface> tempArray = new ArrayList<>();
         int arrSize = buf.readInt();
         for(int i = 0; i < arrSize; i++)
         {
-            FireEffectNBTDataInterface tempMap = new FireEffectNBTData();// TODO: 2022/6/21 换成通用构造器？
+            String type = buf.readUtf();
+            FireEffectNBTDataInterface tempMap = FireEffectHelpers.getHelperByType(kind, type).getDefaultData();
             tempArray.add(tempMap.fromNetwork(buf));
         }
         return tempArray;
@@ -55,6 +56,7 @@ public class TinderRecipeNBT
         buf.writeInt(size);
         for(int i = 0; i < size; i++)
         {
+            buf.writeUtf(effects.get(i).getType());
             effects.get(i).toNetwork(buf);
         }
     }
@@ -78,10 +80,10 @@ public class TinderRecipeNBT
     
     public static TinderRecipeNBT fromJSON(JsonArray major, JsonArray minor)
     {
-        return new TinderRecipeNBT(arrayFromJSON(major), arrayFromJSON(minor));
+        return new TinderRecipeNBT(arrayFromJSON(major, StaticValue.MAJOR), arrayFromJSON(minor, StaticValue.MINOR));
     }
     
-    public static ArrayList<FireEffectNBTDataInterface> arrayFromJSON(JsonArray array)
+    public static ArrayList<FireEffectNBTDataInterface> arrayFromJSON(JsonArray array, String kind)
     {
         ArrayList<FireEffectNBTDataInterface> tempArray = new ArrayList<>();
         if(array != null)
@@ -89,7 +91,8 @@ public class TinderRecipeNBT
             for(JsonElement i : array)
             {
                 JsonObject tempObj = i.getAsJsonObject();
-                FireEffectNBTDataInterface tempMap = new FireEffectNBTData();// TODO: 2022/6/21 换成通用构造器？
+                String type = tempObj.get(StaticValue.TYPE).getAsString();
+                FireEffectNBTDataInterface tempMap = FireEffectHelpers.getHelperByType(kind, type).getDefaultData();
                 tempArray.add(tempMap.fromJSON(tempObj));
             }
         }

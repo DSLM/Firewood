@@ -26,7 +26,7 @@ import java.util.ArrayList;
 
 import static com.dslm.firewood.fireEffectHelper.flesh.FireEffectHelpers.getBlock;
 import static com.dslm.firewood.fireEffectHelper.flesh.FireEffectHelpers.getMixedColor;
-import static com.dslm.firewood.fireEffectHelper.flesh.data.FireEffectNBTHelper.*;
+import static com.dslm.firewood.fireEffectHelper.flesh.data.FireEffectNBTStaticHelper.*;
 
 public class LanternBlockEntity extends BlockEntity implements RemnantSoulBoundedBlockEntity
 {

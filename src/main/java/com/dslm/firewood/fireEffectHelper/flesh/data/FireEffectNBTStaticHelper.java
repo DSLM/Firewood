@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 import static com.dslm.firewood.util.StaticValue.TYPE;
 
-public class FireEffectNBTHelper
+public class FireEffectNBTStaticHelper
 {
     
     public static ArrayList<FireEffectNBTDataInterface> loadMajorFireData(CompoundTag pTag)
