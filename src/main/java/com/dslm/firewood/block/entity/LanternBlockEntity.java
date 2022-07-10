@@ -2,9 +2,9 @@ package com.dslm.firewood.block.entity;
 
 import com.dslm.firewood.Register;
 import com.dslm.firewood.entity.RemnantSoulEntity;
-import com.dslm.firewood.fireEffectHelper.flesh.FireEffectHelpers;
-import com.dslm.firewood.fireEffectHelper.flesh.data.FireEffectNBTDataInterface;
-import com.dslm.firewood.fireEffectHelper.flesh.data.TinderSourceType;
+import com.dslm.firewood.fireeffecthelper.flesh.FireEffectHelpers;
+import com.dslm.firewood.fireeffecthelper.flesh.data.FireEffectNBTDataInterface;
+import com.dslm.firewood.fireeffecthelper.flesh.data.TinderSourceType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
@@ -24,9 +24,9 @@ import net.minecraftforge.client.model.data.ModelProperty;
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
 
-import static com.dslm.firewood.fireEffectHelper.flesh.FireEffectHelpers.getBlock;
-import static com.dslm.firewood.fireEffectHelper.flesh.FireEffectHelpers.getMixedColor;
-import static com.dslm.firewood.fireEffectHelper.flesh.data.FireEffectNBTStaticHelper.*;
+import static com.dslm.firewood.fireeffecthelper.flesh.FireEffectHelpers.getBlock;
+import static com.dslm.firewood.fireeffecthelper.flesh.FireEffectHelpers.getMixedColor;
+import static com.dslm.firewood.fireeffecthelper.flesh.data.FireEffectNBTStaticHelper.*;
 
 public class LanternBlockEntity extends BlockEntity implements RemnantSoulBoundedBlockEntity
 {

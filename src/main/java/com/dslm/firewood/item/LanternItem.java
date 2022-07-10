@@ -2,10 +2,10 @@ package com.dslm.firewood.item;
 
 import com.dslm.firewood.Register;
 import com.dslm.firewood.compat.curios.Curios;
-import com.dslm.firewood.fireEffectHelper.flesh.FireEffectHelpers;
-import com.dslm.firewood.fireEffectHelper.flesh.data.FireEffectNBTDataInterface;
-import com.dslm.firewood.fireEffectHelper.flesh.data.FireEffectNBTStaticHelper;
-import com.dslm.firewood.fireEffectHelper.flesh.data.TinderSourceType;
+import com.dslm.firewood.fireeffecthelper.flesh.FireEffectHelpers;
+import com.dslm.firewood.fireeffecthelper.flesh.data.FireEffectNBTDataInterface;
+import com.dslm.firewood.fireeffecthelper.flesh.data.FireEffectNBTStaticHelper;
+import com.dslm.firewood.fireeffecthelper.flesh.data.TinderSourceType;
 import com.dslm.firewood.render.LanternItemStackEntityRenderer;
 import com.dslm.firewood.util.StaticValue;
 import net.minecraft.ChatFormatting;

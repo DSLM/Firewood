@@ -1,7 +1,7 @@
 package com.dslm.firewood.render;
 
 import com.dslm.firewood.Register;
-import com.dslm.firewood.fireEffectHelper.flesh.data.FireEffectNBTStaticHelper;
+import com.dslm.firewood.fireeffecthelper.flesh.data.FireEffectNBTStaticHelper;
 import com.dslm.firewood.item.LanternItem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
@@ -28,11 +28,11 @@ import java.util.Random;
 
 import static com.dslm.firewood.block.entity.LanternBlockEntity.BASE_BLOCK;
 import static com.dslm.firewood.block.entity.LanternBlockEntity.REMNANT_SOUL;
-import static com.dslm.firewood.fireEffectHelper.flesh.FireEffectHelpers.getBlock;
+import static com.dslm.firewood.fireeffecthelper.flesh.FireEffectHelpers.getBlock;
 
 @OnlyIn(Dist.CLIENT)
 public class LanternItemStackEntityRenderer extends BlockEntityWithoutLevelRenderer
-{// TODO: 2022/7/8 有时间把物品渲染整了
+{
     public static final BooleanProperty LIT = BlockStateProperties.LIT;
     public static final DirectionProperty FACING = BlockStateProperties.FACING;
     public static LanternItemStackEntityRenderer INSTANCE = new LanternItemStackEntityRenderer(Minecraft.getInstance().getBlockEntityRenderDispatcher(), Minecraft.getInstance().getEntityModels());

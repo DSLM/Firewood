@@ -2,9 +2,9 @@ package com.dslm.firewood.recipe;
 
 import com.dslm.firewood.Register;
 import com.dslm.firewood.block.entity.SpiritualCampfireBlockEntity;
-import com.dslm.firewood.fireEffectHelper.flesh.FireEffectHelpers;
-import com.dslm.firewood.fireEffectHelper.flesh.PotionFireEffectHelper;
-import com.dslm.firewood.fireEffectHelper.flesh.data.FireEffectNBTData;
+import com.dslm.firewood.fireeffecthelper.flesh.FireEffectHelpers;
+import com.dslm.firewood.fireeffecthelper.flesh.PotionFireEffectHelper;
+import com.dslm.firewood.fireeffecthelper.flesh.data.FireEffectNBTData;
 import com.mojang.datafixers.util.Either;
 import net.minecraft.core.NonNullList;
 import net.minecraft.resources.ResourceLocation;
@@ -23,7 +23,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.dslm.firewood.fireEffectHelper.flesh.PotionFireEffectHelper.POTION_TAG_ID;
+import static com.dslm.firewood.fireeffecthelper.flesh.PotionFireEffectHelper.POTION_TAG_ID;
 
 public class PotionTinderRecipe extends TinderRecipe
 {

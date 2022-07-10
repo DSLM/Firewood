@@ -2,7 +2,7 @@ package com.dslm.firewood.block;
 
 import com.dslm.firewood.Register;
 import com.dslm.firewood.block.entity.LanternBlockEntity;
-import com.dslm.firewood.fireEffectHelper.flesh.data.FireEffectNBTStaticHelper;
+import com.dslm.firewood.fireeffecthelper.flesh.data.FireEffectNBTStaticHelper;
 import com.dslm.firewood.item.LanternItem;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;

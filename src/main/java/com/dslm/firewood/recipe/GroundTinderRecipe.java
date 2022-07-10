@@ -2,8 +2,8 @@ package com.dslm.firewood.recipe;
 
 import com.dslm.firewood.Register;
 import com.dslm.firewood.block.entity.SpiritualCampfireBlockEntity;
-import com.dslm.firewood.fireEffectHelper.flesh.FireEffectHelpers;
-import com.dslm.firewood.fireEffectHelper.flesh.data.FireEffectNBTData;
+import com.dslm.firewood.fireeffecthelper.flesh.FireEffectHelpers;
+import com.dslm.firewood.fireeffecthelper.flesh.data.FireEffectNBTData;
 import com.mojang.datafixers.util.Either;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.BlockItem;
@@ -20,7 +20,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 
-import static com.dslm.firewood.fireEffectHelper.flesh.GroundFireEffectHelper.BLOCK_TAG_ID;
+import static com.dslm.firewood.config.SpiritualFireBlockEffectConfig.GROUND_BLACKLIST;
+import static com.dslm.firewood.fireeffecthelper.flesh.GroundFireEffectHelper.BLOCK_TAG_ID;
 
 public class GroundTinderRecipe extends TinderRecipe
 {
@@ -59,7 +60,9 @@ public class GroundTinderRecipe extends TinderRecipe
     
         final ItemStack[] finalItemStack = new ItemStack[1];
         container.getIngredients().forEach((i) -> {
-            if(inputs.get(recipe[recipe.length - 1]) == i && i.getItem() instanceof BlockItem blockItem)
+            if(inputs.get(recipe[recipe.length - 1]) == i
+                    && i.getItem() instanceof BlockItem blockItem
+                    && !GROUND_BLACKLIST.get().contains(itemStack.getItem().getRegistryName().toString()))
             {
                 finalItemStack[0] = FireEffectHelpers.addMinorEffect(itemStack, "ground", new FireEffectNBTData()
                 {{
@@ -94,7 +97,9 @@ public class GroundTinderRecipe extends TinderRecipe
         @Override
         public boolean test(ItemStack itemStack)
         {
-            return itemStack != null && itemStack.getItem() instanceof BlockItem;
+            return itemStack != null
+                    && itemStack.getItem() instanceof BlockItem
+                    && !GROUND_BLACKLIST.get().contains(itemStack.getItem().getRegistryName().toString());
         }
     }
     
@@ -107,7 +112,7 @@ public class GroundTinderRecipe extends TinderRecipe
         List<ItemStack> groundInput = new ArrayList<>();
         for(Item item : ForgeRegistries.ITEMS)
         {
-            if(item instanceof BlockItem)
+            if(item instanceof BlockItem && !GROUND_BLACKLIST.get().contains(item.getRegistryName().toString()))
             {
                 groundInput.add(new ItemStack(item));
             }
@@ -127,7 +132,7 @@ public class GroundTinderRecipe extends TinderRecipe
         {
             for(Item item : ForgeRegistries.ITEMS)
             {
-                if(item instanceof BlockItem blockItem)
+                if(item instanceof BlockItem blockItem && !GROUND_BLACKLIST.get().contains(item.getRegistryName().toString()))
                 {
                     ItemStack stack = FireEffectHelpers.addMinorEffect(i.copy(), "ground", new FireEffectNBTData()
                     {{

@@ -1,7 +1,7 @@
 package com.dslm.firewood.recipe;
 
-import com.dslm.firewood.fireEffectHelper.flesh.FireEffectHelpers;
-import com.dslm.firewood.fireEffectHelper.flesh.data.FireEffectNBTDataInterface;
+import com.dslm.firewood.fireeffecthelper.flesh.FireEffectHelpers;
+import com.dslm.firewood.fireeffecthelper.flesh.data.FireEffectNBTDataInterface;
 import com.dslm.firewood.util.StaticValue;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;

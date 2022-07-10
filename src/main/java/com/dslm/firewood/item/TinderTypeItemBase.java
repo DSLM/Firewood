@@ -8,7 +8,7 @@ import net.minecraft.world.level.Level;
 
 import java.util.List;
 
-import static com.dslm.firewood.fireEffectHelper.flesh.FireEffectHelpers.fireTooltips;
+import static com.dslm.firewood.fireeffecthelper.flesh.FireEffectHelpers.fireTooltips;
 
 public interface TinderTypeItemBase
 {

@@ -1,7 +1,7 @@
 package com.dslm.firewood.event;
 
 import com.dslm.firewood.Register;
-import com.dslm.firewood.capProvider.PlayerSpiritualDamageProvider;
+import com.dslm.firewood.capprovider.PlayerSpiritualDamageProvider;
 import com.dslm.firewood.entity.RemnantSoulEntity;
 import com.dslm.firewood.util.StaticValue;
 import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;

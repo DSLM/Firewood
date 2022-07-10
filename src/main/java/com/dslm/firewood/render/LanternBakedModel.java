@@ -364,8 +364,6 @@ public class LanternBakedModel implements IDynamicBakedModel
             }
             case FIXED -> {
                 poseStack.scale(2, 2, 2);
-            }
-            case GUI -> {
                 poseStack.mulPose(YP_ROTATION);
             }
         }

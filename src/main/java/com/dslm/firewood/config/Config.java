@@ -7,7 +7,6 @@ import net.minecraftforge.fml.config.ModConfig;
 public class Config
 {
     // TODO: 2022/5/10 药水效果削弱乘数，参考滞留
-    // TODO: 2022/5/10 方块基底黑白名单？
     
     public static void register()
     {

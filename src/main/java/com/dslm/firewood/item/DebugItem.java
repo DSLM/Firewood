@@ -1,6 +1,6 @@
 package com.dslm.firewood.item;
 
-import com.dslm.firewood.capProvider.PlayerSpiritualDamageProvider;
+import com.dslm.firewood.capprovider.PlayerSpiritualDamageProvider;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.world.InteractionHand;

@@ -2,7 +2,7 @@ package com.dslm.firewood.block.entity;
 
 import com.dslm.firewood.Register;
 import com.dslm.firewood.block.SpiritualCampfireBlock;
-import com.dslm.firewood.fireEffectHelper.flesh.FireEffectHelpers;
+import com.dslm.firewood.fireeffecthelper.flesh.FireEffectHelpers;
 import com.dslm.firewood.item.TinderTypeItemBase;
 import com.dslm.firewood.recipe.TinderRecipe;
 import com.dslm.firewood.recipe.type.TinderRecipeType;

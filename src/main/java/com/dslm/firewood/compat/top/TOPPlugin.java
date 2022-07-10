@@ -4,7 +4,7 @@ import com.dslm.firewood.block.entity.LanternBlockEntity;
 import com.dslm.firewood.block.entity.SpiritualCampfireBlockEntity;
 import com.dslm.firewood.block.entity.SpiritualFireBlockEntity;
 import com.dslm.firewood.entity.RemnantSoulEntity;
-import com.dslm.firewood.fireEffectHelper.flesh.data.FireEffectNBTDataInterface;
+import com.dslm.firewood.fireeffecthelper.flesh.data.FireEffectNBTDataInterface;
 import com.dslm.firewood.tooltip.MiddleComponent;
 import mcjty.theoneprobe.api.IProbeHitData;
 import mcjty.theoneprobe.api.IProbeInfo;
@@ -22,7 +22,7 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 
 import java.util.ArrayList;
 
-import static com.dslm.firewood.fireEffectHelper.flesh.FireEffectHelpers.fireTooltips;
+import static com.dslm.firewood.fireeffecthelper.flesh.FireEffectHelpers.fireTooltips;
 import static com.dslm.firewood.util.StaticValue.ICONS;
 
 

@@ -1,9 +1,9 @@
 package com.dslm.firewood.block.entity;
 
 import com.dslm.firewood.Register;
-import com.dslm.firewood.fireEffectHelper.flesh.FireEffectHelpers;
-import com.dslm.firewood.fireEffectHelper.flesh.data.FireEffectNBTDataInterface;
-import com.dslm.firewood.fireEffectHelper.flesh.data.TinderSourceType;
+import com.dslm.firewood.fireeffecthelper.flesh.FireEffectHelpers;
+import com.dslm.firewood.fireeffecthelper.flesh.data.FireEffectNBTDataInterface;
+import com.dslm.firewood.fireeffecthelper.flesh.data.TinderSourceType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
@@ -16,8 +16,8 @@ import net.minecraft.world.level.block.state.BlockState;
 
 import java.util.ArrayList;
 
-import static com.dslm.firewood.fireEffectHelper.flesh.FireEffectHelpers.getMixedColor;
-import static com.dslm.firewood.fireEffectHelper.flesh.data.FireEffectNBTStaticHelper.*;
+import static com.dslm.firewood.fireeffecthelper.flesh.FireEffectHelpers.getMixedColor;
+import static com.dslm.firewood.fireeffecthelper.flesh.data.FireEffectNBTStaticHelper.*;
 
 public class SpiritualFireBlockEntity extends BlockEntity
 {

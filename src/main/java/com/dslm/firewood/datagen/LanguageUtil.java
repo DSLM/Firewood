@@ -85,22 +85,20 @@ public class LanguageUtil
                     "Settings for the Potion Effects", "药水效果设置");
             add("config.firewood.spiritual_fire_block_effects.major.potion.base_damage",
                     "the base damage for trigger a potion effect", "触发一个药水效果时造成的基础伤害");
-            add("config.firewood.spiritual_fire_block_effects.major.teleport",
-                    "Settings for the Teleport Effects", "传送效果设置");
-            add("config.firewood.spiritual_fire_block_effects.major.teleport.base_damage",
-                    "the base damage for trigger a teleport effect", "触发一个传送效果时造成的基础伤害");
             add("config.firewood.spiritual_fire_block_effects.major.set_block_name",
                     "Settings for Set Block By Name Effects", "方块注册名转化效果设置");
             add("config.firewood.spiritual_fire_block_effects.major.set_block_name.blacklist",
                     "the blacklist for trigger a set block by name effect", "触发一个方块注册名转化效果时忽略的方块列表");
-        
+    
             add("config.firewood.spiritual_fire_block_effects.minor",
                     "Settings for the Minor Effects", "次要效果设置");
-        
+    
             add("config.firewood.spiritual_fire_block_effects.minor.ground",
                     "Settings for Ground Effects", "基底效果设置");
             add("config.firewood.spiritual_fire_block_effects.minor.ground.default_block",
                     "the default block ID for a ground effect", "默认基底方块的ID");
+            add("config.firewood.spiritual_fire_block_effects.minor.ground.blacklist",
+                    "the blacklist for ground effect", "禁止的基底方块ID列表");
     
             add("config.firewood.spiritual_fire_block_effects.others", "Settings for Others", "其他设置");
             add("config.firewood.spiritual_fire_block_effects.others.fired_flesh_interval",

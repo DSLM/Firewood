@@ -1,7 +1,7 @@
 package com.dslm.firewood.network;
 
-import com.dslm.firewood.subType.FireEffectSubTypeBase;
-import com.dslm.firewood.subType.FireEffectSubTypeManager;
+import com.dslm.firewood.subtype.FireEffectSubTypeBase;
+import com.dslm.firewood.subtype.FireEffectSubTypeManager;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraftforge.network.NetworkEvent;
 
@@ -9,8 +9,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Supplier;
 
-import static com.dslm.firewood.subType.FireEffectSubTypeManager.DEFAULT_TYPE_BUILDER;
-import static com.dslm.firewood.subType.FireEffectSubTypeManager.typeBuilders;
+import static com.dslm.firewood.subtype.FireEffectSubTypeManager.DEFAULT_TYPE_BUILDER;
+import static com.dslm.firewood.subtype.FireEffectSubTypeManager.typeBuilders;
 
 public class FireEffectSubTypeMessage
 {

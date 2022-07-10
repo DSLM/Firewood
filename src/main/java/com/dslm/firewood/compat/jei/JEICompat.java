@@ -1,14 +1,14 @@
 package com.dslm.firewood.compat.jei;
 
 import com.dslm.firewood.Register;
-import com.dslm.firewood.fireEffectHelper.flesh.FireEffectHelpers;
-import com.dslm.firewood.fireEffectHelper.flesh.data.FireEffectNBTDataInterface;
+import com.dslm.firewood.fireeffecthelper.flesh.FireEffectHelpers;
+import com.dslm.firewood.fireeffecthelper.flesh.data.FireEffectNBTDataInterface;
 import com.dslm.firewood.item.TinderTypeItemBase;
 import com.dslm.firewood.recipe.TinderRecipe;
 import com.dslm.firewood.recipe.type.TinderRecipeType;
-import com.dslm.firewood.subType.FireEffectSubTypeBase;
-import com.dslm.firewood.subType.FireEffectSubTypeManager;
-import com.dslm.firewood.subType.SetBlockNameSubType;
+import com.dslm.firewood.subtype.FireEffectSubTypeBase;
+import com.dslm.firewood.subtype.FireEffectSubTypeManager;
+import com.dslm.firewood.subtype.SetBlockNameSubType;
 import com.dslm.firewood.util.StaticValue;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;

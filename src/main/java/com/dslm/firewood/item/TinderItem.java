@@ -1,7 +1,7 @@
 package com.dslm.firewood.item;
 
 import com.dslm.firewood.block.SpiritualFireBlock;
-import com.dslm.firewood.fireEffectHelper.flesh.FireEffectHelpers;
+import com.dslm.firewood.fireeffecthelper.flesh.FireEffectHelpers;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;

@@ -1,11 +1,11 @@
 package com.dslm.firewood.event;
 
 import com.dslm.firewood.Register;
-import com.dslm.firewood.capProvider.PlayerSpiritualDamageProvider;
+import com.dslm.firewood.capprovider.PlayerSpiritualDamageProvider;
 import com.dslm.firewood.command.FirewoodCommand;
 import com.dslm.firewood.network.FireEffectSubTypeMessage;
 import com.dslm.firewood.network.NetworkHandler;
-import com.dslm.firewood.subType.FireEffectSubTypeManager;
+import com.dslm.firewood.subtype.FireEffectSubTypeManager;
 import com.dslm.firewood.util.StaticValue;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;

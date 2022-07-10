@@ -1,7 +1,7 @@
 package com.dslm.firewood.compat.jei;
 
 import com.dslm.firewood.Register;
-import com.dslm.firewood.subType.SetBlockNameSubType.SetBlockNameFakeRecipe;
+import com.dslm.firewood.subtype.SetBlockNameSubType.SetBlockNameFakeRecipe;
 import com.dslm.firewood.util.StaticValue;
 import com.mojang.blaze3d.vertex.PoseStack;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;

@@ -2,8 +2,8 @@ package com.dslm.firewood.recipe;
 
 import com.dslm.firewood.Register;
 import com.dslm.firewood.block.entity.SpiritualCampfireBlockEntity;
-import com.dslm.firewood.fireEffectHelper.flesh.FireEffectHelpers;
-import com.dslm.firewood.fireEffectHelper.flesh.data.FireEffectNBTData;
+import com.dslm.firewood.fireeffecthelper.flesh.FireEffectHelpers;
+import com.dslm.firewood.fireeffecthelper.flesh.data.FireEffectNBTData;
 import com.dslm.firewood.item.DyingEmberItem;
 import com.mojang.datafixers.util.Either;
 import net.minecraft.core.BlockPos;
@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static com.dslm.firewood.fireEffectHelper.flesh.TeleportFireEffectHelper.*;
+import static com.dslm.firewood.fireeffecthelper.flesh.TeleportFireEffectHelper.*;
 
 public class TeleportTinderRecipe extends TinderRecipe
 {

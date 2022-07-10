@@ -6,13 +6,16 @@ import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class SpiritualFireBlockEffectConfig
 {
     public static ForgeConfigSpec.DoubleValue POTION_BASE_DAMAGE;
+    
     public static ForgeConfigSpec.ConfigValue<List<? extends String>> SET_BLOCK_NAME_BLACKLIST;
     
+    public static ForgeConfigSpec.ConfigValue<List<? extends String>> GROUND_BLACKLIST;
     public static ForgeConfigSpec.ConfigValue<String> GROUND_DEFAULT_BLOCK;
     
     public static ForgeConfigSpec.IntValue FIRED_FLESH_TIME;
@@ -109,20 +112,32 @@ public class SpiritualFireBlockEffectConfig
                 .translation("config.firewood.spiritual_fire_block_effects.major.set_block_name.blacklist")
                 .defineList("blacklist", defaultBlacklist, o -> ForgeRegistries.BLOCKS.containsKey(new ResourceLocation(String.valueOf(o))));
         COMMON_BUILDER.pop();
-        
+    
         COMMON_BUILDER.pop();
-        
-        
+    
+    
         //minor
         COMMON_BUILDER
                 .comment("Settings for Minor Effects")
                 //.translation("config.firewood.spiritual_fire_block_effects.minor")
                 .push("spiritualFireMinor");
-        
+    
+        //ground
+        COMMON_BUILDER
+                .comment("Settings for Ground Effects")
+                //.translation("config.firewood.spiritual_fire_block_effects.minor.ground")
+                .push("spiritualFireMinorGround");
+        GROUND_BLACKLIST = COMMON_BUILDER
+                .comment("the blacklist for ground effect")
+                .translation("config.firewood.spiritual_fire_block_effects.minor.ground.blacklist")
+                .defineList("blacklist", Collections.emptyList(), o -> ForgeRegistries.BLOCKS.containsKey(new ResourceLocation(String.valueOf(o))));
+    
         COMMON_BUILDER.pop();
-        
-        
+    
         COMMON_BUILDER.pop();
-        
+    
+    
+        COMMON_BUILDER.pop();
+    
     }
 }
