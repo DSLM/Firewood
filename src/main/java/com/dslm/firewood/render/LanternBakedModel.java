@@ -46,7 +46,7 @@ public class LanternBakedModel implements IDynamicBakedModel
     private final boolean turnOn;
     private final ItemOverrides overrides;
     private final ItemTransforms itemTransforms;
-    private final Quaternion FIXED_ROTATION = Vector3f.YP.rotationDegrees(90);
+    private final Quaternion YP_ROTATION = Vector3f.YP.rotationDegrees(90);
     
     public LanternBakedModel(ModelState modelState, Function<Material, TextureAtlasSprite> spriteGetter, ItemOverrides overrides, ItemTransforms itemTransforms, boolean translucent)
     {
@@ -84,11 +84,9 @@ public class LanternBakedModel implements IDynamicBakedModel
             quadFire = turnOn ? generateQuadsFire() : Collections.emptyList();
         }
     
-        Integer tempColor = extraData.getData(LanternBlockEntity.COLOR);
-        int color = tempColor != null ? tempColor : 0;
         Block block = extraData.getData(LanternBlockEntity.BASE_BLOCK);
     
-        ArrayList quads = new ArrayList<>(quadCache);
+        ArrayList<BakedQuad> quads = new ArrayList<>(quadCache);
     
         quads.addAll(quadGlass);
         quads.addAll(getGroundBlockQuad(block, rand));
@@ -352,20 +350,26 @@ public class LanternBakedModel implements IDynamicBakedModel
     {
         switch(cameraTransformType)
         {
-            case THIRD_PERSON_RIGHT_HAND, THIRD_PERSON_LEFT_HAND -> poseStack.translate(0, -0.2, -0.2);
+            case THIRD_PERSON_RIGHT_HAND, THIRD_PERSON_LEFT_HAND -> {
+                poseStack.translate(0, -0.2, -0.2);
+            }
             case FIRST_PERSON_RIGHT_HAND, FIRST_PERSON_LEFT_HAND -> {
                 float size = 1.5f;
                 poseStack.scale(size, size, size);
                 poseStack.translate(0, 0.15, 0);
+                poseStack.mulPose(YP_ROTATION);
             }
-            case GROUND -> poseStack.scale(2, 2, 2);
+            case GROUND -> {
+                poseStack.scale(2, 2, 2);
+            }
             case FIXED -> {
                 poseStack.scale(2, 2, 2);
-                poseStack.mulPose(FIXED_ROTATION);
+            }
+            case GUI -> {
+                poseStack.mulPose(YP_ROTATION);
             }
         }
-//        poseStack.translate(10, 10, 10);
-//        poseStack.scale(10, 10, 10);
+    
         return IDynamicBakedModel.super.handlePerspective(cameraTransformType, poseStack);
     }
     
@@ -384,7 +388,7 @@ public class LanternBakedModel implements IDynamicBakedModel
     @Override
     public boolean isCustomRenderer()
     {
-        return false;
+        return true;
     }
     
     @Override

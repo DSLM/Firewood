@@ -39,14 +39,13 @@ public class LanternBlockEntity extends BlockEntity implements RemnantSoulBounde
     protected RemnantSoulEntity remnantSoulEntity = null;
     protected CompoundTag remnantSoulEntityTemp = null;
     
-    public static final ModelProperty<Integer> COLOR = new ModelProperty<>();
     public static final ModelProperty<Block> BASE_BLOCK = new ModelProperty<>();
     public static final ModelProperty<Boolean> REMNANT_SOUL = new ModelProperty<>();
     
-    public LanternBlockEntity(BlockPos pWorldPosition, BlockState pBlockState)
+    public LanternBlockEntity(BlockPos worldPosition, BlockState blockState)
     {
-        super(Register.LANTERN_BLOCK_ENTITY.get(), pWorldPosition, pBlockState);
-        
+        super(Register.LANTERN_BLOCK_ENTITY.get(), worldPosition, blockState);
+    
     }
     
     @Nonnull
@@ -54,7 +53,6 @@ public class LanternBlockEntity extends BlockEntity implements RemnantSoulBounde
     public IModelData getModelData()
     {
         return new ModelDataMap.Builder()
-                .withInitial(COLOR, getColor())
                 .withInitial(BASE_BLOCK, getBlock(minorEffects))
                 .withInitial(REMNANT_SOUL, remnantSoulEntity != null)
                 .build();

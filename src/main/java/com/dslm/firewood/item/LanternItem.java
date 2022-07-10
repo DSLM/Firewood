@@ -6,8 +6,10 @@ import com.dslm.firewood.fireEffectHelper.flesh.FireEffectHelpers;
 import com.dslm.firewood.fireEffectHelper.flesh.data.FireEffectNBTDataInterface;
 import com.dslm.firewood.fireEffectHelper.flesh.data.FireEffectNBTStaticHelper;
 import com.dslm.firewood.fireEffectHelper.flesh.data.TinderSourceType;
+import com.dslm.firewood.render.LanternItemStackEntityRenderer;
 import com.dslm.firewood.util.StaticValue;
 import net.minecraft.ChatFormatting;
+import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
@@ -25,11 +27,13 @@ import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraftforge.client.IItemRenderProperties;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.util.FakePlayer;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 
 
 public class LanternItem extends BlockItem implements TinderTypeItemBase
@@ -132,7 +136,7 @@ public class LanternItem extends BlockItem implements TinderTypeItemBase
         
                 tags.remove(StaticValue.MAJOR);
                 majorEffects = FireEffectHelpers.triggerMajorEffects(majorEffects, minorEffects, TinderSourceType.IN_BACKPACK_LANTERN, blockState, level, blockPos, player);
-        
+    
             }
             minorEffects = FireEffectHelpers.triggerMinorEffects(majorEffects, minorEffects, TinderSourceType.IN_BACKPACK_LANTERN, blockState, level, blockPos);
             majorEffects = FireEffectHelpers.cacheClear(majorEffects, minorEffects, TinderSourceType.IN_GROUND_LANTERN, blockState, level, blockPos);
@@ -141,6 +145,20 @@ public class LanternItem extends BlockItem implements TinderTypeItemBase
     
             stack.setTag(tags);
         }
+    }
+    
+    @Override
+    public void initializeClient(Consumer<IItemRenderProperties> consumer)
+    {
+        consumer.accept(new IItemRenderProperties()
+        {
+            
+            @Override
+            public BlockEntityWithoutLevelRenderer getItemStackRenderer()
+            {
+                return LanternItemStackEntityRenderer.INSTANCE;
+            }
+        });
     }
     
     @Override
