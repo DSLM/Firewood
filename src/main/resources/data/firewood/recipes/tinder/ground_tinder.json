@@ -8,8 +8,6 @@
   "tinder": {
     "tag": "firewood:tinder"
   },
-  "addEffects": {
-  },
   "process": 2,
   "chance": 100.0,
   "damage": 0.5,

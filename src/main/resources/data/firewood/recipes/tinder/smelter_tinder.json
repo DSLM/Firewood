@@ -9,7 +9,7 @@
     "tag": "firewood:tinder"
   },
   "addEffects": {
-    "major": [
+    "majorEffects": [
       {
         "type": "smelter",
         "subType": "smelter",

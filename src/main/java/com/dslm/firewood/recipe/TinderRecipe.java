@@ -25,8 +25,8 @@ public class TinderRecipe implements Recipe<SpiritualCampfireBlockEntity>
     protected final NonNullList<Ingredient> recipeItems;
     protected final Ingredient tinder;
     protected final Item targetTinder;
-    protected final TinderRecipeNBT addEffects;
-    protected final TinderRecipeNBT removeEffects;
+    protected final TinderRecipeAddNBT addEffects;
+    protected final TinderRecipeRemoveNBT removeEffects;
     protected final int process;
     protected final double chance;
     protected final double damage;
@@ -34,7 +34,7 @@ public class TinderRecipe implements Recipe<SpiritualCampfireBlockEntity>
     protected final double minHealth;
     
     public TinderRecipe(ResourceLocation id, NonNullList<Ingredient> recipeItems, Ingredient tinder, Item targetTinder,
-                        TinderRecipeNBT addEffects, TinderRecipeNBT removeEffects,
+                        TinderRecipeAddNBT addEffects, TinderRecipeRemoveNBT removeEffects,
                         int process, double chance, double damage, int cooldown, double minHealth)
     {
         this.id = id;
@@ -124,12 +124,12 @@ public class TinderRecipe implements Recipe<SpiritualCampfireBlockEntity>
         return targetTinder;
     }
     
-    public TinderRecipeNBT getAddEffects()
+    public TinderRecipeAddNBT getAddEffects()
     {
         return addEffects;
     }
     
-    public TinderRecipeNBT getRemoveEffects()
+    public TinderRecipeRemoveNBT getRemoveEffects()
     {
         return removeEffects;
     }

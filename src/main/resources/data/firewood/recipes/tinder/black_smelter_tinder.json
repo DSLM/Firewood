@@ -55,7 +55,7 @@
     }
   },
   "addEffects": {
-    "major": [
+    "majorEffects": [
       {
         "type": "smelter",
         "subType": "black_smelter",
@@ -64,7 +64,7 @@
     ]
   },
   "removeEffects": {
-    "major": [
+    "majorEffects": [
       {
         "type": "smelter",
         "subType": "nether_smelter"

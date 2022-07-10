@@ -11,7 +11,7 @@ import net.minecraft.world.item.ItemStack;
 
 import java.util.ArrayList;
 
-public class TinderRecipeNBT
+public class TinderRecipeAddNBT
 {
     public ArrayList<FireEffectNBTDataInterface> majorEffects;
     public ArrayList<FireEffectNBTDataInterface> minorEffects;
@@ -21,14 +21,9 @@ public class TinderRecipeNBT
         return FireEffectHelpers.addMinorEffects(FireEffectHelpers.addMajorEffects(stack, majorEffects), minorEffects);
     }
     
-    public ItemStack cleanEffects(ItemStack stack)
+    public static TinderRecipeAddNBT fromNetwork(FriendlyByteBuf buf)
     {
-        return FireEffectHelpers.removeMinorEffects(FireEffectHelpers.removeMajorEffects(stack, majorEffects), minorEffects);
-    }
-    
-    public static TinderRecipeNBT fromNetwork(FriendlyByteBuf buf)
-    {
-        return new TinderRecipeNBT(arrayFromNetwork(buf, StaticValue.MAJOR), arrayFromNetwork(buf, StaticValue.MINOR));
+        return new TinderRecipeAddNBT(arrayFromNetwork(buf, StaticValue.MAJOR), arrayFromNetwork(buf, StaticValue.MINOR));
     }
     
     public static ArrayList<FireEffectNBTDataInterface> arrayFromNetwork(FriendlyByteBuf buf, String kind)
@@ -71,16 +66,16 @@ public class TinderRecipeNBT
         return minorEffects.get(i);
     }
     
-    public static TinderRecipeNBT fromJSON(JsonObject obj)
+    public static TinderRecipeAddNBT fromJSON(JsonObject obj)
     {
         if(obj == null)
             return fromJSON(null, null);
-        return fromJSON(obj.getAsJsonArray("major"), obj.getAsJsonArray("minor"));
+        return fromJSON(obj.getAsJsonArray(StaticValue.MAJOR), obj.getAsJsonArray(StaticValue.MINOR));
     }
     
-    public static TinderRecipeNBT fromJSON(JsonArray major, JsonArray minor)
+    public static TinderRecipeAddNBT fromJSON(JsonArray major, JsonArray minor)
     {
-        return new TinderRecipeNBT(arrayFromJSON(major, StaticValue.MAJOR), arrayFromJSON(minor, StaticValue.MINOR));
+        return new TinderRecipeAddNBT(arrayFromJSON(major, StaticValue.MAJOR), arrayFromJSON(minor, StaticValue.MINOR));
     }
     
     public static ArrayList<FireEffectNBTDataInterface> arrayFromJSON(JsonArray array, String kind)
@@ -100,7 +95,7 @@ public class TinderRecipeNBT
         return tempArray;
     }
     
-    public TinderRecipeNBT(ArrayList<FireEffectNBTDataInterface> majorEffects, ArrayList<FireEffectNBTDataInterface> minorEffects)
+    public TinderRecipeAddNBT(ArrayList<FireEffectNBTDataInterface> majorEffects, ArrayList<FireEffectNBTDataInterface> minorEffects)
     {
         this.majorEffects = majorEffects;
         this.minorEffects = minorEffects;
