@@ -26,7 +26,7 @@ public class SpiritualCampfireBlockMenu extends AbstractContainerMenu
     private Player playerEntity;
     private IItemHandler playerInventory;
     @SuppressWarnings("ConstantExpression")
-    public final static ArrayList<Pair<Integer, Integer>> slotsPos = new ArrayList<>()
+    public final static ArrayList<Pair<Integer, Integer>> SLOTS_POS = new ArrayList<>()
     {{
         add(Pair.of(54, 54));
         add(Pair.of(36 * 0, 36 * 0));
@@ -56,8 +56,8 @@ public class SpiritualCampfireBlockMenu extends AbstractContainerMenu
                 for(int i = 0; i < SpiritualCampfireBlockEntity.NUM_SLOTS; i++)
                 {
                     addSlot(new SlotItemHandler(h, i,
-                            26 + slotsPos.get(i).getLeft(),
-                            23 + slotsPos.get(i).getRight()));
+                            26 + SLOTS_POS.get(i).getLeft(),
+                            23 + SLOTS_POS.get(i).getRight()));
                 }
             });
         }

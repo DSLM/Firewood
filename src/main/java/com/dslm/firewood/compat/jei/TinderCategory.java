@@ -29,7 +29,7 @@ import java.util.List;
 
 public class TinderCategory implements IRecipeCategory<TinderRecipe>
 {
-    protected static final RecipeType<TinderRecipe> TYPE = RecipeType.create(
+    public static final RecipeType<TinderRecipe> TYPE = RecipeType.create(
             Register.TINDER_RECIPE_SERIALIZER.getId().getNamespace(),
             Register.TINDER_RECIPE_SERIALIZER.getId().getPath(),
             TinderRecipe.class);
@@ -74,8 +74,8 @@ public class TinderCategory implements IRecipeCategory<TinderRecipe>
         var outputs = recipe.getJEIResult();
         //Outputs
         builder.addSlot(RecipeIngredientRole.OUTPUT,
-                startPoint.getLeft() + SpiritualCampfireBlockMenu.slotsPos.get(0).getLeft() + 101,
-                startPoint.getRight() + SpiritualCampfireBlockMenu.slotsPos.get(0).getRight())
+                startPoint.getLeft() + SpiritualCampfireBlockMenu.SLOTS_POS.get(0).getLeft() + 101,
+                startPoint.getRight() + SpiritualCampfireBlockMenu.SLOTS_POS.get(0).getRight())
                 .addItemStacks(outputs);
     
         //Inputs
@@ -83,8 +83,8 @@ public class TinderCategory implements IRecipeCategory<TinderRecipe>
         for(int i = 0; i < inputs.size(); i++)
         {
             IRecipeSlotBuilder slot = builder.addSlot(RecipeIngredientRole.INPUT,
-                    startPoint.getLeft() + SpiritualCampfireBlockMenu.slotsPos.get(i).getLeft(),
-                    startPoint.getRight() + SpiritualCampfireBlockMenu.slotsPos.get(i).getRight());
+                    startPoint.getLeft() + SpiritualCampfireBlockMenu.SLOTS_POS.get(i).getLeft(),
+                    startPoint.getRight() + SpiritualCampfireBlockMenu.SLOTS_POS.get(i).getRight());
             if(inputs.get(i).left().isPresent())
             {
                 slot.addItemStacks(inputs.get(i).left().get());

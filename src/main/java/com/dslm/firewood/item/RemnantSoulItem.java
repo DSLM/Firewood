@@ -27,19 +27,25 @@ public class RemnantSoulItem extends Item
         Level level = context.getLevel();
         BlockPos blockpos = context.getClickedPos();
         ItemStack itemStack = context.getItemInHand();
-        if(level.getBlockEntity(blockpos) instanceof RemnantSoulBoundedBlockEntity remnantSoulBoundedBlockEntity &&
-                remnantSoulBoundedBlockEntity.getRemnantSoulEntity() == null)
+        if(level.getBlockEntity(blockpos) instanceof RemnantSoulBoundedBlockEntity remnantSoulBoundedBlockEntity)
         {
-            RemnantSoulEntity entity = new RemnantSoulEntity(Register.REMNANT_SOUL_ENTITY.get(), level);
-            entity.setBlockPos(blockpos);
-            remnantSoulBoundedBlockEntity.setRemnantSoulEntity(entity);
-        
-            if(!player.getAbilities().instabuild)
+            if(remnantSoulBoundedBlockEntity.getRemnantSoulEntity() == null)
             {
-                itemStack.shrink(1);
-            }
+                RemnantSoulEntity entity = new RemnantSoulEntity(Register.REMNANT_SOUL_ENTITY.get(), level);
+                entity.setBlockPos(blockpos);
+                remnantSoulBoundedBlockEntity.setRemnantSoulEntity(entity);
             
-            return InteractionResult.sidedSuccess(level.isClientSide());
+                if(!player.getAbilities().instabuild)
+                {
+                    itemStack.shrink(1);
+                }
+            
+                return InteractionResult.sidedSuccess(level.isClientSide());
+            }
+            else
+            {
+                return InteractionResult.SUCCESS;
+            }
         }
         else
         {

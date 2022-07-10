@@ -15,10 +15,11 @@ import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TranslatableComponent;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.SlotAccess;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.ClickAction;
+import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
@@ -46,7 +47,6 @@ public class LanternItem extends BlockItem implements TinderTypeItemBase
     @Override
     protected boolean placeBlock(BlockPlaceContext context, BlockState state)
     {
-        
         Boolean result = context.getLevel().setBlock(context.getClickedPos(), state, 11);
         context.getLevel().getBlockEntity(context.getClickedPos()).load(context.getItemInHand().getOrCreateTag());
         return result;
@@ -107,19 +107,6 @@ public class LanternItem extends BlockItem implements TinderTypeItemBase
     }
     
     @Override
-    public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand usedHand)
-    {
-        ItemStack itemStack = player.getItemInHand(usedHand);
-        if(player.isShiftKeyDown())
-        {
-            reverseValue(itemStack);
-        }
-        
-        return InteractionResultHolder.success(itemStack);
-    }
-    
-    
-    @Override
     public void inventoryTick(ItemStack stack, Level level, Entity entity, int slotId, boolean isSelected)
     {
         if(entity instanceof Player player && !(player instanceof FakePlayer) && !level.isClientSide && isActive(stack))
@@ -172,4 +159,14 @@ public class LanternItem extends BlockItem implements TinderTypeItemBase
         return Curios.createLanternProvider(stack);
     }
     
+    @Override
+    public boolean overrideOtherStackedOnMe(ItemStack stack, ItemStack other, Slot slot, ClickAction action, Player player, SlotAccess access)
+    {
+        if(action.equals(ClickAction.SECONDARY))
+        {
+            reverseValue(stack);
+            return true;
+        }
+        return false;
+    }
 }

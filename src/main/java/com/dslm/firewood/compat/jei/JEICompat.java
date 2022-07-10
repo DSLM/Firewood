@@ -6,6 +6,7 @@ import com.dslm.firewood.fireeffecthelper.flesh.data.FireEffectNBTDataInterface;
 import com.dslm.firewood.item.TinderTypeItemBase;
 import com.dslm.firewood.recipe.TinderRecipe;
 import com.dslm.firewood.recipe.type.TinderRecipeType;
+import com.dslm.firewood.screen.SpiritualCampfireBlockScreen;
 import com.dslm.firewood.subtype.FireEffectSubTypeBase;
 import com.dslm.firewood.subtype.FireEffectSubTypeManager;
 import com.dslm.firewood.subtype.SetBlockNameSubType;
@@ -116,6 +117,15 @@ public class JEICompat implements IModPlugin
                 registration.addRecipes(recipeTypes.get("set_block_name").get(subTypes.getKey()), recipes);
             }
         }
+    }
+    
+    @Override
+    public void registerGuiHandlers(IGuiHandlerRegistration registration)
+    {
+        registration.addRecipeClickArea(SpiritualCampfireBlockScreen.class, 25 + 18, 22 + 18, 90, 36, TinderCategory.TYPE);
+        registration.addRecipeClickArea(SpiritualCampfireBlockScreen.class, 25 + 18, 22 + 18 + 54, 90, 36, TinderCategory.TYPE);
+        registration.addRecipeClickArea(SpiritualCampfireBlockScreen.class, 25 + 18, 22 + 18 + 36, 36, 36, TinderCategory.TYPE);
+        registration.addRecipeClickArea(SpiritualCampfireBlockScreen.class, 25 + 18 + 54, 22 + 18 + 36, 36, 36, TinderCategory.TYPE);
     }
     
     @Override
