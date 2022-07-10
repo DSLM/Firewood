@@ -1,0 +1,10 @@
+{
+  "type": "potion",
+  "subType": "lingering_potion",
+  "color": "0x000000",
+  "damage": 0.5,
+  "process": 1,
+  "range": 2,
+  "cooldown": 200,
+  "effect_multi": 25
+}

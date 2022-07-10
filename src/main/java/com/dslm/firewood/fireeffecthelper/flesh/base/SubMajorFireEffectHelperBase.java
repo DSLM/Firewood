@@ -250,17 +250,12 @@ public abstract class SubMajorFireEffectHelperBase extends MajorFireEffectHelper
     
     public HashMap<String, FireEffectSubTypeBase> getSubMap()
     {
-        return FireEffectSubTypeManager.getEffectsMap().getOrDefault(getResourceName(), new HashMap<>());
+        return FireEffectSubTypeManager.getEffectsMap().getOrDefault(getId(), new HashMap<>());
     }
     
     public Set<String> getSubIdList()
     {
         return getSubMap().keySet();
-    }
-    
-    public String getResourceName()
-    {
-        return "%s:%s".formatted(StaticValue.MOD_ID, getId());
     }
     
     public static Iterable<LivingEntity> getEntityPosIterable(BlockPos pos, Level level, LivingEntity livingEntity, int[] offset)
@@ -288,7 +283,7 @@ public abstract class SubMajorFireEffectHelperBase extends MajorFireEffectHelper
         return switch(targetType)
                 {
                     case BLOCK -> checkBlocks(data, pos, minorEffects);
-                    case LIVING_ENTITY -> checkEntitys(data, level, pos, entity);
+                    case LIVING_ENTITY -> checkEntities(data, level, pos, entity);
                 };
     }
     
@@ -365,7 +360,7 @@ public abstract class SubMajorFireEffectHelperBase extends MajorFireEffectHelper
     
     }
     
-    public FireEffectNBTDataInterface checkEntitys(FireEffectNBTDataInterface data, Level level, BlockPos pos, LivingEntity entity)
+    public FireEffectNBTDataInterface checkEntities(FireEffectNBTDataInterface data, Level level, BlockPos pos, LivingEntity entity)
     {
         FireEffectSubTypeBase effectData = getSubRealEffect(data);
         if(effectData == null)
@@ -382,13 +377,13 @@ public abstract class SubMajorFireEffectHelperBase extends MajorFireEffectHelper
         getEntityPosIterable(pos, level, entity, effectData.getRange()).forEach(livingEntity -> {
             if(random.nextDouble() * 100 < effectData.getChance())
             {
-                transmuteEntity(data, level, livingEntity);
+                transmuteEntity(data, level, livingEntity, entity);
             }
         });
         return data;
     }
     
-    public void transmuteEntity(FireEffectNBTDataInterface data, Level level, LivingEntity livingEntity)
+    public void transmuteEntity(FireEffectNBTDataInterface data, Level level, LivingEntity livingEntity, LivingEntity source)
     {
     
     }

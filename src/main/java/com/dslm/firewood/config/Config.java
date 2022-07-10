@@ -6,8 +6,6 @@ import net.minecraftforge.fml.config.ModConfig;
 
 public class Config
 {
-    // TODO: 2022/5/10 药水效果削弱乘数，参考滞留
-    
     public static void register()
     {
         registerServerConfigs();

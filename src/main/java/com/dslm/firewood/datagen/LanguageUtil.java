@@ -131,6 +131,12 @@ public class LanguageUtil
                     "§lMajor Effect: ", "§l主要效果：");
             add("tooltip." + StaticValue.MOD_ID + "." + Register.TINDER_ITEM.get() + ".major_effect.potion",
                     "Potion", "药水");
+            add("tooltip." + StaticValue.MOD_ID + "." + Register.TINDER_ITEM.get() + ".major_effect.potion.multi_tooltip_format",
+                    "%2$s-%1$s", "%2$s-%1$s");
+            add("tooltip." + StaticValue.MOD_ID + "." + Register.TINDER_ITEM.get() + ".major_effect.potion.potion",
+                    "Potion", "药水");
+            add("tooltip." + StaticValue.MOD_ID + "." + Register.TINDER_ITEM.get() + ".major_effect.potion.lingering_potion",
+                    "Lingering Potion", "滞留药水");
     
             add("tooltip." + StaticValue.MOD_ID + "." + Register.TINDER_ITEM.get() + ".major_effect.teleport",
                     "Teleport", "传送");

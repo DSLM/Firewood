@@ -18,6 +18,7 @@ public class SetBlockNameSubType extends FireEffectSubType
 {
     protected ArrayList<ArrayList<String>> order = new ArrayList<>();
     protected ArrayList<Integer> checkOrder = new ArrayList<>();
+    
     protected ArrayList<SetBlockNameFakeRecipe> blockMap = new ArrayList<>();
     
     
@@ -106,7 +107,7 @@ public class SetBlockNameSubType extends FireEffectSubType
         for(int i = 0; i < order.get(0).size(); i++)
         {
             int finalI = i;
-            blockMap.add(new SetBlockNameFakeRecipe(id, subId, order.stream().map(strings -> strings.get(finalI)).toList()));
+            blockMap.add(new SetBlockNameFakeRecipe(id, subType, order.stream().map(strings -> strings.get(finalI)).toList()));
         }
         
         ForgeRegistries.BLOCKS.getKeys().forEach(resourceLocation -> {

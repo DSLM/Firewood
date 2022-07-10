@@ -281,7 +281,7 @@ public class FireEffectHelpers
         
         if(num == 0) return 0xff7500;
         Color finalColor = new Color(color[0] / num, color[1] / num, color[2] / num);
-        return finalColor.getRGB();
+        return finalColor.getRGB() & 0x00ffffff;
     }
     
     public static boolean isSameNBT(String kind, String type, CompoundTag first, CompoundTag second)

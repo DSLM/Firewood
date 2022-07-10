@@ -22,9 +22,12 @@ public class FireEffectSubTypeManager extends SimpleJsonResourceReloadListener
     public static final FireEffectSubTypeBuilder DEFAULT_TYPE_BUILDER = new FireEffectSubTypeBuilder();
     public static final SetBlockNameSubTypeBuilder SET_BLOCK_NAME_SUB_TYPE_BUILDER = new SetBlockNameSubTypeBuilder();
     public static final TeleportSubTypeBuilder TELEPORT_SUB_TYPE_BUILDER = new TeleportSubTypeBuilder();
+    public static final PotionSubTypeBuilder POTION_SUB_TYPE_BUILDER = new PotionSubTypeBuilder();
     
     public static final HashMap<String, FireEffectSubTypeBuilderBase> TYPE_BUILDERS = new HashMap<>()
     {{
+        put("potion", POTION_SUB_TYPE_BUILDER);
+    
         put("teleport", TELEPORT_SUB_TYPE_BUILDER);
     
         put("smelter", DEFAULT_TYPE_BUILDER);
@@ -82,7 +85,7 @@ public class FireEffectSubTypeManager extends SimpleJsonResourceReloadListener
             {
                 EFFECTS_MAP.put(newData.getId(), new HashMap<>());
             }
-            EFFECTS_MAP.get(newData.getId()).put(newData.getSubId(), newData);
+            EFFECTS_MAP.get(newData.getId()).put(newData.getSubType(), newData);
         }
     }
     

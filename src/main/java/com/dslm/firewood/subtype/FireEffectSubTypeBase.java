@@ -20,9 +20,9 @@ public interface FireEffectSubTypeBase
     
     void setId(String id);
     
-    String getSubId();
+    String getSubType();
     
-    void setSubId(String subId);
+    void setSubType(String subType);
     
     int getColor();
     

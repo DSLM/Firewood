@@ -3,8 +3,9 @@ package com.dslm.firewood.recipe;
 import com.dslm.firewood.Register;
 import com.dslm.firewood.block.entity.SpiritualCampfireBlockEntity;
 import com.dslm.firewood.fireeffecthelper.flesh.FireEffectHelpers;
-import com.dslm.firewood.fireeffecthelper.flesh.PotionFireEffectHelper;
 import com.dslm.firewood.fireeffecthelper.flesh.data.FireEffectNBTData;
+import com.dslm.firewood.subtype.FireEffectSubTypeManager;
+import com.dslm.firewood.subtype.PotionSubType;
 import com.mojang.datafixers.util.Either;
 import net.minecraft.core.NonNullList;
 import net.minecraft.resources.ResourceLocation;
@@ -128,8 +129,15 @@ public class PotionTinderRecipe extends TinderRecipe
     public List<ItemStack> getJEIResult()
     {
         NonNullList<ItemStack> list = NonNullList.create();
-        getJEIResultItems().forEach(i ->
-                PotionFireEffectHelper.getInstanceList().get(0).fillItemCategory(list, i.copy()));
+        if(FireEffectSubTypeManager.getEffectsMap().get("potion").get(subType) instanceof PotionSubType potionSubType)
+        {
+            getJEIResultItems().forEach(i ->
+                    {
+                        ItemStack nowOne = addEffects.implementEffects(removeEffects.cleanEffects(i));
+                        list.addAll(potionSubType.getSubItems(nowOne.copy()));
+                    }
+            );
+        }
         return list;
     }
     

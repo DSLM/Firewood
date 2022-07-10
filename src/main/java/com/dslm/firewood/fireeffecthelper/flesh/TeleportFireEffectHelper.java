@@ -49,7 +49,7 @@ public class TeleportFireEffectHelper extends SubMajorFireEffectHelperBase
     }
     
     @Override
-    public void transmuteEntity(FireEffectNBTDataInterface data, Level level, LivingEntity livingEntity)
+    public void transmuteEntity(FireEffectNBTDataInterface data, Level level, LivingEntity livingEntity, LivingEntity source)
     {
         FireEffectSubTypeBase subType = FireEffectSubTypeManager.getEffectsMap().get("teleport").get(data.getSubType());
         if(livingEntity instanceof RemnantSoulEntity)

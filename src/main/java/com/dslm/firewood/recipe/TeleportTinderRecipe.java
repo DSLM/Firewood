@@ -135,7 +135,7 @@ public class TeleportTinderRecipe extends TinderRecipe
         NonNullList<ItemStack> list = NonNullList.create();
         getJEIResultItems().forEach(i ->
                 list.add(
-                        FireEffectHelpers.addMajorEffect(addEffects.implementEffects(i), "teleport", new FireEffectNBTData()
+                        FireEffectHelpers.addMajorEffect(addEffects.implementEffects(removeEffects.cleanEffects(i)), "teleport", new FireEffectNBTData()
                                 {{
                                     setType("teleport");
                                     setSubType(subType);

@@ -1,17 +1,15 @@
 package com.dslm.firewood.fireeffecthelper.flesh;
 
-import com.dslm.firewood.fireeffecthelper.flesh.base.FireEffectHelperInterface;
-import com.dslm.firewood.fireeffecthelper.flesh.base.MajorFireEffectHelperBase;
+import com.dslm.firewood.fireeffecthelper.flesh.base.SubMajorFireEffectHelperBase;
 import com.dslm.firewood.fireeffecthelper.flesh.data.FireEffectNBTData;
 import com.dslm.firewood.fireeffecthelper.flesh.data.FireEffectNBTDataInterface;
-import com.dslm.firewood.fireeffecthelper.flesh.data.TinderSourceType;
+import com.dslm.firewood.subtype.FireEffectSubTypeBase;
+import com.dslm.firewood.subtype.PotionSubType;
 import com.dslm.firewood.tooltip.MiddleComponent;
-import com.dslm.firewood.util.StaticValue;
 import com.google.common.collect.Lists;
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.ChatFormatting;
 import net.minecraft.Util;
-import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -29,65 +27,84 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.alchemy.Potion;
 import net.minecraft.world.item.alchemy.PotionUtils;
-import net.minecraft.world.item.alchemy.Potions;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.registries.ForgeRegistries;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import static com.dslm.firewood.config.SpiritualFireBlockEffectConfig.POTION_BASE_DAMAGE;
 import static com.dslm.firewood.util.StaticValue.colorfulText;
 
-public class PotionFireEffectHelper extends MajorFireEffectHelperBase
-{
-    private static final ArrayList<FireEffectHelperInterface> instanceList = new ArrayList<>();
-    
+public class PotionFireEffectHelper extends SubMajorFireEffectHelperBase
+{// TODO: 2022/7/10 攻击敌人后生效的效果要做出来
     public static final String POTION_TAG_ID = "potion";
     
     public PotionFireEffectHelper(String id)
     {
         super(new FireEffectNBTData()
         {{
+            setType(id);
+            setSubType("");
+            setProcess(0);
             set(POTION_TAG_ID, "minecraft:water");
-        }}, id);
-        instanceList.add(this);
+        }}, id, TargetType.LIVING_ENTITY);
     }
     
     @Override
     public int getColor(FireEffectNBTDataInterface data)
     {
-        return getPotionColor(data.get(POTION_TAG_ID));
+        FireEffectSubTypeBase effectData = getSubRealEffect(data);
+        if(!(effectData instanceof PotionSubType potionSubType))
+        {
+            return 0;
+        }
+        Color subColor = new Color(potionSubType.getColor());
+        Color potionColor = new Color(getPotionColor(data.get(POTION_TAG_ID)));
+        double colorMixed = potionSubType.getColorMixed() / 100;
+        Color newColor = new Color((int) (potionColor.getRed() * (1 - colorMixed) + subColor.getRed() * colorMixed),
+                (int) (potionColor.getGreen() * (1 - colorMixed) + subColor.getGreen() * colorMixed),
+                (int) (potionColor.getBlue() * (1 - colorMixed) + subColor.getBlue() * colorMixed));
+        return newColor.getRGB() & 0x00ffffff;
     }
     
+    
     @Override
-    public FireEffectNBTDataInterface triggerEffect(FireEffectNBTDataInterface data, TinderSourceType tinderSourceType, BlockState state, Level level, BlockPos pos, LivingEntity entity)
+    public void transmuteEntity(FireEffectNBTDataInterface data, Level level, LivingEntity livingEntity, LivingEntity source)
     {
+        FireEffectSubTypeBase effectData = getSubRealEffect(data);
+        if(!(effectData instanceof PotionSubType potionSubType))
+        {
+            return;
+        }
         Potion potion = getPotion(data.get(POTION_TAG_ID));
         List<MobEffectInstance> effects = potion.getEffects();
-        // TODO: 2022/5/10 实现效果打折？
         for(MobEffectInstance effect : effects)
         {
-            entity.addEffect(new MobEffectInstance(effect));
+            if(effect.getEffect().isInstantenous())
+            {
+                effect.getEffect().applyInstantenousEffect(source, source, livingEntity, effect.getAmplifier(), potionSubType.getEffectMulti() / 100);
+            }
+            else
+            {
+                CompoundTag tempTag = new CompoundTag();
+                effect.save(tempTag);
+                tempTag.putInt("Duration", (int) (tempTag.getInt("Duration") * potionSubType.getEffectMulti() / 100));
+                MobEffectInstance newEffect = MobEffectInstance.load(tempTag);
+                livingEntity.addEffect(newEffect);
+            }
         }
-        return data;
-    }
-    
-    @Override
-    public float getDamage(FireEffectNBTDataInterface data)
-    {
-        return POTION_BASE_DAMAGE.get().floatValue();
     }
     
     @Override
     public ArrayList<Component> getToolTips(FireEffectNBTDataInterface data, boolean extended)
     {
         ArrayList<Component> lines = new ArrayList<>();
-        var name = new TranslatableComponent(
-                getPotion(data.get(POTION_TAG_ID)).getName(
-                        Util.makeDescriptionId("item", Items.POTION.getRegistryName()) + ".effect."));
+        var name = new TranslatableComponent("tooltip.firewood.tinder_item.major_effect.potion.multi_tooltip_format",
+                new TranslatableComponent("tooltip.firewood.tinder_item.major_effect.%1$s.%2$s".formatted(data.getType(), data.getSubType())),
+                new TranslatableComponent(getPotion(data.get(POTION_TAG_ID)).getName(
+                        Util.makeDescriptionId("item", Items.POTION.getRegistryName()) + ".effect.")));
         if(extended)
         {
             MiddleComponent mainLine = (MiddleComponent) colorfulText(
@@ -98,85 +115,91 @@ public class PotionFireEffectHelper extends MajorFireEffectHelperBase
             mainLine.setMinHealth(getMinHealth(data));
             mainLine.setCooldown(getCooldown(data));
             lines.add(mainLine);
-        
-            // TODO: 2022/5/13 实现药水削弱
-            float pDurationFactor = 1f;
-        
-            List<Pair<Attribute, AttributeModifier>> list1 = Lists.newArrayList();
-        
-            for(MobEffectInstance effectInstance : getPotion(data.get(POTION_TAG_ID)).getEffects())
-            {
-                MutableComponent mutablecomponent = new TranslatableComponent(effectInstance.getDescriptionId());
-                MobEffect mobeffect = effectInstance.getEffect();
-                Map<Attribute, AttributeModifier> map = mobeffect.getAttributeModifiers();
-                if(!map.isEmpty())
-                {
-                    for(Map.Entry<Attribute, AttributeModifier> entry : map.entrySet())
-                    {
-                        AttributeModifier attributemodifier = entry.getValue();
-                        AttributeModifier attributemodifier1 = new AttributeModifier(attributemodifier.getName(), mobeffect.getAttributeModifierValue(effectInstance.getAmplifier(), attributemodifier), attributemodifier.getOperation());
-                        list1.add(new Pair<>(entry.getKey(), attributemodifier1));
-                    }
-                }
-            
-                if(effectInstance.getAmplifier() > 0)
-                {
-                    mutablecomponent = new TranslatableComponent("potion.withAmplifier", mutablecomponent, new TranslatableComponent("potion.potency." + effectInstance.getAmplifier()));
-                }
-            
-                if(effectInstance.getDuration() > 20)
-                {
-                    mutablecomponent = new TranslatableComponent("potion.withDuration", mutablecomponent, MobEffectUtil.formatDuration(effectInstance, pDurationFactor));
-                }
-            
-                lines.add(mutablecomponent.withStyle(mobeffect.getCategory().getTooltipFormatting()));
-            }
-        
-            if(!list1.isEmpty())
-            {
-                MutableComponent longLine = (new TranslatableComponent("potion.whenDrank")).withStyle(ChatFormatting.DARK_PURPLE);
     
-                for(int i = 0; i < list1.size(); i++)
-                {
-                    Pair<Attribute, AttributeModifier> pair = list1.get(i);
-                    AttributeModifier attributemodifier2 = pair.getSecond();
-                    double d0 = attributemodifier2.getAmount();
-                    double d1;
-                    if(attributemodifier2.getOperation() != AttributeModifier.Operation.MULTIPLY_BASE && attributemodifier2.getOperation() != AttributeModifier.Operation.MULTIPLY_TOTAL)
-                    {
-                        d1 = attributemodifier2.getAmount();
-                    }
-                    else
-                    {
-                        d1 = attributemodifier2.getAmount() * 100.0D;
-                    }
+            lines.addAll(getExtraToolTips(data));
     
-                    if(d0 > 0.0D)
-                    {
-                        if(i > 0)
-                        {
-                            longLine.append(new TextComponent("|"));
-                        }
-                        longLine.append((new TranslatableComponent("attribute.modifier.plus." + attributemodifier2.getOperation().toValue(), ItemStack.ATTRIBUTE_MODIFIER_FORMAT.format(d1), new TranslatableComponent(pair.getFirst().getDescriptionId()))).withStyle(ChatFormatting.BLUE));
-                    }
-                    else if(d0 < 0.0D)
-                    {
-                        d1 *= -1.0D;
-                        if(i > 0)
-                        {
-                            longLine.append(new TextComponent("|"));
-                        }
-                        longLine.append((new TranslatableComponent("attribute.modifier.take." + attributemodifier2.getOperation().toValue(), ItemStack.ATTRIBUTE_MODIFIER_FORMAT.format(d1), new TranslatableComponent(pair.getFirst().getDescriptionId()))).withStyle(ChatFormatting.RED));
-                    }
-                }
-                lines.add(longLine);
-            }
+            if(getSubRealEffect(data) instanceof PotionSubType potionSubType)
+                getPotionLines(data, lines, (float) potionSubType.getEffectMulti() / 100);
         }
         else
         {
             lines.add(colorfulText(name, getPotionColor(data.get(POTION_TAG_ID))));
         }
         return lines;
+    }
+    
+    public void getPotionLines(FireEffectNBTDataInterface data, ArrayList<Component> lines, float durationFactor)
+    {
+        
+        List<Pair<Attribute, AttributeModifier>> list1 = Lists.newArrayList();
+        
+        for(MobEffectInstance effectInstance : getPotion(data.get(POTION_TAG_ID)).getEffects())
+        {
+            MutableComponent mutablecomponent = new TranslatableComponent(effectInstance.getDescriptionId());
+            MobEffect mobeffect = effectInstance.getEffect();
+            Map<Attribute, AttributeModifier> map = mobeffect.getAttributeModifiers();
+            if(!map.isEmpty())
+            {
+                for(Map.Entry<Attribute, AttributeModifier> entry : map.entrySet())
+                {
+                    AttributeModifier attributemodifier = entry.getValue();
+                    AttributeModifier attributemodifier1 = new AttributeModifier(attributemodifier.getName(), mobeffect.getAttributeModifierValue(effectInstance.getAmplifier(), attributemodifier), attributemodifier.getOperation());
+                    list1.add(new Pair<>(entry.getKey(), attributemodifier1));
+                }
+            }
+            
+            if(effectInstance.getAmplifier() > 0)
+            {
+                mutablecomponent = new TranslatableComponent("potion.withAmplifier", mutablecomponent, new TranslatableComponent("potion.potency." + effectInstance.getAmplifier()));
+            }
+            
+            if(effectInstance.getDuration() > 20)
+            {
+                mutablecomponent = new TranslatableComponent("potion.withDuration", mutablecomponent, MobEffectUtil.formatDuration(effectInstance, durationFactor));
+            }
+            
+            lines.add(mutablecomponent.withStyle(mobeffect.getCategory().getTooltipFormatting()));
+        }
+        
+        if(!list1.isEmpty())
+        {
+            MutableComponent longLine = (new TranslatableComponent("potion.whenDrank")).withStyle(ChatFormatting.DARK_PURPLE);
+            
+            for(int i = 0; i < list1.size(); i++)
+            {
+                Pair<Attribute, AttributeModifier> pair = list1.get(i);
+                AttributeModifier attributemodifier2 = pair.getSecond();
+                double d0 = attributemodifier2.getAmount();
+                double d1;
+                if(attributemodifier2.getOperation() != AttributeModifier.Operation.MULTIPLY_BASE && attributemodifier2.getOperation() != AttributeModifier.Operation.MULTIPLY_TOTAL)
+                {
+                    d1 = attributemodifier2.getAmount();
+                }
+                else
+                {
+                    d1 = attributemodifier2.getAmount() * 100.0D;
+                }
+                
+                if(d0 > 0.0D)
+                {
+                    if(i > 0)
+                    {
+                        longLine.append(new TextComponent("|"));
+                    }
+                    longLine.append((new TranslatableComponent("attribute.modifier.plus." + attributemodifier2.getOperation().toValue(), ItemStack.ATTRIBUTE_MODIFIER_FORMAT.format(d1), new TranslatableComponent(pair.getFirst().getDescriptionId()))).withStyle(ChatFormatting.BLUE));
+                }
+                else if(d0 < 0.0D)
+                {
+                    d1 *= -1.0D;
+                    if(i > 0)
+                    {
+                        longLine.append(new TextComponent("|"));
+                    }
+                    longLine.append((new TranslatableComponent("attribute.modifier.take." + attributemodifier2.getOperation().toValue(), ItemStack.ATTRIBUTE_MODIFIER_FORMAT.format(d1), new TranslatableComponent(pair.getFirst().getDescriptionId()))).withStyle(ChatFormatting.RED));
+                }
+            }
+            lines.add(longLine);
+        }
     }
     
     @Override
@@ -189,8 +212,7 @@ public class PotionFireEffectHelper extends MajorFireEffectHelperBase
     @Override
     public CompoundTag saveToNBT(FireEffectNBTDataInterface data)
     {
-        CompoundTag tags = new CompoundTag();
-        tags.putString(StaticValue.TYPE, ID);
+        CompoundTag tags = super.saveToNBT(data);
         tags.putString(POTION_TAG_ID, data.get(POTION_TAG_ID));
         return tags;
     }
@@ -198,8 +220,7 @@ public class PotionFireEffectHelper extends MajorFireEffectHelperBase
     @Override
     public FireEffectNBTDataInterface readFromNBT(CompoundTag tags)
     {
-        FireEffectNBTDataInterface data = new FireEffectNBTData();
-        data.setType(ID);
+        FireEffectNBTDataInterface data = super.readFromNBT(tags);
         data.set(POTION_TAG_ID, tags.getString(POTION_TAG_ID));
         return data;
     }
@@ -217,30 +238,28 @@ public class PotionFireEffectHelper extends MajorFireEffectHelperBase
     @Override
     public String getJEIString(FireEffectNBTDataInterface data)
     {
-        return data.getType() + "-" + data.get(POTION_TAG_ID);
+        return super.getJEIString(data) + "-" + data.get(POTION_TAG_ID);
     }
     
     @Override
     public void fillItemCategory(NonNullList<ItemStack> items, ItemStack item)
     {
-        // TODO: 2022/6/24 MobEffectInstance.update(MobEffectInstance) 去重
         for(Potion potion : ForgeRegistries.POTIONS)
         {
-            if(potion == Potions.EMPTY) continue;
-    
-            String potionId = potion.getRegistryName().toString();
-            ItemStack stack = FireEffectHelpers.addMajorEffect(item.copy(), ID, new FireEffectNBTData()
-            {{
-                set(POTION_TAG_ID, potionId);
-            }});
+            for(String subType : getSubIdList())
+            {
+                FireEffectNBTDataInterface defaultData = getDefaultData();
+                defaultData.setSubType(subType);
+                defaultData.set(POTION_TAG_ID, potion.getRegistryName().toString());
             
-            if(!stack.isEmpty())
-                items.add(stack);
+                if(getSubRealEffect(defaultData) instanceof PotionSubType potionSubType && potionSubType.includePotion(subType))
+                {
+                    ItemStack stack = FireEffectHelpers.addMajorEffect(item.copy(), ID, defaultData);
+                
+                    if(!stack.isEmpty())
+                        items.add(stack);
+                }
+            }
         }
-    }
-    
-    public static List<FireEffectHelperInterface> getInstanceList()
-    {
-        return instanceList;
     }
 }
