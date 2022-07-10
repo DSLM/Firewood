@@ -27,17 +27,21 @@ import static com.dslm.firewood.fireeffecthelper.flesh.PotionFireEffectHelper.PO
 
 public class PotionTinderRecipe extends TinderRecipe
 {
-    protected Ingredient potion = Ingredient.of(new ItemStack(Items.POTION));
+    protected final Ingredient potion;
+    protected final String subType;
     
-    public PotionTinderRecipe(TinderRecipe recipe, Ingredient potion)
+    public PotionTinderRecipe(TinderRecipe recipe, Ingredient potion, String subType)
     {
         super(recipe);
         this.potion = potion;
+        this.subType = subType;
     }
     
     public PotionTinderRecipe(TinderRecipe recipe)
     {
         super(recipe);
+        this.potion = Ingredient.of(new ItemStack(Items.POTION));
+        this.subType = "";
     }
     
     @Override
@@ -72,6 +76,7 @@ public class PotionTinderRecipe extends TinderRecipe
                 finalItemStack[0] = FireEffectHelpers.addMajorEffect(itemStack, "potion", new FireEffectNBTData()
                 {{
                     setType("potion");
+                    setSubType(subType);
                     set(POTION_TAG_ID, PotionUtils.getPotion(i).getRegistryName().toString());
                 }});
             }
@@ -89,6 +94,11 @@ public class PotionTinderRecipe extends TinderRecipe
     public Ingredient getPotion()
     {
         return potion;
+    }
+    
+    public String getSubType()
+    {
+        return subType;
     }
     
     @Override

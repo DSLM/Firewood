@@ -1,5 +1,5 @@
 {
-  "type": "firewood:teleport",
+  "type": "teleport",
   "subType": "teleport",
   "color": "0x336666",
   "damage": 1,

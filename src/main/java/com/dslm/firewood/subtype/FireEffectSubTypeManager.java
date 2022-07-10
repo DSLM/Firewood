@@ -23,16 +23,18 @@ public class FireEffectSubTypeManager extends SimpleJsonResourceReloadListener
     public static final SetBlockNameSubTypeBuilder SET_BLOCK_NAME_SUB_TYPE_BUILDER = new SetBlockNameSubTypeBuilder();
     public static final TeleportSubTypeBuilder TELEPORT_SUB_TYPE_BUILDER = new TeleportSubTypeBuilder();
     
-    public static final HashMap<String, FireEffectSubTypeBuilderBase> typeBuilders = new HashMap<>()
+    public static final HashMap<String, FireEffectSubTypeBuilderBase> TYPE_BUILDERS = new HashMap<>()
     {{
-        put("firewood:teleport", TELEPORT_SUB_TYPE_BUILDER);
-        put("firewood:smelter", DEFAULT_TYPE_BUILDER);
-        put("firewood:block_to_block", DEFAULT_TYPE_BUILDER);
-        
-        put("firewood:set_block_name", SET_BLOCK_NAME_SUB_TYPE_BUILDER);
+        put("teleport", TELEPORT_SUB_TYPE_BUILDER);
+    
+        put("smelter", DEFAULT_TYPE_BUILDER);
+    
+        put("block_to_block", DEFAULT_TYPE_BUILDER);
+    
+        put("set_block_name", SET_BLOCK_NAME_SUB_TYPE_BUILDER);
     }};
     
-    public static final HashMap<String, HashMap<String, FireEffectSubTypeBase>> effectsMap = new HashMap<>();
+    public static final HashMap<String, HashMap<String, FireEffectSubTypeBase>> EFFECTS_MAP = new HashMap<>();
     
     public FireEffectSubTypeManager()
     {
@@ -59,16 +61,16 @@ public class FireEffectSubTypeManager extends SimpleJsonResourceReloadListener
             }
         }
     
-        effectsMap.clear();
+        EFFECTS_MAP.clear();
     
-        for(String key : typeBuilders.keySet())
+        for(String key : TYPE_BUILDERS.keySet())
         {
-            effectsMap.put(key, new HashMap<>());
+            EFFECTS_MAP.put(key, new HashMap<>());
         }
     
         for(Map.Entry<ResourceLocation, JsonObject> entry : effects.entrySet())
         {
-            FireEffectSubTypeBuilderBase builder = typeBuilders.getOrDefault(entry.getValue().get(TYPE).getAsString(), DEFAULT_TYPE_BUILDER);
+            FireEffectSubTypeBuilderBase builder = TYPE_BUILDERS.getOrDefault(entry.getValue().get(TYPE).getAsString(), DEFAULT_TYPE_BUILDER);
             FireEffectSubTypeBase newData = builder.getNewData(entry.getKey(), entry.getValue());
     
             if(newData == null)
@@ -76,30 +78,30 @@ public class FireEffectSubTypeManager extends SimpleJsonResourceReloadListener
                 continue;
             }
     
-            if(!effectsMap.containsKey(newData.getId()))
+            if(!EFFECTS_MAP.containsKey(newData.getId()))
             {
-                effectsMap.put(newData.getId(), new HashMap<>());
+                EFFECTS_MAP.put(newData.getId(), new HashMap<>());
             }
-            effectsMap.get(newData.getId()).put(newData.getSubId(), newData);
+            EFFECTS_MAP.get(newData.getId()).put(newData.getSubId(), newData);
         }
     }
     
     public static HashMap<String, FireEffectSubTypeBuilderBase> getTypeBuilders()
     {
-        return typeBuilders;
+        return TYPE_BUILDERS;
     }
     
     public static HashMap<String, HashMap<String, FireEffectSubTypeBase>> getEffectsMap()
     {
-        return effectsMap;
+        return EFFECTS_MAP;
     }
     
     public static void setEffectsMap(HashMap<String, HashMap<String, FireEffectSubTypeBase>> newMap)
     {
-        effectsMap.clear();
+        EFFECTS_MAP.clear();
         for(Map.Entry<String, HashMap<String, FireEffectSubTypeBase>> one : newMap.entrySet())
         {
-            effectsMap.put(one.getKey(), one.getValue());
+            EFFECTS_MAP.put(one.getKey(), one.getValue());
         }
     }
 }

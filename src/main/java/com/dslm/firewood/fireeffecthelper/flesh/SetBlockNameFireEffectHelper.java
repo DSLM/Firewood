@@ -39,7 +39,7 @@ public class SetBlockNameFireEffectHelper extends SubMajorFireEffectHelperBase
             compoundTag = blockEntity.saveWithoutMetadata();
         }
     
-        FireEffectSubTypeBase subType = FireEffectSubTypeManager.getEffectsMap().get("firewood:set_block_name").get(data.getSubType());
+        FireEffectSubTypeBase subType = FireEffectSubTypeManager.getEffectsMap().get("set_block_name").get(data.getSubType());
         ArrayList<ArrayList<String>> nowOrder = subType instanceof SetBlockNameSubType setBlockNameSubType ? setBlockNameSubType.getOrder() : new ArrayList<>();
         ArrayList<Integer> checkOrder = subType instanceof SetBlockNameSubType setBlockNameSubType ? setBlockNameSubType.getCheckOrder() : new ArrayList<>();
     

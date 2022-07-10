@@ -1,5 +1,5 @@
 {
-  "type": "firewood:smelter",
+  "type": "smelter",
   "subType": "smelter",
   "color": "0xc2ccd0",
   "damage": 0.5,
