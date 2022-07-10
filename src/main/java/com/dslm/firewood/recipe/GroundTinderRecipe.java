@@ -61,7 +61,7 @@ public class GroundTinderRecipe extends TinderRecipe
         container.getIngredients().forEach((i) -> {
             if(inputs.get(recipe[recipe.length - 1]) == i && i.getItem() instanceof BlockItem blockItem)
             {
-                finalItemStack[0] = FireEffectHelpers.addMajorEffect(itemStack, "ground", new FireEffectNBTData()
+                finalItemStack[0] = FireEffectHelpers.addMinorEffect(itemStack, "ground", new FireEffectNBTData()
                 {{
                     setType("ground");
                     set(BLOCK_TAG_ID, blockItem.getBlock().getRegistryName().toString());
