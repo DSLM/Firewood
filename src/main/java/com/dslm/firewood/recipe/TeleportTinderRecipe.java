@@ -122,7 +122,7 @@ public class TeleportTinderRecipe extends TinderRecipe
         if(ember.getItems().length > 0)
         {
             List<ItemStack> emberInput = new ArrayList<>(Arrays.asList(ember.getItems()));
-            emberInput.forEach(ember -> DyingEmberItem.addPosition("overworld", new BlockPos(0, 256, 0), ember.copy()));
+            emberInput.forEach(ember -> DyingEmberItem.addPosition("minecraft:overworld", new BlockPos(0, 256, 0), ember.copy()));
             list.add(Either.left(emberInput));
         }
         recipeItems.forEach(item -> list.add(Either.right(item)));
@@ -140,7 +140,7 @@ public class TeleportTinderRecipe extends TinderRecipe
                                     setType("teleport");
                                     setSubType(subType);
                                     setProcess(0);
-                                    set(DIM_TAG_ID, "overworld");
+                                    set(DIM_TAG_ID, "minecraft:overworld");
                                     set(X_TAG_ID, "0");
                                     set(Y_TAG_ID, "256");
                                     set(Z_TAG_ID, "0");

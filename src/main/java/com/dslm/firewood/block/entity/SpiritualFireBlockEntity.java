@@ -1,6 +1,7 @@
 package com.dslm.firewood.block.entity;
 
 import com.dslm.firewood.Register;
+import com.dslm.firewood.compat.shimmer.ShimmerHelper;
 import com.dslm.firewood.fireeffecthelper.flesh.FireEffectHelpers;
 import com.dslm.firewood.fireeffecthelper.flesh.data.FireEffectNBTDataInterface;
 import com.dslm.firewood.fireeffecthelper.flesh.data.TinderSourceType;
@@ -18,6 +19,8 @@ import java.util.ArrayList;
 
 import static com.dslm.firewood.fireeffecthelper.flesh.FireEffectHelpers.getMixedColor;
 import static com.dslm.firewood.fireeffecthelper.flesh.data.FireEffectNBTStaticHelper.*;
+import static com.dslm.firewood.util.StaticValue.SHIMMER;
+import static com.dslm.firewood.util.StaticValue.checkMod;
 
 public class SpiritualFireBlockEntity extends BlockEntity
 {
@@ -25,9 +28,9 @@ public class SpiritualFireBlockEntity extends BlockEntity
     private ArrayList<FireEffectNBTDataInterface> majorEffects = new ArrayList<>();
     private ArrayList<FireEffectNBTDataInterface> minorEffects = new ArrayList<>();
     
-    public SpiritualFireBlockEntity(BlockPos pWorldPosition, BlockState pBlockState)
+    public SpiritualFireBlockEntity(BlockPos blockPos, BlockState blockState)
     {
-        super(Register.SPIRITUAL_FIRE_BLOCK_ENTITY.get(), pWorldPosition, pBlockState);
+        super(Register.SPIRITUAL_FIRE_BLOCK_ENTITY.get(), blockPos, blockState);
     }
     
     protected void sync()
@@ -54,24 +57,30 @@ public class SpiritualFireBlockEntity extends BlockEntity
     }
     
     @Override
-    public void load(CompoundTag pTag)
+    public void load(CompoundTag tag)
     {
-        super.load(pTag);
+        super.load(tag);
         
-        majorEffects = loadMajorFireData(pTag);
-        minorEffects = loadMinorFireData(pTag);
+        majorEffects = loadMajorFireData(tag);
+        minorEffects = loadMinorFireData(tag);
         
         needSync = true;
     }
     
-    public static void clientTick(Level level, BlockPos pos, BlockState state, SpiritualFireBlockEntity o)
+    public static void clientTick(Level level, BlockPos pos, BlockState state, SpiritualFireBlockEntity entity)
     {
-    
+        if(checkMod(SHIMMER))
+        {
+            if(!ShimmerHelper.hasLight(level, pos))
+            {
+                ShimmerHelper.addLight(level, pos, entity.getColor());
+            }
+        }
     }
     
     public static void serverTick(Level level, BlockPos pos, BlockState state, SpiritualFireBlockEntity e)
     {
-    
+        
         e.minorEffects = FireEffectHelpers.triggerMinorEffects(e.majorEffects, e.minorEffects, TinderSourceType.GROUND_FIRE, state, level, pos);
         e.majorEffects = FireEffectHelpers.cacheClear(e.majorEffects, e.minorEffects, TinderSourceType.IN_GROUND_LANTERN, state, level, pos);
         e.syncTick();

@@ -58,32 +58,33 @@ public class TinderItem extends Item implements TinderTypeItemBase
     {
         Player player = context.getPlayer();
         Level level = context.getLevel();
-        BlockPos blockpos = context.getClickedPos();
-        BlockPos blockpos1 = blockpos.relative(context.getClickedFace());
+        BlockPos blockPosDown = context.getClickedPos();
+        BlockPos blockPos = blockPosDown.relative(context.getClickedFace());
         ItemStack itemStack = context.getItemInHand();
         if(!itemStack.hasTag())
         {
             return InteractionResult.PASS;
         }
-        
-        if(SpiritualFireBlock.canBePlacedAt(level, blockpos1)
-                && FireEffectHelpers.canBePlacedOn(level, blockpos1, itemStack.getTag()))
-        {
-            level.playSound(player, blockpos1, SoundEvents.FLINTANDSTEEL_USE, SoundSource.BLOCKS, 1.0F, level.getRandom().nextFloat() * 0.4F + 0.8F);
-            BlockState blockstate1 = SPIRITUAL_FIRE_BLOCK.get().defaultBlockState();
-            level.setBlock(blockpos1, blockstate1, 11);
-            level.gameEvent(player, GameEvent.BLOCK_PLACE, blockpos);
     
-            level.getBlockEntity(blockpos1).load(itemStack.getOrCreateTag());
-            if(player instanceof ServerPlayer)
+        if(SpiritualFireBlock.canBePlacedAt(level, blockPos)
+                && FireEffectHelpers.canBePlacedOn(level, blockPos, itemStack.getTag()))
+        {
+            level.playSound(player, blockPos, SoundEvents.FLINTANDSTEEL_USE, SoundSource.BLOCKS, 1.0F, level.getRandom().nextFloat() * 0.4F + 0.8F);
+            BlockState blockState = SPIRITUAL_FIRE_BLOCK.get().defaultBlockState();
+            level.setBlock(blockPos, blockState, 11);
+            level.gameEvent(player, GameEvent.BLOCK_PLACE, blockPosDown);
+        
+            level.getBlockEntity(blockPos).load(itemStack.getOrCreateTag());
+        
+            if(player instanceof ServerPlayer serverPlayer)
             {
-                CriteriaTriggers.PLACED_BLOCK.trigger((ServerPlayer) player, blockpos1, itemStack);
-                if(!player.getAbilities().instabuild)
+                CriteriaTriggers.PLACED_BLOCK.trigger(serverPlayer, blockPos, itemStack);
+                if(!serverPlayer.getAbilities().instabuild)
                 {
                     itemStack.shrink(1);
                 }
             }
-    
+        
             return InteractionResult.sidedSuccess(level.isClientSide());
         }
         else

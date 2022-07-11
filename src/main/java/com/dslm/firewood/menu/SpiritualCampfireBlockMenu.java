@@ -2,7 +2,6 @@ package com.dslm.firewood.menu;
 
 import com.dslm.firewood.Register;
 import com.dslm.firewood.block.entity.SpiritualCampfireBlockEntity;
-import com.dslm.firewood.item.TinderTypeItemBase;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -18,6 +17,8 @@ import net.minecraftforge.items.wrapper.InvWrapper;
 import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.ArrayList;
+
+import static com.dslm.firewood.util.StaticValue.ITEM_TINDER_TAG;
 
 public class SpiritualCampfireBlockMenu extends AbstractContainerMenu
 {
@@ -88,7 +89,7 @@ public class SpiritualCampfireBlockMenu extends AbstractContainerMenu
             }
             else
             {
-                if(stack.getItem() instanceof TinderTypeItemBase)
+                if(stack.is(ITEM_TINDER_TAG))
                 {
                     if(!moveItemStackTo(stack, 0, 1, false))
                     {

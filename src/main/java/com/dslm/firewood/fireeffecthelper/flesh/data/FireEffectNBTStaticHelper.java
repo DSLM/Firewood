@@ -5,13 +5,23 @@ import com.dslm.firewood.util.StaticValue;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
+import net.minecraft.world.item.ItemStack;
 
 import java.util.ArrayList;
 
+import static com.dslm.firewood.util.StaticValue.ITEM_TINDER_TAG;
 import static com.dslm.firewood.util.StaticValue.TYPE;
 
 public class FireEffectNBTStaticHelper
 {
+    public static int getColor(ItemStack itemStack)
+    {
+        return itemStack.is(ITEM_TINDER_TAG) ?
+                FireEffectHelpers.getMixedColor(
+                        loadMajorFireData(itemStack.getOrCreateTag()),
+                        loadMinorFireData(itemStack.getOrCreateTag()))
+                : -1;
+    }
     
     public static ArrayList<FireEffectNBTDataInterface> loadMajorFireData(CompoundTag pTag)
     {

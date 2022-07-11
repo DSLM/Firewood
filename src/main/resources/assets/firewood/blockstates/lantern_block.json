@@ -1,11 +1,5 @@
 {
   "variants": {
-    "facing=up,lit=false": {
-      "model": "firewood:block/lantern_block"
-    },
-    "facing=down,lit=false": {
-      "model": "firewood:block/lantern_block"
-    },
     "facing=east,lit=false": {
       "model": "firewood:block/lantern_block"
     },
@@ -20,12 +14,6 @@
     "facing=north,lit=false": {
       "model": "firewood:block/lantern_block",
       "y": 270
-    },
-    "facing=up,lit=true": {
-      "model": "firewood:block/lantern_block_trans"
-    },
-    "facing=down,lit=true": {
-      "model": "firewood:block/lantern_block_trans"
     },
     "facing=east,lit=true": {
       "model": "firewood:block/lantern_block_trans"

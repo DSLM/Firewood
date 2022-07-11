@@ -16,9 +16,6 @@ import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-import net.minecraft.world.level.block.state.properties.BooleanProperty;
-import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.model.data.IModelData;
@@ -29,12 +26,11 @@ import java.util.Random;
 import static com.dslm.firewood.block.entity.LanternBlockEntity.BASE_BLOCK;
 import static com.dslm.firewood.block.entity.LanternBlockEntity.REMNANT_SOUL;
 import static com.dslm.firewood.fireeffecthelper.flesh.FireEffectHelpers.getBlock;
+import static com.dslm.firewood.util.StaticValue.LIT;
 
 @OnlyIn(Dist.CLIENT)
 public class LanternItemStackEntityRenderer extends BlockEntityWithoutLevelRenderer
 {
-    public static final BooleanProperty LIT = BlockStateProperties.LIT;
-    public static final DirectionProperty FACING = BlockStateProperties.FACING;
     public static LanternItemStackEntityRenderer INSTANCE = new LanternItemStackEntityRenderer(Minecraft.getInstance().getBlockEntityRenderDispatcher(), Minecraft.getInstance().getEntityModels());
     
     public BlockEntityRenderDispatcher blockEntityRenderDispatcher;

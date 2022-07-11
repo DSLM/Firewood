@@ -2,10 +2,12 @@ package com.dslm.firewood.block;
 
 import com.dslm.firewood.Register;
 import com.dslm.firewood.block.entity.SpiritualFireBlockEntity;
+import com.dslm.firewood.compat.shimmer.ShimmerHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.BaseFireBlock;
 import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.RenderShape;
@@ -67,6 +69,15 @@ public class SpiritualFireBlock extends BaseFireBlock implements EntityBlock
             {
                 tile.triggerMajorEffects(state, level, pos, livingEntity);
             }
+        }
+    }
+    
+    @Override
+    public void destroy(LevelAccessor level, BlockPos pos, BlockState state)
+    {
+        if(level instanceof Level realLevel && level.isClientSide())
+        {
+            ShimmerHelper.removeLight(realLevel, pos);
         }
     }
 }

@@ -2,8 +2,9 @@ package com.dslm.firewood.block.entity;
 
 import com.dslm.firewood.Register;
 import com.dslm.firewood.block.SpiritualCampfireBlock;
+import com.dslm.firewood.compat.shimmer.ShimmerHelper;
 import com.dslm.firewood.fireeffecthelper.flesh.FireEffectHelpers;
-import com.dslm.firewood.item.TinderTypeItemBase;
+import com.dslm.firewood.fireeffecthelper.flesh.data.FireEffectNBTStaticHelper;
 import com.dslm.firewood.recipe.TinderRecipe;
 import com.dslm.firewood.recipe.type.TinderRecipeType;
 import net.minecraft.client.Minecraft;
@@ -37,6 +38,8 @@ import net.minecraftforge.items.wrapper.InvWrapper;
 import java.util.List;
 import java.util.Random;
 
+import static com.dslm.firewood.util.StaticValue.*;
+
 public class SpiritualCampfireBlockEntity extends BlockEntity implements Container
 {
     public static final int NUM_SLOTS = 13;
@@ -53,6 +56,11 @@ public class SpiritualCampfireBlockEntity extends BlockEntity implements Contain
         inventory = NonNullList.withSize(NUM_SLOTS, ItemStack.EMPTY);
         itemHandler = new SpiritualCampfireBlockInvWrapper(this);
         handler = LazyOptional.of(() -> itemHandler);
+    }
+    
+    public int getColor()
+    {
+        return FireEffectNBTStaticHelper.getColor(getItem(0));
     }
     
     public TinderRecipe getRecipe()
@@ -99,6 +107,18 @@ public class SpiritualCampfireBlockEntity extends BlockEntity implements Contain
                     removeItem(i, 1);
                 }
     
+                if(level.isClientSide() && checkMod(SHIMMER))
+                {
+                    if(ShimmerHelper.hasLight(level, getBlockPos()))
+                    {
+                        ShimmerHelper.updateLight(level, getBlockPos(), getColor());
+                    }
+//                    else
+//                    {
+//                        ShimmerHelper.addLight(level, getBlockPos(), getColor());
+//                    }
+                }
+    
                 needSync = true;
             }
         }
@@ -109,12 +129,30 @@ public class SpiritualCampfireBlockEntity extends BlockEntity implements Contain
         particleTick(level, pos, state, entity);
         //refresh campfire color
         Minecraft.getInstance().levelRenderer.setBlocksDirty(pos.getX(), pos.getY(), pos.getZ(), pos.getX(), pos.getY(), pos.getZ());
+    
+        if(checkMod(SHIMMER))
+        {
+            if(state.getValue(LIT))
+            {
+                if(!ShimmerHelper.hasLight(level, pos))
+                {
+                    ShimmerHelper.addLight(level, pos, entity.getColor());
+                }
+            }
+            else
+            {
+                if(ShimmerHelper.hasLight(level, pos))
+                {
+                    ShimmerHelper.removeLight(level, pos);
+                }
+            }
+        }
     }
     
     public static void serverTick(Level level, BlockPos pos, BlockState state, SpiritualCampfireBlockEntity entity)
     {
         ItemStack tinder = entity.itemHandler.getStackInSlot(0);
-        if(!tinder.isEmpty() && tinder.getItem() instanceof TinderTypeItemBase)
+        if(!tinder.isEmpty() && tinder.is(ITEM_TINDER_TAG))
         {
             level.setBlock(pos, state.setValue(BlockStateProperties.LIT, Boolean.TRUE), Block.UPDATE_ALL);
         }
@@ -151,7 +189,7 @@ public class SpiritualCampfireBlockEntity extends BlockEntity implements Contain
                 double d0 = (double) pos.getX() + 0.5D - (double) ((float) direction.getStepX() * 0.3125F) + (double) ((float) direction.getClockWise().getStepX() * 0.3125F);
                 double d1 = (double) pos.getY() + 0.5D;
                 double d2 = (double) pos.getZ() + 0.5D - (double) ((float) direction.getStepZ() * 0.3125F) + (double) ((float) direction.getClockWise().getStepZ() * 0.3125F);
-        
+    
                 for(int k = 0; k < 4; ++k)
                 {
                     level.addParticle(ParticleTypes.SMOKE, d0, d1, d2, 0.0D, 5.0E-4D, 0.0D);
@@ -167,7 +205,7 @@ public class SpiritualCampfireBlockEntity extends BlockEntity implements Contain
             ClientboundBlockEntityDataPacket p = ClientboundBlockEntityDataPacket.create(this);
             ((ServerLevel) this.level).getChunkSource().chunkMap.getPlayers(new ChunkPos(getBlockPos()), false)
                     .forEach(k -> k.connection.send(p));
-
+    
             setChanged();
         }
     }
@@ -311,9 +349,21 @@ public class SpiritualCampfireBlockEntity extends BlockEntity implements Contain
         {
             return;
         }
-        
+    
         ItemStack current = inventory.get(index);
         inventory.set(index, stack);
+    
+        if(level != null && level.isClientSide() && index == 0 && checkMod(SHIMMER))
+        {
+            if(ShimmerHelper.hasLight(level, getBlockPos()))
+            {
+                ShimmerHelper.updateLight(level, getBlockPos(), getColor());
+            }
+//            else
+//            {
+//                ShimmerHelper.addLight(level, getBlockPos(), getColor());
+//            }
+        }
     
         if(!stack.isEmpty() && stack.getCount() > getMaxStackSize())
         {
@@ -348,6 +398,14 @@ public class SpiritualCampfireBlockEntity extends BlockEntity implements Contain
         {
             inventory.set(i, ItemStack.EMPTY);
         }
+    
+        if(level != null && level.isClientSide() && checkMod(SHIMMER))
+        {
+            if(ShimmerHelper.hasLight(level, getBlockPos()))
+            {
+                ShimmerHelper.removeLight(level, getBlockPos());
+            }
+        }
         needSync = true;
     }
     
@@ -360,7 +418,7 @@ public class SpiritualCampfireBlockEntity extends BlockEntity implements Contain
     @Override
     public boolean canPlaceItem(int index, ItemStack stack)
     {
-        return !stack.isEmpty() && inventory.get(index).isEmpty() && (index != 0 ^ stack.getItem() instanceof TinderTypeItemBase);
+        return !stack.isEmpty() && inventory.get(index).isEmpty() && (index != 0 ^ stack.is(ITEM_TINDER_TAG));
     }
     
     /**

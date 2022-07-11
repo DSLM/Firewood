@@ -36,6 +36,12 @@ authors="" #optional
 description='''
 '''
 [[dependencies.firewood]]
+    modId="shimmer"
+    mandatory=false
+    versionRange="[0.1.1,)"
+    ordering="BEFORE"
+    side="CLIENT"
+[[dependencies.firewood]]
     modId="jei"
     mandatory=false
     versionRange="[1.18.2:9.7.0.193,)"

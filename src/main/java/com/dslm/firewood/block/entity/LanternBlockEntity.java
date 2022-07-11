@@ -1,6 +1,7 @@
 package com.dslm.firewood.block.entity;
 
 import com.dslm.firewood.Register;
+import com.dslm.firewood.compat.shimmer.ShimmerHelper;
 import com.dslm.firewood.entity.RemnantSoulEntity;
 import com.dslm.firewood.fireeffecthelper.flesh.FireEffectHelpers;
 import com.dslm.firewood.fireeffecthelper.flesh.data.FireEffectNBTDataInterface;
@@ -14,9 +15,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-import net.minecraft.world.level.block.state.properties.BooleanProperty;
-import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraftforge.client.model.data.IModelData;
 import net.minecraftforge.client.model.data.ModelDataMap;
 import net.minecraftforge.client.model.data.ModelProperty;
@@ -27,12 +25,10 @@ import java.util.ArrayList;
 import static com.dslm.firewood.fireeffecthelper.flesh.FireEffectHelpers.getBlock;
 import static com.dslm.firewood.fireeffecthelper.flesh.FireEffectHelpers.getMixedColor;
 import static com.dslm.firewood.fireeffecthelper.flesh.data.FireEffectNBTStaticHelper.*;
+import static com.dslm.firewood.util.StaticValue.*;
 
 public class LanternBlockEntity extends BlockEntity implements RemnantSoulBoundedBlockEntity
 {
-    public static final BooleanProperty LIT = BlockStateProperties.LIT;
-    public static final DirectionProperty FACING = BlockStateProperties.FACING;
-    
     protected int color = -1;
     protected ArrayList<FireEffectNBTDataInterface> majorEffects = new ArrayList<>();
     protected ArrayList<FireEffectNBTDataInterface> minorEffects = new ArrayList<>();
@@ -42,10 +38,9 @@ public class LanternBlockEntity extends BlockEntity implements RemnantSoulBounde
     public static final ModelProperty<Block> BASE_BLOCK = new ModelProperty<>();
     public static final ModelProperty<Boolean> REMNANT_SOUL = new ModelProperty<>();
     
-    public LanternBlockEntity(BlockPos worldPosition, BlockState blockState)
+    public LanternBlockEntity(BlockPos blockPos, BlockState blockState)
     {
-        super(Register.LANTERN_BLOCK_ENTITY.get(), worldPosition, blockState);
-    
+        super(Register.LANTERN_BLOCK_ENTITY.get(), blockPos, blockState);
     }
     
     @Nonnull
@@ -69,9 +64,25 @@ public class LanternBlockEntity extends BlockEntity implements RemnantSoulBounde
         needSync = true;
     }
     
-    public static void clientTick(Level level, BlockPos pos, BlockState state, LanternBlockEntity o)
+    public static void clientTick(Level level, BlockPos pos, BlockState state, LanternBlockEntity entity)
     {
-    
+        if(checkMod(SHIMMER))
+        {
+            if(state.getValue(LIT))
+            {
+                if(!ShimmerHelper.hasLight(level, pos))
+                {
+                    ShimmerHelper.addLight(level, pos, entity.getColor());
+                }
+            }
+            else
+            {
+                if(ShimmerHelper.hasLight(level, pos))
+                {
+                    ShimmerHelper.removeLight(level, pos);
+                }
+            }
+        }
     }
     
     public static void serverTick(Level level, BlockPos pos, BlockState state, LanternBlockEntity e)

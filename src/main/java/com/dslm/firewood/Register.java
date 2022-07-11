@@ -98,15 +98,28 @@ public class Register
     public static final RegistryObject<Block> SPIRITUAL_FIRE_BLOCK =
             BLOCKS.register("spiritual_fire_block",
                     () -> new SpiritualFireBlock(
-                            BlockBehaviour.Properties.of(Material.FIRE).noCollission().strength(-1f).explosionResistance(3600000f).lightLevel((s) -> 15).sound(SoundType.WOOL)));
+                            BlockBehaviour.Properties.of(Material.FIRE)
+                                    .noCollission()
+                                    .strength(-1f)
+                                    .explosionResistance(3600000f)
+                                    .lightLevel((s) -> 15)
+                                    .sound(SoundType.WOOL)));
     public static final RegistryObject<Block> SPIRITUAL_CAMPFIRE_BLOCK =
             BLOCKS.register("spiritual_campfire_block",
                     () -> new SpiritualCampfireBlock(
-                            BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.PODZOL).strength(2F).sound(SoundType.WOOD).lightLevel((s) -> s.getValue(BlockStateProperties.LIT) ? 15 : 0).noOcclusion()));
+                            BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.PODZOL)
+                                    .strength(2F)
+                                    .sound(SoundType.WOOD)
+                                    .lightLevel((s) -> s.getValue(BlockStateProperties.LIT) ? 15 : 0)
+                                    .noOcclusion()));
     public static final RegistryObject<Block> LANTERN_BLOCK =
             BLOCKS.register("lantern_block",
                     () -> new LanternBlock(
-                            BlockBehaviour.Properties.of(Material.METAL).requiresCorrectToolForDrops().strength(3.5F).sound(SoundType.LANTERN).lightLevel((s) -> s.getValue(BlockStateProperties.LIT) ? 15 : 0)));
+                            BlockBehaviour.Properties.of(Material.METAL)
+                                    .requiresCorrectToolForDrops()
+                                    .strength(3.5F)
+                                    .sound(SoundType.LANTERN)
+                                    .lightLevel((s) -> s.getValue(BlockStateProperties.LIT) ? 15 : 0)));
     
     
     public static final RegistryObject<BlockEntityType<SpiritualFireBlockEntity>> SPIRITUAL_FIRE_BLOCK_ENTITY =

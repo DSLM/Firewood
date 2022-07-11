@@ -47,8 +47,13 @@ public class LanternItem extends BlockItem implements TinderTypeItemBase
     @Override
     protected boolean placeBlock(BlockPlaceContext context, BlockState state)
     {
-        Boolean result = context.getLevel().setBlock(context.getClickedPos(), state, 11);
-        context.getLevel().getBlockEntity(context.getClickedPos()).load(context.getItemInHand().getOrCreateTag());
+        Level level = context.getLevel();
+        ItemStack itemStack = context.getItemInHand();
+        BlockPos blockPos = context.getClickedPos();
+    
+        Boolean result = level.setBlock(blockPos, state, 11);
+        level.getBlockEntity(blockPos).load(itemStack.getOrCreateTag());
+    
         return result;
     }
     

@@ -22,7 +22,7 @@ public class PotionSubType extends FireEffectSubType
     protected double effectMulti = 100;
     protected boolean toEnemy = false;
     
-    protected ArrayList<String> realPotionList = new ArrayList<>();
+    protected ArrayList<String> realPotionList;
     
     public PotionSubType()
     {
@@ -82,6 +82,7 @@ public class PotionSubType extends FireEffectSubType
     
     public void getAllPotions()
     {
+        realPotionList = new ArrayList<>();
         for(Potion potion : ForgeRegistries.POTIONS)
         {
             if(includePotion(potion.getRegistryName().toString()))

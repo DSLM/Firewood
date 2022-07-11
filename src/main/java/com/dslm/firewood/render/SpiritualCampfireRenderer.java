@@ -1,7 +1,7 @@
 package com.dslm.firewood.render;
 
-import com.dslm.firewood.block.SpiritualCampfireBlock;
 import com.dslm.firewood.block.entity.SpiritualCampfireBlockEntity;
+import com.dslm.firewood.util.StaticValue;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Vector3f;
 import net.minecraft.client.Minecraft;
@@ -26,7 +26,7 @@ public class SpiritualCampfireRenderer implements BlockEntityRenderer<SpiritualC
     
     public void render(SpiritualCampfireBlockEntity pBlockEntity, float pPartialTick, PoseStack pPoseStack, MultiBufferSource pBufferSource, int pPackedLight, int pPackedOverlay)
     {
-        Direction direction = pBlockEntity.getBlockState().getValue(SpiritualCampfireBlock.FACING);
+        Direction direction = pBlockEntity.getBlockState().getValue(StaticValue.HORIZONTAL_FACING);
         List<ItemStack> nonnullList = pBlockEntity.getIngredients();
         int i = (int) pBlockEntity.getBlockPos().asLong();
     

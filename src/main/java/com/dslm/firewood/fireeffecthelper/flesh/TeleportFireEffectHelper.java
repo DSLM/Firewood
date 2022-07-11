@@ -41,7 +41,7 @@ public class TeleportFireEffectHelper extends SubMajorFireEffectHelperBase
             setType(id);
             setSubType("");
             setProcess(0);
-            set(DIM_TAG_ID, "overworld");
+            set(DIM_TAG_ID, "minecraft:overworld");
             set(X_TAG_ID, "0");
             set(Y_TAG_ID, "256");
             set(Z_TAG_ID, "0");
@@ -58,7 +58,7 @@ public class TeleportFireEffectHelper extends SubMajorFireEffectHelperBase
         }
         if(subType instanceof TeleportSubType teleportSubType)
         {
-            if(teleportSubType.allowFromDim(level.dimension().location().getPath()) && teleportSubType.allowToDim(data.get(DIM_TAG_ID)))
+            if(teleportSubType.allowFromDim(level.dimension().location().toString()) && teleportSubType.allowToDim(data.get(DIM_TAG_ID)))
             {
             }
             else
@@ -75,7 +75,7 @@ public class TeleportFireEffectHelper extends SubMajorFireEffectHelperBase
             Set<ResourceKey<Level>> levelList = level.getServer().levelKeys();
             for(ResourceKey<Level> levelKey : levelList)
             {
-                if(livingEntity.getServer().getLevel(levelKey).dimension().location().getPath().equals(data.get(DIM_TAG_ID)))
+                if(livingEntity.getServer().getLevel(levelKey).dimension().location().toString().equals(data.get(DIM_TAG_ID)))
                 {
                     livingEntity.changeDimension(livingEntity.getServer().getLevel(levelKey), new ITeleporter()
                     {

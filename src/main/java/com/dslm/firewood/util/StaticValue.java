@@ -7,6 +7,9 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraftforge.fml.ModList;
 
 import java.util.HexFormat;
@@ -48,7 +51,8 @@ public class StaticValue
     
     public static final ResourceLocation ICONS = new ResourceLocation(MOD_ID, "textures/gui/icons.png");
     
-    public static final ResourceLocation CLOCK = new ResourceLocation("minecraft", "textures/item/clock_10.png");
+    public static final BooleanProperty LIT = BlockStateProperties.LIT;
+    public static final DirectionProperty HORIZONTAL_FACING = BlockStateProperties.HORIZONTAL_FACING;
     
     public static int colorInt(String s)
     {
@@ -59,6 +63,7 @@ public class StaticValue
     public static final String TOP_MOD = "theoneprobe";
     public static final String CURIOS_MOD = "curios";
     public static final String PATCHOULI_MOD = "patchouli";
+    public static final String SHIMMER = "shimmer";
     
     public static boolean checkMod(String modId)
     {

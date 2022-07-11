@@ -2,6 +2,7 @@ package com.dslm.firewood.block;
 
 import com.dslm.firewood.Register;
 import com.dslm.firewood.block.entity.SpiritualCampfireBlockEntity;
+import com.dslm.firewood.compat.shimmer.ShimmerHelper;
 import com.dslm.firewood.menu.SpiritualCampfireBlockMenu;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -23,6 +24,7 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.RenderShape;
@@ -31,9 +33,6 @@ import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
-import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-import net.minecraft.world.level.block.state.properties.BooleanProperty;
-import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
@@ -41,10 +40,11 @@ import net.minecraftforge.network.NetworkHooks;
 
 import java.util.Random;
 
+import static com.dslm.firewood.util.StaticValue.HORIZONTAL_FACING;
+import static com.dslm.firewood.util.StaticValue.LIT;
+
 public class SpiritualCampfireBlock extends BaseEntityBlock
 {
-    public static final BooleanProperty LIT = BlockStateProperties.LIT;
-    public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
     protected static final VoxelShape SHAPE = Block.box(0.0D, 0.0D, 0.0D, 16.0D, 7.0D, 16.0D);
     private static final VoxelShape VIRTUAL_FENCE_POST = Block.box(6.0D, 0.0D, 6.0D, 10.0D, 16.0D, 10.0D);
     private static final int SMOKE_DISTANCE = 5;
@@ -52,7 +52,7 @@ public class SpiritualCampfireBlock extends BaseEntityBlock
     public SpiritualCampfireBlock(Properties pProperties)
     {
         super(pProperties);
-        this.registerDefaultState(this.stateDefinition.any().setValue(LIT, Boolean.TRUE).setValue(FACING, Direction.NORTH));
+        this.registerDefaultState(this.stateDefinition.any().setValue(LIT, Boolean.TRUE).setValue(HORIZONTAL_FACING, Direction.NORTH));
     }
     
     @Override
@@ -106,13 +106,13 @@ public class SpiritualCampfireBlock extends BaseEntityBlock
     @Override
     public BlockState getStateForPlacement(BlockPlaceContext context)
     {
-        return this.defaultBlockState().setValue(LIT, Boolean.FALSE).setValue(FACING, context.getHorizontalDirection());
+        return this.defaultBlockState().setValue(LIT, Boolean.FALSE).setValue(HORIZONTAL_FACING, context.getHorizontalDirection());
     }
     
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> pBuilder)
     {
-        pBuilder.add(LIT, FACING);
+        pBuilder.add(LIT, HORIZONTAL_FACING);
     }
     
     @Override
@@ -173,5 +173,14 @@ public class SpiritualCampfireBlock extends BaseEntityBlock
             }
         }
         return InteractionResult.SUCCESS;
+    }
+    
+    @Override
+    public void destroy(LevelAccessor level, BlockPos pos, BlockState state)
+    {
+        if(level instanceof Level realLevel && level.isClientSide() && state.getValue(LIT))
+        {
+            ShimmerHelper.removeLight(realLevel, pos);
+        }
     }
 }

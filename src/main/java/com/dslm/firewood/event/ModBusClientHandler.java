@@ -6,7 +6,6 @@ import com.dslm.firewood.block.entity.SpiritualCampfireBlockEntity;
 import com.dslm.firewood.block.entity.SpiritualFireBlockEntity;
 import com.dslm.firewood.fireeffecthelper.flesh.FireEffectHelpers;
 import com.dslm.firewood.fireeffecthelper.flesh.data.FireEffectNBTStaticHelper;
-import com.dslm.firewood.item.TinderTypeItemBase;
 import com.dslm.firewood.render.LanternModelLoader;
 import com.dslm.firewood.render.LanternRendererOnPlayer;
 import com.dslm.firewood.render.RemnantSoulRender;
@@ -41,7 +40,7 @@ public class ModBusClientHandler
         MinecraftForgeClient.registerTooltipComponentFactory(ForgeBusClientHandler.IconComponent.class, Function.identity());
         event.enqueueWork(() -> {
             MenuScreens.register(Register.SPIRITUAL_CAMPFIRE_BLOCK_CONTAINER.get(), SpiritualCampfireBlockScreen::new);
-        
+    
             ItemBlockRenderTypes.setRenderLayer(Register.SPIRITUAL_FIRE_BLOCK.get(), RenderType.cutoutMipped());
             ItemBlockRenderTypes.setRenderLayer(Register.SPIRITUAL_CAMPFIRE_BLOCK.get(), RenderType.cutoutMipped());
             ItemBlockRenderTypes.setRenderLayer(Register.LANTERN_BLOCK.get(), RenderType.translucent());
@@ -75,18 +74,13 @@ public class ModBusClientHandler
         event.getBlockColors().register(
                 (state, world, pos, tintIndex) ->
                         tintIndex == 1 ?
-                                ((SpiritualCampfireBlockEntity) world.getBlockEntity(pos)).getItem(0).getItem() instanceof TinderTypeItemBase ?
-                                        FireEffectHelpers.getMixedColor(
-                                                FireEffectNBTStaticHelper.loadMajorFireData(((SpiritualCampfireBlockEntity) world.getBlockEntity(pos)).getItem(0).getOrCreateTag()),
-                                                FireEffectNBTStaticHelper.loadMinorFireData(((SpiritualCampfireBlockEntity) world.getBlockEntity(pos)).getItem(0).getOrCreateTag()))
-                                        : -1 : -1,
+                                ((SpiritualCampfireBlockEntity) world.getBlockEntity(pos)).getColor()
+                                : -1,
                 Register.SPIRITUAL_CAMPFIRE_BLOCK.get());
         
         event.getBlockColors().register(
                 (state, world, pos, tintIndex) ->
-                {
-                    return ((LanternBlockEntity) world.getBlockEntity(pos)).getColor();
-                },
+                        ((LanternBlockEntity) world.getBlockEntity(pos)).getColor(),
                 Register.LANTERN_BLOCK.get());
     }
     

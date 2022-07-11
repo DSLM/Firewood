@@ -2,6 +2,7 @@ package com.dslm.firewood.block;
 
 import com.dslm.firewood.Register;
 import com.dslm.firewood.block.entity.LanternBlockEntity;
+import com.dslm.firewood.compat.shimmer.ShimmerHelper;
 import com.dslm.firewood.fireeffecthelper.flesh.data.FireEffectNBTStaticHelper;
 import com.dslm.firewood.item.LanternItem;
 import net.minecraft.core.BlockPos;
@@ -13,6 +14,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.RenderShape;
@@ -22,9 +24,6 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
-import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-import net.minecraft.world.level.block.state.properties.BooleanProperty;
-import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.phys.BlockHitResult;
@@ -35,10 +34,11 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
+import static com.dslm.firewood.util.StaticValue.HORIZONTAL_FACING;
+import static com.dslm.firewood.util.StaticValue.LIT;
+
 public class LanternBlock extends Block implements EntityBlock
 {
-    public static final BooleanProperty LIT = BlockStateProperties.LIT;
-    public static final DirectionProperty FACING = BlockStateProperties.FACING;
     
     private static final VoxelShape SHAPE_NS = Shapes.box(0, 0, .2, 1, 1, .8);
     private static final VoxelShape SHAPE_WE = Shapes.box(0.2, 0, 0, .8, 1, 1);
@@ -46,13 +46,13 @@ public class LanternBlock extends Block implements EntityBlock
     public LanternBlock(BlockBehaviour.Properties pProperties)
     {
         super(pProperties);
-        this.registerDefaultState(this.stateDefinition.any().setValue(LIT, Boolean.FALSE).setValue(FACING, Direction.NORTH));
+        this.registerDefaultState(this.stateDefinition.any().setValue(LIT, Boolean.FALSE).setValue(HORIZONTAL_FACING, Direction.NORTH));
     }
     
     @Override
     public VoxelShape getShape(BlockState state, BlockGetter getter, BlockPos pos, CollisionContext context)
     {
-        return switch(state.getValue(BlockStateProperties.FACING))
+        return switch(state.getValue(HORIZONTAL_FACING))
                 {
                     case DOWN, UP, EAST, WEST -> SHAPE_WE;
                     case NORTH, SOUTH -> SHAPE_NS;
@@ -64,13 +64,13 @@ public class LanternBlock extends Block implements EntityBlock
     {
         return this.defaultBlockState()
                 .setValue(LIT, LanternItem.isActive(context.getItemInHand()))
-                .setValue(FACING, context.getHorizontalDirection());
+                .setValue(HORIZONTAL_FACING, context.getHorizontalDirection());
     }
     
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> pBuilder)
     {
-        pBuilder.add(LIT, FACING);
+        pBuilder.add(LIT, HORIZONTAL_FACING);
     }
     
     @Nullable
@@ -91,7 +91,7 @@ public class LanternBlock extends Block implements EntityBlock
     {
         if(player.getItemInHand(hand).isEmpty())
         {
-            if(!level.isClientSide)
+            if(!level.isClientSide())
             {
                 level.setBlock(pos, state.setValue(LIT, !state.getValue(LIT)), Block.UPDATE_ALL);
                 return InteractionResult.CONSUME;
@@ -147,5 +147,14 @@ public class LanternBlock extends Block implements EntityBlock
             itemStacks.add(getCloneItemStack(lanternBlockEntity, state));
         }
         return itemStacks;
+    }
+    
+    @Override
+    public void destroy(LevelAccessor level, BlockPos pos, BlockState state)
+    {
+        if(level instanceof Level realLevel && level.isClientSide() && state.getValue(LIT))
+        {
+            ShimmerHelper.removeLight(realLevel, pos);
+        }
     }
 }
