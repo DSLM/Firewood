@@ -4,10 +4,10 @@ import com.dslm.firewood.Register;
 import com.dslm.firewood.block.entity.LanternBlockEntity;
 import com.dslm.firewood.block.entity.SpiritualCampfireBlockEntity;
 import com.dslm.firewood.block.entity.SpiritualFireBlockEntity;
+import com.dslm.firewood.compat.curios.Curios;
 import com.dslm.firewood.fireeffecthelper.flesh.FireEffectHelpers;
 import com.dslm.firewood.fireeffecthelper.flesh.data.FireEffectNBTStaticHelper;
 import com.dslm.firewood.render.LanternModelLoader;
-import com.dslm.firewood.render.LanternRendererOnPlayer;
 import com.dslm.firewood.render.RemnantSoulRender;
 import com.dslm.firewood.render.SpiritualCampfireRenderer;
 import com.dslm.firewood.screen.SpiritualCampfireBlockScreen;
@@ -26,7 +26,6 @@ import net.minecraftforge.client.model.ModelLoaderRegistry;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
-import top.theillusivec4.curios.api.client.CuriosRendererRegistry;
 
 import java.util.function.Function;
 
@@ -51,7 +50,7 @@ public class ModBusClientHandler
     
         if(StaticValue.checkMod(StaticValue.CURIOS_MOD))
         {
-            CuriosRendererRegistry.register(Register.LANTERN_ITEM.get(), LanternRendererOnPlayer::new);
+            Curios.registerRender();
         }
     }
     
@@ -66,21 +65,39 @@ public class ModBusClientHandler
     {
         
         event.getBlockColors().register(
-                (state, world, pos, tintIndex) ->
-                        tintIndex == 1 ?
-                                ((SpiritualFireBlockEntity) world.getBlockEntity(pos)).getColor() : -1,
+                (state, world, pos, tintIndex) -> {
+                    if(world == null
+                            || pos == null
+                            || world.getBlockEntity(pos) == null
+                            || !(world.getBlockEntity(pos) instanceof SpiritualFireBlockEntity spiritualFireBlockEntity))
+                        return -1;
+                    return tintIndex == 1 ?
+                            spiritualFireBlockEntity.getColor() : -1;
+                },
                 Register.SPIRITUAL_FIRE_BLOCK.get());
         
         event.getBlockColors().register(
-                (state, world, pos, tintIndex) ->
-                        tintIndex == 1 ?
-                                ((SpiritualCampfireBlockEntity) world.getBlockEntity(pos)).getColor()
-                                : -1,
+                (state, world, pos, tintIndex) -> {
+                    if(world == null
+                            || pos == null
+                            || world.getBlockEntity(pos) == null
+                            || !(world.getBlockEntity(pos) instanceof SpiritualCampfireBlockEntity spiritualCampfireBlockEntity))
+                        return -1;
+                    return tintIndex == 1 ?
+                            spiritualCampfireBlockEntity.getColor()
+                            : -1;
+                },
                 Register.SPIRITUAL_CAMPFIRE_BLOCK.get());
         
         event.getBlockColors().register(
-                (state, world, pos, tintIndex) ->
-                        ((LanternBlockEntity) world.getBlockEntity(pos)).getColor(),
+                (state, world, pos, tintIndex) -> {
+                    if(world == null
+                            || pos == null
+                            || world.getBlockEntity(pos) == null
+                            || !(world.getBlockEntity(pos) instanceof LanternBlockEntity lanternBlockEntity))
+                        return -1;
+                    return lanternBlockEntity.getColor();
+                },
                 Register.LANTERN_BLOCK.get());
     }
     
