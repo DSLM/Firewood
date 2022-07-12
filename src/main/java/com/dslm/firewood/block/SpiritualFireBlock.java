@@ -3,9 +3,12 @@ package com.dslm.firewood.block;
 import com.dslm.firewood.Register;
 import com.dslm.firewood.block.entity.SpiritualFireBlockEntity;
 import com.dslm.firewood.compat.shimmer.ShimmerHelper;
+import com.dslm.firewood.fireeffecthelper.flesh.data.FireEffectNBTStaticHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.BaseFireBlock;
@@ -70,6 +73,26 @@ public class SpiritualFireBlock extends BaseFireBlock implements EntityBlock
                 tile.triggerMajorEffects(state, level, pos, livingEntity);
             }
         }
+    }
+    
+    @Override
+    public ItemStack getCloneItemStack(BlockGetter level, BlockPos pos, BlockState state)
+    {
+        BlockEntity blockEntity = level.getBlockEntity(pos);
+        if(blockEntity instanceof SpiritualFireBlockEntity spiritualFireBlockEntity)
+        {
+            return getCloneItemStack(spiritualFireBlockEntity, state);
+        }
+        return new ItemStack(Register.TINDER_ITEM.get());
+    }
+    
+    public ItemStack getCloneItemStack(SpiritualFireBlockEntity spiritualFireBlockEntity, BlockState state)
+    {
+        ItemStack itemStack = new ItemStack(Register.TINDER_ITEM.get());
+        FireEffectNBTStaticHelper.saveFireData(itemStack.getOrCreateTag(),
+                spiritualFireBlockEntity.getMajorEffects(),
+                spiritualFireBlockEntity.getMinorEffects());
+        return itemStack;
     }
     
     @Override

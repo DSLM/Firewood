@@ -117,13 +117,12 @@ public class LanternBlock extends Block implements EntityBlock
     @Override
     public ItemStack getCloneItemStack(BlockGetter level, BlockPos pos, BlockState state)
     {
-        ItemStack itemStack = new ItemStack(Register.LANTERN_ITEM.get());
         BlockEntity blockEntity = level.getBlockEntity(pos);
         if(blockEntity instanceof LanternBlockEntity lanternBlockEntity)
         {
-            itemStack = getCloneItemStack(lanternBlockEntity, state);
+            return getCloneItemStack(lanternBlockEntity, state);
         }
-        return itemStack;
+        return new ItemStack(Register.LANTERN_ITEM.get());
     }
     
     public ItemStack getCloneItemStack(LanternBlockEntity lanternBlockEntity, BlockState state)
