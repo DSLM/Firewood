@@ -9,6 +9,7 @@ import com.dslm.firewood.fireeffecthelper.flesh.base.MinorFireEffectHelperInterf
 import com.dslm.firewood.fireeffecthelper.flesh.data.FireEffectNBTDataInterface;
 import com.dslm.firewood.fireeffecthelper.flesh.data.TinderSourceType;
 import com.dslm.firewood.tooltip.MiddleComponent;
+import com.dslm.firewood.util.Color;
 import com.dslm.firewood.util.StaticValue;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
@@ -24,7 +25,6 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -271,17 +271,20 @@ public class FireEffectHelpers
             {
                 continue;
             }
-            tempColor = new Color(colorInt);
-            color[0] += tempColor.getRed();
-            color[1] += tempColor.getGreen();
-            color[2] += tempColor.getBlue();
+            tempColor = Color.intToColor(colorInt);
+            color[0] += tempColor.Red();
+            color[1] += tempColor.Green();
+            color[2] += tempColor.Blue();
     
             num++;
         }
-        
+    
         if(num == 0) return 0xff7500;
-        Color finalColor = new Color(color[0] / num, color[1] / num, color[2] / num);
-        return finalColor.getRGB() & 0x00ffffff;
+        int finalColor = Color.colorToInt(0,
+                color[0] / num,
+                color[1] / num,
+                color[2] / num);
+        return finalColor;
     }
     
     public static boolean isSameNBT(String kind, String type, CompoundTag first, CompoundTag second)

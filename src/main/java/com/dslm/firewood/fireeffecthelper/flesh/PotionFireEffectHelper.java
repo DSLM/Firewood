@@ -6,6 +6,7 @@ import com.dslm.firewood.fireeffecthelper.flesh.data.FireEffectNBTDataInterface;
 import com.dslm.firewood.subtype.FireEffectSubTypeBase;
 import com.dslm.firewood.subtype.PotionSubType;
 import com.dslm.firewood.tooltip.MiddleComponent;
+import com.dslm.firewood.util.Color;
 import com.google.common.collect.Lists;
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.ChatFormatting;
@@ -30,7 +31,6 @@ import net.minecraft.world.item.alchemy.PotionUtils;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.registries.ForgeRegistries;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -60,13 +60,14 @@ public class PotionFireEffectHelper extends SubMajorFireEffectHelperBase
         {
             return 0;
         }
-        Color subColor = new Color(potionSubType.getColor());
-        Color potionColor = new Color(getPotionColor(data.get(POTION_TAG_ID)));
+        Color subColor = Color.intToColor(potionSubType.getColor());
+        Color potionColor = Color.intToColor(getPotionColor(data.get(POTION_TAG_ID)));
         double colorMixed = potionSubType.getColorMixed() / 100;
-        Color newColor = new Color((int) (potionColor.getRed() * (1 - colorMixed) + subColor.getRed() * colorMixed),
-                (int) (potionColor.getGreen() * (1 - colorMixed) + subColor.getGreen() * colorMixed),
-                (int) (potionColor.getBlue() * (1 - colorMixed) + subColor.getBlue() * colorMixed));
-        return newColor.getRGB() & 0x00ffffff;
+        int newColor = Color.colorToInt(0,
+                (int) (potionColor.Red() * (1 - colorMixed) + subColor.Red() * colorMixed),
+                (int) (potionColor.Green() * (1 - colorMixed) + subColor.Green() * colorMixed),
+                (int) (potionColor.Blue() * (1 - colorMixed) + subColor.Blue() * colorMixed));
+        return newColor;
     }
     
     
