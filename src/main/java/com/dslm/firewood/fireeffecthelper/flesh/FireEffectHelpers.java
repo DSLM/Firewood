@@ -1,7 +1,7 @@
 package com.dslm.firewood.fireeffecthelper.flesh;
 
 import com.dslm.firewood.Register;
-import com.dslm.firewood.capprovider.PlayerSpiritualDamageProvider;
+import com.dslm.firewood.capprovider.PlayerSpiritualDataProvider;
 import com.dslm.firewood.fireeffecthelper.flesh.base.FireEffectHelperInterface;
 import com.dslm.firewood.fireeffecthelper.flesh.base.FireEffectKindHelper;
 import com.dslm.firewood.fireeffecthelper.flesh.base.MajorFireEffectHelperInterface;
@@ -33,7 +33,6 @@ import static com.dslm.firewood.fireeffecthelper.flesh.data.FireEffectNBTStaticH
 
 public class FireEffectHelpers
 {
-    
     public static ExceptionCatchHelper exceptionCatchHelper = new ExceptionCatchHelper();
     
     public static final FireEffectKindHelper<MajorFireEffectHelperInterface> majorEffectHelpers = new FireEffectKindHelper(StaticValue.MAJOR);
@@ -170,7 +169,7 @@ public class FireEffectHelpers
         if(amount == 0)
             return;
     
-        entity.getCapability(PlayerSpiritualDamageProvider.PLAYER_SPIRITUAL_DAMAGE).ifPresent(
+        entity.getCapability(PlayerSpiritualDataProvider.PLAYER_SPIRITUAL_DATA).ifPresent(
                 playerSpiritualDamage -> playerSpiritualDamage.setFleshDamage(amount));
     
         entity.addEffect(new MobEffectInstance(Register.FIRED_FLESH.get(), cooldown, 99));

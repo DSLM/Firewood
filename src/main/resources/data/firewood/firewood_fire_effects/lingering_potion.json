@@ -6,5 +6,5 @@
   "process": 1,
   "range": 2,
   "cooldown": 200,
-  "effect_multi": 25
+  "effect_multi": 0.25
 }

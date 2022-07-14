@@ -4,15 +4,18 @@ import com.dslm.firewood.compat.jei.subtype.FireEffectSubTypeJEIHandler;
 import com.dslm.firewood.compat.jei.subtype.PotionSubTypeJEIHandler;
 import com.dslm.firewood.fireeffecthelper.flesh.FireEffectHelpers;
 import com.dslm.firewood.fireeffecthelper.flesh.data.FireEffectNBTData;
+import com.dslm.firewood.fireeffecthelper.flesh.data.FireEffectNBTDataInterface;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import net.minecraft.core.NonNullList;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.alchemy.Potion;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static com.dslm.firewood.fireeffecthelper.flesh.PotionFireEffectHelper.POTION_TAG_ID;
 
@@ -21,7 +24,7 @@ public class PotionSubType extends FireEffectSubType
     protected boolean blacklist = true;
     protected ArrayList<String> list = new ArrayList<>();
     protected double colorMixed = 0;
-    protected double effectMulti = 100;
+    protected double effectMulti = 1;
     protected boolean toEnemy = false;
     
     protected ArrayList<String> realPotionList;
@@ -226,6 +229,29 @@ public class PotionSubType extends FireEffectSubType
         buf.writeDouble(colorMixed);
         buf.writeDouble(effectMulti);
         buf.writeBoolean(toEnemy);
+    }
+    
+    @Override
+    public List<ItemStack> getSubItems(List<Item> tinderItems)
+    {
+        ArrayList<ItemStack> results = new ArrayList<>();
+        for(Potion potion : ForgeRegistries.POTIONS)
+        {
+            if(!includePotion(potion.getRegistryName().toString()))
+            {
+                continue;
+            }
+            
+            FireEffectNBTDataInterface defaultData = FireEffectHelpers.getMajorHelperByType(getType()).getDefaultData();
+            defaultData.setSubType(subType);
+            defaultData.set(POTION_TAG_ID, potion.getRegistryName().toString());
+            
+            
+            results.addAll(tinderItems.stream()
+                    .map(item -> FireEffectHelpers.addMajorEffect(new ItemStack(item), POTION_TAG_ID, defaultData))
+                    .toList());
+        }
+        return results;
     }
     
     @Override

@@ -48,7 +48,6 @@ public class LanguageUtil
             add(Register.TINDER_ITEM.get(), "Tinder", "火种");
             add(Register.DYING_EMBER_ITEM.get(), "Dying Ember", "余烬");
             add(Register.DEBUG_ITEM.get(), "DEBUG Tool", "测试工具");
-            add(Register.REMNANT_SOUL_EGG_ITEM.get(), "Remnant Soul Egg", "残存之魂刷怪蛋");
             add(Register.REMNANT_SOUL_ITEM.get(), "Remnant Soul", "残存之魂");
         }
     
@@ -139,6 +138,8 @@ public class LanguageUtil
                     "%2$s-%1$s", "%2$s-%1$s");
             add(TINDER_TOOLTIP + "major_effect.potion.potion",
                     "Potion", "药水");
+            add(TINDER_TOOLTIP + "major_effect.potion.splash_potion",
+                    "Splash Potion", "喷溅药水");
             add(TINDER_TOOLTIP + "major_effect.potion.lingering_potion",
                     "Lingering Potion", "滞留药水");
     
@@ -222,7 +223,7 @@ public class LanguageUtil
             add(JEI_SUB_INFO + "color_mixed",
                     "Color Mixed: Potion %1$s%%, Fire %2$s%%", "颜色混合：药水%1$s%%，火焰%2$s%%");
             add(JEI_SUB_INFO + "effect_multi",
-                    "Effect Multiplier: %s", "效果乘数：%s%%");
+                    "Effect Multiplier: %s%%", "效果乘数：%s%%");
             add(JEI_SUB_INFO + "to_enemy.true",
                     "Effective on the Attacked Enemy: True", "攻击敌人后生效：是");
             add(JEI_SUB_INFO + "to_enemy.false",

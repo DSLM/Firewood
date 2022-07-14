@@ -29,8 +29,9 @@ public class FireEffectSubTypeJEIHandler
     
     public void setRecipe(FireEffectSubTypeBase subType, IRecipeLayoutBuilder builder, IFocusGroup focuses, List<Item> tinderItems, int width, int height)
     {
-        builder.addSlot(RecipeIngredientRole.CATALYST, width - 16, 0).addItemStacks(subType.getSubItems(tinderItems));
-        builder.addInvisibleIngredients(RecipeIngredientRole.OUTPUT).addItemStacks(subType.getSubItems(tinderItems));
+        var tempList = subType.getSubItems(tinderItems);
+        builder.addSlot(RecipeIngredientRole.CATALYST, width - 16, 0).addItemStacks(tempList);
+        builder.addInvisibleIngredients(RecipeIngredientRole.OUTPUT).addItemStacks(tempList);
     }
     
     public int draw(FireEffectSubTypeBase subType, IRecipeSlotsView recipeSlotsView, PoseStack stack, double mouseX, double mouseY, int width, int height)
@@ -62,27 +63,30 @@ public class FireEffectSubTypeJEIHandler
                 textH,
                 subType.getColor());
         textH += minecraft.font.lineHeight;
-        
+    
         TranslatableComponent damageLine = new TranslatableComponent(JEI_SUB_INFO + "damage", subType.getDamage());
         minecraft.font.draw(stack, damageLine, textW, textH, BLACK_FONT_COLOR);
         textH += minecraft.font.lineHeight;
-        
+    
         TranslatableComponent minHealthLine = new TranslatableComponent(JEI_SUB_INFO + "min_health", subType.getMinHealth());
         minecraft.font.draw(stack, minHealthLine, textW, textH, BLACK_FONT_COLOR);
         textH += minecraft.font.lineHeight;
-        
-        TranslatableComponent cooldownLine = new TranslatableComponent(JEI_SUB_INFO + "cooldown", subType.getCooldown() / 20.0, subType.getCooldown());
+    
+        TranslatableComponent cooldownLine = new TranslatableComponent(JEI_SUB_INFO + "cooldown",
+                subType.getCooldown() / 20.0,
+                subType.getCooldown());
         minecraft.font.draw(stack, cooldownLine, textW, textH, BLACK_FONT_COLOR);
         textH += minecraft.font.lineHeight;
-        
+    
         TranslatableComponent processLine = new TranslatableComponent(JEI_SUB_INFO + "process", subType.getProcess());
         minecraft.font.draw(stack, processLine, textW, textH, BLACK_FONT_COLOR);
         textH += minecraft.font.lineHeight;
-        
-        TranslatableComponent chanceLine = new TranslatableComponent(JEI_SUB_INFO + "chance", subType.getChance());
+    
+        TranslatableComponent chanceLine = new TranslatableComponent(JEI_SUB_INFO + "chance",
+                subType.getChance() * 100.0);
         minecraft.font.draw(stack, chanceLine, textW, textH, BLACK_FONT_COLOR);
         textH += minecraft.font.lineHeight;
-        
+    
         int[] range = subType.getRange();
         TranslatableComponent rangeLine;
         if(range[0] < 0 || range[1] < 0 || range[2] < 0)

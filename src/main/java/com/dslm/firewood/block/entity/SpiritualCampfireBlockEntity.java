@@ -87,7 +87,7 @@ public class SpiritualCampfireBlockEntity extends BlockEntity implements Contain
         if(recipe != null)
         {
             Random random = level.random;
-            if(random.nextDouble() * 100 < recipe.getChance())
+            if(random.nextDouble() < recipe.getChance())
             {
                 double nowHealth = livingEntity.getHealth();
                 FireEffectHelpers.damageEntity(livingEntity, (float) recipe.getDamage(), recipe.getCooldown());

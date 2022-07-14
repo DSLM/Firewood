@@ -118,9 +118,9 @@ public class TinderCategory implements IRecipeCategory<TinderRecipe>
             ArrayList<Component> arrayList = new ArrayList<>()
             {{
                 add(new TranslatableComponent("tooltip.firewood.recipe.process", recipe.getProcess()));
-                if(recipe.getChance() < 100)
+                if(recipe.getChance() < 1)
                 {
-                    add(new TranslatableComponent("tooltip.firewood.recipe.chance", recipe.getChance()));
+                    add(new TranslatableComponent("tooltip.firewood.recipe.chance", recipe.getChance() * 100.0));
                 }
                 add(new TranslatableComponent("tooltip.firewood.recipe.damage", recipe.getDamage()));
                 add(new TranslatableComponent("tooltip.firewood.recipe.cooldown", recipe.getCooldown() / 20.0, recipe.getCooldown()));

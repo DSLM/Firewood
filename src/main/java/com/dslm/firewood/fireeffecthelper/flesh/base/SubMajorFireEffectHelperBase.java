@@ -330,7 +330,7 @@ public abstract class SubMajorFireEffectHelperBase extends MajorFireEffectHelper
                 blockCheckOrderFireEffectHelper.getBlocksByCache(data, effectData, effectData.getTargetLimit(), nowOrder);
         
         tempData.getLeft().forEach(blockPos -> {
-            if(random.nextDouble() * 100 < effectData.getChance())
+            if(random.nextDouble() < effectData.getChance())
             {
                 BlockState blockState = level.getBlockState(blockPos);
                 transmuteBlock(data, blockState, level, blockPos);
@@ -360,7 +360,7 @@ public abstract class SubMajorFireEffectHelperBase extends MajorFireEffectHelper
     
         Random random = level.random;
         getEntityPosIterable(pos, level, entity, effectData.getRange()).forEach(livingEntity -> {
-            if(random.nextDouble() * 100 < effectData.getChance())
+            if(random.nextDouble() < effectData.getChance())
             {
                 transmuteEntity(data, level, livingEntity, entity);
             }

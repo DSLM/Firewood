@@ -41,7 +41,6 @@ import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.material.MaterialColor;
-import net.minecraftforge.common.ForgeSpawnEggItem;
 import net.minecraftforge.common.extensions.IForgeMenuType;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
@@ -52,7 +51,7 @@ import static com.dslm.firewood.util.StaticValue.MOD_ID;
 
 
 public class Register
-{// TODO: 2022/5/23 方块-物品，方块-实体，实体-物品，所有主要分类（无法强制实现？），多形状范围，允许自定义药水效果，推拉实体，营火详情栏，触发者和生效者筛选，JEI子类
+{// TODO: 2022/5/23 方块-物品，方块-实体，实体-物品，所有主要分类（无法强制实现？），多形状范围，允许自定义药水效果，推拉实体，营火详情栏，触发者和生效者筛选，物品磁铁
     private static final DeferredRegister<Block> BLOCKS =
             DeferredRegister.create(ForgeRegistries.BLOCKS, MOD_ID);
     private static final DeferredRegister<Item> ITEMS =
@@ -147,10 +146,6 @@ public class Register
             ITEMS.register("debug_item", () -> new DebugItem(new Item.Properties().tab(CREATIVE_MODE_TAB)));
     public static final RegistryObject<Item> REMNANT_SOUL_ITEM =
             ITEMS.register("remnant_soul_item", () -> new RemnantSoulItem(new Item.Properties().tab(CREATIVE_MODE_TAB)));
-    public static final RegistryObject<Item> REMNANT_SOUL_EGG_ITEM =
-            ITEMS.register("remnant_soul_egg_item",
-                    () -> new ForgeSpawnEggItem(REMNANT_SOUL_ENTITY, 0x333333, 0x888888,
-                            new Item.Properties().tab(CREATIVE_MODE_TAB)));
     
     
     public static final RegistryObject<MobEffect> FIRED_SPIRIT = MOB_EFFECTS.register("fired_spirit",

@@ -72,7 +72,7 @@
     ]
   },
   "process": 2,
-  "chance": 100.0,
+  "chance": 1.0,
   "damage": 1.0,
   "cooldown": 100,
   "min_health": 1.0

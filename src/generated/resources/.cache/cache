@@ -1,8 +1,7 @@
-a486c51cdb0083ec008b0fd46c4feb8a042921ee assets/firewood/lang/en_us.json
-960a0480802cbc82bedfccbf2b3430ae864bf6ad assets/firewood/lang/zh_cn.json
+0d29dfaf4e98addd810252ce3c250d8c8a186302 assets/firewood/lang/en_us.json
+671eeec250eb613972569b74f26ef4d394edd19e assets/firewood/lang/zh_cn.json
 aea1e8f48a92f25a26ef55758426e88eba7bdbb8 assets/firewood/models/item/debug_item.json
 2ef5502025ded72701b222cbbdb2d486495463ae assets/firewood/models/item/dying_ember_item.json
-98167609bf3898587f7565736a6fc24a7966cacd assets/firewood/models/item/remnant_soul_egg_item.json
 8116f7e5ad0b4dec1fcb2c530c4bd58059b72762 assets/firewood/models/item/remnant_soul_item.json
 cc19718020bbec3fb5fadeedcc12718e37c4468a assets/firewood/models/item/spiritual_campfire_item.json
 369c6aa5fe1ea9e919e0c4ab8358fd4219ad02d4 assets/firewood/models/item/tinder_item.json

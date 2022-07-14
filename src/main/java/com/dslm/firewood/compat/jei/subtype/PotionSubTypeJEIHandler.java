@@ -24,24 +24,27 @@ public class PotionSubTypeJEIHandler extends FireEffectSubTypeJEIHandler
     {
         Minecraft minecraft = Minecraft.getInstance();
         int textH = super.draw(subType, recipeSlotsView, stack, mouseX, mouseY, width, height), textW = 0;
-        
+    
         if(!(subType instanceof PotionSubType potionSubType))
         {
             return textH;
         }
-        
-        TranslatableComponent colorMixedLine = new TranslatableComponent(JEI_SUB_INFO + "color_mixed", 100 - potionSubType.getColorMixed(), potionSubType.getColorMixed());
+    
+        TranslatableComponent colorMixedLine = new TranslatableComponent(JEI_SUB_INFO + "color_mixed",
+                (1 - potionSubType.getColorMixed()) * 100.0,
+                potionSubType.getColorMixed() * 100.0);
         minecraft.font.draw(stack, colorMixedLine, textW, textH, BLACK_FONT_COLOR);
         textH += minecraft.font.lineHeight;
-        
-        TranslatableComponent effectMultiLine = new TranslatableComponent(JEI_SUB_INFO + "effect_multi", potionSubType.getEffectMulti());
+    
+        TranslatableComponent effectMultiLine = new TranslatableComponent(JEI_SUB_INFO + "effect_multi",
+                potionSubType.getEffectMulti() * 100.0);
         minecraft.font.draw(stack, effectMultiLine, textW, textH, BLACK_FONT_COLOR);
         textH += minecraft.font.lineHeight;
-        
+    
         TranslatableComponent toEnemyLine = new TranslatableComponent(JEI_SUB_INFO + "to_enemy." + potionSubType.isToEnemy());
         minecraft.font.draw(stack, toEnemyLine, textW, textH, BLACK_FONT_COLOR);
         textH += minecraft.font.lineHeight;
-        
+    
         return textH;
     }
 }

@@ -1,6 +1,6 @@
 package com.dslm.firewood.item;
 
-import com.dslm.firewood.capprovider.PlayerSpiritualDamageProvider;
+import com.dslm.firewood.capprovider.PlayerSpiritualDataProvider;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.world.InteractionHand;
@@ -36,7 +36,7 @@ public class DebugItem extends Item
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand usedHand)
     {
         player.displayClientMessage(new TextComponent((level.isClientSide ? "client" : "server") + " Player Cap:"), false);
-        player.getCapability(PlayerSpiritualDamageProvider.PLAYER_SPIRITUAL_DAMAGE).ifPresent(
+        player.getCapability(PlayerSpiritualDataProvider.PLAYER_SPIRITUAL_DATA).ifPresent(
                 data -> player.displayClientMessage(new TextComponent(data.toString()), false));
 
 //        Firewood.LOGGER.info("-----------------------------------------");

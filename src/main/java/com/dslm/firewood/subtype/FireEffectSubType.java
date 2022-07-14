@@ -76,7 +76,7 @@ public class FireEffectSubType implements FireEffectSubTypeBase
                 jsonObject.get(StaticValue.DAMAGE).getAsFloat(),
                 !jsonObject.has(StaticValue.MIN_HEALTH) ? jsonObject.get(StaticValue.DAMAGE).getAsFloat() : jsonObject.get(StaticValue.MIN_HEALTH).getAsFloat(),
                 jsonObject.get(StaticValue.PROCESS).getAsInt(),
-                !jsonObject.has(StaticValue.CHANCE) ? 100 : jsonObject.get(StaticValue.CHANCE).getAsFloat(),
+                !jsonObject.has(StaticValue.CHANCE) ? 1 : jsonObject.get(StaticValue.CHANCE).getAsFloat(),
                 range,
                 !jsonObject.has(StaticValue.TARGET_LIMIT) ? Integer.MAX_VALUE : jsonObject.get(StaticValue.TARGET_LIMIT).getAsInt(),
                 jsonObject.get(StaticValue.COOLDOWN).getAsInt());

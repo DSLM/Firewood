@@ -1,5 +1,6 @@
 package com.dslm.firewood.fireeffecthelper.flesh;
 
+import com.dslm.firewood.capprovider.PlayerSpiritualDataProvider;
 import com.dslm.firewood.fireeffecthelper.flesh.base.SubMajorFireEffectHelperBase;
 import com.dslm.firewood.fireeffecthelper.flesh.data.FireEffectNBTData;
 import com.dslm.firewood.fireeffecthelper.flesh.data.FireEffectNBTDataInterface;
@@ -62,7 +63,7 @@ public class PotionFireEffectHelper extends SubMajorFireEffectHelperBase
         }
         Color subColor = Color.intToColor(potionSubType.getColor());
         Color potionColor = Color.intToColor(getPotionColor(data.get(POTION_TAG_ID)));
-        double colorMixed = potionSubType.getColorMixed() / 100;
+        double colorMixed = potionSubType.getColorMixed();
         int newColor = Color.colorToInt(0,
                 (int) (potionColor.Red() * (1 - colorMixed) + subColor.Red() * colorMixed),
                 (int) (potionColor.Green() * (1 - colorMixed) + subColor.Green() * colorMixed),
@@ -85,15 +86,33 @@ public class PotionFireEffectHelper extends SubMajorFireEffectHelperBase
         {
             if(effect.getEffect().isInstantenous())
             {
-                effect.getEffect().applyInstantenousEffect(source, source, livingEntity, effect.getAmplifier(), potionSubType.getEffectMulti() / 100);
+                if(potionSubType.isToEnemy())
+                {
+                    livingEntity.getCapability(PlayerSpiritualDataProvider.PLAYER_SPIRITUAL_DATA).ifPresent(
+                            playerSpiritualData -> playerSpiritualData.getFleshToEnemyEffects().add(Pair.of(potionSubType.getEffectMulti(), effect)));
+                }
+                else
+                {
+                    effect.getEffect().applyInstantenousEffect(source, source, livingEntity, effect.getAmplifier(), potionSubType.getEffectMulti());
+                }
             }
             else
             {
                 CompoundTag tempTag = new CompoundTag();
                 effect.save(tempTag);
-                tempTag.putInt("Duration", (int) (tempTag.getInt("Duration") * potionSubType.getEffectMulti() / 100));
+                tempTag.putInt("Duration", (int) (tempTag.getInt("Duration") * potionSubType.getEffectMulti()));
                 MobEffectInstance newEffect = MobEffectInstance.load(tempTag);
-                livingEntity.addEffect(newEffect);
+    
+                assert newEffect != null;
+                if(potionSubType.isToEnemy())
+                {
+                    livingEntity.getCapability(PlayerSpiritualDataProvider.PLAYER_SPIRITUAL_DATA).ifPresent(
+                            playerSpiritualData -> playerSpiritualData.getFleshToEnemyEffects().add(Pair.of(1.0, effect)));
+                }
+                else
+                {
+                    livingEntity.addEffect(newEffect);
+                }
             }
         }
     }
@@ -120,7 +139,7 @@ public class PotionFireEffectHelper extends SubMajorFireEffectHelperBase
             lines.addAll(getExtraToolTips(data));
     
             if(getSubRealEffect(data) instanceof PotionSubType potionSubType)
-                getPotionLines(data, lines, (float) potionSubType.getEffectMulti() / 100);
+                getPotionLines(data, lines, (float) potionSubType.getEffectMulti());
         }
         else
         {
