@@ -34,6 +34,7 @@ import java.util.Collections;
 import java.util.List;
 
 import static com.dslm.firewood.util.StaticValue.MOD_ID;
+import static com.dslm.firewood.util.StaticValue.VANILLA_FONT_COLOR;
 
 abstract class SubEffectCategoryBase<T extends SubRecipeBase> implements IRecipeCategory<T>
 {
@@ -161,12 +162,12 @@ abstract class SubEffectCategoryBase<T extends SubRecipeBase> implements IRecipe
         int textH = x;
         if(properties.size() > 0)
         {
-            minecraft.font.draw(stack, new TranslatableComponent("tooltip.firewood.recipe.block_state"), y, textH, 4210752);
+            minecraft.font.draw(stack, new TranslatableComponent("tooltip.firewood.recipe.block_state"), y, textH, VANILLA_FONT_COLOR);
             textH += minecraft.font.lineHeight;
             for(String key : properties.getAllKeys())
             {
                 minecraft.font.draw(stack, new TranslatableComponent("tooltip.firewood.recipe.block_state_line",
-                        key, properties.get(key).getAsString()), y, textH, 4210752);
+                        key, properties.get(key).getAsString()), y, textH, VANILLA_FONT_COLOR);
                 textH += minecraft.font.lineHeight;
             }
         }

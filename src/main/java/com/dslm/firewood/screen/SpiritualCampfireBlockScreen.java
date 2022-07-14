@@ -11,6 +11,8 @@ import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 
+import static com.dslm.firewood.util.StaticValue.VANILLA_FONT_COLOR;
+
 public class SpiritualCampfireBlockScreen extends AbstractContainerScreen<SpiritualCampfireBlockMenu>
 {
     private final ResourceLocation GUI = new ResourceLocation(StaticValue.MOD_ID, "textures/gui/spiritual_campfire_block_gui.png");
@@ -33,7 +35,7 @@ public class SpiritualCampfireBlockScreen extends AbstractContainerScreen<Spirit
     @Override
     protected void renderLabels(PoseStack matrixStack, int mouseX, int mouseY)
     {
-        Minecraft.getInstance().font.draw(matrixStack, title, 5, 5, 4210752);
+        Minecraft.getInstance().font.draw(matrixStack, title, 5, 5, VANILLA_FONT_COLOR);
     }
     
     @Override

@@ -23,6 +23,7 @@ public class FireEffectSubTypeManager extends SimpleJsonResourceReloadListener
     public static final SetBlockNameSubTypeBuilder SET_BLOCK_NAME_SUB_TYPE_BUILDER = new SetBlockNameSubTypeBuilder();
     public static final TeleportSubTypeBuilder TELEPORT_SUB_TYPE_BUILDER = new TeleportSubTypeBuilder();
     public static final PotionSubTypeBuilder POTION_SUB_TYPE_BUILDER = new PotionSubTypeBuilder();
+    public static final String LOCATION = "firewood_fire_effects";
     
     public static final HashMap<String, FireEffectSubTypeBuilderBase> TYPE_BUILDERS = new HashMap<>()
     {{
@@ -41,7 +42,7 @@ public class FireEffectSubTypeManager extends SimpleJsonResourceReloadListener
     
     public FireEffectSubTypeManager()
     {
-        super(GSON, "firewood_fire_effects");
+        super(GSON, LOCATION);
     }
     
     @Override
@@ -81,11 +82,11 @@ public class FireEffectSubTypeManager extends SimpleJsonResourceReloadListener
                 continue;
             }
     
-            if(!EFFECTS_MAP.containsKey(newData.getId()))
+            if(!EFFECTS_MAP.containsKey(newData.getType()))
             {
-                EFFECTS_MAP.put(newData.getId(), new HashMap<>());
+                EFFECTS_MAP.put(newData.getType(), new HashMap<>());
             }
-            EFFECTS_MAP.get(newData.getId()).put(newData.getSubType(), newData);
+            EFFECTS_MAP.get(newData.getType()).put(newData.getSubType(), newData);
         }
     }
     

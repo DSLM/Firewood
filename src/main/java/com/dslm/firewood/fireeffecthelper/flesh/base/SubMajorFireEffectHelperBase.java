@@ -24,6 +24,7 @@ import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.*;
 
+import static com.dslm.firewood.datagen.LanguageUtil.TINDER_TOOLTIP;
 import static com.dslm.firewood.fireeffecthelper.flesh.FireEffectHelpers.getMinorHelperByType;
 import static com.dslm.firewood.util.StaticValue.colorfulText;
 
@@ -130,11 +131,11 @@ public abstract class SubMajorFireEffectHelperBase extends MajorFireEffectHelper
     {
         MiddleComponent mainLine = (MiddleComponent) colorfulText(
                 extended ?
-                        new MiddleComponent("tooltip.firewood.tinder_item.multi_tooltip_format",
-                                new TranslatableComponent("tooltip.firewood.tinder_item.major_effect.%s".formatted(data.getType())),
-                                new TranslatableComponent("tooltip.firewood.tinder_item.major_effect.%1$s.%2$s".formatted(data.getType(), data.getSubType())))
+                        new MiddleComponent(TINDER_TOOLTIP + "multi_tooltip_format",
+                                new TranslatableComponent(TINDER_TOOLTIP + "major_effect.%s".formatted(data.getType())),
+                                new TranslatableComponent(TINDER_TOOLTIP + "major_effect.%1$s.%2$s".formatted(data.getType(), data.getSubType())))
                         :
-                        new MiddleComponent("tooltip.firewood.tinder_item.major_effect.%1$s.%2$s".formatted(data.getType(), data.getSubType())),
+                        new MiddleComponent(TINDER_TOOLTIP + "major_effect.%1$s.%2$s".formatted(data.getType(), data.getSubType())),
                 getColor(data));
         mainLine.setDamage(getDamage(data));
         mainLine.setMinHealth(getMinHealth(data));
@@ -147,23 +148,7 @@ public abstract class SubMajorFireEffectHelperBase extends MajorFireEffectHelper
         ArrayList<Component> lines = new ArrayList<>();
         if(getProcess(data) > 1)
         {
-            lines.add(colorfulText(new TranslatableComponent("tooltip.firewood.recipe.now_progress", getRealProcess(data), getProcess(data)),
-                    getColor(data)));
-        }
-        if(getChance(data) < 100)
-        {
-            lines.add(colorfulText(new TranslatableComponent("tooltip.firewood.recipe.chance", getChance(data)),
-                    getColor(data)));
-        }
-        int[] range = getRange(data);
-        if(range[0] < 0 || range[1] < 0 || range[2] < 0)
-        {
-            lines.add(colorfulText(new TranslatableComponent("tooltip.firewood.recipe.range_single"),
-                    getColor(data)));
-        }
-        else
-        {
-            lines.add(colorfulText(new TranslatableComponent("tooltip.firewood.recipe.range", range[0], range[1], range[2]),
+            lines.add(colorfulText(new TranslatableComponent("tooltip.firewood.recipe.now_process", getRealProcess(data), getProcess(data)),
                     getColor(data)));
         }
         return lines;
@@ -214,7 +199,7 @@ public abstract class SubMajorFireEffectHelperBase extends MajorFireEffectHelper
     public int[] getRange(FireEffectNBTDataInterface data)
     {
         FireEffectSubTypeBase effectData = getSubRealEffect(data);
-        return effectData == null ? new int[]{0, 0, 0} : effectData.getRange();
+        return effectData == null ? new int[]{-1, -1, -1} : effectData.getRange();
     }
     
     public int getProcess(FireEffectNBTDataInterface data)

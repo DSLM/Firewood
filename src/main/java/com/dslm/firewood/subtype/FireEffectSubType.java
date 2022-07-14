@@ -9,7 +9,7 @@ public class FireEffectSubType implements FireEffectSubTypeBase
 {
     public String namespace;
     public String path;
-    public String id;
+    public String type;
     public String subType;
     public int color;
     public float damage;
@@ -25,11 +25,11 @@ public class FireEffectSubType implements FireEffectSubTypeBase
     
     }
     
-    public FireEffectSubType(String namespace, String path, String id, String subType, int color, float damage, float minHealth, int process, float chance, int[] range, int targetLimit, int cooldown)
+    public FireEffectSubType(String namespace, String path, String type, String subType, int color, float damage, float minHealth, int process, float chance, int[] range, int targetLimit, int cooldown)
     {
         this.namespace = namespace;
         this.path = path;
-        this.id = id;
+        this.type = type;
         this.subType = subType;
         this.color = color;
         this.damage = damage;
@@ -50,7 +50,7 @@ public class FireEffectSubType implements FireEffectSubTypeBase
     {
         this.namespace = copy.namespace;
         this.path = copy.path;
-        this.id = copy.id;
+        this.type = copy.type;
         this.subType = copy.subType;
         this.color = copy.color;
         this.damage = copy.damage;
@@ -62,9 +62,9 @@ public class FireEffectSubType implements FireEffectSubTypeBase
         this.cooldown = copy.cooldown;
     }
     
-    public FireEffectSubType(ResourceLocation resourceLocation, String id, String subType, int color, float damage, float minHealth, int process, float chance, int[] range, int targetLimit, int cooldown)
+    public FireEffectSubType(ResourceLocation resourceLocation, String type, String subType, int color, float damage, float minHealth, int process, float chance, int[] range, int targetLimit, int cooldown)
     {
-        this(resourceLocation.getNamespace(), resourceLocation.getPath(), id, subType, color, damage, minHealth, process, chance, range, targetLimit, cooldown);
+        this(resourceLocation.getNamespace(), resourceLocation.getPath(), type, subType, color, damage, minHealth, process, chance, range, targetLimit, cooldown);
     }
     
     public FireEffectSubType(ResourceLocation resourceLocation, JsonObject jsonObject, int[] range)
@@ -113,15 +113,15 @@ public class FireEffectSubType implements FireEffectSubTypeBase
     }
     
     @Override
-    public String getId()
+    public String getType()
     {
-        return id;
+        return type;
     }
     
     @Override
-    public void setId(String id)
+    public void setType(String type)
     {
-        this.id = id;
+        this.type = type;
     }
     
     @Override
@@ -258,7 +258,7 @@ public class FireEffectSubType implements FireEffectSubTypeBase
         {
             buf.writeUtf(fireEffectSubType.namespace);
             buf.writeUtf(fireEffectSubType.path);
-            buf.writeUtf(fireEffectSubType.id);
+            buf.writeUtf(fireEffectSubType.type);
             buf.writeUtf(fireEffectSubType.subType);
             buf.writeInt(fireEffectSubType.color);
             buf.writeFloat(fireEffectSubType.damage);

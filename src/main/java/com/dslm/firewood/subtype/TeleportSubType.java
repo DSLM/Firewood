@@ -1,5 +1,7 @@
 package com.dslm.firewood.subtype;
 
+import com.dslm.firewood.compat.jei.subtype.FireEffectSubTypeJEIHandler;
+import com.dslm.firewood.compat.jei.subtype.TeleportSubTypeJEIHandler;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import net.minecraft.network.FriendlyByteBuf;
@@ -158,14 +160,20 @@ public class TeleportSubType extends FireEffectSubType
         {
             buf.writeUtf(string);
         }
-        
+    
         buf.writeBoolean(dimToBlacklist);
-        
+    
         buf.writeInt(dimToList.size());
-        
+    
         for(String string : dimToList)
         {
             buf.writeUtf(string);
         }
+    }
+    
+    @Override
+    public FireEffectSubTypeJEIHandler getJEIHandler()
+    {
+        return TeleportSubTypeJEIHandler.getInstance();
     }
 }

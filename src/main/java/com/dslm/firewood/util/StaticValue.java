@@ -25,6 +25,8 @@ public class StaticValue
     public static final int MAJOR_EFFECT_COLOR = 0x48c774;
     public static final int MINOR_EFFECT_COLOR = 0x48c774;
     public static final int TOTAL_COLOR = 0x48c774;
+    public static final int VANILLA_FONT_COLOR = 0x404040;
+    public static final int BLACK_FONT_COLOR = 0;
     
     public static final String TYPE = "type";
     public static final String SUB_TYPE = "subType";
@@ -68,6 +70,12 @@ public class StaticValue
     public static boolean checkMod(String modId)
     {
         return ModList.get().isLoaded(modId);
+    }
+    
+    public static int reverseColor(int color)
+    {
+        Color temp1 = Color.intToColor(color);
+        return Color.colorToInt(0, 255 - temp1.Red(), 255 - temp1.Green(), 255 - temp1.Blue());
     }
     
     public static TranslatableComponent colorfulText(TranslatableComponent text, int color)

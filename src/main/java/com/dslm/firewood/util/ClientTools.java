@@ -15,7 +15,6 @@ import java.util.List;
 // copy from https://github.com/McJty/TutorialV3
 public class ClientTools
 {
-    
     private static void putVertex(BakedQuadBuilder builder, Vector3f normal, Vector4f vector,
                                   float u, float v, TextureAtlasSprite sprite)
     {

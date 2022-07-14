@@ -27,6 +27,10 @@ public class LanguageUtil
     public static HashMap<EntityType, String> EntityType_en = new HashMap<>();
     public static HashMap<EntityType, String> EntityType_zh = new HashMap<>();
     
+    
+    public static final String JEI_SUB_INFO = "tooltip." + StaticValue.MOD_ID + ".jei_sub_info.";
+    public static final String TINDER_TOOLTIP = "tooltip." + StaticValue.MOD_ID + "." + Register.TINDER_ITEM.get() + ".";
+    
     public static void buildLanguage(DataGenerator generator)
     {
         //group
@@ -114,71 +118,71 @@ public class LanguageUtil
                     "Coordinate: %1$s (%2$s, %3$s, %4$s)", "坐标：%1$s（%2$s，%3$s，%4$s）");
     
     
-            add("tooltip." + StaticValue.MOD_ID + "." + Register.TINDER_ITEM.get() + ".cooldown",
+            add(TINDER_TOOLTIP + "cooldown",
                     " x%1$sS ", " x%1$s秒 ");
-            add("tooltip." + StaticValue.MOD_ID + "." + Register.TINDER_ITEM.get() + ".total",
+            add(TINDER_TOOLTIP + "total",
                     "Total: ", "总计：");
-            add("tooltip." + StaticValue.MOD_ID + "." + Register.TINDER_ITEM.get() + ".total.full",
+            add(TINDER_TOOLTIP + "total.full",
                     "Total:", "总计：");
-            add("tooltip." + StaticValue.MOD_ID + "." + Register.TINDER_ITEM.get() + ".total.damage",
+            add(TINDER_TOOLTIP + "total.damage",
                     "Damage: %s", "伤害：%s");
-            add("tooltip." + StaticValue.MOD_ID + "." + Register.TINDER_ITEM.get() + ".total.min_health",
+            add(TINDER_TOOLTIP + "total.min_health",
                     "Min Health: %s", "最低生命值需求：%s");
-            add("tooltip." + StaticValue.MOD_ID + "." + Register.TINDER_ITEM.get() + ".total.cooldown",
+            add(TINDER_TOOLTIP + "total.cooldown",
                     "Cooldown: %sS", "冷却时间：%s秒");
     
-            add("tooltip." + StaticValue.MOD_ID + "." + Register.TINDER_ITEM.get() + ".major_effect",
+            add(TINDER_TOOLTIP + "major_effect",
                     "§lMajor Effect: ", "§l主要效果：");
-            add("tooltip." + StaticValue.MOD_ID + "." + Register.TINDER_ITEM.get() + ".major_effect.potion",
+            add(TINDER_TOOLTIP + "major_effect.potion",
                     "Potion", "药水");
-            add("tooltip." + StaticValue.MOD_ID + "." + Register.TINDER_ITEM.get() + ".major_effect.potion.multi_tooltip_format",
+            add(TINDER_TOOLTIP + "major_effect.potion.multi_tooltip_format",
                     "%2$s-%1$s", "%2$s-%1$s");
-            add("tooltip." + StaticValue.MOD_ID + "." + Register.TINDER_ITEM.get() + ".major_effect.potion.potion",
+            add(TINDER_TOOLTIP + "major_effect.potion.potion",
                     "Potion", "药水");
-            add("tooltip." + StaticValue.MOD_ID + "." + Register.TINDER_ITEM.get() + ".major_effect.potion.lingering_potion",
+            add(TINDER_TOOLTIP + "major_effect.potion.lingering_potion",
                     "Lingering Potion", "滞留药水");
     
-            add("tooltip." + StaticValue.MOD_ID + "." + Register.TINDER_ITEM.get() + ".major_effect.teleport",
+            add(TINDER_TOOLTIP + "major_effect.teleport",
                     "Teleport", "传送");
-            add("tooltip." + StaticValue.MOD_ID + "." + Register.TINDER_ITEM.get() + ".major_effect.teleport.extend.1",
+            add(TINDER_TOOLTIP + "major_effect.teleport.extend.1",
                     "Teleport to: %1$s (%2$s, %3$s, %4$s)", "传送到：%1$s（%2$s，%3$s，%4$s）");
-            add("tooltip." + StaticValue.MOD_ID + "." + Register.TINDER_ITEM.get() + ".major_effect.teleport.teleport",
+            add(TINDER_TOOLTIP + "major_effect.teleport.teleport",
                     "Teleport", "传送");
     
-            add("tooltip." + StaticValue.MOD_ID + "." + Register.TINDER_ITEM.get() + ".major_effect.smelter",
+            add(TINDER_TOOLTIP + "major_effect.smelter",
                     "Smelter", "熔炉");
-            add("tooltip." + StaticValue.MOD_ID + "." + Register.TINDER_ITEM.get() + ".major_effect.smelter.smelter",
+            add(TINDER_TOOLTIP + "major_effect.smelter.smelter",
                     "Smelter", "熔炉");
-            add("tooltip." + StaticValue.MOD_ID + "." + Register.TINDER_ITEM.get() + ".major_effect.smelter.nether_smelter",
+            add(TINDER_TOOLTIP + "major_effect.smelter.nether_smelter",
                     "Smelter", "下界熔炉");
-            add("tooltip." + StaticValue.MOD_ID + "." + Register.TINDER_ITEM.get() + ".major_effect.smelter.black_smelter",
+            add(TINDER_TOOLTIP + "major_effect.smelter.black_smelter",
                     "Smelter", "黑石熔炉");
     
-            add("tooltip." + StaticValue.MOD_ID + "." + Register.TINDER_ITEM.get() + ".major_effect.block_to_block",
+            add(TINDER_TOOLTIP + "major_effect.block_to_block",
                     "Block->Block", "方块->方块");
-            add("tooltip." + StaticValue.MOD_ID + "." + Register.TINDER_ITEM.get() + ".major_effect.block_to_block.rock_to_mud",
+            add(TINDER_TOOLTIP + "major_effect.block_to_block.rock_to_mud",
                     "Transmute Rock to Mud", "化石为泥");
-            add("tooltip." + StaticValue.MOD_ID + "." + Register.TINDER_ITEM.get() + ".major_effect.block_to_block.mud_to_rock",
+            add(TINDER_TOOLTIP + "major_effect.block_to_block.mud_to_rock",
                     "Transmute Mud to Rock", "化泥为石");
     
-            add("tooltip." + StaticValue.MOD_ID + "." + Register.TINDER_ITEM.get() + ".major_effect.set_block_name",
+            add(TINDER_TOOLTIP + "major_effect.set_block_name",
                     "Set Block by Name", "方块注册名转化");
-            add("tooltip." + StaticValue.MOD_ID + "." + Register.TINDER_ITEM.get() + ".major_effect.set_block_name.rainbow",
+            add(TINDER_TOOLTIP + "major_effect.set_block_name.rainbow",
                     "Rainbow", "彩虹");
-            add("tooltip." + StaticValue.MOD_ID + "." + Register.TINDER_ITEM.get() + ".major_effect.set_block_name.graft",
+            add(TINDER_TOOLTIP + "major_effect.set_block_name.graft",
                     "Graft", "嫁接");
     
-            add("tooltip." + StaticValue.MOD_ID + "." + Register.TINDER_ITEM.get() + ".minor_effect",
+            add(TINDER_TOOLTIP + "minor_effect",
                     "§lMinor Effect: ", "§l次要效果：");
-            add("tooltip." + StaticValue.MOD_ID + "." + Register.TINDER_ITEM.get() + ".minor_effect.ground",
+            add(TINDER_TOOLTIP + "minor_effect.ground",
                     "Ground: %s", "基底：%s");
-            add("tooltip." + StaticValue.MOD_ID + "." + Register.TINDER_ITEM.get() + ".minor_effect.order",
+            add(TINDER_TOOLTIP + "minor_effect.order",
                     "Block Check Order: %s", "方块检查顺序：%s");
     
-            add("tooltip." + StaticValue.MOD_ID + "." + Register.TINDER_ITEM.get() + ".exception_effect",
+            add(TINDER_TOOLTIP + "exception_effect",
                     "Unexpected Data", "错误数据");
     
-            add("tooltip." + StaticValue.MOD_ID + "." + Register.TINDER_ITEM.get() + ".multi_tooltip_format",
+            add(TINDER_TOOLTIP + "multi_tooltip_format",
                     "%2$s (%1$s)", "%2$s（%1$s）");
     
             add("tooltip." + StaticValue.MOD_ID + "." + Register.LANTERN_ITEM.get() + ".active",
@@ -186,26 +190,78 @@ public class LanguageUtil
             add("tooltip." + StaticValue.MOD_ID + "." + Register.LANTERN_ITEM.get() + ".inactive",
                     "Inactive", "已关闭");
         }
-    
+        
+        //JEI sub info tooltip
+        {
+            add(JEI_SUB_INFO + "title",
+                    "Fire Effect Sub Type Info", "火焰效果子种类信息");
+            add(JEI_SUB_INFO + "type",
+                    "Type: %s", "类型：%s");
+            add(JEI_SUB_INFO + "sub_type",
+                    "Sub Type: %s", "子类型：%s");
+            add(JEI_SUB_INFO + "color",
+                    "Color: %s", "颜色：%s");
+            add(JEI_SUB_INFO + "damage",
+                    "Damage: %s", "伤害：%s");
+            add(JEI_SUB_INFO + "min_health",
+                    "Min Health Required: %s", "最低生命值：%s");
+            add(JEI_SUB_INFO + "cooldown",
+                    "Cooldown: %1$sS (%2$s ticks)", "冷却：%1$s秒（%2$s刻）");
+            add(JEI_SUB_INFO + "process",
+                    "Requested Firewood: %s", "薪火需求：%s");
+            add(JEI_SUB_INFO + "chance",
+                    "Success Rate: %s%%", "成功率：%s%%");
+            add(JEI_SUB_INFO + "range",
+                    "Effect Radius: (X: %s, Y: %s, Z: %s)", "效果半径：（X：%s，Y：%s，Z：%s）");
+            add(JEI_SUB_INFO + "range_single",
+                    "Effect Range: self", "效果范围：自身");
+            add(JEI_SUB_INFO + "target_limit",
+                    "Target Limit Per Tick: %s", "每刻目标数量上限：%s");
+            
+            //potion
+            add(JEI_SUB_INFO + "color_mixed",
+                    "Color Mixed: Potion %1$s%%, Fire %2$s%%", "颜色混合：药水%1$s%%，火焰%2$s%%");
+            add(JEI_SUB_INFO + "effect_multi",
+                    "Effect Multiplier: %s", "效果乘数：%s%%");
+            add(JEI_SUB_INFO + "to_enemy.true",
+                    "Effective on the Attacked Enemy: True", "攻击敌人后生效：是");
+            add(JEI_SUB_INFO + "to_enemy.false",
+                    "Effective on the Attacked Enemy: False", "攻击敌人后生效：否");
+            
+            //teleport
+            add(JEI_SUB_INFO + "dim_from_blacklist.true",
+                    "Teleport Origin List Type: Blacklist", "传送始发维度名单类型：黑名单");
+            add(JEI_SUB_INFO + "dim_from_blacklist.false",
+                    "Teleport Origin List Type: Whitelist", "传送始发维度名单类型：白名单");
+            add(JEI_SUB_INFO + "dim_from_list",
+                    "Teleport Origin List: ", "传送始发维度名单：");
+            add(JEI_SUB_INFO + "dim_to_blacklist.true",
+                    "Teleport Destination List Type: Blacklist", "传送目标维度名单类型：黑名单");
+            add(JEI_SUB_INFO + "dim_to_blacklist.false",
+                    "Teleport Destination List Type: Whitelist", "传送目标维度名单类型：白名单");
+            add(JEI_SUB_INFO + "dim_to_list",
+                    "Teleport Destination List: ", "传送目标维度名单：");
+        }
+        
         //recipe tooltip
         {
-            add("tooltip." + StaticValue.MOD_ID + ".recipe.progress",
+            add("tooltip." + StaticValue.MOD_ID + ".recipe.process",
                     "Requested Firewood: %s", "薪火需求：%s");
-            add("tooltip." + StaticValue.MOD_ID + ".recipe.now_progress",
+            add("tooltip." + StaticValue.MOD_ID + ".recipe.now_process",
                     "Current Firewood: %1$s / %2$s", "当前薪火：%1$s / %2$s");
             add("tooltip." + StaticValue.MOD_ID + ".recipe.chance",
                     "Burning Firewood Success Rate: %s%%", "添薪成功率：%s%%");
             add("tooltip." + StaticValue.MOD_ID + ".recipe.damage",
                     "Burning Firewood Damage: %s", "添薪伤害：%s");
-            add("tooltip." + StaticValue.MOD_ID + ".recipe.cooldown",
-                    "Burning Firewood Cooldown: %1$sS (%2$s ticks)", "添薪冷却：%1$s秒（%2$s刻）");
             add("tooltip." + StaticValue.MOD_ID + ".recipe.min_health",
                     "Burning Firewood Min Health Required: %s", "添薪最低生命值：%s");
+            add("tooltip." + StaticValue.MOD_ID + ".recipe.cooldown",
+                    "Burning Firewood Cooldown: %1$sS (%2$s ticks)", "添薪冷却：%1$s秒（%2$s刻）");
             add("tooltip." + StaticValue.MOD_ID + ".recipe.range",
-                    "Effect Range: (X: %s, Y: %s, Z: %s)", "效果范围：（X：%s，Y：%s，Z：%s）");
+                    "Effect Radius: (X: %s, Y: %s, Z: %s)", "效果半径：（X：%s，Y：%s，Z：%s）");
             add("tooltip." + StaticValue.MOD_ID + ".recipe.range_single",
                     "Effect Range: self", "效果范围：自身");
-    
+            
             add("tooltip." + StaticValue.MOD_ID + ".recipe.block_state",
                     "Block State:", "方块状态：");
             add("tooltip." + StaticValue.MOD_ID + ".recipe.block_state_line",

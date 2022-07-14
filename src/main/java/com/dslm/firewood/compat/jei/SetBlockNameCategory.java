@@ -14,6 +14,8 @@ import mezz.jei.api.recipe.RecipeType;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.registries.RegistryObject;
 
+import static com.dslm.firewood.util.StaticValue.VANILLA_FONT_COLOR;
+
 public class SetBlockNameCategory extends SubEffectCategoryBase<SetBlockNameFakeRecipe>
 {
     protected final RecipeType<SetBlockNameFakeRecipe> recipeType;
@@ -68,9 +70,9 @@ public class SetBlockNameCategory extends SubEffectCategoryBase<SetBlockNameFake
     {
         Minecraft minecraft = Minecraft.getInstance();
         int textH = 18;
-        minecraft.font.draw(stack, recipe.getOrderKey().toString(), 0, textH, 4210752);
+        minecraft.font.draw(stack, recipe.getOrderKey().toString(), 0, textH, VANILLA_FONT_COLOR);
         textH += minecraft.font.lineHeight;
-        minecraft.font.draw(stack, recipe.getNext().getOrderKey().toString(), 0, textH, 4210752);
+        minecraft.font.draw(stack, recipe.getNext().getOrderKey().toString(), 0, textH, VANILLA_FONT_COLOR);
         textH += minecraft.font.lineHeight;
 //        renderBlock(poseStack, getFarmland(), 30, 30, -10, 20F, 20F);
 //        renderBlock(poseStack, getBlockState(), 30, 12, 10, 20F, 20F);

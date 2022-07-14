@@ -3,7 +3,6 @@ package com.dslm.firewood.compat.jei;
 import com.dslm.firewood.Register;
 import com.dslm.firewood.fireeffecthelper.flesh.FireEffectHelpers;
 import com.dslm.firewood.fireeffecthelper.flesh.data.FireEffectNBTDataInterface;
-import com.dslm.firewood.item.TinderTypeItemBase;
 import com.dslm.firewood.recipe.TinderRecipe;
 import com.dslm.firewood.recipe.type.TinderRecipeType;
 import com.dslm.firewood.screen.SpiritualCampfireBlockScreen;
@@ -42,7 +41,7 @@ public class JEICompat implements IModPlugin
     {
         return new ResourceLocation(StaticValue.MOD_ID, StaticValue.MOD_ID);
     }
-
+    
     @Override
     public void registerCategories(IRecipeCategoryRegistration registry)
     {
@@ -51,8 +50,22 @@ public class JEICompat implements IModPlugin
         registry.addRecipeCategories(
                 new TinderCategory(guiHelper)
         );
-    
-    
+        
+        //sub info
+        {
+            ArrayList<Item> tinderItems = new ArrayList<>();
+            for(Item item : ForgeRegistries.ITEMS)
+            {
+                if(item.builtInRegistryHolder().is(StaticValue.ITEM_TINDER_TAG))
+                {
+                    tinderItems.add(item);
+                }
+            }
+            var category = new SubEffectInfoCategory(guiHelper, tinderItems);
+            registry.addRecipeCategories(category);
+        }
+        
+        
         {
             HashMap<String, RecipeType> subMap = new HashMap<>();
             for(Map.Entry<String, FireEffectSubTypeBase> subTypes : FireEffectSubTypeManager.getEffectsMap().get("block_to_block").entrySet())
@@ -63,8 +76,8 @@ public class JEICompat implements IModPlugin
             }
             recipeTypes.put("block_to_block", subMap);
         }
-    
-    
+        
+        
         {
             HashMap<String, RecipeType> subMap = new HashMap<>();
             for(Map.Entry<String, FireEffectSubTypeBase> subTypes : FireEffectSubTypeManager.getEffectsMap().get("set_block_name").entrySet())
@@ -94,6 +107,15 @@ public class JEICompat implements IModPlugin
                 .map(recipe -> (TinderRecipe) recipe)
                 .toList();
         registration.addRecipes(TinderCategory.TYPE, tinderRecipes);
+    
+        //sub info
+        {
+            ArrayList<FireEffectSubTypeBase> subEffectInfoRecipes = new ArrayList<>();
+            FireEffectSubTypeManager.getEffectsMap().forEach(
+                    (type, map) -> subEffectInfoRecipes.addAll(map.values())
+            );
+            registration.addRecipes(SubEffectInfoCategory.TYPE, subEffectInfoRecipes);
+        }
     
     
         if(recipeTypes.containsKey("block_to_block"))
@@ -152,21 +174,24 @@ public class JEICompat implements IModPlugin
     {
         registration.addRecipeCatalyst(new ItemStack(Register.SPIRITUAL_CAMPFIRE_BLOCK.get()), TinderCategory.TYPE);
     
-        ArrayList<Item> items = new ArrayList<>();
+        ArrayList<Item> tinderItems = new ArrayList<>();
         for(Item item : ForgeRegistries.ITEMS)
         {
-            if(item instanceof TinderTypeItemBase)
+            if(item.builtInRegistryHolder().is(StaticValue.ITEM_TINDER_TAG))
             {
-                items.add(item);
+                tinderItems.add(item);
+                registration.addRecipeCatalyst(new ItemStack(item), SubEffectInfoCategory.TYPE);
             }
         }
-        registerRecipeSubCatalyst(registration, RecipeTypes.SMELTING, items, "smelter", null);
+    
+    
+        registerRecipeSubCatalyst(registration, RecipeTypes.SMELTING, tinderItems, "smelter", null);
     
     
         {
             for(Map.Entry<String, FireEffectSubTypeBase> subTypes : FireEffectSubTypeManager.getEffectsMap().get("block_to_block").entrySet())
             {
-                registerRecipeSubCatalyst(registration, recipeTypes.get("block_to_block").get(subTypes.getKey()), items, "block_to_block", subTypes.getKey());
+                registerRecipeSubCatalyst(registration, recipeTypes.get("block_to_block").get(subTypes.getKey()), tinderItems, "block_to_block", subTypes.getKey());
             }
         }
     
@@ -174,7 +199,7 @@ public class JEICompat implements IModPlugin
         {
             for(Map.Entry<String, FireEffectSubTypeBase> subTypes : FireEffectSubTypeManager.getEffectsMap().get("set_block_name").entrySet())
             {
-                registerRecipeSubCatalyst(registration, recipeTypes.get("set_block_name").get(subTypes.getKey()), items, "set_block_name", subTypes.getKey());
+                registerRecipeSubCatalyst(registration, recipeTypes.get("set_block_name").get(subTypes.getKey()), tinderItems, "set_block_name", subTypes.getKey());
             }
         }
     

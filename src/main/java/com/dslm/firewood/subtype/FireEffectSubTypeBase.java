@@ -1,6 +1,14 @@
 package com.dslm.firewood.subtype;
 
+import com.dslm.firewood.compat.jei.subtype.FireEffectSubTypeJEIHandler;
+import com.dslm.firewood.fireeffecthelper.flesh.FireEffectHelpers;
+import com.dslm.firewood.fireeffecthelper.flesh.data.FireEffectNBTDataInterface;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public interface FireEffectSubTypeBase
 {
@@ -16,9 +24,9 @@ public interface FireEffectSubTypeBase
     
     void setPath(String path);
     
-    String getId();
+    String getType();
     
-    void setId(String id);
+    void setType(String type);
     
     String getSubType();
     
@@ -55,4 +63,21 @@ public interface FireEffectSubTypeBase
     int getCooldown();
     
     void setCooldown(int range);
+    
+    default List<ItemStack> getSubItems(List<Item> tinderItems)
+    {
+        FireEffectNBTDataInterface data = FireEffectHelpers.getMajorHelperByType(getType()).getDefaultData();
+        data.setSubType(getSubType());
+        ArrayList<ItemStack> results = new ArrayList<>(
+                tinderItems.stream()
+                        .map(tinderItem -> FireEffectHelpers.addMajorEffect(new ItemStack(tinderItem), getType(), data))
+                        .toList());
+        return results;
+    }
+    
+    
+    default FireEffectSubTypeJEIHandler getJEIHandler()
+    {
+        return FireEffectSubTypeJEIHandler.getInstance();
+    }
 }

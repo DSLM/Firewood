@@ -1,5 +1,7 @@
 package com.dslm.firewood.subtype;
 
+import com.dslm.firewood.compat.jei.subtype.FireEffectSubTypeJEIHandler;
+import com.dslm.firewood.compat.jei.subtype.PotionSubTypeJEIHandler;
 import com.dslm.firewood.fireeffecthelper.flesh.FireEffectHelpers;
 import com.dslm.firewood.fireeffecthelper.flesh.data.FireEffectNBTData;
 import com.google.gson.JsonArray;
@@ -215,7 +217,7 @@ public class PotionSubType extends FireEffectSubType
         buf.writeBoolean(blacklist);
         
         buf.writeInt(list.size());
-        
+    
         for(String string : list)
         {
             buf.writeUtf(string);
@@ -224,5 +226,11 @@ public class PotionSubType extends FireEffectSubType
         buf.writeDouble(colorMixed);
         buf.writeDouble(effectMulti);
         buf.writeBoolean(toEnemy);
+    }
+    
+    @Override
+    public FireEffectSubTypeJEIHandler getJEIHandler()
+    {
+        return PotionSubTypeJEIHandler.getInstance();
     }
 }
