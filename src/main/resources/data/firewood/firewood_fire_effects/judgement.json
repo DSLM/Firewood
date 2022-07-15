@@ -1,0 +1,27 @@
+{
+  "type": "mob_effect",
+  "subType": "judgement",
+  "color": "0xc99298",
+  "damage": 0.1,
+  "process": 1,
+  "range": -1,
+  "cooldown": 200,
+  "effects": [
+  ],
+  "effects_to_enemy": [
+    {
+      "Ambient": 0,
+      "Amplifier": 0,
+      "CurativeItems": [
+        {
+          "Count": 1,
+          "id": "minecraft:milk_bucket"
+        }
+      ],
+      "Duration": 4800,
+      "ShowIcon": 1,
+      "ShowParticles": 1,
+      "forge:id": "minecraft:levitation"
+    }
+  ]
+}

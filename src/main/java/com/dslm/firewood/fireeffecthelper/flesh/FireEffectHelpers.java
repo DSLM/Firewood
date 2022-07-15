@@ -43,6 +43,7 @@ public class FireEffectHelpers
     
     static
     {
+        majorEffectHelpers.helpers.put("mob_effect", new MobEffectFireEffectHelper("mob_effect"));
         majorEffectHelpers.helpers.put("potion", new PotionFireEffectHelper("potion"));
         majorEffectHelpers.helpers.put("teleport", new TeleportFireEffectHelper("teleport"));
         majorEffectHelpers.helpers.put("smelter", new SmelterFireEffectHelper("smelter"));

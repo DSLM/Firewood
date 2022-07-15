@@ -418,7 +418,7 @@ public class SpiritualCampfireBlockEntity extends BlockEntity implements Contain
     @Override
     public boolean canPlaceItem(int index, ItemStack stack)
     {
-        return !stack.isEmpty() && inventory.get(index).isEmpty() && (index != 0 ^ stack.is(ITEM_TINDER_TAG));
+        return !stack.isEmpty() && inventory.get(index).isEmpty() && (index != 0 || stack.is(ITEM_TINDER_TAG));
     }
     
     /**

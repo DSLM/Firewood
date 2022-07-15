@@ -23,10 +23,13 @@ public class FireEffectSubTypeManager extends SimpleJsonResourceReloadListener
     public static final SetBlockNameSubTypeBuilder SET_BLOCK_NAME_SUB_TYPE_BUILDER = new SetBlockNameSubTypeBuilder();
     public static final TeleportSubTypeBuilder TELEPORT_SUB_TYPE_BUILDER = new TeleportSubTypeBuilder();
     public static final PotionSubTypeBuilder POTION_SUB_TYPE_BUILDER = new PotionSubTypeBuilder();
+    public static final MobEffectSubTypeBuilder MOB_EFFECT_SUB_TYPE_BUILDER = new MobEffectSubTypeBuilder();
     public static final String LOCATION = "firewood_fire_effects";
     
     public static final HashMap<String, FireEffectSubTypeBuilderBase> TYPE_BUILDERS = new HashMap<>()
     {{
+        put("mob_effect", MOB_EFFECT_SUB_TYPE_BUILDER);
+    
         put("potion", POTION_SUB_TYPE_BUILDER);
     
         put("teleport", TELEPORT_SUB_TYPE_BUILDER);

@@ -1,0 +1,28 @@
+{
+  "type": "firewood:tinder_recipe",
+  "ingredients": [
+    {
+      "item": "minecraft:iron_sword"
+    },
+    {
+      "item": "firewood:lantern_item"
+    }
+  ],
+  "tinder": {
+    "tag": "firewood:tinder"
+  },
+  "addEffects": {
+    "majorEffects": [
+      {
+        "type": "mob_effect",
+        "subType": "judgement",
+        "process": 0
+      }
+    ]
+  },
+  "process": 2,
+  "chance": 1.0,
+  "damage": 1.0,
+  "cooldown": 100,
+  "min_health": 1.0
+}

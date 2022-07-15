@@ -76,7 +76,7 @@ public class SpiritualCampfireBlockMenu extends AbstractContainerMenu
     {
         ItemStack itemstack = ItemStack.EMPTY;
         Slot slot = slots.get(index);
-        if(slot != null && slot.hasItem())
+        if(slot.hasItem())
         {
             ItemStack stack = slot.getItem();
             itemstack = stack.copy();
@@ -93,7 +93,10 @@ public class SpiritualCampfireBlockMenu extends AbstractContainerMenu
                 {
                     if(!moveItemStackTo(stack, 0, 1, false))
                     {
-                        return ItemStack.EMPTY;
+                        if(!moveItemStackTo(stack, 1, 13, false))
+                        {
+                            return ItemStack.EMPTY;
+                        }
                     }
                 }
                 else if(!moveItemStackTo(stack, 1, 13, false))

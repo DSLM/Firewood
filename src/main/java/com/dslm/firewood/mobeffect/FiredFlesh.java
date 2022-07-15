@@ -7,6 +7,10 @@ import com.dslm.firewood.config.MobEffectConfig;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.ItemStack;
+
+import java.util.Collections;
+import java.util.List;
 
 public class FiredFlesh extends MobEffect
 {
@@ -29,5 +33,11 @@ public class FiredFlesh extends MobEffect
                 livingEntity.hurt(Register.FLESHY_FIRE_DAMAGE, playerSpiritualDamage.getFleshDamage());
             });
         }
+    }
+    
+    @Override
+    public List<ItemStack> getCurativeItems()
+    {
+        return Collections.emptyList();
     }
 }

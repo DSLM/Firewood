@@ -132,6 +132,12 @@ public class LanguageUtil
     
             add(TINDER_TOOLTIP + "major_effect",
                     "§lMajor Effect: ", "§l主要效果：");
+    
+            add(TINDER_TOOLTIP + "major_effect.mob_effect",
+                    "Mob Effect", "生物效果");
+            add(TINDER_TOOLTIP + "major_effect.mob_effect.judgement",
+                    "Judgement", "判决");
+    
             add(TINDER_TOOLTIP + "major_effect.potion",
                     "Potion", "药水");
             add(TINDER_TOOLTIP + "major_effect.potion.multi_tooltip_format",
@@ -223,7 +229,13 @@ public class LanguageUtil
                     "Effect Range: self", "效果范围：自身");
             add(JEI_SUB_INFO + "target_limit",
                     "Target Limit Per Tick: %s", "每刻目标数量上限：%s");
-            
+    
+            //mob effect
+            add(JEI_SUB_INFO + "effects",
+                    "Effects: ", "效果：");
+            add(JEI_SUB_INFO + "effects_to_enemy",
+                    "Effects to Enemies: ", "攻击后造成效果：");
+    
             //potion
             add(JEI_SUB_INFO + "color_mixed",
                     "Color Mixed: Potion %1$s%%, Fire %2$s%%", "颜色混合：药水%1$s%%，火焰%2$s%%");

@@ -1,11 +1,19 @@
 package com.dslm.firewood.util;
 
+import com.google.common.collect.Lists;
+import com.mojang.datafixers.util.Pair;
+import net.minecraft.ChatFormatting;
 import net.minecraft.core.Registry;
-import net.minecraft.network.chat.TextColor;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
+import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffectUtil;
+import net.minecraft.world.entity.ai.attributes.Attribute;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
@@ -13,6 +21,8 @@ import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraftforge.fml.ModList;
 
 import java.util.HexFormat;
+import java.util.List;
+import java.util.Map;
 
 import static com.dslm.firewood.config.ColorConfig.HIGH_CONTRAST_MODE;
 
@@ -81,5 +91,79 @@ public class StaticValue
     public static TranslatableComponent colorfulText(TranslatableComponent text, int color)
     {
         return HIGH_CONTRAST_MODE != null && HIGH_CONTRAST_MODE.get() ? text : (TranslatableComponent) text.withStyle(style -> style.withColor(TextColor.fromRgb(color)));
+    }
+    
+    public static void getPotionLines(List<MobEffectInstance> mobEffectInstances, List<Component> lines, float durationFactor)
+    {
+        
+        List<Pair<Attribute, AttributeModifier>> list1 = Lists.newArrayList();
+        
+        for(MobEffectInstance effectInstance : mobEffectInstances)
+        {
+            MutableComponent mutablecomponent = new TranslatableComponent(effectInstance.getDescriptionId());
+            MobEffect mobeffect = effectInstance.getEffect();
+            Map<Attribute, AttributeModifier> map = mobeffect.getAttributeModifiers();
+            if(!map.isEmpty())
+            {
+                for(Map.Entry<Attribute, AttributeModifier> entry : map.entrySet())
+                {
+                    AttributeModifier attributemodifier = entry.getValue();
+                    AttributeModifier attributemodifier1 = new AttributeModifier(attributemodifier.getName(), mobeffect.getAttributeModifierValue(effectInstance.getAmplifier(), attributemodifier), attributemodifier.getOperation());
+                    list1.add(new Pair<>(entry.getKey(), attributemodifier1));
+                }
+            }
+            
+            if(effectInstance.getAmplifier() > 0)
+            {
+                mutablecomponent = new TranslatableComponent("potion.withAmplifier", mutablecomponent, new TranslatableComponent("potion.potency." + effectInstance.getAmplifier()));
+            }
+            
+            if(effectInstance.getDuration() > 20)
+            {
+                mutablecomponent = new TranslatableComponent("potion.withDuration", mutablecomponent, MobEffectUtil.formatDuration(effectInstance, durationFactor));
+            }
+            
+            lines.add(mutablecomponent.withStyle(mobeffect.getCategory().getTooltipFormatting()));
+        }
+        
+        if(!list1.isEmpty())
+        {
+            MutableComponent longLine = (new TranslatableComponent("potion.whenDrank")).withStyle(ChatFormatting.DARK_PURPLE);
+            
+            for(int i = 0; i < list1.size(); i++)
+            {
+                Pair<Attribute, AttributeModifier> pair = list1.get(i);
+                AttributeModifier attributemodifier2 = pair.getSecond();
+                double d0 = attributemodifier2.getAmount();
+                double d1;
+                if(attributemodifier2.getOperation() != AttributeModifier.Operation.MULTIPLY_BASE && attributemodifier2.getOperation() != AttributeModifier.Operation.MULTIPLY_TOTAL)
+                {
+                    d1 = attributemodifier2.getAmount();
+                }
+                else
+                {
+                    d1 = attributemodifier2.getAmount() * 100.0D;
+                }
+                
+                if(d0 > 0.0D)
+                {
+                    if(i > 0)
+                    {
+                        longLine.append(new TextComponent("|"));
+                    }
+                    longLine.append((new TranslatableComponent("attribute.modifier.plus." + attributemodifier2.getOperation().toValue(), ItemStack.ATTRIBUTE_MODIFIER_FORMAT.format(d1), new TranslatableComponent(pair.getFirst().getDescriptionId()))).withStyle(ChatFormatting.BLUE));
+                }
+                else if(d0 < 0.0D)
+                {
+                    d1 *= -1.0D;
+                    if(i > 0)
+                    {
+                        longLine.append(new TextComponent("|"));
+                    }
+                    longLine.append((new TranslatableComponent("attribute.modifier.take." + attributemodifier2.getOperation().toValue(), ItemStack.ATTRIBUTE_MODIFIER_FORMAT.format(d1), new TranslatableComponent(pair.getFirst().getDescriptionId()))).withStyle(ChatFormatting.RED));
+                }
+            }
+            lines.add(longLine);
+        }
     }
 }
