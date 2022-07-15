@@ -14,10 +14,8 @@ import com.dslm.firewood.mobeffect.FiredFlesh;
 import com.dslm.firewood.mobeffect.FiredSpirit;
 import com.dslm.firewood.network.NetworkHandler;
 import com.dslm.firewood.recipe.*;
-import com.dslm.firewood.recipe.serializer.BlockToBlockRecipeSerializer;
-import com.dslm.firewood.recipe.serializer.PotionTinderRecipeSerializer;
-import com.dslm.firewood.recipe.serializer.TeleportTinderRecipeSerializer;
-import com.dslm.firewood.recipe.serializer.TinderRecipeSerializer;
+import com.dslm.firewood.recipe.serializer.*;
+import com.dslm.firewood.recipe.type.EntityToItemRecipeType;
 import com.dslm.firewood.recipe.type.TinderRecipeType;
 import com.dslm.firewood.recipe.type.TransmuteBlockRecipeType;
 import com.dslm.firewood.util.StaticValue;
@@ -178,6 +176,13 @@ public class Register
     
     public static final RegistryObject<RecipeSerializer<BlockToBlockRecipe>> BLOCK_TO_BLOCK_RECIPE_SERIALIZER =
             RECIPE_SERIALIZERS.register("block_to_block", () -> new BlockToBlockRecipeSerializer(BlockToBlockRecipe.class));
+    
+    
+    public static final RegistryObject<RecipeType<EntityToItemRecipe>> ENTITY_TO_ITEM_RECIPE_TYPE =
+            RECIPES.register("entity_to_item", EntityToItemRecipeType::new);
+    
+    public static final RegistryObject<RecipeSerializer<EntityToItemRecipe>> ENTITY_TO_ITEM_RECIPE_SERIALIZER =
+            RECIPE_SERIALIZERS.register("entity_to_item", () -> new EntityToItemRecipeSerializer<>(EntityToItemRecipe.class));
     
     
     public static final RegistryObject<MenuType<SpiritualCampfireBlockMenu>> SPIRITUAL_CAMPFIRE_BLOCK_CONTAINER =

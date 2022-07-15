@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static com.dslm.firewood.fireeffecthelper.flesh.TeleportFireEffectHelper.*;
+import static com.dslm.firewood.fireeffecthelper.flesh.major.TeleportFireEffectHelper.*;
 
 public class TeleportTinderRecipe extends TinderRecipe
 {

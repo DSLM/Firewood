@@ -1,0 +1,14 @@
+{
+  "type": "firewood:entity_to_item",
+  "subType": "tinker",
+  "entities_blacklist": false,
+  "entities_list": [
+    "minecraft:enderman"
+  ],
+  "items_list": [
+    {
+      "item": "minecraft:ender_pearl",
+      "count": 1
+    }
+  ]
+}

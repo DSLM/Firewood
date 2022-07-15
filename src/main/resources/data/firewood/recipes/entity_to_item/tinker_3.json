@@ -1,0 +1,16 @@
+{
+  "type": "firewood:entity_to_item",
+  "subType": "tinker",
+  "entities_blacklist": false,
+  "entities_list": [
+    "minecraft:horse",
+    "minecraft:donkey",
+    "minecraft:mule"
+  ],
+  "items_list": [
+    {
+      "item": "minecraft:slime_ball",
+      "count": 1
+    }
+  ]
+}

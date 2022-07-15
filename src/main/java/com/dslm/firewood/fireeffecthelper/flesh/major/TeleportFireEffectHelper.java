@@ -1,7 +1,8 @@
-package com.dslm.firewood.fireeffecthelper.flesh;
+package com.dslm.firewood.fireeffecthelper.flesh.major;
 
 import com.dslm.firewood.Firewood;
 import com.dslm.firewood.entity.RemnantSoulEntity;
+import com.dslm.firewood.fireeffecthelper.flesh.FireEffectHelpers;
 import com.dslm.firewood.fireeffecthelper.flesh.base.SubMajorFireEffectHelperBase;
 import com.dslm.firewood.fireeffecthelper.flesh.data.FireEffectNBTData;
 import com.dslm.firewood.fireeffecthelper.flesh.data.FireEffectNBTDataInterface;

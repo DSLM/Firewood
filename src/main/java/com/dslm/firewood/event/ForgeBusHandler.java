@@ -87,8 +87,8 @@ public class ForgeBusHandler
     {
         if(event.getSource().equals(Register.FLESHY_FIRE_DAMAGE)
                 || event.getSource().equals(Register.SPIRITUAL_FIRE_DAMAGE)
-                || event.getEntityLiving().equals(event.getSource().getEntity())
-                || event.getEntityLiving().equals(event.getSource().getDirectEntity())
+                || event.getEntityLiving() == event.getSource().getEntity()
+                || event.getEntityLiving() == event.getSource().getDirectEntity()
                 || !(event.getSource().getEntity() instanceof LivingEntity livingEntity))
         {
             return;

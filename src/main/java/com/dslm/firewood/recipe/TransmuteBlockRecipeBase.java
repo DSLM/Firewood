@@ -14,7 +14,7 @@ import java.util.List;
 /**
  * NEVER make a instance of this class
  */
-public class TransmuteBlockRecipeBase implements Recipe<FakeTransmuteContainer>, SubRecipeBase
+public class TransmuteBlockRecipeBase implements Recipe<FakeBlockTransmuteContainer>, SubRecipeBase
 {
     protected final ResourceLocation id;
     protected final String recipeType;
@@ -38,13 +38,13 @@ public class TransmuteBlockRecipeBase implements Recipe<FakeTransmuteContainer>,
     }
     
     @Override
-    public boolean matches(FakeTransmuteContainer container, Level level)
+    public boolean matches(FakeBlockTransmuteContainer container, Level level)
     {
         return container.isSame(ingBlock);
     }
     
     @Override
-    public ItemStack assemble(FakeTransmuteContainer container)
+    public ItemStack assemble(FakeBlockTransmuteContainer container)
     {
         return null;
     }

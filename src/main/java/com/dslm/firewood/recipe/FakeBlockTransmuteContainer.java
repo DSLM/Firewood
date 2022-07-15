@@ -7,13 +7,13 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 
-public class FakeTransmuteContainer implements Container
+public class FakeBlockTransmuteContainer implements Container
 {
     BlockState state;
     BlockPos pos;
     Level level;
     
-    public FakeTransmuteContainer(BlockState state, BlockPos pos, Level level)
+    public FakeBlockTransmuteContainer(BlockState state, BlockPos pos, Level level)
     {
         this.state = state;
         this.pos = pos;

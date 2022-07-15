@@ -1,10 +1,10 @@
 package com.dslm.firewood.fireeffecthelper.flesh.base;
 
-import com.dslm.firewood.fireeffecthelper.flesh.BlockCheckOrderFireEffectHelper;
 import com.dslm.firewood.fireeffecthelper.flesh.FireEffectHelpers;
 import com.dslm.firewood.fireeffecthelper.flesh.data.FireEffectNBTData;
 import com.dslm.firewood.fireeffecthelper.flesh.data.FireEffectNBTDataInterface;
 import com.dslm.firewood.fireeffecthelper.flesh.data.TinderSourceType;
+import com.dslm.firewood.fireeffecthelper.flesh.minor.BlockCheckOrderFireEffectHelper;
 import com.dslm.firewood.subtype.FireEffectSubTypeBase;
 import com.dslm.firewood.subtype.FireEffectSubTypeManager;
 import com.dslm.firewood.tooltip.MiddleComponent;

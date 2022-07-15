@@ -159,8 +159,13 @@ public class LanguageUtil
             add(TINDER_TOOLTIP + "major_effect.smelter.black_smelter",
                     "Smelter", "黑石熔炉");
     
+            add(TINDER_TOOLTIP + "major_effect.entity_to_item",
+                    "Mob -> Item", "生物->物品");
+            add(TINDER_TOOLTIP + "major_effect.entity_to_item.tinker",
+                    "Tinkers' Construct", "匠魂");
+    
             add(TINDER_TOOLTIP + "major_effect.block_to_block",
-                    "Block->Block", "方块->方块");
+                    "Block -> Block", "方块->方块");
             add(TINDER_TOOLTIP + "major_effect.block_to_block.rock_to_mud",
                     "Transmute Rock to Mud", "化石为泥");
             add(TINDER_TOOLTIP + "major_effect.block_to_block.mud_to_rock",

@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.stream.Stream;
 
 import static com.dslm.firewood.config.SpiritualFireBlockEffectConfig.GROUND_BLACKLIST;
-import static com.dslm.firewood.fireeffecthelper.flesh.GroundFireEffectHelper.BLOCK_TAG_ID;
+import static com.dslm.firewood.fireeffecthelper.flesh.minor.GroundFireEffectHelper.BLOCK_TAG_ID;
 
 public class GroundTinderRecipe extends TinderRecipe
 {

@@ -8,6 +8,9 @@ import com.dslm.firewood.fireeffecthelper.flesh.base.MajorFireEffectHelperInterf
 import com.dslm.firewood.fireeffecthelper.flesh.base.MinorFireEffectHelperInterface;
 import com.dslm.firewood.fireeffecthelper.flesh.data.FireEffectNBTDataInterface;
 import com.dslm.firewood.fireeffecthelper.flesh.data.TinderSourceType;
+import com.dslm.firewood.fireeffecthelper.flesh.major.*;
+import com.dslm.firewood.fireeffecthelper.flesh.minor.BlockCheckOrderFireEffectHelper;
+import com.dslm.firewood.fireeffecthelper.flesh.minor.GroundFireEffectHelper;
 import com.dslm.firewood.tooltip.MiddleComponent;
 import com.dslm.firewood.util.Color;
 import com.dslm.firewood.util.StaticValue;
@@ -43,6 +46,7 @@ public class FireEffectHelpers
         majorEffectHelpers.helpers.put("potion", new PotionFireEffectHelper("potion"));
         majorEffectHelpers.helpers.put("teleport", new TeleportFireEffectHelper("teleport"));
         majorEffectHelpers.helpers.put("smelter", new SmelterFireEffectHelper("smelter"));
+        majorEffectHelpers.helpers.put("entity_to_item", new EntityToItemFireEffectHelper("entity_to_item"));
         majorEffectHelpers.helpers.put("block_to_block", new BlockToBlockFireEffectHelper("block_to_block"));
         majorEffectHelpers.helpers.put("set_block_name", new SetBlockNameFireEffectHelper("set_block_name"));
     

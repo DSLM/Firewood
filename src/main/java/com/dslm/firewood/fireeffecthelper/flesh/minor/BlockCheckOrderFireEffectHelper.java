@@ -1,4 +1,4 @@
-package com.dslm.firewood.fireeffecthelper.flesh;
+package com.dslm.firewood.fireeffecthelper.flesh.minor;
 
 import com.dslm.firewood.fireeffecthelper.flesh.base.MinorFireEffectHelperBase;
 import com.dslm.firewood.fireeffecthelper.flesh.data.FireEffectNBTData;

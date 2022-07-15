@@ -33,6 +33,8 @@ public class FireEffectSubTypeManager extends SimpleJsonResourceReloadListener
     
         put("smelter", DEFAULT_TYPE_BUILDER);
     
+        put("entity_to_item", DEFAULT_TYPE_BUILDER);
+    
         put("block_to_block", DEFAULT_TYPE_BUILDER);
     
         put("set_block_name", SET_BLOCK_NAME_SUB_TYPE_BUILDER);

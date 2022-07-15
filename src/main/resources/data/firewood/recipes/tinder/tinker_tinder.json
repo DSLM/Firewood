@@ -1,0 +1,25 @@
+{
+  "type": "firewood:tinder_recipe",
+  "ingredients": [
+    {
+      "item": "minecraft:furnace"
+    }
+  ],
+  "tinder": {
+    "tag": "firewood:tinder"
+  },
+  "addEffects": {
+    "majorEffects": [
+      {
+        "type": "entity_to_item",
+        "subType": "tinker",
+        "process": 0
+      }
+    ]
+  },
+  "process": 2,
+  "chance": 1.0,
+  "damage": 1.0,
+  "cooldown": 100,
+  "min_health": 1.0
+}

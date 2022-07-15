@@ -17,7 +17,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.dslm.firewood.fireeffecthelper.flesh.PotionFireEffectHelper.POTION_TAG_ID;
+import static com.dslm.firewood.fireeffecthelper.flesh.major.PotionFireEffectHelper.POTION_TAG_ID;
 
 public class PotionSubType extends FireEffectSubType
 {
