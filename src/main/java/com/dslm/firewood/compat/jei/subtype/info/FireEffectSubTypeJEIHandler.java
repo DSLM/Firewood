@@ -38,17 +38,24 @@ public class FireEffectSubTypeJEIHandler
     {
         Minecraft minecraft = Minecraft.getInstance();
         int textH = 0, textW = 0;
-        
+    
         TranslatableComponent typeLine = new TranslatableComponent(JEI_SUB_INFO + "type",
                 new TranslatableComponent(TINDER_TOOLTIP + "major_effect.%s".formatted(subType.getType())));
         minecraft.font.draw(stack, typeLine, textW, textH, BLACK_FONT_COLOR);
         textH += minecraft.font.lineHeight;
-        
+    
         TranslatableComponent subTypeLine = new TranslatableComponent(JEI_SUB_INFO + "sub_type",
                 new TranslatableComponent(TINDER_TOOLTIP + "major_effect.%1$s.%2$s".formatted(subType.getType(), subType.getSubType())));
         minecraft.font.draw(stack, subTypeLine, textW, textH, BLACK_FONT_COLOR);
         textH += minecraft.font.lineHeight;
-        
+
+//        var descLines = getDescToolTips(subType.getType(), subType.getSubType(), BLACK_FONT_COLOR);
+//        for(Component component : descLines)
+//        {
+//            minecraft.font.draw(stack, component, textW, textH, BLACK_FONT_COLOR);
+//            textH += minecraft.font.lineHeight;
+//        }
+    
         TranslatableComponent colorLine = new TranslatableComponent(JEI_SUB_INFO + "color", HexFormat.of().toHexDigits(subType.getColor()).substring(2));
         minecraft.font.draw(stack, colorLine, textW, textH, BLACK_FONT_COLOR);
         //float padding = (Minecraft.getInstance().font.width("█") - Minecraft.getInstance().font.width("⬛")) / 2.0f;

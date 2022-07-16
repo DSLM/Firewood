@@ -137,6 +137,14 @@ public class LanguageUtil
                     "Mob Effect", "生物效果");
             add(TINDER_TOOLTIP + "major_effect.mob_effect.judgement",
                     "Judgement", "判决");
+            add(TINDER_TOOLTIP + "major_effect.mob_effect.judgement.desc.1",
+                    "我是为了伊比利亚的存续，", "我是为了伊比利亚的存续，");
+            add(TINDER_TOOLTIP + "major_effect.mob_effect.judgement.desc.2",
+                    "为了同伊比利亚的敌人而战，", "为了同伊比利亚的敌人而战，");
+            add(TINDER_TOOLTIP + "major_effect.mob_effect.judgement.desc.3",
+                    "为了守卫伊比利亚的洁净与德行，", "为了守卫伊比利亚的洁净与德行，");
+            add(TINDER_TOOLTIP + "major_effect.mob_effect.judgement.desc.4",
+                    "提起了剑与灯！", "提起了剑与灯！");
     
             add(TINDER_TOOLTIP + "major_effect.potion",
                     "Potion", "药水");

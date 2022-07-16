@@ -151,6 +151,7 @@ public abstract class SubMajorFireEffectHelperBase extends MajorFireEffectHelper
             lines.add(colorfulText(new TranslatableComponent("tooltip.firewood.recipe.now_process", getRealProcess(data), getProcess(data)),
                     getColor(data)));
         }
+        lines.addAll(StaticValue.getDescToolTips(data.getType(), data.getSubType(), getColor(data)));
         return lines;
     }
     

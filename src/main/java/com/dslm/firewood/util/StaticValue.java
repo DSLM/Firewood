@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.Registry;
+import net.minecraft.locale.Language;
 import net.minecraft.network.chat.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
@@ -20,11 +21,13 @@ import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraftforge.fml.ModList;
 
+import java.util.ArrayList;
 import java.util.HexFormat;
 import java.util.List;
 import java.util.Map;
 
 import static com.dslm.firewood.config.ColorConfig.HIGH_CONTRAST_MODE;
+import static com.dslm.firewood.datagen.LanguageUtil.TINDER_TOOLTIP;
 
 public class StaticValue
 {
@@ -165,5 +168,19 @@ public class StaticValue
             }
             lines.add(longLine);
         }
+    }
+    
+    public static List<Component> getDescToolTips(String type, String subType, int color)
+    {
+        List<Component> lines = new ArrayList<>();
+        var lang = Language.getInstance();
+        var key = "%s.%s.%s.desc.".formatted(TINDER_TOOLTIP + "major_effect", type, subType);
+        int nowKey = 1;
+        while(lang.has(key + nowKey))
+        {
+            lines.add(colorfulText(new TranslatableComponent(key + nowKey), color));
+            nowKey++;
+        }
+        return lines;
     }
 }
