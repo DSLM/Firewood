@@ -1,6 +1,6 @@
 package com.dslm.firewood.recipe.serializer;
 
-import com.dslm.firewood.recipe.EntityToItemRecipe;
+import com.dslm.firewood.recipe.MobToItemRecipe;
 import com.dslm.firewood.util.StaticValue;
 import com.google.gson.JsonObject;
 import net.minecraft.network.FriendlyByteBuf;
@@ -11,15 +11,15 @@ import net.minecraftforge.common.crafting.CraftingHelper;
 
 import java.util.ArrayList;
 
-public class EntityToItemRecipeSerializer<T extends EntityToItemRecipe> implements RecipeSerializer<T>
+public class MobToItemRecipeSerializer<T extends MobToItemRecipe> implements RecipeSerializer<T>
 {
     ResourceLocation name;
-    public static final String ENTITIES_BLACKLIST = "entities_blacklist";
-    public static final String ENTITIES_LIST = "entities_list";
+    public static final String MOBS_BLACKLIST = "mobs_blacklist";
+    public static final String MOBS_LIST = "mobs_list";
     public static final String ITEMS_LIST = "items_list";
     Class<T> recipeClass;
     
-    public EntityToItemRecipeSerializer(Class<T> recipeClass)
+    public MobToItemRecipeSerializer(Class<T> recipeClass)
     {
         this.recipeClass = recipeClass;
     }
@@ -31,13 +31,13 @@ public class EntityToItemRecipeSerializer<T extends EntityToItemRecipe> implemen
         return (Class<G>) cls;
     }
     
-    public T getRealClass(EntityToItemRecipe entityToItemRecipe)
+    public T getRealClass(MobToItemRecipe mobToItemRecipe)
     {
         try
         {
             if(recipeClass == null)
                 return null;
-            return recipeClass.getConstructor(EntityToItemRecipe.class).newInstance(entityToItemRecipe);
+            return recipeClass.getConstructor(MobToItemRecipe.class).newInstance(mobToItemRecipe);
         } catch(Exception e)
         {
             e.printStackTrace();
@@ -51,23 +51,23 @@ public class EntityToItemRecipeSerializer<T extends EntityToItemRecipe> implemen
         String type = json.get(StaticValue.TYPE).getAsString();
         
         String subType = json.get(StaticValue.SUB_TYPE).getAsString();
-        
-        boolean entitiesBlacklist = !json.has(ENTITIES_BLACKLIST) || json.get(ENTITIES_BLACKLIST).getAsBoolean();
-        
-        if(!json.has(ENTITIES_LIST) || !json.has(ITEMS_LIST))
+    
+        boolean entitiesBlacklist = !json.has(MOBS_BLACKLIST) || json.get(MOBS_BLACKLIST).getAsBoolean();
+    
+        if(!json.has(MOBS_LIST) || !json.has(ITEMS_LIST))
         {
             return null;
         }
         
         ArrayList<String> entitiesList = new ArrayList<>();
-        json.getAsJsonArray(ENTITIES_LIST).forEach(jsonElement ->
+        json.getAsJsonArray(MOBS_LIST).forEach(jsonElement ->
                 entitiesList.add(jsonElement.getAsString()));
         
         ArrayList<ItemStack> itemsList = new ArrayList<>();
         json.getAsJsonArray(ITEMS_LIST).forEach(jsonElement ->
                 itemsList.add(CraftingHelper.getItemStack(jsonElement.getAsJsonObject(), true)));
-        
-        return getRealClass(new EntityToItemRecipe(id, type, subType, entitiesBlacklist, entitiesList, itemsList));
+    
+        return getRealClass(new MobToItemRecipe(id, type, subType, entitiesBlacklist, entitiesList, itemsList));
     }
     
     @Override
@@ -92,12 +92,12 @@ public class EntityToItemRecipeSerializer<T extends EntityToItemRecipe> implemen
         {
             itemsList.add(buf.readItem());
         }
-        
-        return getRealClass(new EntityToItemRecipe(id, type, subType, entitiesBlacklist, entitiesList, itemsList));
+    
+        return getRealClass(new MobToItemRecipe(id, type, subType, entitiesBlacklist, entitiesList, itemsList));
     }
     
     @Override
-    public void toNetwork(FriendlyByteBuf buf, EntityToItemRecipe recipe)
+    public void toNetwork(FriendlyByteBuf buf, MobToItemRecipe recipe)
     {
         buf.writeUtf(recipe.getRecipeType());
         
@@ -134,6 +134,6 @@ public class EntityToItemRecipeSerializer<T extends EntityToItemRecipe> implemen
     @Override
     public Class<RecipeSerializer<?>> getRegistryType()
     {
-        return EntityToItemRecipeSerializer.castClass(RecipeSerializer.class);
+        return MobToItemRecipeSerializer.castClass(RecipeSerializer.class);
     }
 }

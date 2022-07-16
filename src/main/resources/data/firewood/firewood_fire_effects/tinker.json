@@ -1,5 +1,5 @@
 {
-  "type": "entity_to_item",
+  "type": "mob_to_item",
   "subType": "tinker",
   "color": "0x4B4B4B",
   "damage": 0.5,

@@ -11,7 +11,7 @@ import net.minecraft.world.level.Level;
 import java.util.List;
 
 
-public class EntityToItemRecipe implements Recipe<FakeEntityTransmuteContainer>, SubRecipeBase
+public class MobToItemRecipe implements Recipe<FakeEntityTransmuteContainer>, SubRecipeBase
 {
     protected final ResourceLocation id;
     protected final String recipeType;
@@ -20,7 +20,7 @@ public class EntityToItemRecipe implements Recipe<FakeEntityTransmuteContainer>,
     protected final List<String> entitiesList;
     protected final List<ItemStack> itemsList;
     
-    public EntityToItemRecipe(ResourceLocation id, String recipeType, String recipeSubType, boolean entitiesBlacklist, List<String> entitiesList, List<ItemStack> itemsList)
+    public MobToItemRecipe(ResourceLocation id, String recipeType, String recipeSubType, boolean entitiesBlacklist, List<String> entitiesList, List<ItemStack> itemsList)
     {
         this.id = id;
         this.recipeType = recipeType;
@@ -30,7 +30,7 @@ public class EntityToItemRecipe implements Recipe<FakeEntityTransmuteContainer>,
         this.itemsList = itemsList;
     }
     
-    public EntityToItemRecipe(EntityToItemRecipe recipe)
+    public MobToItemRecipe(MobToItemRecipe recipe)
     {
         this.id = recipe.id;
         this.recipeType = recipe.recipeType;

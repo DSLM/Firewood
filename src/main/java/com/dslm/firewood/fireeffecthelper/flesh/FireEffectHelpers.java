@@ -47,7 +47,7 @@ public class FireEffectHelpers
         majorEffectHelpers.helpers.put("potion", new PotionFireEffectHelper("potion"));
         majorEffectHelpers.helpers.put("teleport", new TeleportFireEffectHelper("teleport"));
         majorEffectHelpers.helpers.put("smelter", new SmelterFireEffectHelper("smelter"));
-        majorEffectHelpers.helpers.put("entity_to_item", new EntityToItemFireEffectHelper("entity_to_item"));
+        majorEffectHelpers.helpers.put("mob_to_item", new MobToItemFireEffectHelper("mob_to_item"));
         majorEffectHelpers.helpers.put("block_to_block", new BlockToBlockFireEffectHelper("block_to_block"));
         majorEffectHelpers.helpers.put("set_block_name", new SetBlockNameFireEffectHelper("set_block_name"));
     

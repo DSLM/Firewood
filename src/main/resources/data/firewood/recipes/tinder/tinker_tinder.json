@@ -11,7 +11,7 @@
   "addEffects": {
     "majorEffects": [
       {
-        "type": "entity_to_item",
+        "type": "mob_to_item",
         "subType": "tinker",
         "process": 0
       }

@@ -15,7 +15,7 @@ import com.dslm.firewood.mobeffect.FiredSpirit;
 import com.dslm.firewood.network.NetworkHandler;
 import com.dslm.firewood.recipe.*;
 import com.dslm.firewood.recipe.serializer.*;
-import com.dslm.firewood.recipe.type.EntityToItemRecipeType;
+import com.dslm.firewood.recipe.type.MobToItemRecipeType;
 import com.dslm.firewood.recipe.type.TinderRecipeType;
 import com.dslm.firewood.recipe.type.TransmuteBlockRecipeType;
 import com.dslm.firewood.util.StaticValue;
@@ -49,7 +49,7 @@ import static com.dslm.firewood.util.StaticValue.MOD_ID;
 
 
 public class Register
-{// TODO: 2022/5/23 方块-物品，方块-实体，实体-物品，所有主要分类（无法强制实现？），多形状范围，允许自定义药水效果，推拉实体，营火详情栏，触发者和生效者筛选，物品磁铁
+{// TODO: 2022/5/23 方块-物品，方块-实体，所有主要分类（无法强制实现？），多形状范围，推拉实体，营火详情栏，触发者和生效者筛选，物品磁铁
     private static final DeferredRegister<Block> BLOCKS =
             DeferredRegister.create(ForgeRegistries.BLOCKS, MOD_ID);
     private static final DeferredRegister<Item> ITEMS =
@@ -178,11 +178,11 @@ public class Register
             RECIPE_SERIALIZERS.register("block_to_block", () -> new BlockToBlockRecipeSerializer(BlockToBlockRecipe.class));
     
     
-    public static final RegistryObject<RecipeType<EntityToItemRecipe>> ENTITY_TO_ITEM_RECIPE_TYPE =
-            RECIPES.register("entity_to_item", EntityToItemRecipeType::new);
+    public static final RegistryObject<RecipeType<MobToItemRecipe>> ENTITY_TO_ITEM_RECIPE_TYPE =
+            RECIPES.register("mob_to_item", MobToItemRecipeType::new);
     
-    public static final RegistryObject<RecipeSerializer<EntityToItemRecipe>> ENTITY_TO_ITEM_RECIPE_SERIALIZER =
-            RECIPE_SERIALIZERS.register("entity_to_item", () -> new EntityToItemRecipeSerializer<>(EntityToItemRecipe.class));
+    public static final RegistryObject<RecipeSerializer<MobToItemRecipe>> ENTITY_TO_ITEM_RECIPE_SERIALIZER =
+            RECIPE_SERIALIZERS.register("mob_to_item", () -> new MobToItemRecipeSerializer<>(MobToItemRecipe.class));
     
     
     public static final RegistryObject<MenuType<SpiritualCampfireBlockMenu>> SPIRITUAL_CAMPFIRE_BLOCK_CONTAINER =

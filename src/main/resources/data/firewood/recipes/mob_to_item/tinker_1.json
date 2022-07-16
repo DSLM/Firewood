@@ -1,8 +1,8 @@
 {
-  "type": "firewood:entity_to_item",
+  "type": "firewood:mob_to_item",
   "subType": "tinker",
-  "entities_blacklist": false,
-  "entities_list": [
+  "mobs_blacklist": false,
+  "mobs_list": [
     "minecraft:villager"
   ],
   "items_list": [
