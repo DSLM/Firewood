@@ -1,7 +1,7 @@
 package com.dslm.firewood.subtype;
 
-import com.dslm.firewood.compat.jei.subtype.FireEffectSubTypeJEIHandler;
-import com.dslm.firewood.compat.jei.subtype.MobEffectSubTypeJEIHandler;
+import com.dslm.firewood.compat.jei.subtype.info.FireEffectSubTypeJEIHandler;
+import com.dslm.firewood.compat.jei.subtype.info.MobEffectSubTypeJEIHandler;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import net.minecraft.nbt.CompoundTag;

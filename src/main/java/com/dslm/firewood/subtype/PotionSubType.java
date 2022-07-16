@@ -1,7 +1,7 @@
 package com.dslm.firewood.subtype;
 
-import com.dslm.firewood.compat.jei.subtype.FireEffectSubTypeJEIHandler;
-import com.dslm.firewood.compat.jei.subtype.PotionSubTypeJEIHandler;
+import com.dslm.firewood.compat.jei.subtype.info.FireEffectSubTypeJEIHandler;
+import com.dslm.firewood.compat.jei.subtype.info.PotionSubTypeJEIHandler;
 import com.dslm.firewood.fireeffecthelper.flesh.FireEffectHelpers;
 import com.dslm.firewood.fireeffecthelper.flesh.data.FireEffectNBTData;
 import com.dslm.firewood.fireeffecthelper.flesh.data.FireEffectNBTDataInterface;

@@ -1,4 +1,4 @@
-package com.dslm.firewood.compat.jei.subtype;
+package com.dslm.firewood.compat.jei.subtype.info;
 
 import com.dslm.firewood.subtype.FireEffectSubTypeBase;
 import com.dslm.firewood.subtype.PotionSubType;

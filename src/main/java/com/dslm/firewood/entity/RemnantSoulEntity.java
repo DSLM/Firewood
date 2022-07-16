@@ -35,10 +35,16 @@ public class RemnantSoulEntity extends AmbientCreature
     }
     
     @Override
+    public boolean isNoAi()
+    {
+        return true;
+    }
+    
+    @Override
     public void load(CompoundTag tag)
     {
         super.load(tag);
-    
+        
         if(tag.contains("blockPos"))
         {
             blockPos = NbtUtils.readBlockPos(tag.getCompound("blockPos"));

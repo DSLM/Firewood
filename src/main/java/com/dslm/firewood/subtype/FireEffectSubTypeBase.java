@@ -1,6 +1,6 @@
 package com.dslm.firewood.subtype;
 
-import com.dslm.firewood.compat.jei.subtype.FireEffectSubTypeJEIHandler;
+import com.dslm.firewood.compat.jei.subtype.info.FireEffectSubTypeJEIHandler;
 import com.dslm.firewood.fireeffecthelper.flesh.FireEffectHelpers;
 import com.dslm.firewood.fireeffecthelper.flesh.data.FireEffectNBTDataInterface;
 import net.minecraft.network.FriendlyByteBuf;
