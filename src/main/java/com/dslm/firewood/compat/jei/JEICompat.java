@@ -146,7 +146,8 @@ public class JEICompat implements IModPlugin
     {
         registration.addRecipeClickArea(SpiritualCampfireBlockScreen.class, 25 + 18, 22 + 18, 90, 36, TinderCategory.TYPE);
         registration.addRecipeClickArea(SpiritualCampfireBlockScreen.class, 25 + 18, 22 + 18 + 54, 90, 36, TinderCategory.TYPE);
-        registration.addRecipeClickArea(SpiritualCampfireBlockScreen.class, 25 + 18, 22 + 18 + 36, 36, 36, TinderCategory.TYPE);
+    
+        registration.addRecipeClickArea(SpiritualCampfireBlockScreen.class, 25 + 18, 22 + 18 + 36, 18, 36, TinderCategory.TYPE);
         registration.addRecipeClickArea(SpiritualCampfireBlockScreen.class, 25 + 18 + 54, 22 + 18 + 36, 36, 36, TinderCategory.TYPE);
     }
     

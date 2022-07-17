@@ -57,6 +57,12 @@ public class ForgeBusClientHandler
     {
         ItemStack stack = event.getItemStack();
         List<Either<FormattedText, TooltipComponent>> components = event.getTooltipElements();
+        
+        getToolTipsAfterSpecialRender(stack, components);
+    }
+    
+    private static void getToolTipsAfterSpecialRender(ItemStack stack, List<Either<FormattedText, TooltipComponent>> components)
+    {
         int iniSize = components.size();
         for(int i = 0; i < iniSize; i++)
         {
@@ -65,12 +71,12 @@ public class ForgeBusClientHandler
                     middle.getDamage() > 0 &&
                     Screen.hasShiftDown())
             {
-                components.set(i, Either.right(new IconComponent(middle, stack, 10, 10)));
+                components.set(i, Either.right(new IconComponent(middle, 10, 10)));
             }
         }
     }
     
-    public record IconComponent(MiddleComponent middle, ItemStack stack, int width,
+    public record IconComponent(MiddleComponent middle, int width,
                                 int height) implements ClientTooltipComponent, TooltipComponent
     {
         

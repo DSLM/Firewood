@@ -47,6 +47,7 @@
   "patchouli.firewood.book.entries.fire_effects.flesh.minor.ground.pages.0.text": "Define the block that Spiritual Fire can be placed. Useless for Lanterns.",
   "patchouli.firewood.book.landing_text": "This is a mod related to fire, so that all practical and effective effects must be paid by irresistible fire damage.",
   "patchouli.firewood.book.name": "A Relic of the Past (WIP)",
+  "tooltip.firewood.button.tinder_info_gui": "Tinder Info",
   "tooltip.firewood.dying_ember_item.1": "A relic of the past...... ",
   "tooltip.firewood.dying_ember_item.2": "Coordinate: %1$s (%2$s, %3$s, %4$s)",
   "tooltip.firewood.jei_sub_info.chance": "Success Rate: %s%%",

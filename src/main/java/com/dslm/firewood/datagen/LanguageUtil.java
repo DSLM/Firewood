@@ -28,8 +28,9 @@ public class LanguageUtil
     public static HashMap<EntityType, String> EntityType_zh = new HashMap<>();
     
     
-    public static final String JEI_SUB_INFO = "tooltip." + StaticValue.MOD_ID + ".jei_sub_info.";
+    public static final String BUTTON_TOOLTIP = "tooltip." + StaticValue.MOD_ID + ".button.";
     public static final String TINDER_TOOLTIP = "tooltip." + StaticValue.MOD_ID + "." + Register.TINDER_ITEM.get() + ".";
+    public static final String JEI_SUB_INFO = "tooltip." + StaticValue.MOD_ID + ".jei_sub_info.";
     
     public static void buildLanguage(DataGenerator generator)
     {
@@ -109,14 +110,19 @@ public class LanguageUtil
                     "每个主要效果造成的燃烧之躯效果默认时长（刻）；这个时间也代表着灵性之火效果触发的冷却时间");
         }
     
+        //button
+        {
+            add(BUTTON_TOOLTIP + "tinder_info_gui", "Tinder Info", "火种信息");
+        }
+    
         //tooltip
         {
             add(String.format("tooltip.%s.%s.%s", StaticValue.MOD_ID, Register.DYING_EMBER_ITEM.get(), "1"),
                     "A relic of the past...... ", "过去残存之事物……");
             add(String.format("tooltip.%s.%s.%s", StaticValue.MOD_ID, Register.DYING_EMBER_ITEM.get(), "2"),
                     "Coordinate: %1$s (%2$s, %3$s, %4$s)", "坐标：%1$s（%2$s，%3$s，%4$s）");
-    
-    
+        
+        
             add(TINDER_TOOLTIP + "cooldown",
                     " x%1$sS ", " x%1$s秒 ");
             add(TINDER_TOOLTIP + "total",
