@@ -38,7 +38,7 @@ description='''
 [[dependencies.firewood]]
     modId="shimmer"
     mandatory=false
-    versionRange="[0.1.1,)"
+    versionRange="[0.1.9,)"
     ordering="BEFORE"
     side="CLIENT"
 [[dependencies.firewood]]

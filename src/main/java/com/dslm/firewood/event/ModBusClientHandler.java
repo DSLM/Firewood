@@ -5,6 +5,7 @@ import com.dslm.firewood.block.entity.LanternBlockEntity;
 import com.dslm.firewood.block.entity.SpiritualCampfireBlockEntity;
 import com.dslm.firewood.block.entity.SpiritualFireBlockEntity;
 import com.dslm.firewood.compat.curios.Curios;
+import com.dslm.firewood.compat.shimmer.ShimmerHelper;
 import com.dslm.firewood.fireeffecthelper.flesh.FireEffectHelpers;
 import com.dslm.firewood.fireeffecthelper.flesh.data.FireEffectNBTStaticHelper;
 import com.dslm.firewood.render.LanternModelLoader;
@@ -46,6 +47,11 @@ public class ModBusClientHandler
     
             ItemProperties.register(Register.LANTERN_ITEM.get(), new ResourceLocation("active_lantern"),
                     (stack, level, Entity, seed) -> stack.getOrCreateTag().getBoolean(StaticValue.ACTIVE_LANTERN) ? 1 : 0);
+    
+            if(StaticValue.checkMod(StaticValue.SHIMMER))
+            {
+                ShimmerHelper.registerItemLight();
+            }
         });
     
         if(StaticValue.checkMod(StaticValue.CURIOS_MOD))

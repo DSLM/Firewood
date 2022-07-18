@@ -1,5 +1,9 @@
 package com.dslm.firewood.compat.shimmer;
 
+import com.dslm.firewood.Register;
+import com.dslm.firewood.fireeffecthelper.flesh.FireEffectHelpers;
+import com.dslm.firewood.fireeffecthelper.flesh.data.FireEffectNBTStaticHelper;
+import com.dslm.firewood.item.LanternItem;
 import com.lowdragmc.shimmer.client.light.ColorPointLight;
 import com.lowdragmc.shimmer.client.light.LightManager;
 import com.mojang.math.Vector3f;
@@ -54,5 +58,22 @@ public class ShimmerHelper
         Pair<String, String> key = Pair.of(level.dimension().location().toString(), pos.toShortString());
         lightMap.get(key).setColor(color | 0xff000000);
         lightMap.get(key).update();
+    }
+    
+    public static void registerItemLight()
+    {
+        LightManager.INSTANCE.registerItemLight(Register.LANTERN_ITEM.get(), (itemStack -> {
+            boolean active = LanternItem.isActive(itemStack);
+//            if(!active)
+//            {
+//                return null;
+//            }
+            int color = FireEffectHelpers.getMixedColor(
+                    FireEffectNBTStaticHelper.loadMajorFireData(itemStack.getOrCreateTag()),
+                    FireEffectNBTStaticHelper.loadMinorFireData(itemStack.getOrCreateTag()));
+            color = color | 0xff000000;
+            return new ColorPointLight.Template(!active ? 0 : 15, color);
+        }
+        ));
     }
 }
