@@ -63,7 +63,7 @@ public class ShimmerHelper
     public static void registerItemLight()
     {
         LightManager.INSTANCE.registerItemLight(Register.LANTERN_ITEM.get(), (itemStack -> {
-            boolean active = LanternItem.isActive(itemStack);
+            boolean active = LanternItem.isActive(itemStack);// TODO: 2022/7/18 等构建环境更新 
 //            if(!active)
 //            {
 //                return null;

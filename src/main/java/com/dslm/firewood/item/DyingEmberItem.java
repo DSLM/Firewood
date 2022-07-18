@@ -46,7 +46,7 @@ public class DyingEmberItem extends Item
     {
         BlockPos pos = new BlockPos(player.getPosition(0));
         ItemStack itemStack = player.getItemInHand(pUsedHand);
-        addPosition(level.dimension().location().getPath(), pos, itemStack);
+        addPosition(level.dimension().location().toString(), pos, itemStack);
         return InteractionResultHolder.success(player.getItemInHand(pUsedHand));
     }
     
