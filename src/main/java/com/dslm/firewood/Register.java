@@ -49,7 +49,7 @@ import static com.dslm.firewood.util.StaticValue.MOD_ID;
 
 
 public class Register
-{// TODO: 2022/5/23 方块-物品，方块-实体，所有主要分类（无法强制实现？），多形状范围，推拉实体，营火详情栏，触发者和生效者筛选，物品磁铁
+{// TODO: 2022/5/23 方块-物品，方块-实体，所有主要分类（无法强制实现？），多形状范围，推拉实体，触发者和生效者筛选，物品磁铁
     private static final DeferredRegister<Block> BLOCKS =
             DeferredRegister.create(ForgeRegistries.BLOCKS, MOD_ID);
     private static final DeferredRegister<Item> ITEMS =

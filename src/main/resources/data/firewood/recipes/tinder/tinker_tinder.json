@@ -12,7 +12,7 @@
     "majorEffects": [
       {
         "type": "mob_to_item",
-        "subType": "tinker",
+        "sub_type": "tinker",
         "process": 0
       }
     ]

@@ -13,7 +13,7 @@
   "damage": 1.0,
   "cooldown": 100,
   "min_health": 1.0,
-  "subType": "lingering_potion",
+  "sub_type": "lingering_potion",
   "potion": {
     "item": "minecraft:lingering_potion"
   }

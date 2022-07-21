@@ -42,7 +42,7 @@ public class StaticValue
     public static final int BLACK_FONT_COLOR = 0;
     
     public static final String TYPE = "type";
-    public static final String SUB_TYPE = "subType";
+    public static final String SUB_TYPE = "sub_type";
     public static final String ING_BLOCK = "ing_block";
     public static final String TARGET_BLOCK = "target_block";
     public static final String COLOR = "color";
@@ -56,7 +56,7 @@ public class StaticValue
     public static final String TARGET_LIMIT = "target_limit";
     public static final String COOLDOWN = "cooldown";
     
-    public static final String ACTIVE_LANTERN = "activeLantern";
+    public static final String ACTIVE_LANTERN = "active_lantern";
     
     public static final TagKey<Item> ITEM_TINDER_TAG = TagKey.create(Registry.ITEM_REGISTRY,
             new ResourceLocation("firewood", "tinder"));

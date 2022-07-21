@@ -48,7 +48,7 @@
       "majorEffects": [
         {
           "type": "smelter",
-          "subType": "smelter",
+          "sub_type": "smelter",
           "process": 0
         }
       ]
@@ -58,7 +58,7 @@
     "majorEffects": [
       {
         "type": "smelter",
-        "subType": "nether_smelter",
+        "sub_type": "nether_smelter",
         "process": 0
       }
     ]
@@ -67,7 +67,7 @@
     "majorEffects": [
       {
         "type": "smelter",
-        "subType": "smelter"
+        "sub_type": "smelter"
       }
     ]
   },

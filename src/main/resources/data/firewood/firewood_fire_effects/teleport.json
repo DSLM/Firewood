@@ -1,6 +1,6 @@
 {
   "type": "teleport",
-  "subType": "teleport",
+  "sub_type": "teleport",
   "color": "0x336666",
   "damage": 1,
   "process": 1,

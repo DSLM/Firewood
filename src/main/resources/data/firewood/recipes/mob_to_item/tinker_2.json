@@ -1,6 +1,6 @@
 {
   "type": "firewood:mob_to_item",
-  "subType": "tinker",
+  "sub_type": "tinker",
   "mobs_blacklist": false,
   "mobs_list": [
     "minecraft:enderman"

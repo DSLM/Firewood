@@ -13,7 +13,7 @@
   "damage": 1.0,
   "cooldown": 100,
   "min_health": 1.0,
-  "subType": "splash_potion",
+  "sub_type": "splash_potion",
   "potion": {
     "item": "minecraft:splash_potion"
   }

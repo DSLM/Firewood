@@ -1,6 +1,6 @@
 {
   "type": "block_to_block",
-  "subType": "rock_to_mud",
+  "sub_type": "rock_to_mud",
   "color": "0xa88462",
   "damage": 0.1,
   "process": 2,

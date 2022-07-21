@@ -21,7 +21,7 @@
     "majorEffects": [
       {
         "type": "set_block_name",
-        "subType": "rainbow",
+        "sub_type": "rainbow",
         "process": 0
       }
     ]

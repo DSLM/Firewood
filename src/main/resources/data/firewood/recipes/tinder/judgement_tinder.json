@@ -15,7 +15,7 @@
     "majorEffects": [
       {
         "type": "mob_effect",
-        "subType": "judgement",
+        "sub_type": "judgement",
         "process": 0
       }
     ]

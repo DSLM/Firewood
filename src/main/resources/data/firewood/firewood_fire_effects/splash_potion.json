@@ -1,6 +1,6 @@
 {
   "type": "potion",
-  "subType": "splash_potion",
+  "sub_type": "splash_potion",
   "color": "0x000000",
   "damage": 0.1,
   "process": 1,

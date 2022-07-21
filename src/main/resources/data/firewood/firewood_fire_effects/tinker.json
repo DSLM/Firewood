@@ -1,6 +1,6 @@
 {
   "type": "mob_to_item",
-  "subType": "tinker",
+  "sub_type": "tinker",
   "color": "0x4B4B4B",
   "damage": 0.5,
   "min_health": 0.5,

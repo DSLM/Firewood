@@ -1,6 +1,6 @@
 {
   "type": "smelter",
-  "subType": "black_smelter",
+  "sub_type": "black_smelter",
   "color": "0x111111",
   "damage": 0.5,
   "min_health": 1.0,

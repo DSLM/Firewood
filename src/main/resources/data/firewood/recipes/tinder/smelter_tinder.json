@@ -12,7 +12,7 @@
     "majorEffects": [
       {
         "type": "smelter",
-        "subType": "smelter",
+        "sub_type": "smelter",
         "process": 0
       }
     ]
