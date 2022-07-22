@@ -99,7 +99,14 @@ public abstract class SubMajorFireEffectHelperBase extends MajorFireEffectHelper
     {
         FireEffectNBTDataInterface data = new FireEffectNBTData();
         data.setType(ID);
-        data.setSubType(tags.get(StaticValue.SUB_TYPE).getAsString());
+        if(tags.contains(StaticValue.SUB_TYPE) && tags.get(StaticValue.SUB_TYPE) != null)
+        {
+            data.setSubType(tags.get(StaticValue.SUB_TYPE).getAsString());
+        }
+        else
+        {
+            data.setSubType("");
+        }
         if(tags.contains(StaticValue.PROCESS))
         {
             data.setProcess(tags.getInt(StaticValue.PROCESS));

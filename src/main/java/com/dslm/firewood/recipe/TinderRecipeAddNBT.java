@@ -16,6 +16,12 @@ public class TinderRecipeAddNBT
     public ArrayList<FireEffectNBTDataInterface> majorEffects;
     public ArrayList<FireEffectNBTDataInterface> minorEffects;
     
+    public TinderRecipeAddNBT()
+    {
+        majorEffects = new ArrayList<>();
+        minorEffects = new ArrayList<>();
+    }
+    
     public ItemStack implementEffects(ItemStack stack)
     {
         return FireEffectHelpers.addMinorEffects(FireEffectHelpers.addMajorEffects(stack, majorEffects), minorEffects);

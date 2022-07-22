@@ -43,12 +43,17 @@ public class TransmuteBlockRecipeSerializerBase<T extends TransmuteBlockRecipeBa
     @Override
     public T fromJson(ResourceLocation id, JsonObject json)
     {
+        if(!json.has(StaticValue.TYPE) || !json.has(StaticValue.SUB_TYPE) || !json.has(StaticValue.ING_BLOCK))
+        {
+            return null;
+        }
+    
         FakeTransmuteBlockState blockState = FakeTransmuteBlockState.readFakeBlockState(CraftingHelper.getNBT(json.get(StaticValue.ING_BLOCK)));
-        
+    
         String type = json.get(StaticValue.TYPE).getAsString();
-        
+    
         String subType = json.get(StaticValue.SUB_TYPE).getAsString();
-        
+    
         return getRealClass(new TransmuteBlockRecipeBase(id, type, subType, blockState));
     }
     

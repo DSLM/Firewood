@@ -48,17 +48,17 @@ public class MobToItemRecipeSerializer<T extends MobToItemRecipe> implements Rec
     @Override
     public T fromJson(ResourceLocation id, JsonObject json)
     {
+        if(!json.has(StaticValue.TYPE) || !json.has(StaticValue.SUB_TYPE) || !json.has(MOBS_LIST) || !json.has(ITEMS_LIST))
+        {
+            return null;
+        }
+    
         String type = json.get(StaticValue.TYPE).getAsString();
-        
+    
         String subType = json.get(StaticValue.SUB_TYPE).getAsString();
     
         boolean entitiesBlacklist = !json.has(MOBS_BLACKLIST) || json.get(MOBS_BLACKLIST).getAsBoolean();
     
-        if(!json.has(MOBS_LIST) || !json.has(ITEMS_LIST))
-        {
-            return null;
-        }
-        
         ArrayList<String> entitiesList = new ArrayList<>();
         json.getAsJsonArray(MOBS_LIST).forEach(jsonElement ->
                 entitiesList.add(jsonElement.getAsString()));

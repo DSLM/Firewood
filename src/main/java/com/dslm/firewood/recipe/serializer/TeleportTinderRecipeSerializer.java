@@ -17,6 +17,11 @@ public class TeleportTinderRecipeSerializer extends TinderRecipeSerializer<Telep
     @Override
     public TeleportTinderRecipe fromJson(ResourceLocation id, JsonObject json)
     {
+        if(!json.has(StaticValue.SUB_TYPE) || !json.has("ember"))
+        {
+            return null;
+        }
+    
         Ingredient ember = Ingredient.fromJson(json.getAsJsonObject("ember"));
     
         String subType = json.get(StaticValue.SUB_TYPE).getAsString();

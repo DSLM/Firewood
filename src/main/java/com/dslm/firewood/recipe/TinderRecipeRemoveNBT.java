@@ -19,6 +19,12 @@ public class TinderRecipeRemoveNBT
     public ArrayList<CompoundTag> majorEffects;
     public ArrayList<CompoundTag> minorEffects;
     
+    public TinderRecipeRemoveNBT()
+    {
+        majorEffects = new ArrayList<>();
+        minorEffects = new ArrayList<>();
+    }
+    
     public ItemStack cleanEffects(ItemStack stack)
     {
         CompoundTag allNBT = stack.getOrCreateTag();

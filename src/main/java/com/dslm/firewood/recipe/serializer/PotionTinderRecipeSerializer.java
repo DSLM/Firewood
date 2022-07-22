@@ -17,6 +17,11 @@ public class PotionTinderRecipeSerializer extends TinderRecipeSerializer<PotionT
     @Override
     public PotionTinderRecipe fromJson(ResourceLocation id, JsonObject json)
     {
+        if(!json.has(StaticValue.SUB_TYPE) || !json.has("potion"))
+        {
+            return null;
+        }
+    
         Ingredient potion = Ingredient.fromJson(json.getAsJsonObject("potion"));
     
         String subType = json.get(StaticValue.SUB_TYPE).getAsString();

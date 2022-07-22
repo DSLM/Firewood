@@ -3,6 +3,7 @@ package com.dslm.firewood.recipe.serializer;
 import com.dslm.firewood.recipe.TinderRecipe;
 import com.dslm.firewood.recipe.TinderRecipeAddNBT;
 import com.dslm.firewood.recipe.TinderRecipeRemoveNBT;
+import com.dslm.firewood.util.StaticValue;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import net.minecraft.core.NonNullList;
@@ -12,6 +13,8 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraftforge.registries.ForgeRegistries;
+
+import java.util.stream.Stream;
 
 public class TinderRecipeSerializer<T extends TinderRecipe> implements RecipeSerializer<T>
 {
@@ -46,6 +49,17 @@ public class TinderRecipeSerializer<T extends TinderRecipe> implements RecipeSer
     @Override
     public T fromJson(ResourceLocation id, JsonObject json)
     {
+        if(Stream.of("ingredients",
+                "tinder",
+                StaticValue.PROCESS,
+                StaticValue.CHANCE,
+                StaticValue.DAMAGE,
+                StaticValue.COOLDOWN,
+                StaticValue.MIN_HEALTH).anyMatch(s -> !json.has(s)))
+        {
+            return null;
+        }
+    
         JsonArray ingredients = json.getAsJsonArray("ingredients");
         NonNullList<Ingredient> inputs = NonNullList.create();
         for(int i = 0; i < ingredients.size(); i++)
@@ -55,20 +69,20 @@ public class TinderRecipeSerializer<T extends TinderRecipe> implements RecipeSer
     
         Ingredient tinder = Ingredient.fromJson(json.getAsJsonObject("tinder"));
     
-        Item targetTinder = json.get("targetTinder") == null ? null : ForgeRegistries.ITEMS.getValue(new ResourceLocation(json.get("targetTinder").getAsString()));
+        Item targetTinder = !json.has("targetTinder") ? null : ForgeRegistries.ITEMS.getValue(new ResourceLocation(json.get("targetTinder").getAsString()));
     
-        TinderRecipeAddNBT addEffects = TinderRecipeAddNBT.fromJSON(json.getAsJsonObject("addEffects"));
-        TinderRecipeRemoveNBT removeEffects = TinderRecipeRemoveNBT.fromJSON(json.getAsJsonObject("removeEffects"));
+        TinderRecipeAddNBT addEffects = !json.has("addEffects") ? new TinderRecipeAddNBT() : TinderRecipeAddNBT.fromJSON(json.getAsJsonObject("addEffects"));
+        TinderRecipeRemoveNBT removeEffects = !json.has("removeEffects") ? new TinderRecipeRemoveNBT() : TinderRecipeRemoveNBT.fromJSON(json.getAsJsonObject("removeEffects"));
     
-        int process = json.get("process").getAsInt();
+        int process = json.get(StaticValue.PROCESS).getAsInt();
     
-        double chance = json.get("chance").getAsDouble();
+        double chance = json.get(StaticValue.CHANCE).getAsDouble();
     
-        double damage = json.get("damage").getAsDouble();
+        double damage = json.get(StaticValue.DAMAGE).getAsDouble();
     
-        int cooldown = json.get("cooldown").getAsInt();
+        int cooldown = json.get(StaticValue.COOLDOWN).getAsInt();
     
-        double minHealth = json.get("min_health").getAsDouble();
+        double minHealth = json.get(StaticValue.MIN_HEALTH).getAsDouble();
     
         return getRealClass(new TinderRecipe(id, inputs, tinder, targetTinder, addEffects, removeEffects, process, chance, damage, cooldown, minHealth));
     }
