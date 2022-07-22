@@ -28,6 +28,11 @@ public class BlockToBlockRecipeSerializer extends TransmuteBlockRecipeSerializer
     
         TransmuteBlockRecipeBase base = super.fromJson(id, json);
     
+        if(base == null)
+        {
+            return null;
+        }
+    
         BlockState blockState = NbtUtils.readBlockState(CraftingHelper.getNBT(json.get(StaticValue.TARGET_BLOCK)));
     
         return new BlockToBlockRecipe(base, blockState);
