@@ -12,7 +12,12 @@ public class MobEffectSubTypeBuilder extends FireEffectSubTypeBuilder
     @Override
     public MobEffectSubType getNewData(ResourceLocation resourceLocation, JsonObject jsonObject)
     {
-        return new MobEffectSubType((FireEffectSubType) super.getNewData(resourceLocation, jsonObject),
+        FireEffectSubType fireEffectSubType = (FireEffectSubType) super.getNewData(resourceLocation, jsonObject);
+        if(fireEffectSubType == null)
+        {
+            return null;
+        }
+        return new MobEffectSubType(fireEffectSubType,
                 jsonObject.get(EFFECTS),
                 jsonObject.get(EFFECT_TO_ENEMY));
     }

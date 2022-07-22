@@ -14,7 +14,12 @@ public class TeleportSubTypeBuilder extends FireEffectSubTypeBuilder
     @Override
     public TeleportSubType getNewData(ResourceLocation resourceLocation, JsonObject jsonObject)
     {
-        return new TeleportSubType((FireEffectSubType) super.getNewData(resourceLocation, jsonObject),
+        FireEffectSubType fireEffectSubType = (FireEffectSubType) super.getNewData(resourceLocation, jsonObject);
+        if(fireEffectSubType == null)
+        {
+            return null;
+        }
+        return new TeleportSubType(fireEffectSubType,
                 jsonObject.get(DIM_FROM_BLACKLIST),
                 jsonObject.get(DIM_FROM_LIST),
                 jsonObject.get(DIM_TO_BLACKLIST),

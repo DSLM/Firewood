@@ -15,7 +15,12 @@ public class PotionSubTypeBuilder extends FireEffectSubTypeBuilder
     @Override
     public PotionSubType getNewData(ResourceLocation resourceLocation, JsonObject jsonObject)
     {
-        return new PotionSubType((FireEffectSubType) super.getNewData(resourceLocation, jsonObject),
+        FireEffectSubType fireEffectSubType = (FireEffectSubType) super.getNewData(resourceLocation, jsonObject);
+        if(fireEffectSubType == null)
+        {
+            return null;
+        }
+        return new PotionSubType(fireEffectSubType,
                 jsonObject.get(BLACKLIST),
                 jsonObject.get(LIST),
                 jsonObject.get(COLOR_MIXED),

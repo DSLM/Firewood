@@ -12,7 +12,12 @@ public class SetBlockNameSubTypeBuilder extends FireEffectSubTypeBuilder
     @Override
     public SetBlockNameSubType getNewData(ResourceLocation resourceLocation, JsonObject jsonObject)
     {
-        return new SetBlockNameSubType((FireEffectSubType) super.getNewData(resourceLocation, jsonObject), jsonObject.get(ORDER), jsonObject.get(CHECK_ORDER));
+        FireEffectSubType fireEffectSubType = (FireEffectSubType) super.getNewData(resourceLocation, jsonObject);
+        if(fireEffectSubType == null)
+        {
+            return null;
+        }
+        return new SetBlockNameSubType(fireEffectSubType, jsonObject.get(ORDER), jsonObject.get(CHECK_ORDER));
     }
     
     @Override

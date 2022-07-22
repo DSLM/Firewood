@@ -58,7 +58,7 @@ public class FireEffectSubTypeJEIHandler
     
         TranslatableComponent colorLine = new TranslatableComponent(JEI_SUB_INFO + "color", HexFormat.of().toHexDigits(subType.getColor()).substring(2));
         minecraft.font.draw(stack, colorLine, textW, textH, BLACK_FONT_COLOR);
-        //float padding = (Minecraft.getInstance().font.width("█") - Minecraft.getInstance().font.width("⬛")) / 2.0f;
+        float padding = (Minecraft.getInstance().font.width("█") - Minecraft.getInstance().font.width("⬛")) / 2.0f;
         minecraft.font.draw(stack,
                 "█",
                 textW + Minecraft.getInstance().font.width(colorLine),
@@ -66,7 +66,7 @@ public class FireEffectSubTypeJEIHandler
                 StaticValue.reverseColor(subType.getColor()));
         minecraft.font.draw(stack,
                 "⬛",
-                textW + Minecraft.getInstance().font.width(colorLine) + 0.5f,
+                textW + Minecraft.getInstance().font.width(colorLine) + padding,
                 textH,
                 subType.getColor());
         textH += minecraft.font.lineHeight;
