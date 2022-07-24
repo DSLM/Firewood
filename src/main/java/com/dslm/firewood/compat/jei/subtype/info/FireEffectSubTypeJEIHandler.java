@@ -65,7 +65,7 @@ public class FireEffectSubTypeJEIHandler
                 textH,
                 StaticValue.reverseColor(subType.getColor()));
         minecraft.font.draw(stack,
-                "⬛",
+                "\u200c⬛\u200c",
                 textW + Minecraft.getInstance().font.width(colorLine) + padding,
                 textH,
                 subType.getColor());

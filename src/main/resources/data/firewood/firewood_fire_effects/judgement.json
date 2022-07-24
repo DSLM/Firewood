@@ -19,8 +19,8 @@
         }
       ],
       "Duration": 4800,
-      "ShowIcon": 1,
-      "ShowParticles": 1,
+      "ShowIcon": true,
+      "ShowParticles": true,
       "forge:id": "minecraft:levitation"
     }
   ]
