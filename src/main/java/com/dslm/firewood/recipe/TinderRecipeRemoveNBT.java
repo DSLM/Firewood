@@ -74,7 +74,7 @@ public class TinderRecipeRemoveNBT
             }
             else
             {
-                MinorTags = new ListTag();
+                MinorTags = FireEffectHelpers.getDefaultMinorNBTs();
             }
             allNBT.put(StaticValue.MINOR, MinorTags);
         }
