@@ -12,7 +12,6 @@ import net.minecraftforge.registries.ForgeRegistries;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
 
 public class SetBlockNameSubType extends FireEffectSubType
 {
@@ -46,25 +45,34 @@ public class SetBlockNameSubType extends FireEffectSubType
             jsonArray.forEach(jsonElement1 -> {
                 if(jsonElement1 instanceof JsonArray jsonArray1)
                 {
-                    AtomicInteger i = new AtomicInteger();
-                    jsonArray1.forEach(jsonElement2 -> {
-                        if(order.size() < i.get() + 1)
+                    int i = 0;
+                    for(JsonElement jsonElement2 : jsonArray1)
+                    {
+                        if(order.size() < i + 1)
                         {
                             order.add(new ArrayList<>());
                         }
-                        while(order.get(i.get()).size() < order.get(0).size() - 1)
+                        while(order.get(i).size() < order.get(0).size() - 1)
                         {
-                            order.get(i.get()).add("");
+                            order.get(i).add("");
                         }
-                        order.get(i.get()).add(jsonElement2.getAsString());
-                        i.getAndIncrement();
-                    });
+                        order.get(i).add(jsonElement2.getAsString());
+                        i++;
+                    }
                 }
                 else
                 {
                     order.get(0).add(jsonElement1.getAsString());
                 }
             });
+            for(ArrayList<String> strings : order)
+            {
+                int dif = jsonArray.size() - strings.size();
+                for(int j = 0; j < dif; j++)
+                {
+                    strings.add("");
+                }
+            }
         }
         
         if(checkJson instanceof JsonArray jsonArray)

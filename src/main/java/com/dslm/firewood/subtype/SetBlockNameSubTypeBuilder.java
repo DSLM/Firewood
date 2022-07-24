@@ -7,7 +7,7 @@ import net.minecraft.resources.ResourceLocation;
 public class SetBlockNameSubTypeBuilder extends FireEffectSubTypeBuilder
 {
     public static final String ORDER = "order";
-    public static final String CHECK_ORDER = "checkOrder";
+    public static final String CHECK_ORDER = "check_order";
     
     @Override
     public SetBlockNameSubType getNewData(ResourceLocation resourceLocation, JsonObject jsonObject)
