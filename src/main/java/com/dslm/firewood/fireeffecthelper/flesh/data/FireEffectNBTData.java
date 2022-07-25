@@ -14,7 +14,7 @@ public class FireEffectNBTData implements FireEffectNBTDataInterface
     HashMap<String, String> data = new HashMap<>();
     String type = "";
     String subType = "";
-    int process = Integer.MIN_VALUE;
+    int process = 0;
     boolean inCache = false;
     int[] cache = {Integer.MIN_VALUE, Integer.MIN_VALUE, Integer.MIN_VALUE, Integer.MIN_VALUE, Integer.MIN_VALUE, Integer.MIN_VALUE};
     // center X, center Y, center Z, x, y, z
