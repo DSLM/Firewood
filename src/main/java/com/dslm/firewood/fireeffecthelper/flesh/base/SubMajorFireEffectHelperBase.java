@@ -153,7 +153,7 @@ public abstract class SubMajorFireEffectHelperBase extends MajorFireEffectHelper
     public ArrayList<Component> getExtraToolTips(FireEffectNBTDataInterface data)
     {
         ArrayList<Component> lines = new ArrayList<>();
-        if(getProcess(data) > 1)
+        if(getProcess(data) != 1 || getRealProcess(data) != 0)
         {
             lines.add(colorfulText(new TranslatableComponent("tooltip.firewood.recipe.now_process", getRealProcess(data), getProcess(data)),
                     getColor(data)));

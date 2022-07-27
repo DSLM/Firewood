@@ -57,20 +57,23 @@ public class TeleportFireEffectHelper extends SubMajorFireEffectHelperBase
         {
             return;
         }
-        if(subType instanceof TeleportSubType teleportSubType)
-        {
-            if(teleportSubType.allowFromDim(level.dimension().location().toString()) && teleportSubType.allowToDim(data.get(DIM_TAG_ID)))
-            {
-            }
-            else
-            {
-                return;
-            }
-        }
-        else
+        if(!(subType instanceof TeleportSubType teleportSubType))
         {
             return;
         }
+    
+        if(!teleportSubType.allowFromDim(level.dimension().location().toString()) || !teleportSubType.allowToDim(data.get(DIM_TAG_ID)))
+        {
+            return;
+        }
+    
+        //same dimension
+        if(level.dimension().location().toString().equals(data.get(DIM_TAG_ID)))
+        {
+            livingEntity.moveTo(Integer.parseInt(data.get(X_TAG_ID)) + 0.5, Integer.parseInt(data.get(Y_TAG_ID)), Integer.parseInt(data.get(Z_TAG_ID)) + 0.5);
+            return;
+        }
+    
         try
         {
             Set<ResourceKey<Level>> levelList = level.getServer().levelKeys();

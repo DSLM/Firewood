@@ -191,10 +191,10 @@ public class PotionFireEffectHelper extends SubMajorFireEffectHelperBase
                 defaultData.setSubType(subType);
                 defaultData.set(POTION_TAG_ID, potion.getRegistryName().toString());
             
-                if(getSubRealEffect(defaultData) instanceof PotionSubType potionSubType && potionSubType.includePotion(subType))
+                if(getSubRealEffect(defaultData) instanceof PotionSubType potionSubType && potionSubType.includePotion(potion.getRegistryName().toString()))
                 {
                     ItemStack stack = FireEffectHelpers.addMajorEffect(item.copy(), ID, defaultData);
-                
+    
                     if(!stack.isEmpty())
                         items.add(stack);
                 }
