@@ -70,7 +70,7 @@ public class TeleportFireEffectHelper extends SubMajorFireEffectHelperBase
         //same dimension
         if(level.dimension().location().toString().equals(data.get(DIM_TAG_ID)))
         {
-            livingEntity.moveTo(Integer.parseInt(data.get(X_TAG_ID)) + 0.5, Integer.parseInt(data.get(Y_TAG_ID)), Integer.parseInt(data.get(Z_TAG_ID)) + 0.5);
+            livingEntity.teleportTo(Integer.parseInt(data.get(X_TAG_ID)) + 0.5, Integer.parseInt(data.get(Y_TAG_ID)), Integer.parseInt(data.get(Z_TAG_ID)) + 0.5);
             return;
         }
     
