@@ -21,6 +21,17 @@ public class RemnantSoulEntity extends AmbientCreature
     public RemnantSoulEntity(EntityType<? extends AmbientCreature> type, Level worldIn)
     {
         super(type, worldIn);
+        setPosRaw(0, 114154, 0);
+    }
+    
+    @Override
+    public void setPos(double p_20210_, double p_20211_, double p_20212_)
+    {
+    }
+    
+    @Override
+    public void moveTo(double pX, double pY, double pZ, float pYaw, float pPitch)
+    {
     }
     
     public BlockPos getBlockPos()
@@ -44,11 +55,13 @@ public class RemnantSoulEntity extends AmbientCreature
     public void load(CompoundTag tag)
     {
         super.load(tag);
-        
+    
         if(tag.contains("blockPos"))
         {
             blockPos = NbtUtils.readBlockPos(tag.getCompound("blockPos"));
         }
+    
+        setPosRaw(0, 114154, 0);
     }
     
     @Override
