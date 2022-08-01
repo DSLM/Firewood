@@ -21,6 +21,12 @@ public class RemnantSoulEntity extends AmbientCreature
     public RemnantSoulEntity(EntityType<? extends AmbientCreature> type, Level worldIn)
     {
         super(type, worldIn);
+        setPersistenceRequired();
+    }
+    
+    @Override
+    public void checkDespawn()
+    {
     }
     
     @Override
