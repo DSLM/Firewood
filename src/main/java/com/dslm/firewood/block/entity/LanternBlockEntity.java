@@ -87,7 +87,7 @@ public class LanternBlockEntity extends BlockEntity implements RemnantSoulBounde
     
     public static void serverTick(Level level, BlockPos pos, BlockState state, LanternBlockEntity e)
     {
-        if(e.remnantSoulEntity != null)
+        if(e.remnantSoulEntity != null && e.remnantSoulEntity.isAlive())
         {
             e.remnantSoulEntity.tick();
             if(e.remnantSoulEntity.getHealth() <= 0)
@@ -98,12 +98,17 @@ public class LanternBlockEntity extends BlockEntity implements RemnantSoulBounde
             {
                 e.majorEffects = FireEffectHelpers.triggerMajorEffects(e.majorEffects, e.minorEffects, TinderSourceType.IN_GROUND_LANTERN, state, level, pos, e.remnantSoulEntity);
             }
+            e.remnantSoulEntityTemp = new CompoundTag();
+            e.remnantSoulEntity.save(e.remnantSoulEntityTemp);
         }
         else if(e.remnantSoulEntityTemp != null)
         {
             e.remnantSoulEntity = new RemnantSoulEntity(Register.REMNANT_SOUL_ENTITY.get(), level);
             e.remnantSoulEntity.load(e.remnantSoulEntityTemp);
-            e.remnantSoulEntityTemp = null;
+            if(!e.remnantSoulEntity.isAlive())
+            {
+                e.remnantSoulEntityTemp = null;
+            }
         }
         e.minorEffects = FireEffectHelpers.triggerMinorEffects(e.majorEffects, e.minorEffects, TinderSourceType.IN_GROUND_LANTERN, state, level, pos);
         e.majorEffects = FireEffectHelpers.cacheClear(e.majorEffects, e.minorEffects, TinderSourceType.IN_GROUND_LANTERN, state, level, pos);
@@ -122,11 +127,11 @@ public class LanternBlockEntity extends BlockEntity implements RemnantSoulBounde
     protected void saveAdditional(CompoundTag tag)
     {
         saveFireData(tag, majorEffects, minorEffects);
-        if(remnantSoulEntity != null)
+        if(remnantSoulEntityTemp != null)
         {
-            CompoundTag fakeEntityTag = new CompoundTag();
-            remnantSoulEntity.save(fakeEntityTag);
-            tag.put("fakeEntity", fakeEntityTag);
+//            CompoundTag fakeEntityTag = new CompoundTag();
+//            remnantSoulEntity.save(fakeEntityTag);
+            tag.put("fakeEntity", remnantSoulEntityTemp);
         }
     }
     
