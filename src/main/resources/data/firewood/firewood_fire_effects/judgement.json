@@ -2,7 +2,7 @@
   "type": "mob_effect",
   "sub_type": "judgement",
   "color": "0xc99298",
-  "damage": 0.1,
+  "damage": 0.01,
   "process": 1,
   "range": -1,
   "cooldown": 200,
