@@ -32,11 +32,11 @@ public class Curios
 //            {
 //                stack.getItem().inventoryTick(stack, slotContext.entity().level, slotContext.entity(), -1, false);
 //            }
-            
+// TODO: 2022/8/6 应对Teacon的临时举措
             @Override
             public boolean canEquipFromUse(SlotContext context)
             {
-                return true;
+                return false;
             }
 
 //            @Override
